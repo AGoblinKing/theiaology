@@ -1,2 +1,2 @@
-import "./scene"
-import "./vr"
+import './scene'
+import './vr'

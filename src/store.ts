@@ -1,4 +1,3 @@
-
 export type ICancel = () => void
 
 export interface IStore<T> extends Promise<T> {
@@ -13,10 +12,8 @@ export interface IStore<T> extends Promise<T> {
   subscribe(subscribe: (value: T) => void): ICancel
   log()
 
- 
   $: T
 }
-
 
 export interface IValue<T> extends IStore<T> {
   persist(where: string): IValue<T>
@@ -165,7 +162,6 @@ export class Value<T> extends Read<T> implements IValue<T> {
       console.error(ex)
     }
 
- 
     return this.set(this.$)
   }
 
@@ -191,7 +187,6 @@ export class Value<T> extends Read<T> implements IValue<T> {
     } catch (ex) {
       console.error(ex)
     }
-
 
     return this.set(this.$)
   }

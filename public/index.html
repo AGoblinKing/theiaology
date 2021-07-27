@@ -5,7 +5,7 @@
 		<meta http-equiv="Content-Type" content="text/html;" charset="utf-8" />
 		<meta
 			name="viewport"
-			content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"
+			content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
 		/>
 		<meta name="apple-mobile-web-app-capable" content="yes" />
 
@@ -34,8 +34,10 @@
 	</head>
 
 	<body>
-		<audio id="bgm" controls autobuffer loop style="margin-top: 1rem; position: absolute; left: 50%; transform: translate(-50%, 0);">
-			<source src="/music/excellet.mp3" type="audio/mpeg">
+		<audio id="bgm" controls preload="auto" autobuffer style="margin-top: 1rem; position: absolute; left: 50%; transform: translate(-50%, 0);">
+
+			<source src="./music/excellet.mp3" type="audio/mpeg">
+			<source src="./music/excellet.wav" type="audio/mpeg">
 		</audio>
 	</body>
 </html>

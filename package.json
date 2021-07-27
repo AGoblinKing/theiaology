@@ -10,6 +10,10 @@
   },
   "author": "king@goblin.life",
   "license": "MIT",
+  "prettier": {
+    "semi": false,
+    "singleQuote": true
+  },
   "devDependencies": {
     "@rollup/plugin-commonjs": "^19.0.2",
     "@rollup/plugin-json": "^4.1.0",
