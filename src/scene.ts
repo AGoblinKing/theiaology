@@ -1,4 +1,4 @@
-import { BoxBufferGeometry, Color, InstancedMesh, Matrix4, MeshBasicMaterial, MeshToonMaterial, Vector3 } from "three";
+import { AmbientLight, BoxBufferGeometry, Color, DirectionalLight, Euler, InstancedMesh, Matrix4, MeshBasicMaterial, MeshToonMaterial, Quaternion, Vector3 } from "three";
 import { lowerUniform, upperAvg, upperUniform } from "./audio";
 import { scene,} from "./render";
 import { Value } from "./store";
@@ -11,15 +11,18 @@ import AnimationFrag from './shader/animation.frag'
 // @ts-ignore
 import postVertChunk from './shader/chunkPost.vert'
 
-const SPREAD = 100
-const MOVE = 0.5
-const COUNT = 100000
+const SIZE = 0.1
+
+const SPREAD = 50
+const MOVE = 1.5
+const COUNT = 50000
+const rotMat = new Matrix4().makeRotationFromQuaternion(new Quaternion().setFromEuler(new Euler(0.01, -0.01, 0)))
 
 const $matrix = new Matrix4()
 const $vec3 = new Vector3()
 const $color = new Color()
 
-export const material = new MeshBasicMaterial({ color: 0xFFFFFF })
+export const material = new MeshToonMaterial({ color: 0xFFFFFF })
 
 const commonVertChunk = [
 
@@ -59,7 +62,7 @@ material.onBeforeCompile = function(shader) {
         .replace('vec4 diffuseColor = vec4( diffuse, opacity );', colorChunk)
 }
 
-export const meshes = new Value(new InstancedMesh(new BoxBufferGeometry(0.1, 0.1 ,0.1), material, COUNT))
+export const meshes = new Value(new InstancedMesh(new BoxBufferGeometry(SIZE, SIZE, SIZE), material, COUNT))
 
 tick.on(($t) => {
     const mv = MOVE * delta.$ * upperAvg.$
@@ -72,10 +75,14 @@ tick.on(($t) => {
             
             meshes.$.getMatrixAt(i, $matrix)
             $vec3.setFromMatrixPosition($matrix)
-            meshes.$.setMatrixAt(i, $matrix.setPosition($vec3.x + Math.random() * mv - mv/2, $vec3.y + Math.random() * mv - mv/2, $vec3.z + Math.random() * mv - mv/2))
+            meshes.$.setMatrixAt(i, $matrix.setPosition($vec3.x + Math.random() * mv - mv/2, $vec3.y + Math.random() * mv - mv/2, $vec3.z + Math.random() * mv - mv/2).multiply(rotMat))
         }
     }
     meshes.$.instanceMatrix.needsUpdate = true
 })
 
-scene.$.add(meshes.$)
+const under = new AmbientLight(0xFFFFFF, 0.5)
+
+const over = new DirectionalLight(0xFFFFFF, 1)
+over.position.set(0, 1, 1)
+scene.$.add(meshes.$, over, under)
