@@ -86,4 +86,4 @@ const config = (input) => {
   }
 }
 
-export default [config('main')]
+export default [config('main'), config('worker')]

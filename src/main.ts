@@ -1,2 +1,2 @@
-import "./scene-shared"
+import "./scene"
 import "./vr"
