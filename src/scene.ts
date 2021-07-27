@@ -14,7 +14,7 @@ import { mouse_left, mouse_right } from "./input";
 
 const SIZE = 0.1
 
-const SPREAD = 1
+const SPREAD = 100
 const MOVE = 1
 const COUNT = 50000
 const rotMat = new Matrix4().makeRotationFromQuaternion(new Quaternion().setFromEuler(new Euler(0.01, -0.01, 0)))
@@ -67,7 +67,7 @@ export const meshes = new Value(new InstancedMesh(new BoxBufferGeometry(SIZE, SI
 
 tick.on(($t) => {
     const mv = MOVE * delta.$ * upperAvg.$
-    const divisor = mouse_left.$ ? 0.99 : mouse_right.$ ? 1.01 : 1 
+    const divisor = mouse_left.$ ? 0.99 : mouse_right.$ ? 1.01 : 0.9999
     for(let i = 0; i < meshes.$.count; i++) {
         if($t === 0) {   
             meshes.$.setMatrixAt(i, $matrix.setPosition(Math.random() * SPREAD - SPREAD/2, Math.random() * SPREAD - SPREAD/2, Math.random() * SPREAD - SPREAD/2))
@@ -76,7 +76,7 @@ tick.on(($t) => {
             
             meshes.$.getMatrixAt(i, $matrix)
             $vec3.setFromMatrixPosition($matrix).multiplyScalar(divisor)
-            meshes.$.setMatrixAt(i, $matrix.setPosition($vec3.x + Math.random() * mv - mv/2, $vec3.y + Math.random() * mv - mv/2, $vec3.z + Math.random() * mv - mv/2).multiply(rotMat))
+            meshes.$.setMatrixAt(i, $matrix.setPosition($vec3.x + Math.random() * mv - mv/2, $vec3.y + Math.random() * mv - mv/2, $vec3.z + Math.random() * mv - mv/2 ).multiply(rotMat))
         }
     }
     meshes.$.instanceMatrix.needsUpdate = true
