@@ -1,0 +1,8 @@
+/node_modules/
+*.map
+.DS_Store
+.vscode
+/default.etcd/
+*.log
+public/stats.html
+.rollup.cache*
