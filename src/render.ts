@@ -5,7 +5,7 @@ import { delta, tick, timestamp, Loop } from "./time"
 export const scene = new Value(new Scene())
 export const camera = new Value(new PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000))
 
-camera.$.position.set(0, 1.6, 0)
+camera.$.position.set(0, 0, 5)
 
 export const renderer = new Value(new WebGLRenderer())
 
