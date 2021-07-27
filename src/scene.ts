@@ -14,7 +14,7 @@ import postVertChunk from './shader/chunkPost.vert'
 const SIZE = 0.1
 
 const SPREAD = 50
-const MOVE = 1.5
+const MOVE = 100
 const COUNT = 50000
 const rotMat = new Matrix4().makeRotationFromQuaternion(new Quaternion().setFromEuler(new Euler(0.01, -0.01, 0)))
 
