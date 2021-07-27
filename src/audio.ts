@@ -41,7 +41,7 @@ audio.onplay = function() {
     })
 }
 
-audio.src = "/music/excellet.ogg"
+audio.src = "/music/excellet.mp3"
 
 
 export const upperUniform = new Uniform(0)
