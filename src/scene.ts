@@ -67,7 +67,7 @@ export const meshes = new Value(new InstancedMesh(new BoxBufferGeometry(SIZE, SI
 
 tick.on(($t) => {
     const mv = MOVE * delta.$ * upperAvg.$
-    const divisor = mouse_left.$ ? 0.95 : mouse_right.$ ? 1.05 : 1 
+    const divisor = mouse_left.$ ? 0.99 : mouse_right.$ ? 1.01 : 1 
     for(let i = 0; i < meshes.$.count; i++) {
         if($t === 0) {   
             meshes.$.setMatrixAt(i, $matrix.setPosition(Math.random() * SPREAD - SPREAD/2, Math.random() * SPREAD - SPREAD/2, Math.random() * SPREAD - SPREAD/2))
