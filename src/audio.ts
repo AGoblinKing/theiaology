@@ -9,7 +9,7 @@ let started = false
 audio.onplay = function() {
     if(started) return
     started = true
-    
+
     const context = new AudioContext()
     const src = context.createMediaElementSource(audio)
 
@@ -41,7 +41,7 @@ audio.onplay = function() {
     })
 }
 
-audio.src = "/music/excellet.wav"
+audio.src = "/music/excellet.ogg"
 
 
 export const upperUniform = new Uniform(0)
