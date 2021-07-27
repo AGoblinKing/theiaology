@@ -1,5 +1,5 @@
 import { BoxBufferGeometry, Color, Euler, InstancedMesh, Matrix4, MeshBasicMaterial, Quaternion, Vector3 } from "three";
-import { delta, scene, tick } from "./render";
+import { delta, renderer, scene, tick } from "./render";
 import { Value } from "./store";
 
 const SPREAD = 10
@@ -15,7 +15,7 @@ const rotMat = new Matrix4().makeRotationFromQuaternion(new Quaternion().setFrom
 export const meshes = new Value(new InstancedMesh(new BoxBufferGeometry(0.01, 0.01 ,0.01), new MeshBasicMaterial({ color: 0xFFFFFF }), COUNT))
 
 // // switchero the array out from under them
-// meshes.$.instanceMatrix.array = new Float32Array(new SharedArrayBuffer(COUNT * 16 * 4))
+meshes.$.instanceMatrix.array = new Float32Array(new SharedArrayBuffer(COUNT * 16 * 4))
 
 tick.on(($t) => {
     const mv = MOVE * delta.$
@@ -33,5 +33,8 @@ tick.on(($t) => {
     }
     meshes.$.instanceMatrix.needsUpdate = true
 })
+
+
+
 
 scene.$.add(meshes.$)

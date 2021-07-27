@@ -15,12 +15,24 @@ export const tick = new Value(0)
 export const timestamp = new Value(0)
 export const delta = new Value(0)
 
+let resize = false
 function Loop($t) {
     delta.is(($t - timestamp.$)/1000)
     timestamp.set($t)
 
     tick.is(tick.$ + 1)
     renderer.$.render(scene.$, camera.$)
+
+    if(resize) {
+        renderer.$.setSize(window.innerWidth, window.innerHeight)
+        camera.$.aspect = window.innerWidth/window.innerHeight
+        camera.$.updateProjectionMatrix()
+        resize = false
+    }
 }
 
 renderer.$.setAnimationLoop(Loop)
+
+window.addEventListener("resize", () => {
+    resize = true
+})
