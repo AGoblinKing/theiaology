@@ -7,3 +7,4 @@
 *.log
 public/stats.html
 .rollup.cache*
+public/build/
