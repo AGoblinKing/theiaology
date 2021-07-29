@@ -27,6 +27,7 @@
     "rollup-plugin-livereload": "^2.0.5",
     "rollup-plugin-serve": "^1.1.0",
     "rollup-plugin-terser": "^7.0.2",
-    "three": "^0.130.1"
+    "three": "^0.130.1",
+    "typescript": "^4.3.5"
   }
 }
