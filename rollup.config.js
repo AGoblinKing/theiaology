@@ -64,6 +64,7 @@ const config = (input) => {
 
       resolve({
         browser: true,
+        preferBuiltins: false,
         extensions: ['.js', '.ts'],
       }),
 

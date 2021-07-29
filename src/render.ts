@@ -7,8 +7,7 @@ export const camera = new Value(
   new PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000)
 )
 
-camera.$.position.set(0, 0, 5)
-
+camera.$.position.y = 1.25
 export const renderer = new Value(new WebGLRenderer())
 
 renderer.$.setSize(window.innerWidth, window.innerHeight)

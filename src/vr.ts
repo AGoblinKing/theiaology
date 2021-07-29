@@ -1,9 +1,9 @@
 import { VRButton } from 'three/examples/jsm/webxr/VRButton.js'
-import { XRHandModelFactory } from 'three/examples/jsm/webxr/XRHandModelFactory.js'
+import { audio } from './audio'
 import { renderer, scene } from './render'
+import { doRez, Rez } from './rez'
+import { HandRez } from './rez/hand'
 import { Value } from './store'
-import { tick } from './time'
-import { Handy } from './vendor/handy'
 
 renderer.$.xr.enabled = true
 
@@ -13,7 +13,7 @@ document.body.appendChild(button)
 export const onVRClick = new Value(false)
 export const VRInit = new Value(false)
 
-const modelFactory = new XRHandModelFactory()
+export const hands = new Value<any[]>([])
 
 button.addEventListener('click', () => {
   onVRClick.is(true)
@@ -21,23 +21,31 @@ button.addEventListener('click', () => {
   if (VRInit.$) return
 
   for (let i = 0; i < 2; i++) {
-    const hand = renderer.$.xr.getHand(i)
+    const hand = renderer.$.xr.getHand(i) as any
 
-    Handy.makeHandy(hand)
+    if (!hand) continue
 
     scene.$.add(hand)
-    const model = modelFactory.createHandModel(hand, 'boxes')
+
     hand.addEventListener('connected', (e) => {
       hand.userData.handedness = e.data.handedness
-      hand.add(model)
     })
+
+    hands.$.push(hand)
+
+    hands.poke()
   }
+
+  audio.play()
 
   VRInit.is(true)
 })
 
-//  Now use Handy to “Handify” them:
+doRez.on(() => {
+  for (let i = 0; i < hands.$.length; i++) {
+    const count = Object.keys(hands.$[i].joints).length
+    if (count === 0) continue
 
-tick.on(() => {
-  Handy.update(undefined)
+    Rez(HandRez, count, hands.$[i])
+  }
 })

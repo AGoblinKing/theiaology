@@ -13,4 +13,6 @@ export function Loop($t) {
 }
 
 export const timeUniform = new Uniform(0.0)
-timestamp.on(($t) => (timeUniform.value = $t))
+timestamp.on(($t) => {
+  timeUniform.value = $t
+})

@@ -1,23 +1,22 @@
 import { Uniform } from 'three'
 import { Value } from './store'
 import { tick } from './time'
-import { onVRClick } from './vr'
 
-const audio = document.getElementById('bgm') as HTMLAudioElement
+export const audio = document.getElementById('bgm') as HTMLAudioElement
 
+export const context = new Value<AudioContext>(undefined)
 let started = false
 
 audio.onplay = function () {
   if (started) return
   started = true
+  context.is(new AudioContext())
+  const src = context.$.createMediaElementSource(audio)
 
-  const context = new AudioContext()
-  const src = context.createMediaElementSource(audio)
-
-  const analyser = context.createAnalyser()
+  const analyser = context.$.createAnalyser()
   src.connect(analyser)
 
-  analyser.connect(context.destination)
+  analyser.connect(context.$.destination)
 
   analyser.fftSize = 512
 
@@ -53,9 +52,3 @@ upperAvg.on(($ua) => (upperUniform.value = $ua))
 
 export const lowerAvg = new Value(0)
 lowerAvg.on(($la) => (lowerUniform.value = $la))
-
-onVRClick.on(($c) => {
-  if (!$c) return
-
-  audio.play()
-})

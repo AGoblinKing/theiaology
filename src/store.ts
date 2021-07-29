@@ -1,15 +1,16 @@
+export enum EPokeControls {
+  NOTHING = 0,
+  BREAK,
+}
+
 export type ICancel = () => void
+export type FSubscribe<T> = (value: T) => void | EPokeControls
 
 export interface IStore<T> extends Promise<T> {
-  set(T)
   is(T)
-  get(): T
-  react(subscribe: (value: T) => void)
-
   transform(subscribe: (value: T, prev: T) => T): IStore<T>
-  on(subscribe: (value: T) => void, ignoreInitial?: boolean): ICancel
+  on(subscribe: FSubscribe<T>, ignoreInitial?: boolean): ICancel
   poke()
-  subscribe(subscribe: (value: T) => void): ICancel
   log()
 
   $: T
@@ -21,9 +22,9 @@ export interface IValue<T> extends IStore<T> {
   derive<D>(store: IStore<D>, transform: (other: D) => T): IValue<T>
 }
 
-export class Read<T> implements IStore<T> {
+export class Constant<T> implements IStore<T> {
   $: T
-  callbacks: Set<(T) => void>
+  callbacks: Set<FSubscribe<T>>
   first: boolean
   _transform: (value: T, prev: T) => T
 
@@ -31,18 +32,10 @@ export class Read<T> implements IStore<T> {
     this.first = true
     this.$ = value
   }
-  transform(subscribe: (value: T, prev: T) => T): Read<T> {
+
+  transform(subscribe: (value: T, prev: T) => T): Constant<T> {
     this._transform = subscribe
 
-    return this
-  }
-  react(subscribe: (value: T) => void) {
-    if (this.callbacks === undefined) {
-      this.callbacks = new Set()
-    }
-
-    this.callbacks.add(subscribe)
-    subscribe(this.get())
     return this
   }
 
@@ -51,10 +44,10 @@ export class Read<T> implements IStore<T> {
     onrejected?: (reason: any) => TResult2 | PromiseLike<TResult2>
   ): Promise<TResult1 | TResult2> {
     if (!this.first) {
-      onfulfilled(this.get())
+      onfulfilled(this.$)
       return
     }
-    const cancel = this.subscribe(($value) => {
+    const cancel = this.on(($value) => {
       if (this.first) return
 
       cancel()
@@ -74,24 +67,28 @@ export class Read<T> implements IStore<T> {
     return this
   }
 
-  get(): T {
-    return this.$
-  }
-
   // set alias, trying out more semantic coding
   is(value: T) {
     return this.set(value)
   }
 
-  on(subscribe: (value: T) => void, ignoreInitial = false): ICancel {
-    return this.subscribe(subscribe, ignoreInitial)
+  on(callback: FSubscribe<T>, ignoreInitial = false): ICancel {
+    if (this.callbacks === undefined) {
+      this.callbacks = new Set()
+    }
+
+    this.callbacks.add(callback)
+    if (!ignoreInitial) callback(this.$)
+
+    return () => this.callbacks.delete(callback)
   }
 
   poke() {
     if (this.callbacks === undefined) return
 
     for (let callback of this.callbacks) {
-      callback(this.get())
+      const res = callback(this.$)
+      if (res === EPokeControls.BREAK) break
     }
 
     return this
@@ -108,23 +105,12 @@ export class Read<T> implements IStore<T> {
     return this
   }
 
-  subscribe(callback, ignoreInitial = false) {
-    if (this.callbacks === undefined) {
-      this.callbacks = new Set()
-    }
-
-    this.callbacks.add(callback)
-    if (!ignoreInitial) callback(this.get())
-
-    return () => this.callbacks.delete(callback)
-  }
-
   log() {
     return this.on(console.log)
   }
 }
 
-export class Value<T> extends Read<T> implements IValue<T> {
+export class Value<T> extends Constant<T> implements IValue<T> {
   // where to persist
   where: string
   swhere: string

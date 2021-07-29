@@ -21,9 +21,6 @@ const down = (e) => {
   }
 }
 
-$c.addEventListener('mousedown', down)
-$c.addEventListener('touchstart', down)
-
 const up = (e) => {
   switch (e.button) {
     case undefined && e.touches.length === 1:
@@ -42,6 +39,8 @@ const up = (e) => {
 $c.addEventListener('mouseup', up)
 $c.addEventListener('touchend', up)
 
+$c.addEventListener('mousedown', down)
+$c.addEventListener('touchstart', down)
 window.addEventListener(
   'contextmenu',
   function (evt) {
