@@ -6,6 +6,8 @@ _Undock your imagination._
 
 ## Quick Start
 
+Install https://nodejs.org/en/download/ or have >v14
+
 ```
 npm ci
 npm run dev
