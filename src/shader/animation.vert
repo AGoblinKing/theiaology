@@ -130,7 +130,7 @@ vec4 Animation(in vec4 pos) {
 // Rotations, maybe scale?
 mat4 AnimationMatrix(in mat4 mvMatrix) {
 
-    float lav = (1. + lowAvg * 0.001);
+    float lav = (1. + lowAvg * 0.0025);
 
     mvMatrix = mvMatrix * scale(lav, lav, lav);
 	return mvMatrix;
