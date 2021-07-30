@@ -70,6 +70,7 @@ const config = (input) => {
 
       commonjs(),
       !production && serve({
+        historyApiFallback: true,
         contentBase: 'public',
         headers: {
             "Cross-Origin-Opener-Policy": "same-origin",

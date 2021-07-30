@@ -1,3 +1,4 @@
+import { url } from 'src/controls/desktop'
 import { Uniform } from 'three'
 import { Value } from '../store'
 import { tick } from '../time'
@@ -53,3 +54,13 @@ upperAvg.on(($ua) => (upperUniform.value = $ua))
 
 export const lowerAvg = new Value(0)
 lowerAvg.on(($la) => (lowerUniform.value = $la))
+
+// change audio source based on URL
+url.on(($url) => {
+  switch ($url[0]) {
+    case 'music':
+      audio.src = `/music/${$url[1]}.mp3`
+      console.log(audio.src)
+      audio.load()
+  }
+})

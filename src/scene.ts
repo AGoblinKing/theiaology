@@ -51,11 +51,11 @@ doStatic.on(() => {
 const treeM$ = new Matrix4().makeScale(3, 6, 3)
 const stoneM$ = new Matrix4().makeScale(3, 3, 3)
 for (let i = 0; i < 10; i++) {
-  ReadURL('./vox/base_dude.vox')
+  ReadURL('/vox/base_dude.vox')
   for (let x = 0; x < 10; x++) {
-    ReadURL('./vox/tree.vox', treeM$, true)
-    ReadURL('./vox/path.vox', treeM$, true)
-    ReadURL('./vox/stone.vox', stoneM$, true)
+    ReadURL('/vox/tree.vox', treeM$, true)
+    ReadURL('/vox/path.vox', treeM$, true)
+    ReadURL('/vox/stone.vox', stoneM$, true)
   }
 }
 
