@@ -5,10 +5,16 @@ import {
   Matrix4,
   Quaternion,
 } from 'three'
+import { upperAvg } from './audio'
 import { ReadURL } from './file'
+import { mouse_left, mouse_right } from './input'
 import { scene } from './render'
-import { doStatic, meshes, Rez, SIZE, Sleeper } from './rez'
+import { doLast, doStatic, meshes, Rez, SIZE, Sleeper } from './rez'
 import { IBoxRez, PlaneOptions, PlaneRez } from './rez/basic'
+import { MusicRez } from './rez/music'
+import { delta } from './time'
+
+const MOVE = 1
 
 const rotMat = new Matrix4().makeRotationFromQuaternion(
   new Quaternion().setFromEuler(new Euler(0.05, -0.05, 0))
@@ -41,6 +47,24 @@ doStatic.on(() => {
   Rez(PlaneRez, planeOpts.size2, planeOpts, PlaneSleep)
 })
 
+const treeM$ = new Matrix4().makeScale(3, 6, 3)
 for (let i = 0; i < 10; i++) {
   ReadURL('./vox/base_dude.vox')
+  for (let x = 0; x < 10; x++) {
+    ReadURL('./vox/tree.vox', treeM$, true)
+  }
 }
+
+export const musicData = {
+  mv: 0,
+  mv2: 0,
+  divisor: 0,
+}
+
+doLast.on(() => {
+  musicData.mv = MOVE * delta.$ * upperAvg.$
+  musicData.mv2 = musicData.mv / 2
+  musicData.divisor = mouse_left.$ ? 0.99 : mouse_right.$ ? 1.01 : 0.9999
+
+  Rez(MusicRez, 100000, musicData)
+})

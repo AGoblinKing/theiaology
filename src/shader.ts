@@ -16,20 +16,10 @@ const commonVertChunk = [
   AnimationVert,
 ].join('\n')
 
-const vertChunk = [
-  '#include <begin_vertex>',
-  '\tvInstanceColor = instanceColor;',
-].join('\n')
-
-const fragmentParsChunk = [
-  'varying vec3 vInstanceColor;',
-  '#include <common>',
-  AnimationFrag,
-].join('\n')
+const fragmentParsChunk = ['#include <common>', AnimationFrag].join('\n')
 
 const colorChunk = [
-  `vec4 diffuseColor = AnimationFrag(vec4( diffuse * vInstanceColor.rgb , opacity)) ;
-      `,
+  `vec4 diffuseColor = AnimationFrag(vec4( diffuse, opacity));`,
 ].join('\n')
 
 material.onBeforeCompile = function (shader) {
@@ -39,7 +29,6 @@ material.onBeforeCompile = function (shader) {
 
   shader.vertexShader = shader.vertexShader
     .replace('#include <common>', commonVertChunk)
-    .replace('#include <begin_vertex>', vertChunk)
     .replace('#include <project_vertex>', postVertChunk)
 
   shader.fragmentShader = shader.fragmentShader

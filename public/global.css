@@ -5,3 +5,9 @@ body {
   user-select: none;
   -webkit-user-select: none;
 }
+
+#VRButton {
+  opacity: 1 !important;
+  background: black !important;
+  border: solid 0.25rem white !important;
+}

@@ -1,7 +1,7 @@
-import { Matrix4 } from 'three'
+import { Matrix4, Vector3 } from 'three'
 import { audio } from './audio'
 import { MagickaVoxel } from './magica'
-import { Voxel, voxels } from './vox'
+import { Voxel, voxels, voxels_static } from './vox'
 
 export const SPAWN_DISTRO = 100
 
@@ -31,23 +31,29 @@ window.addEventListener('drop', async (e) => {
   }
 })
 
+const $vec3 = new Vector3()
+
 // ReadFile
 export function ReadFile(
   file: File | string,
   buffer: ArrayBufferLike,
-  offset?
+  offset?: Matrix4,
+  canSleep?: boolean
 ) {
   const { name } = typeof file === 'string' ? { name: file } : file
   switch (true) {
     case name.indexOf('.vox') != -1:
-      voxels.push(
+      ;(canSleep ? voxels_static : voxels).push(
         new Voxel(
           new Matrix4()
             .identity()
-            .makeTranslation(
-              SPAWN_DISTRO * Math.random() - SPAWN_DISTRO / 2,
-              0,
-              SPAWN_DISTRO * Math.random() - SPAWN_DISTRO / 2
+            .copy(offset || $matrix)
+            .setPosition(
+              $vec3.set(
+                SPAWN_DISTRO * Math.random() - SPAWN_DISTRO / 2,
+                0,
+                SPAWN_DISTRO * Math.random() - SPAWN_DISTRO / 2
+              )
             ),
           new MagickaVoxel(buffer)
         )
@@ -65,7 +71,16 @@ export function ReadFile(
 }
 
 const $matrix = new Matrix4()
-export async function ReadURL(url: string) {
-  const r = await fetch(url)
-  ReadFile(url, await r.arrayBuffer())
+const cache = {}
+
+export async function ReadURL(
+  url: string,
+  offset?: Matrix4,
+  canSleep?: boolean
+) {
+  if (!cache[url]) {
+    cache[url] = fetch(url).then((r) => r.arrayBuffer())
+  }
+
+  ReadFile(url, await cache[url], offset, canSleep)
 }

@@ -1,17 +1,13 @@
 import {
   BoxBufferGeometry,
   Color,
-  Euler,
   InstancedMesh,
   Matrix4,
-  Quaternion,
   Vector3,
 } from 'three'
-import { upperAvg } from './audio'
-import { mouse_left, mouse_right } from './input'
 import { material } from './shader'
 import { Value } from './store'
-import { delta, tick } from './time'
+import { tick } from './time'
 
 export type Rezer = (
   atom: Matrix4,
@@ -21,16 +17,12 @@ export type Rezer = (
 ) => Matrix4
 
 export const SIZE = 0.16
+export const COUNT = 75000
 
 const SPREAD = 100
-const MOVE = 10
-export const COUNT = 75000
-const rotQuat = new Quaternion().setFromEuler(new Euler(0.01, -0.01, 0))
 
-export const $matrix = new Matrix4()
-export const $pos = new Vector3()
-export const $scale = new Vector3()
-export const $quat = new Quaternion()
+const $matrix = new Matrix4()
+const $pos = new Vector3()
 
 const $color = new Color()
 
@@ -49,7 +41,7 @@ for (let i = 0; i < meshes.$.count; i++) {
     i,
     $matrix.setPosition(
       Math.random() * SPREAD - SPREAD / 2,
-      Math.random() * SPREAD - SPREAD / 2,
+      (Math.random() * SPREAD) / 2,
       Math.random() * SPREAD - SPREAD / 2
     )
   )
@@ -60,23 +52,18 @@ meshes.$.instanceMatrix.needsUpdate = true
 
 export const doRez = new Value(0)
 export const doStatic = new Value(undefined)
-
-interface MusicData {
-  mv: number
-  divisor: number
-  mv2: number
-}
-
-const musicData: MusicData = {
-  mv: 0,
-  mv2: 0,
-  divisor: 0,
-}
+export const doLast = new Value(undefined)
 
 export function Rez(rezer: Rezer, count: number, opts?: any, sleep?: Sleeper) {
   if (!sleep || sleep.$ !== doRez.$) {
     for (let i = 0; i < count; i++) {
       const cursor = doRez.$ + i
+
+      if (COUNT <= cursor) {
+        doRez.$ += count
+        return
+      }
+
       meshes.$.getMatrixAt(cursor, $matrix)
       meshes.$.setMatrixAt(cursor, rezer($matrix, i, opts, cursor))
     }
@@ -91,38 +78,22 @@ export function Blank(atom: Matrix4) {
   return atom.scale($pos.set(0, 0, 0))
 }
 
-export function Music(atom: Matrix4, i: number, opts: MusicData) {
-  return atom
-    .decompose($pos, $quat, $scale)
-    .compose(
-      $pos.set(
-        $pos.x + Math.random() * opts.mv - opts.mv2,
-        $pos.y + Math.random() * opts.mv - opts.mv2,
-        $pos.z + Math.random() * opts.mv - opts.mv2
-      ),
-      $quat.multiply(rotQuat),
-      $scale.set(1, 1, 1)
-    )
-}
-
 tick.on(($t) => {
   // reset rez
   doRez.$ = 0
 
   // allow statics to run
-  doStatic.is(true)
+  doStatic.poke()
 
   // run the rest of rezes
   doRez.poke()
 
-  const blankCount = meshes.$.count - doRez.$
+  // do anything that wants to consume the last bits
+  doLast.poke()
 
+  const blankCount = COUNT - doRez.$
   if (blankCount > 0) {
-    musicData.mv = MOVE * delta.$ * upperAvg.$
-    musicData.mv2 = musicData.mv / 2
-    musicData.divisor = mouse_left.$ ? 0.99 : mouse_right.$ ? 1.01 : 0.9999
-
-    Rez(Music, blankCount, musicData)
+    //Rez(Blank, blankCount)
   }
 
   meshes.$.instanceMatrix.needsUpdate = true

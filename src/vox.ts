@@ -1,6 +1,6 @@
-import { Color, Matrix4 } from 'three'
+import { Color, Matrix4, Vector3 } from 'three'
 import { MagickaVoxel } from './magica'
-import { doRez, meshes, Rez, SIZE } from './rez'
+import { doRez, doStatic, meshes, Rez, SIZE, Sleeper } from './rez'
 
 export const paletteDefault = [
   0x000000, 0xffffff, 0xccffff, 0x99ffff, 0x66ffff, 0x33ffff, 0x00ffff,
@@ -40,9 +40,16 @@ export const paletteDefault = [
   0xbb0000, 0xaa0000, 0x880000, 0x770000, 0x550000, 0x440000, 0x220000,
   0x110000, 0xeeeeee, 0xdddddd, 0xbbbbbb, 0xaaaaaa, 0x888888, 0x777777,
   0x555555, 0x444444, 0x222222, 0x111111,
-]
+].reduce((arr, val, i) => {
+  const idx = i * 4
+  arr[idx] = (val >> 16) & 0xff
+  arr[idx + 1] = (val >> 8) & 0xff
+  arr[idx + 2] = val & 0xff
+  return arr
+}, new Uint8Array(256 * 4))
 
 export const voxels: Voxel[] = []
+export const voxels_static: Voxel[] = []
 
 export class Voxel {
   where: Matrix4
@@ -55,6 +62,7 @@ export class Voxel {
 }
 
 const $color = new Color()
+const $vec3 = new Vector3()
 
 function VoxelRez(atom: Matrix4, i: number, opt: Voxel, cursor): Matrix4 {
   const v = opt.what.xyzi
@@ -73,12 +81,27 @@ function VoxelRez(atom: Matrix4, i: number, opt: Voxel, cursor): Matrix4 {
 
   return atom
     .identity()
-    .setPosition(v[c] * SIZE, v[c + 2] * SIZE, v[c + 1] * SIZE)
+    .setPosition(
+      $vec3
+        .set(v[c] * SIZE, v[c + 2] * SIZE, v[c + 1] * SIZE)
+        .applyMatrix4(opt.where)
+        .multiplyScalar(Math.random() * 0.005 + 0.995)
+    )
     .multiply(opt.where)
 }
 
 doRez.on(() => {
   for (let i = 0; i < voxels.length; i++) {
     Rez(VoxelRez, voxels[i].what.length(), voxels[i])
+  }
+})
+
+const sleepers = []
+doStatic.on(() => {
+  for (let i = 0; i < voxels_static.length; i++) {
+    if (!sleepers[i]) {
+      sleepers[i] = new Sleeper()
+    }
+    Rez(VoxelRez, voxels_static[i].what.length(), voxels_static[i], sleepers[i])
   }
 })

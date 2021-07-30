@@ -40,7 +40,7 @@ export class PlaneOptions {
     size: number,
     z?: boolean,
     scale = 3,
-    color = new Color(0x00ff00)
+    color = new Color(0x00aa00)
   ) {
     this.color = color
     this.size = size

@@ -20,7 +20,7 @@ vec4 AnimationFrag(in vec4 col) {
 	}
 
 
-	col.xyz *= 0.95 + 0.05 * sin(lowAvg);
+	col.xyz *= 0.95 + 0.05 * sin(lowAvg * 0.01);
 
 	return col;
 }
