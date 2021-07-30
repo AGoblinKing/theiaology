@@ -48,10 +48,13 @@ doStatic.on(() => {
 })
 
 const treeM$ = new Matrix4().makeScale(3, 6, 3)
+const stoneM$ = new Matrix4().makeScale(3, 3, 3)
 for (let i = 0; i < 10; i++) {
   ReadURL('./vox/base_dude.vox')
   for (let x = 0; x < 10; x++) {
     ReadURL('./vox/tree.vox', treeM$, true)
+    ReadURL('./vox/path.vox', treeM$, true)
+    ReadURL('./vox/stone.vox', stoneM$, true)
   }
 }
 
@@ -61,10 +64,12 @@ export const musicData = {
   divisor: 0,
 }
 
+const sleepMusic = new Sleeper()
+
 doLast.on(() => {
   musicData.mv = MOVE * delta.$ * upperAvg.$
   musicData.mv2 = musicData.mv / 2
   musicData.divisor = mouse_left.$ ? 0.99 : mouse_right.$ ? 1.01 : 0.9999
 
-  Rez(MusicRez, 100000, musicData)
+  Rez(MusicRez, 100000, musicData, sleepMusic)
 })

@@ -17,7 +17,7 @@ export type Rezer = (
 ) => Matrix4
 
 export const SIZE = 0.16
-export const COUNT = 75000
+export const COUNT = 100000
 
 const SPREAD = 100
 
