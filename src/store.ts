@@ -28,7 +28,7 @@ export class Constant<T> implements IStore<T> {
   first: boolean
   _transform: (value: T, prev: T) => T
 
-  constructor(value: T) {
+  constructor(value: T = undefined) {
     this.first = true
     this.$ = value
   }

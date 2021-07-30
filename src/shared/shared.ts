@@ -5,9 +5,8 @@ import {
   Matrix4,
   MeshBasicMaterial,
 } from 'three'
-import { scene } from './render'
-import { Value } from './store'
-import { tick } from './time'
+import { scene } from '../render'
+import { Value } from '../store'
 
 const COUNT = 100000
 const SPREAD = 10
@@ -44,6 +43,4 @@ worker.postMessage(sharedBuffer)
 
 scene.$.add(meshes.$)
 
-tick.on(() => {
-  meshes.$.instanceMatrix.needsUpdate = true
-})
+// TODO: Shared buffer support

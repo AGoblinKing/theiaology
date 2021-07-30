@@ -1,6 +1,6 @@
 // handle postMessage and update the sharedarraybuff
 import { Euler, InstancedMesh, Matrix4, Quaternion, Vector3 } from 'three'
-import { delta, Loop, tick } from './time'
+import { delta, Loop, tick } from '../time'
 
 const MOVE = 1
 

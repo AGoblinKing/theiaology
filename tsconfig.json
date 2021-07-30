@@ -5,7 +5,7 @@
       "lib": ["es2019", "dom"],
       "moduleResolution": "node",
       "target": "es2017",
-      "typeRoots": ["./types", "./node_modules/@types"],
+    
       "baseUrl": ".",
       "paths": {
         "src/*": ["./src/*"],
@@ -15,7 +15,7 @@
       "allowSyntheticDefaultImports": true,
       "isolatedModules": true,
       "resolveJsonModule": true,
-  
+      
       "skipLibCheck": true,
       "strict": false,
       "downlevelIteration": true,
@@ -23,6 +23,6 @@
     },
   
     "include": ["src/**/*"],
-    "exclude": ["node_modules/*", "./types"]
+    "exclude": ["node_modules/*"]
   }
   

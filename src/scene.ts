@@ -5,13 +5,13 @@ import {
   Matrix4,
   Quaternion,
 } from 'three'
-import { upperAvg } from './audio'
+import { upperAvg } from './audio/audio'
+import { mouse_left, mouse_right } from './controls/desktop'
 import { ReadURL } from './file'
-import { mouse_left, mouse_right } from './input'
 import { scene } from './render'
-import { doLast, doStatic, meshes, Rez, SIZE, Sleeper } from './rez'
-import { IBoxRez, PlaneOptions, PlaneRez } from './rez/basic'
+import { IBoxRez, PlaneOptions, PlaneRez } from './rez/box'
 import { MusicRez } from './rez/music'
+import { doLast, doStatic, meshes, Rez, SIZE, Sleeper } from './rez/rez'
 import { delta } from './time'
 
 const MOVE = 1

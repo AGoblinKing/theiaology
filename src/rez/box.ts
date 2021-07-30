@@ -1,5 +1,5 @@
-import { lowerAvg } from 'src/audio'
-import { meshes, SIZE } from 'src/rez'
+import { lowerAvg } from 'src/audio/audio'
+import { meshes, SIZE } from 'src/rez/rez'
 import { timestamp } from 'src/time'
 import { Color, Matrix4 } from 'three'
 

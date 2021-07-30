@@ -1,7 +1,7 @@
 import { FirstPersonControls } from 'three/examples/jsm/controls/FirstPersonControls'
-import { mouse_left, mouse_right } from './input'
-import { camera } from './render'
-import { delta } from './time'
+import { camera } from '../render'
+import { delta } from '../time'
+import { mouse_left, mouse_right } from './desktop'
 
 export const fps = new FirstPersonControls(camera.$, document.body)
 

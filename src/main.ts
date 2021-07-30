@@ -1,5 +1,5 @@
-import './controls'
+import './controls/controls'
+import './controls/vr/vr'
 import './file'
+import './rez/vox'
 import './scene'
-import './vox'
-import './vr'

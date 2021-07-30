@@ -1,7 +1,7 @@
 import { Matrix4, Vector3 } from 'three'
-import { audio } from './audio'
+import { audio } from './audio/audio'
 import { MagickaVoxel } from './magica'
-import { Voxel, voxels, voxels_static } from './vox'
+import { Voxel, voxels, voxels_static } from './rez/vox'
 
 export const SPAWN_DISTRO = 100
 

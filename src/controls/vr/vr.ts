@@ -1,9 +1,10 @@
 import { VRButton } from 'three/examples/jsm/webxr/VRButton.js'
-import { audio } from './audio'
-import { renderer, scene } from './render'
-import { doRez, Rez } from './rez'
-import { HandRez } from './rez/hand'
-import { Value } from './store'
+import { audio } from '../../audio/audio'
+import { renderer, scene } from '../../render'
+import { HandRez } from '../../rez/hand'
+import { doRez, Rez } from '../../rez/rez'
+import { Value } from '../../store'
+import { IJointGroup } from './interface'
 
 renderer.$.xr.enabled = true
 
@@ -13,7 +14,7 @@ document.body.appendChild(button)
 export const onVRClick = new Value(false)
 export const VRInit = new Value(false)
 
-export const hands = new Value<any[]>([])
+export const hand_controllers = new Value<IJointGroup[]>([])
 
 button.addEventListener('click', () => {
   onVRClick.is(true)
@@ -28,12 +29,12 @@ button.addEventListener('click', () => {
     scene.$.add(hand)
 
     hand.addEventListener('connected', (e) => {
-      hand.userData.handedness = e.data.handedness
+      hand.handedness = e.data.handedness
     })
 
-    hands.$.push(hand)
+    hand_controllers.$.push(hand)
 
-    hands.poke()
+    hand_controllers.poke()
   }
 
   audio.play()
@@ -42,10 +43,11 @@ button.addEventListener('click', () => {
 })
 
 doRez.on(() => {
-  for (let i = 0; i < hands.$.length; i++) {
-    const count = Object.keys(hands.$[i].joints).length
+  for (let i = 0; i < hand_controllers.$.length; i++) {
+    const count = Object.keys(hand_controllers.$[i].joints).length
     if (count === 0) continue
 
-    Rez(HandRez, count, hands.$[i])
+    // also triggers joint_update for each joint
+    Rez(HandRez, count, hand_controllers.$[i])
   }
 })

@@ -1,12 +1,9 @@
 import { MeshToonMaterial } from 'three'
-import { lowerUniform, upperUniform } from './audio'
-// @ts-ignore
-import AnimationFrag from './shader/animation.frag'
-// @ts-ignore
-import AnimationVert from './shader/animation.vert'
-// @ts-ignore
-import postVertChunk from './shader/chunkPost.vert'
-import { timeUniform } from './time'
+import { lowerUniform, upperUniform } from '../audio/audio'
+import { timeUniform } from '../time'
+import AnimationFrag from './animation.frag'
+import AnimationVert from './animation.vert'
+import postVertChunk from './chunkPost.vert'
 
 export const material = new MeshToonMaterial({ color: 0xffffff })
 

@@ -1,6 +1,6 @@
 import { Uniform } from 'three'
-import { Value } from './store'
-import { tick } from './time'
+import { Value } from '../store'
+import { tick } from '../time'
 
 export const audio = document.getElementById('bgm') as HTMLAudioElement
 

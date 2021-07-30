@@ -1,5 +1,5 @@
 import { Color, Matrix4, Vector3 } from 'three'
-import { MagickaVoxel } from './magica'
+import { MagickaVoxel } from '../magica'
 import { doRez, doStatic, meshes, Rez, SIZE, Sleeper } from './rez'
 
 export const voxels: Voxel[] = []

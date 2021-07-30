@@ -1,5 +1,6 @@
-import { renderer } from './render'
-import { Value } from './store'
+import { Vector3 } from 'three'
+import { renderer } from '../render'
+import { Value } from '../store'
 
 const $c = renderer.$.domElement
 
@@ -20,6 +21,9 @@ const down = (e) => {
       break
   }
 }
+
+export const mouse = new Value([0, 0])
+export const mouse_world = new Value(new Vector3())
 
 const up = (e) => {
   switch (e.button) {
