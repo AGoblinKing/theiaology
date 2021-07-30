@@ -7,7 +7,7 @@ import {
 } from 'three'
 import { ReadURL } from './file'
 import { scene } from './render'
-import { doRez, meshes, Rez, SIZE } from './rez'
+import { doStatic, meshes, Rez, SIZE, Sleeper } from './rez'
 import { IBoxRez, PlaneOptions, PlaneRez } from './rez/basic'
 
 const rotMat = new Matrix4().makeRotationFromQuaternion(
@@ -33,10 +33,12 @@ const boxOpts: IBoxRez = {
 const planeOpts = new PlaneOptions(200, true)
 planeOpts.where.setPosition(0, 0, 0)
 
-doRez.on(() => {
+const PlaneSleep = new Sleeper()
+
+doStatic.on(() => {
   boxOpts.where.multiply(rotMat)
   // Rez(BoxRez, BOX_SIZE3, boxOpts)
-  Rez(PlaneRez, planeOpts.size2, planeOpts)
+  Rez(PlaneRez, planeOpts.size2, planeOpts, PlaneSleep)
 })
 
 for (let i = 0; i < 10; i++) {

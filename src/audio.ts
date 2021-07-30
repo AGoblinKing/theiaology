@@ -31,6 +31,7 @@ audio.onplay = function () {
 
     return val
   }
+
   tick.on(() => {
     analyser.getByteFrequencyData(dataArray)
     const lowerHalfArray = dataArray.slice(0, dataArray.length / 2 - 1)

@@ -24,7 +24,7 @@ export const SIZE = 0.16
 
 const SPREAD = 100
 const MOVE = 10
-export const COUNT = 50000
+export const COUNT = 75000
 const rotQuat = new Quaternion().setFromEuler(new Euler(0.01, -0.01, 0))
 
 export const $matrix = new Matrix4()
@@ -34,6 +34,12 @@ export const $quat = new Quaternion()
 
 const $color = new Color()
 
+export class Sleeper {
+  $: number
+  constructor() {
+    this.$ = -1
+  }
+}
 export const meshes = new Value(
   new InstancedMesh(new BoxBufferGeometry(SIZE, SIZE, SIZE), material, COUNT)
 )
@@ -53,6 +59,7 @@ for (let i = 0; i < meshes.$.count; i++) {
 meshes.$.instanceMatrix.needsUpdate = true
 
 export const doRez = new Value(0)
+export const doStatic = new Value(undefined)
 
 interface MusicData {
   mv: number
@@ -66,12 +73,16 @@ const musicData: MusicData = {
   divisor: 0,
 }
 
-export function Rez(rezer: Rezer, count: number, opts?: any) {
-  for (let i = 0; i < count; i++) {
-    const cursor = doRez.$ + i
-    meshes.$.getMatrixAt(cursor, $matrix)
-    meshes.$.setMatrixAt(cursor, rezer($matrix, i, opts, cursor))
+export function Rez(rezer: Rezer, count: number, opts?: any, sleep?: Sleeper) {
+  if (!sleep || sleep.$ !== doRez.$) {
+    for (let i = 0; i < count; i++) {
+      const cursor = doRez.$ + i
+      meshes.$.getMatrixAt(cursor, $matrix)
+      meshes.$.setMatrixAt(cursor, rezer($matrix, i, opts, cursor))
+    }
   }
+
+  if (sleep) sleep.$ = doRez.$
 
   doRez.$ += count
 }
@@ -95,7 +106,14 @@ export function Music(atom: Matrix4, i: number, opts: MusicData) {
 }
 
 tick.on(($t) => {
-  doRez.is(0)
+  // reset rez
+  doRez.$ = 0
+
+  // allow statics to run
+  doStatic.is(true)
+
+  // run the rest of rezes
+  doRez.poke()
 
   const blankCount = meshes.$.count - doRez.$
 

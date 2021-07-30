@@ -38,6 +38,7 @@ export class MagickaVoxel {
   length() {
     return this.xyzi.length / 4
   }
+
   chunk(start: number = 8) {
     let cursor = start
     const id = this.readID(cursor)
