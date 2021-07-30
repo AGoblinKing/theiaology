@@ -73,7 +73,7 @@ export function PlaneRez(
     opts.scalesize * (opts.z ? Math.floor(i / opts.size - opts.halfsize) : 0) -
     opts.halfscalesize
 
-  const variance = Math.sin(timestamp.$ * 0.001 + z * x * y * 1000) * 0.2
+  const variance = Math.sin(timestamp.$ * 0.001 + z * x * y * 100) * 0.3
   meshes.$.setColorAt(
     idx,
     $color.copy(opts.color).multiplyScalar(0.8 + variance)

@@ -27,9 +27,9 @@ function VoxelRez(atom: Matrix4, i: number, opt: Voxel, cursor): Matrix4 {
   meshes.$.setColorAt(
     cursor,
     $color.setRGB(
-      col[colIdx] / 255,
-      col[colIdx + 1] / 255,
-      col[colIdx + 2] / 255
+      (col[colIdx] / 255) * (0.9 + Math.random() * 0.1),
+      (col[colIdx + 1] / 255) * (0.9 + Math.random() * 0.1),
+      (col[colIdx + 2] / 255) * (0.9 + Math.random() * 0.1)
     )
   )
 
