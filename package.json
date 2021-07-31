@@ -1,12 +1,11 @@
 {
   "name": "theia.games",
-  "version": "1.0.0",
+  "version": "0.1.0",
   "description": "An engine attempting to use SharedArrayBuffers",
   "main": "index.js",
   "scripts": {
     "build": "rollup -c",
-    "dev": "rollup -c -w",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "rollup -c -w"
   },
   "author": "king@goblin.life",
   "license": "MIT",

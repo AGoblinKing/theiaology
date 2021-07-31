@@ -22,7 +22,6 @@ const down = (e) => {
   }
 }
 
-export const url = new Value(window.location.pathname.slice(1).split('/'))
 export const mouse = new Value([0, 0])
 export const mouse_world = new Value(new Vector3())
 

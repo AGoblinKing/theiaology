@@ -1,12 +1,12 @@
 import { VRButton } from 'three/examples/jsm/webxr/VRButton.js'
-import { audio } from '../../audio/audio'
-import { renderer, scene } from '../../render'
-import { HandRez } from '../../rez/hand'
-import { doRez, Rez } from '../../rez/rez'
-import { Value } from '../../store'
-import { IJointGroup } from './interface'
+import { audio } from '../audio/audio'
+import { renderer, scene } from '../render'
+import { HandRez } from '../rez/hand'
+import { doRez, Rez } from '../rez/rez'
+import * as Spells from '../spells'
+import { Value } from '../store'
+import { IJointGroup } from './joints'
 import { poses, poseValue } from './poses'
-import * as Spells from './spells'
 import {
   hand_controllers,
   last_pose,

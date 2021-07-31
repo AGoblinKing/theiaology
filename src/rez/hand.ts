@@ -1,4 +1,4 @@
-import { IJointGroup, vr_keys } from 'src/controls/vr/interface'
+import { IJointGroup, vr_keys } from 'src/vr/joints'
 import { Matrix4, Vector3 } from 'three'
 
 const $vector3 = new Vector3()

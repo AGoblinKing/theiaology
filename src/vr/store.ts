@@ -1,5 +1,5 @@
 import { Value } from 'src/store'
-import { IJointGroup } from './interface'
+import { IJointGroup } from './joints'
 
 export const last_pose = new Value({
   left: '',

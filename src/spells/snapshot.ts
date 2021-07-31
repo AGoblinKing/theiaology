@@ -1,6 +1,6 @@
-import { IJointGroup } from './interface'
-import { snapshotPose } from './poses'
-import { left_hand, right_hand } from './store'
+import { IJointGroup } from '../vr/joints'
+import { snapshotPose } from '../vr/poses'
+import { left_hand, right_hand } from '../vr/store'
 
 export function Snapshot(hand: IJointGroup) {
   // take a snapshot of the opposite hand
