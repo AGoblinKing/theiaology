@@ -28,7 +28,15 @@ export enum vr_keys {
   'pinky-finger-tip',
 }
 
+export const importantBits = [
+  'thumb-tip',
+  'index-finger-tip',
+  'middle-finger-tip',
+  'ring-finger-tip',
+  'pinky-finger-tip',
+]
+
 export interface IJointGroup extends Group {
   handedness: 'left' | 'right'
-  joints: Object3D[]
+  joints: { [key: string]: Object3D }
 }

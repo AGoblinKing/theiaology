@@ -117,7 +117,7 @@ vec4 quatFromMat(in mat4 m) {
 
 // Position
 vec4 Animation(in vec4 pos) {
-	float tes = sin(pos.x * pos.y *pos.z * highAvg + time  ) * 0.005 ;	
+	float tes = sin(pos.x * pos.y *pos.z  + time * 0.0001  ) * 0.04 +  (-highAvg/1000.);
 
 	pos.x += tes;
 	pos.y += tes;
@@ -130,7 +130,7 @@ vec4 Animation(in vec4 pos) {
 // Rotations, maybe scale?
 mat4 AnimationMatrix(in mat4 mvMatrix) {
 
-    float lav = (1. + lowAvg * 0.002);
+    float lav = (1. + lowAvg * 0.0005);
 
     mvMatrix = mvMatrix * scale(lav, lav, lav);
 	return mvMatrix;

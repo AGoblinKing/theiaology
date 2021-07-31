@@ -37,7 +37,7 @@ const boxOpts: IBoxRez = {
   halfsize: (BOX_SIZE / 2) * SIZE,
 }
 
-const planeOpts = new PlaneOptions(200, true)
+const planeOpts = new PlaneOptions(150, true)
 planeOpts.where.setPosition(0, 0, 0)
 
 const PlaneSleep = new Sleeper()
@@ -50,13 +50,14 @@ doStatic.on(() => {
 
 const treeM$ = new Matrix4().makeScale(3, 6, 3)
 const stoneM$ = new Matrix4().makeScale(3, 3, 3)
-for (let i = 0; i < 10; i++) {
+for (let i = 0; i < 20; i++) {
   ReadURL('/vox/base_dude.vox')
-  for (let x = 0; x < 10; x++) {
-    ReadURL('/vox/tree.vox', treeM$, true)
-    ReadURL('/vox/path.vox', treeM$, true)
-    ReadURL('/vox/stone.vox', stoneM$, true)
-  }
+}
+
+for (let x = 0; x < 100; x++) {
+  ReadURL('/vox/tree.vox', treeM$, true)
+  ReadURL('/vox/path.vox', treeM$, true)
+  ReadURL('/vox/stone.vox', stoneM$, true)
 }
 
 export const musicData = {
@@ -72,5 +73,5 @@ doLast.on(() => {
   musicData.mv2 = musicData.mv / 2
   musicData.divisor = mouse_left.$ ? 0.99 : mouse_right.$ ? 1.01 : 0.9999
 
-  Rez(MusicRez, 100000, musicData, sleepMusic)
+  Rez(MusicRez, 10000, musicData, sleepMusic)
 })
