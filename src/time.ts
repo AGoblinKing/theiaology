@@ -7,7 +7,7 @@ export const timestamp = new Value(0)
 
 export function Loop($t) {
   delta.is(($t - timestamp.$) / 1000)
-  timestamp.set($t)
+  timestamp.is($t)
 
   tick.is(tick.$ + 1)
 }

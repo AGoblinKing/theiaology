@@ -1,4 +1,4 @@
-import { SIZE } from 'src/rez/rez'
+import { SIZE } from 'src/rez'
 import { Matrix4 } from 'three'
 
 export interface IBoxRez {

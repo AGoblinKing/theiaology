@@ -1,5 +1,5 @@
 import { colors_default } from 'src/magica'
-import { meshes } from 'src/rez/rez'
+import { meshes } from 'src/rez'
 import { Color, Euler, Matrix4, Quaternion, Vector3 } from 'three'
 
 export type Rezer = (

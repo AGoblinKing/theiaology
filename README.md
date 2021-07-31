@@ -1,7 +1,7 @@
 # Theia.Games
 
 [![Itch](https://github.com/AGoblinKing/theia.games/actions/workflows/itch.yml/badge.svg)](https://github.com/AGoblinKing/theia.games/actions/workflows/itch.yml)
-
+| [!Discord]()
 _Undock your imagination._
 
 ## Quick Start

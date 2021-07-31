@@ -1,4 +1,4 @@
-import { url } from 'src/controls/browser'
+import { url } from 'src/input/browser'
 import { Uniform } from 'three'
 import { Value } from '../store'
 import { tick } from '../time'

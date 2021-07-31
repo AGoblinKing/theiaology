@@ -6,84 +6,26 @@ export enum EPokeControls {
 export type ICancel = () => void
 export type FSubscribe<T> = (value: T) => void | EPokeControls
 
-export interface IStore<T> extends Promise<T> {
-  is(T)
-  transform(subscribe: (value: T, prev: T) => T): IStore<T>
-  on(subscribe: FSubscribe<T>, ignoreInitial?: boolean): ICancel
-  poke()
-  log()
-
-  $: T
+export interface IChannel {
+  poke(): IChannel
+  on(sub: FSubscribe<any>): ICancel
 }
 
-export interface IValue<T> extends IStore<T> {
-  persist(where: string): IValue<T>
-  session(where: string): IValue<T>
-  derive<D>(store: IStore<D>, transform: (other: D) => T): IValue<T>
-}
+export class Channel implements IChannel {
+  protected callbacks: Set<FSubscribe<undefined>>
+  public $: any
 
-export class Constant<T> implements IStore<T> {
-  $: T
-  callbacks: Set<FSubscribe<T>>
-  first: boolean
-  _transform: (value: T, prev: T) => T
-
-  constructor(value: T = undefined) {
-    this.first = true
-    this.$ = value
-  }
-
-  transform(subscribe: (value: T, prev: T) => T): Constant<T> {
-    this._transform = subscribe
-
-    return this
-  }
-
-  then<TResult1 = T, TResult2 = never>(
-    onfulfilled?: (value: T) => TResult1 | PromiseLike<TResult1>,
-    onrejected?: (reason: any) => TResult2 | PromiseLike<TResult2>
-  ): Promise<TResult1 | TResult2> {
-    if (!this.first) {
-      onfulfilled(this.$)
-      return
-    }
-    const cancel = this.on(($value) => {
-      if (this.first) return
-
-      cancel()
-      onfulfilled($value)
-    })
-
-    return
-  }
-
-  catch<TResult = never>(
-    onrejected?: (reason: any) => TResult | PromiseLike<TResult>
-  ): Promise<T | TResult> {
-    return this
-  }
-  [Symbol.toStringTag]: string
-  finally(onfinally?: () => void): Promise<T> {
-    return this
-  }
-
-  // set alias, trying out more semantic coding
-  is(value: T) {
-    return this.set(value)
-  }
-
-  on(callback: FSubscribe<T>, ignoreInitial = false): ICancel {
+  on(subscribe: FSubscribe<any>): ICancel {
     if (this.callbacks === undefined) {
       this.callbacks = new Set()
     }
 
-    this.callbacks.add(callback)
-    if (!ignoreInitial) callback(this.$)
+    this.callbacks.add(subscribe)
 
-    return () => this.callbacks.delete(callback)
+    return () => this.callbacks.delete(subscribe)
   }
 
-  poke() {
+  poke(): IChannel {
     if (this.callbacks === undefined) return
 
     for (let callback of this.callbacks) {
@@ -93,40 +35,44 @@ export class Constant<T> implements IStore<T> {
 
     return this
   }
+}
 
-  set(value: T) {
-    if (this._transform !== undefined) {
-      value = this._transform(value, this.$)
-    }
-    this.first = false
+export interface IValue<T> extends IChannel {
+  is(T): IValue<T>
+  poke(): IValue<T>
+  log(): IValue<T>
+  on(subscribe: FSubscribe<T>): ICancel
+
+  $: T
+  persist(where: string): IValue<T>
+  session(where: string): IValue<T>
+}
+
+export class Value<T> extends Channel implements IValue<T> {
+  $: T
+  // where to persist
+  localLoc: string
+  sessionLoc: string
+
+  constructor(value: T = undefined) {
+    super()
+    this.$ = value
+  }
+
+  log() {
+    this.on(console.log)
+    return this
+  }
+
+  is(value: T) {
     this.$ = value
     this.poke()
 
     return this
   }
 
-  log() {
-    return this.on(console.log)
-  }
-}
-
-export class Value<T> extends Constant<T> implements IValue<T> {
-  // where to persist
-  where: string
-  swhere: string
-
-  derive<D>(store: IStore<D>, transform: (other: D) => T) {
-    requestAnimationFrame(() => {
-      store.on(($store) => {
-        this.is(transform($store))
-      })
-    })
-
-    return this
-  }
-
   persist(where: string) {
-    this.where = where
+    this.localLoc = where
     const v = localStorage.getItem(where)
     if (v === null) return this
 
@@ -148,11 +94,11 @@ export class Value<T> extends Constant<T> implements IValue<T> {
       console.error(ex)
     }
 
-    return this.set(this.$)
+    return this.is(this.$)
   }
 
   session(where: string) {
-    this.swhere = where
+    this.sessionLoc = where
     const v = sessionStorage.getItem(where)
     if (v === null) return this
 
@@ -174,22 +120,22 @@ export class Value<T> extends Constant<T> implements IValue<T> {
       console.error(ex)
     }
 
-    return this.set(this.$)
+    return this.is(this.$)
   }
 
-  poke() {
+  poke(): IValue<T> {
     super.poke()
-    if (this.where) {
+    if (this.localLoc) {
       if (this.$ instanceof Set) {
-        localStorage.setItem(this.where, JSON.stringify([...this.$]))
+        localStorage.setItem(this.localLoc, JSON.stringify([...this.$]))
       } else {
-        localStorage.setItem(this.where, JSON.stringify(this.$))
+        localStorage.setItem(this.localLoc, JSON.stringify(this.$))
       }
-      if (this.swhere) {
+      if (this.sessionLoc) {
         if (this.$ instanceof Set) {
-          sessionStorage.setItem(this.swhere, JSON.stringify([...this.$]))
+          sessionStorage.setItem(this.sessionLoc, JSON.stringify([...this.$]))
         } else {
-          sessionStorage.setItem(this.swhere, JSON.stringify(this.$))
+          sessionStorage.setItem(this.sessionLoc, JSON.stringify(this.$))
         }
       }
     }

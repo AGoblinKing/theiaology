@@ -5,9 +5,9 @@ import {
   Matrix4,
   Vector3,
 } from 'three'
-import { material } from '../shader/shader'
-import { Value } from '../store'
-import { tick } from '../time'
+import { material } from './shader/shader'
+import { Value } from './store'
+import { tick } from './time'
 
 export type Rezer = (
   atom: Matrix4,

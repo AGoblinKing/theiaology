@@ -1,30 +1,31 @@
 import { VRButton } from 'three/examples/jsm/webxr/VRButton.js'
 import { audio } from '../audio/audio'
-import { renderer, scene } from '../render'
-import { HandRez } from '../rez/hand'
-import { doRez, Rez } from '../rez/rez'
-import * as Spells from '../spells'
-import { Value } from '../store'
-import { IJointGroup } from './joints'
-import { poses, poseValue } from './poses'
 import {
-  hand_controllers,
+  hands,
   last_pose,
   left_hand,
   pose,
   right_hand,
-} from './store'
+  VRInit,
+} from '../input/xr'
+import { renderer, scene } from '../render'
+import { doRez, Rez } from '../rez'
+import { HandRez } from '../rez/hand'
+import * as Spells from '../spell'
+import { Value } from '../store'
+import { IJointGroup } from '../xr/joints'
+import { poses, poseValue } from '../xr/poses'
 
-renderer.$.xr.enabled = true
+renderer.xr.enabled = true
 
-export const MIN_POSE_VALUE = 0.1
+export const MIN_POSE_VALUE = 0.3
+
 export type PoseValues = number[][]
 
-export const button = VRButton.createButton(renderer.$)
+export const button = VRButton.createButton(renderer)
 document.body.appendChild(button)
 
 export const onVRClick = new Value(false)
-export const VRInit = new Value(false)
 
 button.addEventListener('click', () => {
   onVRClick.is(true)
@@ -32,7 +33,7 @@ button.addEventListener('click', () => {
   if (VRInit.$) return
 
   for (let i = 0; i < 2; i++) {
-    const hand = renderer.$.xr.getHand(i) as any
+    const hand = renderer.xr.getHand(i) as any
 
     if (!hand) continue
 
@@ -50,9 +51,9 @@ button.addEventListener('click', () => {
       }
     })
 
-    hand_controllers.$.push(hand)
+    hands.$.push(hand)
 
-    hand_controllers.poke()
+    hands.poke()
   }
 
   audio.play()
@@ -112,12 +113,12 @@ function doPose(hand: IJointGroup) {
 }
 
 doRez.on(() => {
-  for (let i = 0; i < hand_controllers.$.length; i++) {
-    const count = Object.keys(hand_controllers.$[i].joints).length
+  for (let i = 0; i < hands.$.length; i++) {
+    const count = Object.keys(hands.$[i].joints).length
     if (count === 0) continue
 
-    doPose(hand_controllers.$[i])
+    doPose(hands.$[i])
     // also triggers joint_update for each joint
-    Rez(HandRez, count, hand_controllers.$[i])
+    Rez(HandRez, count, hands.$[i])
   }
 })

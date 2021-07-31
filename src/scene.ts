@@ -6,13 +6,13 @@ import {
   Quaternion,
 } from 'three'
 import { upperAvg } from './audio/audio'
-import { mouse_left, mouse_right } from './controls/desktop'
 import { ReadURL } from './file'
+import { mouse_left, mouse_right } from './input/mouse'
 import { scene } from './render'
+import { doLast, doStatic, meshes, Rez, SIZE, Sleeper } from './rez'
 import { IBoxRez } from './rez/box'
 import { MusicRez } from './rez/music'
 import { PlaneOptions, PlaneRez } from './rez/plane'
-import { doLast, doStatic, meshes, Rez, SIZE, Sleeper } from './rez/rez'
 import { delta } from './time'
 
 const MOVE = 1
