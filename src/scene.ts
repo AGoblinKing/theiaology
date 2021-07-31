@@ -73,5 +73,5 @@ doLast.on(() => {
   musicData.mv2 = musicData.mv / 2
   musicData.divisor = mouse_left.$ ? 0.99 : mouse_right.$ ? 1.01 : 0.9999
 
-  Rez(MusicRez, 10000, musicData, sleepMusic)
+  Rez(MusicRez, 100000, musicData, sleepMusic)
 })
