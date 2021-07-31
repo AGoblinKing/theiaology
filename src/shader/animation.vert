@@ -117,10 +117,10 @@ vec4 quatFromMat(in mat4 m) {
 
 // Position
 vec4 Animation(in vec4 pos) {
-	float tes = sin(pos.x * pos.y *pos.z  + time * 0.0001  ) * 0.04 +  (-highAvg/1000.);
+	float tes = sin(pos.x * pos.y *pos.z  + time * 0.0001  ) * 0.04 ;
 
 	pos.x += tes;
-	pos.y += tes;
+	pos.y += tes +  (-highAvg/1000.);
 	pos.z += tes;
 
 	return pos;
