@@ -1,5 +1,5 @@
 import { Uniform } from 'three'
-import { ICancel, Value } from './store'
+import { ICancel, Value } from './valuechannel'
 
 export const tick = new Value(0)
 export const delta = new Value(0)

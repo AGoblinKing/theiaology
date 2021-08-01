@@ -88,4 +88,4 @@ const config = (input) => {
   }
 }
 
-export default [config('main'), config('shared/worker')]
+export default [config('main'), config('worker')]

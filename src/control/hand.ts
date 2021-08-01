@@ -12,7 +12,7 @@ import { renderer, scene } from '../render'
 import { doRez, Rez } from '../rez'
 import { HandRez } from '../rez/hand'
 import * as Spells from '../spell'
-import { Value } from '../store'
+import { Value } from '../valuechannel'
 import { IJointGroup } from '../xr/joints'
 import { poses, poseValue } from '../xr/poses'
 

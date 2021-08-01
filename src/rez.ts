@@ -1,13 +1,16 @@
 import {
   BoxBufferGeometry,
   Color,
+  InstancedBufferAttribute,
   InstancedMesh,
   Matrix4,
   Vector3,
 } from 'three'
+import { animation } from './buffer/animation'
+import { COUNT } from './config'
 import { material } from './shader/shader'
-import { Value } from './store'
 import { tick } from './time'
+import { Value } from './valuechannel'
 
 export type Rezer = (
   atom: Matrix4,
@@ -17,7 +20,6 @@ export type Rezer = (
 ) => Matrix4
 
 export const SIZE = 0.16
-export const COUNT = 75000
 
 const SPREAD = 100
 
@@ -32,9 +34,15 @@ export class Sleeper {
     this.$ = -1
   }
 }
-export const meshes = new Value(
-  new InstancedMesh(new BoxBufferGeometry(SIZE, SIZE, SIZE), material, COUNT)
-)
+
+// Setup buffers and geometry
+export const geometry = new BoxBufferGeometry(SIZE, SIZE, SIZE)
+
+const instanceAnimation = new InstancedBufferAttribute(animation.$, 1)
+
+geometry.setAttribute('animation', instanceAnimation)
+
+export const meshes = new Value(new InstancedMesh(geometry, material, COUNT))
 
 for (let i = 0; i < meshes.$.count; i++) {
   meshes.$.setMatrixAt(
@@ -98,4 +106,5 @@ tick.on(($t) => {
 
   meshes.$.instanceMatrix.needsUpdate = true
   meshes.$.instanceColor.needsUpdate = true
+  instanceAnimation.needsUpdate = true
 })

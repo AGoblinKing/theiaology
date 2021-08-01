@@ -1,6 +1,6 @@
 import { Group, PerspectiveCamera, Scene, WebGLRenderer } from 'three'
-import { Value } from './store'
 import { Loop, tick } from './time'
+import { Value } from './valuechannel'
 
 export const scene = new Value(new Scene())
 export const camera = new PerspectiveCamera(

@@ -1,7 +1,7 @@
 import { url } from 'src/input/browser'
 import { Uniform } from 'three'
-import { Value } from '../store'
 import { tick } from '../time'
+import { Value } from '../valuechannel'
 
 export const audio = document.getElementById('bgm') as HTMLAudioElement
 
@@ -60,7 +60,6 @@ url.on(($url) => {
   switch ($url[0]) {
     case 'music':
       audio.src = `/music/${$url[1]}.mp3`
-      console.log(audio.src)
       audio.load()
   }
 })

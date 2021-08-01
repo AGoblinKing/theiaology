@@ -2,6 +2,7 @@ uniform float time;
 uniform float highAvg;
 uniform float lowAvg;
 
+attribute int animation;
 varying vec3 v_pos;
 
 mat4 scale(float x, float y, float z){
@@ -115,8 +116,17 @@ vec4 quatFromMat(in mat4 m) {
 	return qt;
 }
 
+// Animation enums
+
+const int ANIM_NORMAL = 0;
+const int ANIM_NO_EFFECT = 1;
+
 // Position
 vec4 Animation(in vec4 pos) {
+	if(animation == ANIM_NO_EFFECT) {
+		return pos;
+	}
+
 	float tes = sin(pos.x * pos.y *pos.z  + time * 0.0001  ) * 0.04 ;
 
 	pos.x += tes;

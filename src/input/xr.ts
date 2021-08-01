@@ -1,4 +1,4 @@
-import { Value } from 'src/store'
+import { Value } from 'src/valuechannel'
 import { IJointGroup } from '../xr/joints'
 
 export const last_pose = new Value({

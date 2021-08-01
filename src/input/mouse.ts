@@ -1,11 +1,9 @@
-import { Vector3 } from 'three'
+import { Vector2, Vector3 } from 'three'
 import { renderer } from '../render'
-import { Value } from '../store'
-
-const $c = renderer.domElement
+import { Value } from '../valuechannel'
 
 // Normalized Mouse Position from center of screen
-export const mouse_pos = new Value([0, 0])
+export const mouse_pos = new Value(new Vector2())
 export const mouse_world = new Value(new Vector3())
 export const mouse_left = new Value(false)
 export const mouse_right = new Value(false)
@@ -40,14 +38,21 @@ function Up(e) {
   }
 }
 
-function Move(e) {}
+function Move(e: MouseEvent) {
+  mouse_pos.is(
+    mouse_pos.$.set(
+      (e.x / renderer.domElement.width) * 2 - 1,
+      -(e.y / renderer.domElement.height) * 2 + 1
+    )
+  )
+}
 
-$c.addEventListener('mousemove', Move)
-$c.addEventListener('mouseup', Up)
-$c.addEventListener('touchend', Up)
+window.addEventListener('mousemove', Move)
+window.addEventListener('mouseup', Up)
+window.addEventListener('touchend', Up)
 
-$c.addEventListener('mousedown', Down)
-$c.addEventListener('touchstart', Down)
+window.addEventListener('mousedown', Down)
+window.addEventListener('touchstart', Down)
 window.addEventListener(
   'contextmenu',
   function (evt) {
