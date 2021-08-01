@@ -5,12 +5,16 @@
 
 _Undock your imagination._
 
-## Guide
+## Features
 
-- [ ] Drag n' drop your own music
-- [ ] Make walking peace signs to walk
-- [ ] Point only your pinky to turn a direction
-- [ ] Drag n' drop your own [vox](https://ephtracy.github.io/) files
+- [x] Funky Voxel Cubes
+- [x] ArrayBuffer driven Rez System
+- [x] Only One Material
+- [x] VR Hand Locomotion and Gestures (quest browser is the ref)
+- [x] WebXR
+- [x] Audio Responsive
+- [x] Drag n' Drop .vox / .m3p / .wav / .ogg files to use them
+- [x] Unified Velocity locomotion
 
 ## Quick Start
 
@@ -42,11 +46,14 @@ You will need these headers.
 
 Which are brutal but enable SharedArrayBuffers which are magic.
 
-## Docs
+## Guide
 
-Maybe one day.
+- [ ] Drag n' drop your own music
+- [ ] Make walking peace signs to walk
+- [ ] Point only your pinky to turn a direction
+- [ ] Drag n' drop your own [vox](https://ephtracy.github.io/) files
 
-## How soon is now?
+## Maybe One Day
 
 - [ ] Spells like uh fireballs and lightning raining from the sky
 - [ ] a Timeline editor in VR with funky text
