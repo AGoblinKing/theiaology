@@ -31,7 +31,7 @@ delta.on(() => {
     velocity.$ -= velta * FRICTION
   }
 
-  body.$.position.y = renderer.xr.isPresenting ? 0.75 : 0.75
+  body.$.position.y = renderer.xr.isPresenting ? 0 : 0.75
 
   if (Math.abs(angular.$) > MIN_VELOCITY) {
     const angelta = angular.$ * delta.$
