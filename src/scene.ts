@@ -15,7 +15,7 @@ import { MusicRez } from './rez/music'
 import { PlaneOptions, PlaneRez } from './rez/plane'
 import { delta } from './time'
 
-const MOVE = 1
+const MOVE = 2
 
 const rotMat = new Matrix4().makeRotationFromQuaternion(
   new Quaternion().setFromEuler(new Euler(0.05, -0.05, 0))
