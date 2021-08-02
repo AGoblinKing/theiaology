@@ -49,14 +49,14 @@ delta.on(($dt) => {
     }
     return
   }
-  if (move_inputs.$.z === -1 || mouse_right.$) {
-    velocity.is((velocity.$ -= $dt * 3))
+  if (move_inputs.$.z !== 0 || mouse_right.$) {
+    velocity.is((velocity.$ += move_inputs.$.z * $dt * 3))
   }
 
   if (mouse_right.$ || mouse_left.$) UpdateCamera($dt)
 })
 
-const LOOK_SPEED = 50
+const LOOK_SPEED = 100
 const targetPosition = new Vector3()
 const vert = new Vector2(0, Math.PI)
 

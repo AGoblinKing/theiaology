@@ -8,40 +8,51 @@ export const voxels_static: Voxel[] = []
 export class Voxel {
   where: Matrix4
   what: MagickaVoxel
+  shift: number
 
-  constructor(where: Matrix4, what: MagickaVoxel) {
+  constructor(where: Matrix4, what: MagickaVoxel, shift: number = 0) {
     this.where = where
     this.what = what
+    this.shift = shift
   }
 }
 
 const $color = new Color()
 const $vec3 = new Vector3()
+const $hsl = { h: 0, s: 0, l: 0 }
 
-function VoxelRez(atom: Matrix4, i: number, opt: Voxel, cursor): Matrix4 {
-  const v = opt.what.xyzi
-  const col = opt.what.rgba
+function Jitter(ix: number) {
+  return Math.sin(ix)
+}
+function VoxelRez(atom: Matrix4, i: number, v: Voxel, ix): Matrix4 {
+  const vec = v.what.xyzi
+  const col = v.what.rgba
   const c = i * 4
-  const colIdx = (v[c + 3] - 1) * 4
+  const colIdx = (vec[c + 3] - 1) * 4
 
-  meshes.$.setColorAt(
-    cursor,
-    $color.setRGB(
-      (col[colIdx] / 255) * (0.9 + Math.random() * 0.1),
-      (col[colIdx + 1] / 255) * (0.9 + Math.random() * 0.1),
-      (col[colIdx + 2] / 255) * (0.9 + Math.random() * 0.1)
-    )
-  )
+  $color
+    .setRGB(col[colIdx] / 255, col[colIdx + 1] / 255, col[colIdx + 2] / 255)
+    .getHSL($hsl)
+
+  $hsl.h += v.shift
+
+  $color.setHSL($hsl.h, $hsl.s, $hsl.l)
+
+  meshes.$.setColorAt(ix, $color)
 
   return atom
     .identity()
     .setPosition(
       $vec3
-        .set(v[c] * SIZE, v[c + 2] * SIZE, v[c + 1] * SIZE)
-        .applyMatrix4(opt.where)
+        .set(
+          vec[c] * SIZE + Jitter(ix) * 0.001,
+          vec[c + 2] * SIZE + Jitter(ix * ix) * 0.001,
+          vec[c + 1] * SIZE + Jitter(ix * ix * ix) * 0.001
+        )
+        .applyMatrix4(v.where)
         .multiplyScalar(Math.random() * 0.0005 + 0.995)
     )
-    .multiply(opt.where)
+    .multiply(v.where)
 }
 
 doRez.on(() => {

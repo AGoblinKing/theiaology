@@ -8,6 +8,7 @@ import {
 } from 'three'
 import { animation } from './buffer/animation'
 import { COUNT } from './config'
+import { scene } from './render'
 import { material } from './shader/shader'
 import { tick } from './time'
 import { Value } from './valuechannel'
@@ -43,6 +44,7 @@ const instanceAnimation = new InstancedBufferAttribute(animation.$, 1)
 geometry.setAttribute('animation', instanceAnimation)
 
 export const meshes = new Value(new InstancedMesh(geometry, material, COUNT))
+scene.$.add(meshes.$)
 
 for (let i = 0; i < meshes.$.count; i++) {
   meshes.$.setMatrixAt(

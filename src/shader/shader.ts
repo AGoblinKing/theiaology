@@ -4,6 +4,7 @@ import { timeUniform } from '../time'
 import AnimationFrag from './animation.frag'
 import AnimationVert from './animation.vert'
 import postVertChunk from './chunkPost.vert'
+import SpaceTime from './spacetime.vert'
 
 export const material = new MeshToonMaterial({ color: 0xffffff })
 
@@ -11,6 +12,7 @@ const commonVertChunk = [
   'varying vec3 vInstanceColor;',
   '#include <common>',
   AnimationVert,
+  SpaceTime,
 ].join('\n')
 
 const fragmentParsChunk = ['#include <common>', AnimationFrag].join('\n')

@@ -38,7 +38,8 @@ export function ReadFile(
   file: File | string,
   buffer: ArrayBufferLike,
   offset?: Matrix4,
-  canSleep?: boolean
+  canSleep?: boolean,
+  shift?: number
 ) {
   const { name } = typeof file === 'string' ? { name: file } : file
   switch (true) {
@@ -55,7 +56,8 @@ export function ReadFile(
                 SPAWN_DISTRO * Math.random() - SPAWN_DISTRO / 2
               )
             ),
-          new MagickaVoxel(buffer)
+          new MagickaVoxel(buffer),
+          shift
         )
       )
 
@@ -76,11 +78,12 @@ const cache = {}
 export async function ReadURL(
   url: string,
   offset?: Matrix4,
-  canSleep?: boolean
+  canSleep?: boolean,
+  shift?: number
 ) {
   if (!cache[url]) {
     cache[url] = fetch(url).then((r) => r.arrayBuffer())
   }
 
-  ReadFile(url, await cache[url], offset, canSleep)
+  ReadFile(url, await cache[url], offset, canSleep, shift)
 }

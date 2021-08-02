@@ -5,6 +5,8 @@
 
 _Undock your imagination._
 
+![Promotional Gif](./public/image/promo.gif)
+
 ## Features
 
 - [x] Funky Voxel Cubes
@@ -15,6 +17,8 @@ _Undock your imagination._
 - [x] Audio Responsive
 - [x] Drag n' Drop .vox / .m3p / .wav / .ogg files to use them
 - [x] Unified Velocity locomotion
+
+![Promotional VR GIF](./public/image/vr.gif)
 
 ## Quick Start
 

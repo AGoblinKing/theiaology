@@ -27,14 +27,16 @@ delta.on(() => {
         )
     )
     // always 0 out their height
-    body.$.position.y = renderer.xr.isPresenting ? 0 : 1.25
+
     velocity.$ -= velta * FRICTION
   }
+
+  body.$.position.y = renderer.xr.isPresenting ? 0.75 : 0.75
 
   if (Math.abs(angular.$) > MIN_VELOCITY) {
     const angelta = angular.$ * delta.$
 
     body.$.rotateY(angelta)
-    angular.$ -= angelta * FRICTION
+    angular.$ -= angelta * FRICTION * 2
   }
 })

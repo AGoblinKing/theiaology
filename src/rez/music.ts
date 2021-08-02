@@ -1,5 +1,6 @@
 import { colors_default } from 'src/magica'
 import { meshes } from 'src/rez'
+import { delta } from 'src/time'
 import { Color, Euler, Matrix4, Quaternion, Vector3 } from 'three'
 
 export type Rezer = (
@@ -9,11 +10,12 @@ export type Rezer = (
   cursor?: number
 ) => Matrix4
 
-const rotQuat = new Quaternion().setFromEuler(new Euler(0.01, -0.01, 0))
+const rotQuat = new Quaternion().setFromEuler(new Euler(1, -1, 0))
 
 const $pos = new Vector3()
 const $scale = new Vector3()
 const $quat = new Quaternion()
+const $quat2 = new Quaternion()
 
 const $color = new Color()
 export function MusicRez(
@@ -45,7 +47,7 @@ export function MusicRez(
         $pos.y + Math.random() * opts.mv - opts.mv2,
         $pos.z + Math.random() * opts.mv - opts.mv2
       ),
-      $quat.multiply(rotQuat),
+      $quat.slerp($quat2.copy($quat).multiply(rotQuat), delta.$),
       $scale.set(1, 1, 1)
     )
 }
