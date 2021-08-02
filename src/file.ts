@@ -3,7 +3,7 @@ import { audio } from './audio/audio'
 import { MagickaVoxel } from './magica'
 import { Voxel, voxels, voxels_static } from './rez/vox'
 
-export const SPAWN_DISTRO = 100
+export const SPAWN_DISTRO = 75
 
 window.addEventListener('dragover', (e) => {
   e.dataTransfer.dropEffect = `copy`

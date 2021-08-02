@@ -21,9 +21,6 @@ const $color = new Color()
 const $vec3 = new Vector3()
 const $hsl = { h: 0, s: 0, l: 0 }
 
-function Jitter(ix: number) {
-  return Math.sin(ix)
-}
 function VoxelRez(atom: Matrix4, i: number, v: Voxel, ix): Matrix4 {
   const vec = v.what.xyzi
   const col = v.what.rgba

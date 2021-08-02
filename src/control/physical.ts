@@ -1,6 +1,7 @@
 // move body smoothly in VR mode
 
 import { body, camera, renderer } from 'src/render'
+import { doStatic } from 'src/rez'
 import { delta } from 'src/time'
 import { Channel, Value } from 'src/valuechannel'
 import { Vector3 } from 'three'
@@ -15,7 +16,7 @@ export const walk = new Channel()
 
 const $vec3 = new Vector3(0, 0, -1)
 
-delta.on(() => {
+doStatic.on(() => {
   if (Math.abs(velocity.$) > MIN_VELOCITY) {
     const velta = velocity.$ * delta.$
 
@@ -30,13 +31,12 @@ delta.on(() => {
 
     velocity.$ -= velta * FRICTION
   }
-
-  body.$.position.y = renderer.xr.isPresenting ? 0 : 0.75
-
+  body.$.position.y = renderer.xr.isPresenting ? 0 : 1.5
   if (Math.abs(angular.$) > MIN_VELOCITY) {
     const angelta = angular.$ * delta.$
 
     body.$.rotateY(angelta)
-    angular.$ -= angelta * FRICTION * 2
+
+    angular.$ -= angelta * FRICTION
   }
 })

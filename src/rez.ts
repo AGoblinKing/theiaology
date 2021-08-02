@@ -22,7 +22,7 @@ export type Rezer = (
 
 export const SIZE = 0.16
 
-const SPREAD = 100
+const SPREAD = 75
 
 const $matrix = new Matrix4()
 const $pos = new Vector3()

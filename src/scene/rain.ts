@@ -1,4 +1,4 @@
-import { upperAvg } from 'src/audio/audio'
+import { audio, upperAvg } from 'src/audio/audio'
 import { ReadURL } from 'src/file'
 import { mouse_left, mouse_right } from 'src/input/mouse'
 import { doLast, doStatic, Rez, Sleeper } from 'src/rez'
@@ -11,12 +11,14 @@ const MOVE = 3
 const $rot = new Matrix4()
 // experiment with raining blobs
 export default () => {
+  audio.src = '/music/glide_or_die.mp3'
+  audio.load()
+
   const planeOpts = new PlaneOptions(150, true, 20, new Color('gray'))
   const planeSleep = new Sleeper()
   const $m = new Matrix4().makeScale(30, 50, 30)
   const $dude = new Matrix4().makeScale(1, 1.2, 1)
   const $car = new Matrix4().makeScale(4, 3, 4).setPosition(0, 0.25, 0)
-  const $waste = new Matrix4().makeScale(4, 3, 4)
 
   for (let x = 0; x < 30; x++) {
     ReadURL('/vox/building.vox', $m, true, 0.1 * (Math.random() * 2 - 1))
@@ -42,6 +44,7 @@ export default () => {
       Math.random() * 2 - 1
     )
   }
+
   doStatic.on(() => {
     // Rez(BoxRez, BOX_SIZE3, boxOpts)
     Rez(PlaneRez, planeOpts.size2, planeOpts, planeSleep)

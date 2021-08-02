@@ -4,7 +4,6 @@ import { delta } from 'src/time'
 import { Value } from 'src/valuechannel'
 import { MathUtils, Vector2, Vector3 } from 'three'
 import { body, renderer } from '../render'
-import './hand'
 import { velocity } from './physical'
 
 export const move_inputs = new Value(new Vector3(0, 0, 0))
@@ -49,6 +48,7 @@ delta.on(($dt) => {
     }
     return
   }
+
   if (move_inputs.$.z !== 0 || mouse_right.$) {
     velocity.is((velocity.$ += move_inputs.$.z * $dt * 3))
   }

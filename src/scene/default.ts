@@ -24,7 +24,7 @@ export default () => {
     halfsize: (BOX_SIZE / 2) * SIZE,
   }
 
-  const planeOpts = new PlaneOptions(150, true, 5)
+  const planeOpts = new PlaneOptions(120, true, 4)
   planeOpts.where.setPosition(0, 0, 0)
 
   const PlaneSleep = new Sleeper()
@@ -57,7 +57,7 @@ export default () => {
         .multiply($rot.makeRotationY(Math.random() * Math.PI * 2))
         .multiplyScalar(Math.random() * 0.05 + 0.95),
       true,
-      (Math.random() * 2 - 1) * 0.04
+      (Math.random() * 2 - 1) * 0.01
     )
   }
 

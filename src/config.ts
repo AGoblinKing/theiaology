@@ -1,1 +1,1 @@
-export const COUNT = 60000
+export const COUNT = 50000
