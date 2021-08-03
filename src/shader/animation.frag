@@ -28,11 +28,11 @@ vec4 AnimationFrag(in vec4 col) {
     // muck with color based on distance from hands
 	float dist = length(v_pos - handLeft);
 	if(dist < 0.15) {
-		col.xyz += abs(sin(dist * 200. + time ));
+		col.xyz += abs(sin(dist * 200. + time * 0.01 ));
 	}
 	float dist2 = length(v_pos - handRight);
 	if(dist2 < 0.15) {
-		col.xyz +=abs(sin(dist2 * 200. + time));
+		col.xyz +=abs(sin(dist2 * 200. + time* 0.01));
 	}
 	return col;
 }

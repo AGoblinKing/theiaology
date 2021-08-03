@@ -20,8 +20,8 @@ vec4 Animation(in vec4 pos) {
 	}
 
 	float xyz = pos.x * pos.y *pos.z;
-	float tes = sin(xyz  + time * 1.  ) * 0.0075 +
-	sin(xyz  + time * 0.0001  ) * 0.05 +
+	float tes = sin(xyz  + time * 1.  ) * 0.005 +
+	sin(xyz  + time * 0.0005  ) * 0.05 +
 	sin(xyz  + time * 0.001  ) * 0.01;
 
 	pos.x += tes;

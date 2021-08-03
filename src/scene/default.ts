@@ -37,6 +37,7 @@ export default () => {
 
   const treeM$ = new Matrix4().makeScale(3, 6, 3)
   const stoneM$ = new Matrix4().makeScale(3, 3, 3)
+  const castleM$ = new Matrix4().makeScale(10, 20, 10)
   for (let i = 0; i < 20; i++) {
     ReadURL(
       '/vox/base_dude.vox',
@@ -49,7 +50,7 @@ export default () => {
     )
   }
 
-  for (let x = 0; x < 100; x++) {
+  for (let x = 0; x < 50; x++) {
     ReadURL(
       '/vox/tree.vox',
       treeM$,
@@ -59,6 +60,24 @@ export default () => {
     )
   }
 
+  for (let x = 0; x < 10; x++) {
+    ReadURL(
+      '/vox/castle.vox',
+      castleM$,
+
+      true,
+      (Math.random() * 2 - 1) * 0.01
+    )
+  }
+  for (let x = 0; x < 50; x++) {
+    ReadURL(
+      '/vox/bush.vox',
+      treeM$,
+
+      true,
+      (Math.random() * 2 - 1) * 0.01
+    )
+  }
   for (let x = 0; x < 50; x++) {
     ReadURL('/vox/path.vox', treeM$, true, (Math.random() * 2 - 1) * 0.1)
     ReadURL('/vox/stone.vox', stoneM$, true, (Math.random() * 2 - 1) * 0.1)
