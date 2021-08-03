@@ -94,3 +94,8 @@ export class Timeline extends Value<Uint8Array> {
 }
 
 export const timeline = new Timeline(new Uint8Array(0))
+
+// timing functions
+export const doRez = new Value(0)
+export const doStatic = new Value(undefined)
+export const doLast = new Value(undefined)

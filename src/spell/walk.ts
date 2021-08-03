@@ -1,4 +1,4 @@
-import { velocity } from 'src/control/physical'
+import { velocity } from 'src/control/smooth'
 
 export const MAX_WALK = 10
 export const WALK_SPEED = -1

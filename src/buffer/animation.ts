@@ -6,6 +6,9 @@ export enum EAnimation {
   NoEffects,
   Fire,
 }
-export const animation = new AtomicBuffer(
-  new Int32Array(new SharedArrayBuffer(COUNT * 4))
-)
+
+export class Animation extends AtomicBuffer {
+  constructor(buffer = new SharedArrayBuffer(COUNT * 4)) {
+    super(buffer)
+  }
+}

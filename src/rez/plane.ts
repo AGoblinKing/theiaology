@@ -1,5 +1,5 @@
 import { lowerAvg } from 'src/audio/audio'
-import { meshes, SIZE } from 'src/rez'
+import { atoms, SIZE } from 'src/rez'
 import { timestamp } from 'src/time'
 import { Color, Matrix4 } from 'three'
 
@@ -52,7 +52,7 @@ export function PlaneRez(
     opts.halfscalesize
 
   const variance = Math.sin(timestamp.$ * 0.001 + z * x * y * 100) * 0.3
-  meshes.$.setColorAt(
+  atoms.$.setColorAt(
     idx,
     $color.copy(opts.color).multiplyScalar(0.8 + variance)
   )

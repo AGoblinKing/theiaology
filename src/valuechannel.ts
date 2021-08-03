@@ -68,6 +68,7 @@ export class Value<T> {
 
     this.callbacks.add(subscribe)
 
+    subscribe(this.$)
     return () => this.callbacks.delete(subscribe)
   }
 

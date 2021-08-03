@@ -1,5 +1,6 @@
-import { animation, EAnimation } from 'src/buffer/animation'
-import { meshes, Rez } from 'src/rez'
+import { animation } from 'src/buffer'
+import { EAnimation } from 'src/buffer/animation'
+import { atoms, Rez } from 'src/rez'
 import { Color, Matrix4, Vector3 } from 'three'
 
 class Fire {
@@ -27,6 +28,6 @@ class Fire {
 export function FireRez(atom: Matrix4, i: number, fire: Fire, ix: number) {
   animation.set(ix, EAnimation.Fire)
 
-  meshes.$.setColorAt(ix, fire.color)
+  atoms.$.setColorAt(ix, fire.color)
   return atom.identity().setPosition(fire.where.x, fire.where.y, fire.where.z)
 }

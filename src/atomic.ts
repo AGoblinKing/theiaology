@@ -2,9 +2,11 @@ export type Atomicable = Uint8Array | Int32Array
 
 export class AtomicBuffer {
   $: Atomicable
+  shared: SharedArrayBuffer
 
-  constructor(buffer: Atomicable) {
-    this.$ = buffer
+  constructor(buffer: SharedArrayBuffer) {
+    this.shared = buffer
+    this.$ = new Int32Array(buffer)
   }
 
   reset(ix: number) {
@@ -16,6 +18,6 @@ export class AtomicBuffer {
   }
 
   set(ix: number, value: number) {
-    Atomics.store(this.$, ix, value)
+    return Atomics.store(this.$, ix, value)
   }
 }

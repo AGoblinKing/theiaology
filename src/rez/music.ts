@@ -1,5 +1,7 @@
+import { matter, velocity } from 'src/buffer'
+import { EPhase } from 'src/buffer/matter'
 import { colors_default } from 'src/magica'
-import { meshes } from 'src/rez'
+import { atoms } from 'src/rez'
 import { delta } from 'src/time'
 import { Color, Euler, Matrix4, Quaternion, Vector3 } from 'three'
 
@@ -30,7 +32,10 @@ export function MusicRez(
 ) {
   const col = (i % 255) * 4
 
-  meshes.$.setColorAt(
+  // accel
+  velocity.y(cursor, velocity.y(i) - 1)
+
+  atoms.$.setColorAt(
     cursor,
     $color.setRGB(
       colors_default[col] / 255,
@@ -38,6 +43,8 @@ export function MusicRez(
       colors_default[col + 2] / 255
     )
   )
+
+  matter.phase(cursor, EPhase.SOLID)
 
   return atom
     .decompose($pos, $quat, $scale)
@@ -47,7 +54,7 @@ export function MusicRez(
         $pos.y + Math.random() * opts.mv - opts.mv2,
         $pos.z + Math.random() * opts.mv - opts.mv2
       ),
-      $quat.slerp($quat2.copy($quat).multiply(rotQuat), delta.$),
+      $quat.slerp($quat2.copy($quat).multiply(rotQuat), delta.$ * 0.001),
       $scale.set(1, 1, 1)
     )
 }

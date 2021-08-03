@@ -1,8 +1,16 @@
-// uniform float time;  already imported 
-attribute vec4 past;
-attribute vec4 future;
+
 
 vec4 SpaceTime(in vec4 pos) {
     //+ mix(past, future, max(0.0, min(1.0, (time - past.a) / (future.a - past.a))));
-    return pos;
+    float fa = float(past.w);
+
+    return vec4(
+        pos.xyz + 0.01 * mix(
+            vec3(past.xyz), vec3(future.xyz), max(
+                0.0, min(
+                    1.0, (time * 1000. - float(past.a) / float(future.a - past.a))
+                )
+            )
+        ), 1.0
+    );
 }

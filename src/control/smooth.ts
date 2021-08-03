@@ -1,8 +1,7 @@
 // move body smoothly in VR mode
 
 import { body, camera, renderer } from 'src/render'
-import { doStatic } from 'src/rez'
-import { delta } from 'src/time'
+import { delta, doStatic } from 'src/time'
 import { Channel, Value } from 'src/valuechannel'
 import { Vector3 } from 'three'
 

@@ -13,7 +13,7 @@ export class System {
   }
 
   onmessage(msg: MessageEvent) {
-    this.buffers.push(new AtomicBuffer(new Int32Array(msg.data)))
+    this.buffers.push(new AtomicBuffer(msg.data))
   }
 
   tick() {}

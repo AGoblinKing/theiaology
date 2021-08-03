@@ -1,3 +1,5 @@
+import { doRez } from 'src/time'
+import { Vector3 } from 'three'
 import { VRButton } from 'three/examples/jsm/webxr/VRButton.js'
 import { audio } from '../audio/audio'
 import {
@@ -9,7 +11,7 @@ import {
   VRInit,
 } from '../input/xr'
 import { renderer, scene } from '../render'
-import { doRez, Rez } from '../rez'
+import { Rez } from '../rez'
 import { HandRez } from '../rez/hand'
 import * as Spells from '../spell'
 import { Value } from '../valuechannel'
@@ -18,7 +20,7 @@ import { poses, poseValue } from '../xr/poses'
 
 renderer.xr.enabled = true
 
-export const MIN_POSE_VALUE = 0.3
+export const MIN_POSE_VALUE = 0.2
 
 export type PoseValues = number[][]
 
@@ -60,6 +62,8 @@ button.addEventListener('click', () => {
 
   VRInit.is(true)
 })
+
+const $vec3 = new Vector3()
 
 // return the variance from the two posts
 function comparePose(p1: PoseValues, p2: PoseValues): number {

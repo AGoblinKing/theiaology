@@ -8,6 +8,7 @@ export enum EPhase {
   LIQUID,
   GAS,
   JELLY,
+  STUCK,
 }
 
 // more for setting a pallete of colors
@@ -20,8 +21,8 @@ export enum EMatter {
 }
 
 export class Matter extends AtomicBuffer {
-  constructor() {
-    super(new Int32Array(new SharedArrayBuffer(COUNT * 3)))
+  constructor(buffer = new SharedArrayBuffer(COUNT * 3 * 4)) {
+    super(buffer)
   }
   phase(i: number, p?: EPhase) {
     return p !== undefined ? this.set(i * 3, p) : this.get(i * 3)
@@ -33,5 +34,3 @@ export class Matter extends AtomicBuffer {
     return e !== undefined ? this.set(i * 3 + 2, e) : this.get(i * 3 + 2)
   }
 }
-
-export const matter = new Matter()

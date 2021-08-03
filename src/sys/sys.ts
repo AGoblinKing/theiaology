@@ -1,8 +1,10 @@
 import { AtomicBuffer } from 'src/atomic'
 
 export class SystemWorker extends Worker {
-  add(atomic: AtomicBuffer) {
-    this.postMessage(atomic.$)
+  add(...atomics: AtomicBuffer[]) {
+    for (let atomic of atomics) {
+      this.postMessage(atomic.shared)
+    }
     return this
   }
 }

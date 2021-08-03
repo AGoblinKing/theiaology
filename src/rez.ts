@@ -6,11 +6,11 @@ import {
   Matrix4,
   Vector3,
 } from 'three'
-import { animation } from './buffer/animation'
+import { animation, future, matter, past, velocity } from './buffer'
 import { COUNT } from './config'
 import { scene } from './render'
-import { material } from './shader/shader'
-import { tick } from './time'
+import { material } from './shader/material'
+import { doLast, doRez, doStatic, tick } from './time'
 import { Value } from './valuechannel'
 
 export type Rezer = (
@@ -21,14 +21,14 @@ export type Rezer = (
 ) => Matrix4
 
 export const SIZE = 0.16
-
-const SPREAD = 75
+export const SPREAD = 75
+export const FACES = 1
 
 const $matrix = new Matrix4()
 const $pos = new Vector3()
-
 const $color = new Color()
 
+// Sleeper allows Rezes to skip updates based on their past index
 export class Sleeper {
   $: number
   constructor() {
@@ -36,18 +36,24 @@ export class Sleeper {
   }
 }
 
-// Setup buffers and geometry
-export const geometry = new BoxBufferGeometry(SIZE, SIZE, SIZE)
+// mesh setup
+export const atoms = new Value(
+  new InstancedMesh(
+    new BoxBufferGeometry(SIZE, SIZE, SIZE, FACES, FACES, FACES)
+      .setAttribute('animation', new InstancedBufferAttribute(animation.$, 1))
+      .setAttribute('past', new InstancedBufferAttribute(past.$, 4))
+      .setAttribute('future', new InstancedBufferAttribute(future.$, 4))
+      .setAttribute('matter', new InstancedBufferAttribute(matter.$, 4))
+      .setAttribute('velocity', new InstancedBufferAttribute(velocity.$, 3)),
+    material,
+    COUNT
+  )
+)
 
-const instanceAnimation = new InstancedBufferAttribute(animation.$, 1)
+scene.$.add(atoms.$)
 
-geometry.setAttribute('animation', instanceAnimation)
-
-export const meshes = new Value(new InstancedMesh(geometry, material, COUNT))
-scene.$.add(meshes.$)
-
-for (let i = 0; i < meshes.$.count; i++) {
-  meshes.$.setMatrixAt(
+for (let i = 0; i < atoms.$.count; i++) {
+  atoms.$.setMatrixAt(
     i,
     $matrix.setPosition(
       Math.random() * SPREAD - SPREAD / 2,
@@ -55,14 +61,8 @@ for (let i = 0; i < meshes.$.count; i++) {
       Math.random() * SPREAD - SPREAD / 2
     )
   )
-  meshes.$.setColorAt(i, $color.setHex(Math.floor(0xffffff * Math.random())))
+  atoms.$.setColorAt(i, $color.setHex(Math.floor(0xffffff * Math.random())))
 }
-
-meshes.$.instanceMatrix.needsUpdate = true
-
-export const doRez = new Value(0)
-export const doStatic = new Value(undefined)
-export const doLast = new Value(undefined)
 
 export function Rez(rezer: Rezer, count: number, opts?: any, sleep?: Sleeper) {
   if (!sleep || sleep.$ !== doRez.$) {
@@ -74,8 +74,8 @@ export function Rez(rezer: Rezer, count: number, opts?: any, sleep?: Sleeper) {
         return
       }
 
-      meshes.$.getMatrixAt(cursor, $matrix)
-      meshes.$.setMatrixAt(cursor, rezer($matrix, i, opts, cursor))
+      atoms.$.getMatrixAt(cursor, $matrix)
+      atoms.$.setMatrixAt(cursor, rezer($matrix, i, opts, cursor))
     }
   }
 
@@ -106,7 +106,9 @@ tick.on(($t) => {
     //Rez(Blank, blankCount)
   }
 
-  meshes.$.instanceMatrix.needsUpdate = true
-  meshes.$.instanceColor.needsUpdate = true
-  instanceAnimation.needsUpdate = true
+  atoms.$.instanceMatrix.needsUpdate = true
+  // TODO: Move over to material
+  atoms.$.instanceColor.needsUpdate = true
+
+  atoms.$.geometry.getAttribute('animation').needsUpdate = true
 })

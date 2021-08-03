@@ -1,11 +1,11 @@
 import { upperAvg } from 'src/audio/audio'
 import { ReadURL } from 'src/file'
 import { mouse_left, mouse_right } from 'src/input/mouse'
-import { doLast, doStatic, Rez, SIZE, Sleeper } from 'src/rez'
+import { Rez, SIZE, Sleeper } from 'src/rez'
 import { IBoxRez } from 'src/rez/box'
 import { MusicRez } from 'src/rez/music'
 import { PlaneOptions, PlaneRez } from 'src/rez/plane'
-import { delta } from 'src/time'
+import { delta, doLast, doStatic } from 'src/time'
 import { Euler, Matrix4, Quaternion } from 'three'
 const $rot = new Matrix4()
 export default () => {
@@ -52,34 +52,16 @@ export default () => {
   for (let x = 0; x < 100; x++) {
     ReadURL(
       '/vox/tree.vox',
-      treeM$
-        .clone()
-        .multiply($rot.makeRotationY(Math.random() * Math.PI * 2))
-        .multiplyScalar(Math.random() * 0.05 + 0.95),
+      treeM$,
+
       true,
       (Math.random() * 2 - 1) * 0.01
     )
   }
 
   for (let x = 0; x < 50; x++) {
-    ReadURL(
-      '/vox/path.vox',
-      treeM$
-        .clone()
-        .multiply($rot.makeRotationY(Math.random() * Math.PI * 2))
-        .multiplyScalar(Math.random() * 0.05 + 0.95),
-      true,
-      (Math.random() * 2 - 1) * 0.1
-    )
-    ReadURL(
-      '/vox/stone.vox',
-      stoneM$
-        .clone()
-        .multiply($rot.makeRotationY(Math.random() * Math.PI * 2))
-        .multiplyScalar(Math.random() * 0.05 + 0.95),
-      true,
-      (Math.random() * 2 - 1) * 0.1
-    )
+    ReadURL('/vox/path.vox', treeM$, true, (Math.random() * 2 - 1) * 0.1)
+    ReadURL('/vox/stone.vox', stoneM$, true, (Math.random() * 2 - 1) * 0.1)
   }
 
   const musicData = {

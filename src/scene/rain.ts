@@ -1,10 +1,10 @@
 import { audio, upperAvg } from 'src/audio/audio'
 import { ReadURL } from 'src/file'
 import { mouse_left, mouse_right } from 'src/input/mouse'
-import { doLast, doStatic, Rez, Sleeper } from 'src/rez'
+import { Rez, Sleeper } from 'src/rez'
 import { MusicRez } from 'src/rez/music'
 import { PlaneOptions, PlaneRez } from 'src/rez/plane'
-import { delta } from 'src/time'
+import { delta, doLast, doStatic } from 'src/time'
 import { Color, Matrix4 } from 'three'
 const MOVE = 3
 

@@ -4,7 +4,7 @@ import { delta } from 'src/time'
 import { Value } from 'src/valuechannel'
 import { MathUtils, Vector2, Vector3 } from 'three'
 import { body, renderer } from '../render'
-import { velocity } from './physical'
+import { velocity } from './smooth'
 
 export const move_inputs = new Value(new Vector3(0, 0, 0))
 

@@ -1,6 +1,7 @@
+import { doRez, doStatic } from 'src/time'
 import { Color, Matrix4, Vector3 } from 'three'
 import { MagickaVoxel } from '../magica'
-import { doRez, doStatic, meshes, Rez, SIZE, Sleeper } from '../rez'
+import { atoms, Rez, SIZE, Sleeper } from '../rez'
 
 export const voxels: Voxel[] = []
 export const voxels_static: Voxel[] = []
@@ -35,7 +36,7 @@ function VoxelRez(atom: Matrix4, i: number, v: Voxel, ix): Matrix4 {
 
   $color.setHSL($hsl.h, $hsl.s, $hsl.l)
 
-  meshes.$.setColorAt(ix, $color)
+  atoms.$.setColorAt(ix, $color)
 
   return atom
     .identity()
