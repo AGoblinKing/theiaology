@@ -26,7 +26,17 @@ export default () => {
   for (let x = 0; x < 30; x++) {
     ReadURL('/vox/building.vox', $m, true, 0.1 * (Math.random() * 2 - 1))
   }
-
+  for (let i = 0; i < 30; i++) {
+    ReadURL(
+      '/vox/sheepdogbark.vox',
+      new Matrix4()
+        .makeScale(1, 1.2, 1)
+        .multiply($rot.makeRotationY(Math.random() * Math.PI * 2))
+        .multiplyScalar(Math.random() + 0.95),
+      true,
+      (Math.random() * 2 - 1) * 0.25
+    )
+  }
   for (let i = 0; i < 40; i++) {
     ReadURL(
       '/vox/base_dude.vox',
