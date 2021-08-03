@@ -49,14 +49,24 @@ export default () => {
       Math.random() * 2 - 1
     )
   }
-
+  for (let i = 0; i < 20; i++) {
+    ReadURL(
+      '/vox/sheepdogbark.vox',
+      new Matrix4()
+        .makeScale(1, 1.2, 1)
+        .multiply($rot.makeRotationY(Math.random() * Math.PI * 2))
+        .multiplyScalar(Math.random() + 0.95),
+      true,
+      (Math.random() * 2 - 1) * 0.25
+    )
+  }
   for (let x = 0; x < 50; x++) {
     ReadURL(
       '/vox/tree.vox',
       treeM$,
 
       true,
-      (Math.random() * 2 - 1) * 0.01
+      (Math.random() * 2 - 1) * 0.05
     )
   }
 
@@ -66,7 +76,7 @@ export default () => {
       castleM$,
 
       true,
-      (Math.random() * 2 - 1) * 0.01
+      Math.random() * 2 - 1
     )
   }
   for (let x = 0; x < 50; x++) {
@@ -75,7 +85,7 @@ export default () => {
       treeM$,
 
       true,
-      (Math.random() * 2 - 1) * 0.01
+      (Math.random() * 2 - 1) * 0.1
     )
   }
   for (let x = 0; x < 50; x++) {

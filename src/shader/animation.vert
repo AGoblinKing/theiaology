@@ -9,7 +9,7 @@ mat4 scale(float x, float y, float z){
     );
 }
 
-const float handDst = 0.2;
+const float HAND_DST = 0.4;
 
 // Position
 vec4 Animation(in vec4 pos) {
@@ -29,12 +29,12 @@ vec4 Animation(in vec4 pos) {
 	pos.z += tes;
 
 	float dist = length(v_pos - handLeft);
-	if(dist < handDst) {
-		pos.xyz = mix(handLeft,pos.xyz,  dist/ handDst);
+	if(dist < HAND_DST) {
+		pos.xyz = mix(handLeft,pos.xyz,  dist/ HAND_DST);
 	}
 	float dist2 = length(v_pos - handRight);
-	if(dist2 < handDst) {
-		pos.xyz = mix(handRight,pos.xyz, dist2 / handDst);
+	if(dist2 < HAND_DST) {
+		pos.xyz = mix(handRight,pos.xyz, dist2 / HAND_DST);
 	}
 	return pos;
 }
