@@ -17,8 +17,10 @@ _Undock your imagination._
 - [x] Audio Responsive
 - [x] Drag n' Drop .vox / .m3p / .wav / .ogg files to use them
 - [x] Unified Velocity locomotion
+- [x] Pet DogSheeps in VR
+- [x] SharedArrayBuffer Workers, like uh.. an ECS that your GPU has access to
 
-![Promotional VR GIF](./public/image/vr.gif)
+![Promotional Gif](./public/image/interaction.gif)
 
 ## Quick Start
 
@@ -49,6 +51,8 @@ You will need these headers.
 ```
 
 Which are brutal but enable SharedArrayBuffers which are magic.
+
+![Promotional VR GIF](./public/image/vr.gif)
 
 ## Guide
 
