@@ -20,7 +20,7 @@ import { poses, poseValue } from '../xr/poses'
 
 renderer.xr.enabled = true
 
-export const MIN_POSE_VALUE = 0.2
+export const MIN_POSE_VALUE = 0.25
 
 export type PoseValues = number[][]
 
