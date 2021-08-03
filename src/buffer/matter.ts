@@ -1,5 +1,5 @@
+import { Atomic } from 'src/atomic'
 import { COUNT } from 'src/config'
-import { IntShared } from 'src/intshared'
 
 // how together something is
 export enum EPhase {
@@ -20,7 +20,7 @@ export enum EMatter {
   WOOD = 0x00ff00,
 }
 
-export class Matter extends IntShared {
+export class Matter extends Atomic {
   constructor(shared = new SharedArrayBuffer(COUNT * 3 * 4)) {
     super(shared)
   }

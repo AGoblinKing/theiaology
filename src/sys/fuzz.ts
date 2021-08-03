@@ -1,12 +1,12 @@
-import { IntShared } from 'src/intshared'
+import { Atomic } from 'src/atomic'
 import { System } from './system'
 
 // add fuzz to the entire range
 class Fuzz extends System {
-  buffer: IntShared
+  buffer: Atomic
 
   onmessage(e: MessageEvent) {
-    this.buffer = new IntShared(e.data)
+    this.buffer = new Atomic(e.data)
   }
 
   tick() {
@@ -14,12 +14,12 @@ class Fuzz extends System {
 
     for (let i = 0; i < this.buffer.length; i++) {
       const v = Math.floor(
-        Atomics.load(this.buffer, i === 0 ? this.buffer.length - 1 : i - 1) *
+        this.buffer.load(i === 0 ? this.buffer.length - 1 : i - 1) *
           (Math.random() * 4 - 2) +
           Math.random() * Number.MAX_SAFE_INTEGER
       )
 
-      Atomics.store(this.buffer, i, v)
+      this.buffer.store(i, v)
     }
   }
 }

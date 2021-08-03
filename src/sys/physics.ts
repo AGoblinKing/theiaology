@@ -1,5 +1,5 @@
 // performs grid traversal and collision detection
-import { Matter } from 'src/buffer/matter'
+import { EPhase, Matter } from 'src/buffer/matter'
 import { SpaceTime } from 'src/buffer/spacetime'
 import { Velocity } from 'src/buffer/velocity'
 import { System } from './system'
@@ -28,6 +28,8 @@ class Physics extends System {
     }
   }
 
+  updateOctree(i: number) {}
+
   hasPhysics(i: number) {
     return this._physics_set.add(i)
   }
@@ -37,55 +39,48 @@ class Physics extends System {
 
     // rip through matter, update their grid_past/futures
     for (let i = 0; i < this.matter.length / 3; i++) {
-      // switch (Atomics.load(this.matter, i * 3)) {
-      //   case EPhase.SKIP:
-      //     continue
-      //   // woudl still update the oct tree
-      //   case EPhase.STUCK:
-      //     continue
-      // }
+      switch (Atomics.load(this.matter, i * 3)) {
+        case EPhase.SKIP:
+          continue
+        // woudl still update the oct tree
+        case EPhase.STUCK:
+          continue
+      }
 
       const ix4 = i * 4
       const ix3 = i * 3
 
-      const x = Atomics.load(this.future, ix4),
-        y = Atomics.load(this.future, ix4 + 1),
-        z = Atomics.load(this.future, ix4 + 2),
-        vx = Atomics.load(this.velocity, ix3),
-        vy = Atomics.load(this.velocity, ix3 + 1),
-        vz = Atomics.load(this.velocity, ix3 + 2)
+      const x = this.future.load(ix4),
+        y = this.future.load(ix4 + 1),
+        z = this.future.load(ix4 + 2),
+        vx = this.velocity.load(ix3),
+        vy = this.velocity.load(ix3 + 1),
+        vz = this.velocity.load(ix3 + 2)
 
       // the future to the past
-      Atomics.store(this.past, ix4, x)
-      Atomics.store(this.past, ix4 + 1, y)
-      Atomics.store(this.past, ix4 + 2, z)
-      Atomics.store(this.past, ix4 + 3, Atomics.load(this.future, ix4 + 3))
+      this.past.store(ix4, x)
+      this.past.store(ix4 + 1, y)
+      this.past.store(ix4 + 2, z)
+      this.past.store(ix4 + 3, this.future.load(ix4 + 3))
 
       // the edge of tomorrow
       if (vx !== 0 && vy !== 0 && vz !== 0) {
-        Atomics.store(this.future, ix4, x + vx)
+        this.future.store(ix4, x + vx)
 
         // keep things at 0 or above for height
         if (y + vy >= 0) {
-          Atomics.store(this.future, ix4 + 1, 10)
+          this.future.store(ix4 + 1, 10)
         }
 
-        Atomics.store(this.future, ix4 + 2, z + vz)
-        Atomics.store(this.future, ix4 + 3, Date.now())
+        this.future.store(ix4 + 2, z + vz)
+        this.future.store(ix4 + 3, Date.now())
 
         // decay velocity
         if (Math.random() > this.decay) {
-          Atomics.store(this.velocity, ix3, vx === 0 ? 0 : vx - Math.sign(vx))
-          Atomics.store(
-            this.velocity,
-            ix3 + 1,
-            1 + vy === 0 ? 0 : vy - Math.sign(vy)
-          )
-          Atomics.store(
-            this.velocity,
-            ix3 + 2,
-            vz === 0 ? 0 : vz - Math.sign(vz)
-          )
+          this.velocity.store(ix3, vx === 0 ? 0 : vx - Math.sign(vx))
+
+          this.velocity.store(ix3 + 1, 1 + vy === 0 ? 0 : vy - Math.sign(vy))
+          this.velocity.store(ix3 + 2, vz === 0 ? 0 : vz - Math.sign(vz))
         }
       }
     }

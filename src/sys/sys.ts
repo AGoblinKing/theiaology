@@ -1,7 +1,7 @@
-import { IntShared } from 'src/intshared'
+import { Atomic } from 'src/atomic'
 
 export class SystemWorker extends Worker {
-  send(...buffers: IntShared[]) {
+  send(...buffers: Atomic[]) {
     for (let b of buffers) {
       this.postMessage(b.sab)
     }

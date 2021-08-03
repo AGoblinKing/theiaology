@@ -1,7 +1,7 @@
+import { Atomic } from 'src/atomic'
 import { COUNT } from 'src/config'
-import { IntShared } from 'src/intshared'
 
-export class SpaceTime extends IntShared {
+export class SpaceTime extends Atomic {
   constructor(shared = new SharedArrayBuffer(COUNT * 4 * 4)) {
     super(shared)
   }

@@ -1,5 +1,5 @@
+import { Atomic } from 'src/atomic'
 import { COUNT } from 'src/config'
-import { IntShared } from 'src/intshared'
 
 export enum EAnimation {
   Normal = 0,
@@ -7,7 +7,7 @@ export enum EAnimation {
   Fire,
 }
 
-export class Animation extends IntShared {
+export class Animation extends Atomic {
   constructor(buffer = new SharedArrayBuffer(COUNT * 4)) {
     super(buffer)
   }

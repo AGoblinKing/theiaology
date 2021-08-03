@@ -1,7 +1,7 @@
+import { Atomic } from 'src/atomic'
 import { COUNT } from 'src/config'
-import { IntShared } from 'src/intshared'
 
-export class Velocity extends IntShared {
+export class Velocity extends Atomic {
   constructor(buffer = new SharedArrayBuffer(COUNT * 3 * 4)) {
     super(buffer)
   }
