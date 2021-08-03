@@ -1,5 +1,5 @@
-import { AtomicBuffer } from 'src/atomic'
 import { COUNT } from 'src/config'
+import { IntShared } from 'src/intshared'
 
 // how together something is
 export enum EPhase {
@@ -20,17 +20,23 @@ export enum EMatter {
   WOOD = 0x00ff00,
 }
 
-export class Matter extends AtomicBuffer {
-  constructor(buffer = new SharedArrayBuffer(COUNT * 3 * 4)) {
-    super(buffer)
+export class Matter extends IntShared {
+  constructor(shared = new SharedArrayBuffer(COUNT * 3 * 4)) {
+    super(shared)
   }
   phase(i: number, p?: EPhase) {
-    return p !== undefined ? this.set(i * 3, p) : this.get(i * 3)
+    return p !== undefined
+      ? Atomics.store(this, i * 3, p)
+      : Atomics.load(this, i * 3)
   }
   matter(i: number, m?: EMatter) {
-    return m !== undefined ? this.set(i * 3 + 1, m) : this.get(i * 3 + 1)
+    return m !== undefined
+      ? Atomics.store(this, i * 3 + 1, m)
+      : Atomics.load(this, i * 3 + 1)
   }
   interactor(i: number, e?: number) {
-    return e !== undefined ? this.set(i * 3 + 2, e) : this.get(i * 3 + 2)
+    return e !== undefined
+      ? Atomics.store(this, i * 3 + 2, e)
+      : Atomics.load(this, i * 3 + 2)
   }
 }

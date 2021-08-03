@@ -24,7 +24,7 @@ export default () => {
     halfsize: (BOX_SIZE / 2) * SIZE,
   }
 
-  const planeOpts = new PlaneOptions(120, true, 4)
+  const planeOpts = new PlaneOptions(130, true, 4)
   planeOpts.where.setPosition(0, 0, 0)
 
   const PlaneSleep = new Sleeper()

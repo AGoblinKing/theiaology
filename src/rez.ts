@@ -10,7 +10,12 @@ import { animation, future, matter, past, velocity } from './buffer'
 import { COUNT } from './config'
 import { scene } from './render'
 import { material } from './shader/material'
-import { doLast, doRez, doStatic, tick } from './time'
+import {
+  doLast as closeTime,
+  doRez as rezTime,
+  doStatic as openTime,
+  tick,
+} from './time'
 import { Value } from './valuechannel'
 
 export type Rezer = (
@@ -40,11 +45,11 @@ export class Sleeper {
 export const atoms = new Value(
   new InstancedMesh(
     new BoxBufferGeometry(SIZE, SIZE, SIZE, FACES, FACES, FACES)
-      .setAttribute('animation', new InstancedBufferAttribute(animation.$, 1))
-      .setAttribute('past', new InstancedBufferAttribute(past.$, 4))
-      .setAttribute('future', new InstancedBufferAttribute(future.$, 4))
-      .setAttribute('matter', new InstancedBufferAttribute(matter.$, 4))
-      .setAttribute('velocity', new InstancedBufferAttribute(velocity.$, 3)),
+      .setAttribute('animation', new InstancedBufferAttribute(animation, 1))
+      .setAttribute('past', new InstancedBufferAttribute(past, 4))
+      .setAttribute('future', new InstancedBufferAttribute(future, 4))
+      .setAttribute('matter', new InstancedBufferAttribute(matter, 4))
+      .setAttribute('velocity', new InstancedBufferAttribute(velocity, 3)),
     material,
     COUNT
   )
@@ -65,12 +70,12 @@ for (let i = 0; i < atoms.$.count; i++) {
 }
 
 export function Rez(rezer: Rezer, count: number, opts?: any, sleep?: Sleeper) {
-  if (!sleep || sleep.$ !== doRez.$) {
+  if (!sleep || sleep.$ !== rezTime.$) {
     for (let i = 0; i < count; i++) {
-      const cursor = doRez.$ + i
+      const cursor = rezTime.$ + i
 
       if (COUNT <= cursor) {
-        doRez.$ += count
+        rezTime.$ += count
         return
       }
 
@@ -79,9 +84,9 @@ export function Rez(rezer: Rezer, count: number, opts?: any, sleep?: Sleeper) {
     }
   }
 
-  if (sleep) sleep.$ = doRez.$
+  if (sleep) sleep.$ = rezTime.$
 
-  doRez.$ += count
+  rezTime.$ += count
 }
 
 export function Blank(atom: Matrix4) {
@@ -90,18 +95,18 @@ export function Blank(atom: Matrix4) {
 
 tick.on(($t) => {
   // reset rez
-  doRez.$ = 0
+  rezTime.$ = 0
 
   // allow statics to run
-  doStatic.poke()
+  openTime.poke()
 
   // run the rest of rezes
-  doRez.poke()
+  rezTime.poke()
 
   // do anything that wants to consume the last bits
-  doLast.poke()
+  closeTime.poke()
 
-  const blankCount = COUNT - doRez.$
+  const blankCount = COUNT - rezTime.$
   if (blankCount > 0) {
     //Rez(Blank, blankCount)
   }
@@ -110,5 +115,10 @@ tick.on(($t) => {
   // TODO: Move over to material
   atoms.$.instanceColor.needsUpdate = true
 
+  // TODO: Figure out why threejs is not leveraging the sharedarray
   atoms.$.geometry.getAttribute('animation').needsUpdate = true
+  atoms.$.geometry.getAttribute('past').needsUpdate = true
+  atoms.$.geometry.getAttribute('future').needsUpdate = true
+  atoms.$.geometry.getAttribute('matter').needsUpdate = true
+  atoms.$.geometry.getAttribute('velocity').needsUpdate = true
 })

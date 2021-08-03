@@ -26,7 +26,7 @@ class Fire {
 
 // set the color and effects of a fire
 export function FireRez(atom: Matrix4, i: number, fire: Fire, ix: number) {
-  animation.set(ix, EAnimation.Fire)
+  Atomics.store(animation, ix, EAnimation.Fire)
 
   atoms.$.setColorAt(ix, fire.color)
   return atom.identity().setPosition(fire.where.x, fire.where.y, fire.where.z)

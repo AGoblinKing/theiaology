@@ -1,9 +1,9 @@
-import { AtomicBuffer } from 'src/atomic'
+import { IntShared } from 'src/intshared'
 
 export class SystemWorker extends Worker {
-  add(...atomics: AtomicBuffer[]) {
-    for (let atomic of atomics) {
-      this.postMessage(atomic.shared)
+  send(...buffers: IntShared[]) {
+    for (let b of buffers) {
+      this.postMessage(b.sab)
     }
     return this
   }
@@ -17,8 +17,8 @@ export class Sys {
     this.$ = new Set()
   }
 
-  manifest(url: string): SystemWorker {
-    const w = new SystemWorker(`/build/${url}.js`)
+  start(worker: string): SystemWorker {
+    const w = new SystemWorker(`/build/${worker}.js`)
     this.$.add(w)
     return w
   }

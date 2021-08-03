@@ -1,5 +1,6 @@
 import { audio, upperAvg } from 'src/audio/audio'
 import { ReadURL } from 'src/file'
+import { url } from 'src/input/browser'
 import { mouse_left, mouse_right } from 'src/input/mouse'
 import { Rez, Sleeper } from 'src/rez'
 import { MusicRez } from 'src/rez/music'
@@ -11,7 +12,9 @@ const MOVE = 3
 const $rot = new Matrix4()
 // experiment with raining blobs
 export default () => {
-  audio.src = '/music/glide_or_die.mp3'
+  audio.src = `/music/${
+    url.$.indexOf('kaiju') !== -1 ? 'kaiju' : 'glide_or_die'
+  }.mp3`
   audio.load()
 
   const planeOpts = new PlaneOptions(150, true, 20, new Color('gray'))

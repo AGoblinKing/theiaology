@@ -18,7 +18,7 @@ export function HandRez(
 
   const pos = j.position.applyQuaternion(body.$.quaternion).add(body.$.position)
 
-  animation.set(ix, EAnimation.NoEffects)
+  Atomics.store(animation, ix, EAnimation.NoEffects)
   if (vr_keys[i] === 'index-finger-tip') {
     // copy hand pos to the uniforms
     switch (hand.handedness) {

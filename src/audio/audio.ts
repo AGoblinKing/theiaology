@@ -57,7 +57,6 @@ lowerAvg.on(($la) => (lowerUniform.value = $la))
 
 // change audio source based on URL
 url.on(($url) => {
-  console.log($url)
   switch ($url[0]) {
     case 'music':
       audio.src = `/music/${$url[1]}.mp3`
