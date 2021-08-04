@@ -36,7 +36,7 @@ export class PlaneOptions {
 
 const $color = new Color()
 
-export function PlaneRez(
+export function PlaneShape(
   atom: Matrix4,
   i: number,
   opts: PlaneOptions,

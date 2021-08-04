@@ -42,7 +42,9 @@ vec4 Animation(in vec4 pos) {
 
 // Rotations, maybe scale?
 mat4 AnimationMatrix(in mat4 mvMatrix) {
-
+	if(animation == ANIM_NO_EFFECT) {
+		return mvMatrix;
+	}
     float lav = (1. + audioLow * 0.0005);
 
     mvMatrix = mvMatrix * scale(lav, lav, lav);

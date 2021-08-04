@@ -6,7 +6,7 @@ import {
   Matrix4,
   Vector3,
 } from 'three'
-import { animation, future, matter, past, velocity } from './buffer'
+import { animation, future, matter, past, velocity } from './component'
 import { COUNT } from './config'
 import { scene } from './render'
 import { material } from './shader/material'
@@ -18,7 +18,7 @@ import {
 } from './time'
 import { Value } from './valuechannel'
 
-export type Rezer = (
+export type Shaper = (
   atom: Matrix4,
   i?: number,
   data?: any,
@@ -33,6 +33,7 @@ const $matrix = new Matrix4()
 const $pos = new Vector3()
 const $color = new Color()
 
+// TODO: LifeCycle extends Sleep, resets the atoms and stops calling
 // Sleeper allows Rezes to skip updates based on their past index
 export class Sleeper {
   $: number
@@ -69,7 +70,12 @@ for (let i = 0; i < atoms.$.count; i++) {
   atoms.$.setColorAt(i, $color.setHex(Math.floor(0xffffff * Math.random())))
 }
 
-export function Rez(rezer: Rezer, count: number, opts?: any, sleep?: Sleeper) {
+export function Rez(
+  shaper: Shaper,
+  count: number,
+  opts?: any,
+  sleep?: Sleeper
+) {
   if (!sleep || sleep.$ !== rezTime.$) {
     for (let i = 0; i < count; i++) {
       const cursor = rezTime.$ + i
@@ -80,7 +86,7 @@ export function Rez(rezer: Rezer, count: number, opts?: any, sleep?: Sleeper) {
       }
 
       atoms.$.getMatrixAt(cursor, $matrix)
-      atoms.$.setMatrixAt(cursor, rezer($matrix, i, opts, cursor))
+      atoms.$.setMatrixAt(cursor, shaper($matrix, i, opts, cursor))
     }
   }
 

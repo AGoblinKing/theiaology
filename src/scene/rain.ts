@@ -3,8 +3,8 @@ import { ReadURL } from 'src/file'
 import { url } from 'src/input/browser'
 import { mouse_left, mouse_right } from 'src/input/mouse'
 import { Rez, Sleeper } from 'src/rez'
-import { MusicRez } from 'src/rez/music'
-import { PlaneOptions, PlaneRez } from 'src/rez/plane'
+import { MusicShape } from 'src/shape/music'
+import { PlaneOptions, PlaneShape } from 'src/shape/plane'
 import { delta, doLast, doStatic } from 'src/time'
 import { Color, Matrix4 } from 'three'
 const MOVE = 3
@@ -60,7 +60,7 @@ export default () => {
 
   doStatic.on(() => {
     // Rez(BoxRez, BOX_SIZE3, boxOpts)
-    Rez(PlaneRez, planeOpts.size2, planeOpts, planeSleep)
+    Rez(PlaneShape, planeOpts.size2, planeOpts, planeSleep)
   })
 
   const musicData = {
@@ -76,6 +76,6 @@ export default () => {
     musicData.mv2 = musicData.mv / 2
     musicData.divisor = mouse_left.$ ? 0.99 : mouse_right.$ ? 1.01 : 0.9999
 
-    Rez(MusicRez, 100000, musicData, sleepMusic)
+    Rez(MusicShape, 100000, musicData, sleepMusic)
   })
 }

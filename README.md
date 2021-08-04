@@ -9,6 +9,7 @@ _Undock your imagination._
 
 ## Features
 
+- [x] Oculus Quest Browser used as reference VR device.
 - [x] Funky Voxel Cubes
 - [x] ArrayBuffer driven Rez System
 - [x] Only One Material

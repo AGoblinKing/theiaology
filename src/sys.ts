@@ -1,10 +1,18 @@
-import { Atomic } from 'src/atomic'
+import { IAtomic } from 'src/atomic'
 
 export class SystemWorker extends Worker {
-  send(...buffers: Atomic[]) {
-    for (let b of buffers) {
-      this.postMessage(b.sab)
-    }
+  _delay = 0
+
+  // delay in ms before sending buffers
+  delay(ms: number) {
+    this._delay = ms
+  }
+  send(...buffers: IAtomic[]) {
+    setTimeout(() => {
+      for (let b of buffers) {
+        this.postMessage(b.sab)
+      }
+    }, this._delay)
     return this
   }
 }

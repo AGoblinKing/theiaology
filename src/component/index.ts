@@ -1,5 +1,7 @@
 import { Animation } from './animation'
+import { Impact } from './impact'
 import { Matter } from './matter'
+import { Scale } from './scale'
 import { SpaceTime } from './spacetime'
 import { Velocity } from './velocity'
 
@@ -9,3 +11,6 @@ export const past = new SpaceTime()
 export const future = new SpaceTime()
 export const animation = new Animation()
 export const matter = new Matter()
+
+export const impact = new Impact()
+export const scale = new Scale()

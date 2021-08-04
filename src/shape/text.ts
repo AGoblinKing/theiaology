@@ -15,7 +15,7 @@ export class Text {
 }
 
 // each character gets 3 cubes
-export function TextRez(atom: Matrix4, i: number, t: Text, ix: number) {
+export function TextShape(atom: Matrix4, i: number, t: Text, ix: number) {
   const char = t.text[Math.floor(i / 3)]
   const offset = i % 3
   if (i === 0) {

@@ -22,7 +22,7 @@ const $color = new Color()
 const $vec3 = new Vector3()
 const $hsl = { h: 0, s: 0, l: 0 }
 
-function VoxelRez(atom: Matrix4, i: number, v: Voxel, ix): Matrix4 {
+function VoxelShape(atom: Matrix4, i: number, v: Voxel, ix): Matrix4 {
   const vec = v.what.xyzi
   const col = v.what.rgba
   const c = i * 4
@@ -51,7 +51,7 @@ function VoxelRez(atom: Matrix4, i: number, v: Voxel, ix): Matrix4 {
 
 doRez.on(() => {
   for (let i = 0; i < voxels.length; i++) {
-    Rez(VoxelRez, voxels[i].what.length(), voxels[i])
+    Rez(VoxelShape, voxels[i].what.length(), voxels[i])
   }
 })
 
@@ -61,6 +61,11 @@ doStatic.on(() => {
     if (!sleepers[i]) {
       sleepers[i] = new Sleeper()
     }
-    Rez(VoxelRez, voxels_static[i].what.length(), voxels_static[i], sleepers[i])
+    Rez(
+      VoxelShape,
+      voxels_static[i].what.length(),
+      voxels_static[i],
+      sleepers[i]
+    )
   }
 })

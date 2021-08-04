@@ -88,4 +88,4 @@ const config = (input) => {
   }
 }
 
-export default [config('main'), config('sys/physics'), config('sys/fuzz')]
+export default [config('main'), config('system/physics'), config('system/fuzz')]

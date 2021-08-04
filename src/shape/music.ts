@@ -1,11 +1,11 @@
-import { matter, velocity } from 'src/buffer'
-import { EPhase } from 'src/buffer/matter'
+import { matter } from 'src/component'
+import { EPhase } from 'src/component/matter'
 import { colors_default } from 'src/magica'
 import { atoms } from 'src/rez'
 import { delta } from 'src/time'
 import { Color, Euler, Matrix4, Quaternion, Vector3 } from 'three'
 
-export type Rezer = (
+export type Shaper = (
   atom: Matrix4,
   i?: number,
   data?: any,
@@ -20,7 +20,8 @@ const $quat = new Quaternion()
 const $quat2 = new Quaternion()
 
 const $color = new Color()
-export function MusicRez(
+
+export function MusicShape(
   atom: Matrix4,
   i: number,
   opts: {
@@ -31,9 +32,6 @@ export function MusicRez(
   cursor
 ) {
   const col = (i % 255) * 4
-
-  // accel
-  velocity.y(cursor, velocity.y(i) - 1)
 
   atoms.$.setColorAt(
     cursor,

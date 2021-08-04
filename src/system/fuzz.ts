@@ -1,12 +1,12 @@
-import { Atomic } from 'src/atomic'
+import { AtomicInt } from 'src/atomic'
 import { System } from './system'
 
 // add fuzz to the entire range
 class Fuzz extends System {
-  buffer: Atomic
+  buffer: AtomicInt
 
   onmessage(e: MessageEvent) {
-    this.buffer = new Atomic(e.data)
+    this.buffer = new AtomicInt(e.data)
   }
 
   tick() {

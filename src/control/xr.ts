@@ -12,7 +12,7 @@ import {
 } from '../input/xr'
 import { renderer, scene } from '../render'
 import { Rez } from '../rez'
-import { HandRez } from '../rez/hand'
+import { HandShape } from '../shape/hand'
 import * as Spells from '../spell'
 import { Value } from '../valuechannel'
 import { IJointGroup } from '../xr/joints'
@@ -123,6 +123,6 @@ doRez.on(() => {
 
     doPose(hands.$[i])
     // also triggers joint_update for each joint
-    Rez(HandRez, count, hands.$[i])
+    Rez(HandShape, count, hands.$[i])
   }
 })

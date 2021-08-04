@@ -1,7 +1,7 @@
 import { Matrix4, Vector3 } from 'three'
 import { audio } from './audio/audio'
 import { MagickaVoxel } from './magica'
-import { Voxel, voxels, voxels_static } from './rez/vox'
+import { Voxel, voxels, voxels_static } from './shape/vox'
 
 export const SPAWN_DISTRO = 75
 
@@ -86,4 +86,12 @@ export async function ReadURL(
   }
 
   ReadFile(url, await cache[url], offset, canSleep, shift)
+}
+
+export async function Asset<T>(url: string, callback: Function) {
+  if (!cache[url]) {
+    cache[url] = fetch(url).then((r) => r.arrayBuffer())
+  }
+
+  return callback(await cache[url])
 }

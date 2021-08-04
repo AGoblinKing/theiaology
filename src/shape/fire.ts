@@ -1,5 +1,5 @@
-import { animation } from 'src/buffer'
-import { EAnimation } from 'src/buffer/animation'
+import { animation } from 'src/component'
+import { EAnimation } from 'src/component/animation'
 import { atoms, Rez } from 'src/rez'
 import { Color, Matrix4, Vector3 } from 'three'
 
@@ -20,12 +20,12 @@ class Fire {
     this.color = color
   }
   rez() {
-    Rez(FireRez, this.count, this)
+    Rez(FireShape, this.count, this)
   }
 }
 
 // set the color and effects of a fire
-export function FireRez(atom: Matrix4, i: number, fire: Fire, ix: number) {
+export function FireShape(atom: Matrix4, i: number, fire: Fire, ix: number) {
   Atomics.store(animation, ix, EAnimation.Fire)
 
   atoms.$.setColorAt(ix, fire.color)

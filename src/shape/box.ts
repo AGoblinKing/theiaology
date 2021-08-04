@@ -1,7 +1,7 @@
 import { SIZE } from 'src/rez'
 import { Matrix4 } from 'three'
 
-export interface IBoxRez {
+export interface IBoxShape {
   where: Matrix4
   size: number
   size2: number
@@ -9,7 +9,7 @@ export interface IBoxRez {
 }
 
 // like a turtle going outwards
-export function BoxRez(atom: Matrix4, i: number, opts: IBoxRez): Matrix4 {
+export function BoxShape(atom: Matrix4, i: number, opts: IBoxShape): Matrix4 {
   // how large is the box?
   const z = Math.floor(i / opts.size2)
 

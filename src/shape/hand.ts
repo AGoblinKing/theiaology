@@ -1,5 +1,5 @@
-import { animation } from 'src/buffer'
-import { EAnimation } from 'src/buffer/animation'
+import { animation } from 'src/component'
+import { EAnimation } from 'src/component/animation'
 import { left_hand_uniform, right_hand_uniform } from 'src/input/xr'
 import { body } from 'src/render'
 import { IJointGroup, vr_keys } from 'src/xr/joints'
@@ -7,7 +7,7 @@ import { Matrix4, Vector3 } from 'three'
 
 const $vector3 = new Vector3()
 
-export function HandRez(
+export function HandShape(
   atom: Matrix4,
   i: number,
   hand: IJointGroup,
