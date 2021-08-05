@@ -1,4 +1,4 @@
-import { upperAvg } from 'src/audio/audio'
+import { upperAvg } from 'src/audio'
 import { animation } from 'src/component'
 import { EAnimation } from 'src/component/animation'
 import { Asset, ReadURL } from 'src/file'

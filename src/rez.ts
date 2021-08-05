@@ -7,7 +7,7 @@ import {
   Vector3,
 } from 'three'
 import { animation, future, matter, past, velocity } from './component'
-import { COUNT } from './config'
+import { ENTITY_COUNT } from './config'
 import { scene } from './render'
 import { material } from './shader/material'
 import {
@@ -52,7 +52,7 @@ export const atoms = new Value(
       .setAttribute('matter', new InstancedBufferAttribute(matter, 4))
       .setAttribute('velocity', new InstancedBufferAttribute(velocity, 3)),
     material,
-    COUNT
+    ENTITY_COUNT
   )
 )
 
@@ -80,7 +80,7 @@ export function Rez(
     for (let i = 0; i < count; i++) {
       const cursor = rezTime.$ + i
 
-      if (COUNT <= cursor) {
+      if (ENTITY_COUNT <= cursor) {
         rezTime.$ += count
         return
       }
@@ -112,7 +112,7 @@ tick.on(($t) => {
   // do anything that wants to consume the last bits
   closeTime.poke()
 
-  const blankCount = COUNT - rezTime.$
+  const blankCount = ENTITY_COUNT - rezTime.$
   if (blankCount > 0) {
     //Rez(Blank, blankCount)
   }

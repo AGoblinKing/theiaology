@@ -1,11 +1,11 @@
 import { AtomicInt } from 'src/atomic'
-import { COUNT, IMPACTS_MAX } from 'src/config'
+import { ENTITY_COUNT, IMPACTS_MAX_PER } from 'src/config'
 
 export class Impact extends AtomicInt {
   // [who]
-  static BYTE_SIZE = IMPACTS_MAX
+  static COUNT = IMPACTS_MAX_PER
 
-  constructor(shared = new SharedArrayBuffer(COUNT * Impact.BYTE_SIZE * 4)) {
+  constructor(shared = new SharedArrayBuffer(ENTITY_COUNT * Impact.COUNT * 4)) {
     super(shared)
   }
 }

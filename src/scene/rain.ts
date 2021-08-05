@@ -1,4 +1,4 @@
-import { audio, upperAvg } from 'src/audio/audio'
+import { audio, upperAvg } from 'src/audio'
 import { ReadURL } from 'src/file'
 import { url } from 'src/input/browser'
 import { mouse_left, mouse_right } from 'src/input/mouse'

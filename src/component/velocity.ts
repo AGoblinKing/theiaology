@@ -1,10 +1,12 @@
 import { AtomicInt } from 'src/atomic'
-import { COUNT } from 'src/config'
+import { ENTITY_COUNT } from 'src/config'
 
 export class Velocity extends AtomicInt {
   static COUNT = 3
 
-  constructor(buffer = new SharedArrayBuffer(COUNT * Velocity.COUNT * 4)) {
+  constructor(
+    buffer = new SharedArrayBuffer(ENTITY_COUNT * Velocity.COUNT * 4)
+  ) {
     super(buffer)
   }
   addX(i: number, x: number) {

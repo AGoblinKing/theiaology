@@ -1,4 +1,4 @@
-import { lowerAvg } from 'src/audio/audio'
+import { lowerAvg } from 'src/audio'
 import { atoms, SIZE } from 'src/rez'
 import { timestamp } from 'src/time'
 import { Color, Matrix4 } from 'three'

@@ -1,5 +1,5 @@
 import { AtomicInt } from 'src/atomic'
-import { COUNT } from 'src/config'
+import { ENTITY_COUNT } from 'src/config'
 
 export enum EAnimation {
   Normal = 0,
@@ -8,7 +8,7 @@ export enum EAnimation {
 }
 
 export class Animation extends AtomicInt {
-  constructor(buffer = new SharedArrayBuffer(COUNT * 4)) {
+  constructor(buffer = new SharedArrayBuffer(ENTITY_COUNT * 4)) {
     super(buffer)
   }
 }

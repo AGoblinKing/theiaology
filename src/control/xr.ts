@@ -1,7 +1,7 @@
 import { doRez } from 'src/time'
 import { Vector3 } from 'three'
 import { VRButton } from 'three/examples/jsm/webxr/VRButton.js'
-import { audio } from '../audio/audio'
+import { audio } from '../audio'
 import {
   hands,
   last_pose,

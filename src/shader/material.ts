@@ -1,6 +1,6 @@
 import { left_hand_uniform, right_hand_uniform } from 'src/input/xr'
 import { MeshToonMaterial } from 'three'
-import { lowerUniform, upperUniform } from '../audio/audio'
+import { lowerUniform, upperUniform } from '../audio'
 import { timeUniform } from '../time'
 import AnimationFrag from './animation.frag'
 import AnimationVert from './animation.vert'

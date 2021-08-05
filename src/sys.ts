@@ -1,18 +1,39 @@
 import { IAtomic } from 'src/atomic'
+import { Value } from './valuechannel'
 
 export class SystemWorker extends Worker {
   _delay = 0
+  msg = new Value<any>()
+
+  constructor(url: string) {
+    super(url)
+
+    this.onmessage = this.message.bind(this)
+  }
 
   // delay in ms before sending buffers
   delay(ms: number) {
     this._delay = ms
   }
+
   send(...buffers: IAtomic[]) {
     setTimeout(() => {
       for (let b of buffers) {
         this.postMessage(b.sab)
       }
     }, this._delay)
+    return this
+  }
+
+  message(e: MessageEvent) {
+    this.msg.is(e.data)
+  }
+
+  // pipe received messages to other worker
+  pipe(w: SystemWorker) {
+    this.msg.on((data) => {
+      w.postMessage(data)
+    })
     return this
   }
 }

@@ -1,10 +1,12 @@
 import { AtomicInt } from 'src/atomic'
-import { COUNT } from 'src/config'
+import { ENTITY_COUNT } from 'src/config'
 
 export class SpaceTime extends AtomicInt {
   static COUNT = 4
 
-  constructor(shared = new SharedArrayBuffer(COUNT * 4 * SpaceTime.COUNT)) {
+  constructor(
+    shared = new SharedArrayBuffer(ENTITY_COUNT * 4 * SpaceTime.COUNT)
+  ) {
     super(shared)
   }
   addX(i: number, x: number) {

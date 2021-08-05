@@ -11,5 +11,9 @@ export class System {
 
   onmessage(msg: MessageEvent) {}
 
+  post(data: any) {
+    self.postMessage(data, undefined)
+  }
+
   tick() {}
 }

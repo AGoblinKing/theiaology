@@ -1,5 +1,5 @@
 import { AtomicByte } from 'src/atomic'
-import { COUNT } from 'src/config'
+import { ENTITY_COUNT } from 'src/config'
 
 // how together something is
 export enum EPhase {
@@ -22,7 +22,7 @@ export enum EMatter {
 export class Matter extends AtomicByte {
   static COUNT = 2
 
-  constructor(shared = new SharedArrayBuffer(COUNT * Matter.COUNT)) {
+  constructor(shared = new SharedArrayBuffer(ENTITY_COUNT * Matter.COUNT)) {
     super(shared)
   }
   phase(i: number, p?: EPhase) {
