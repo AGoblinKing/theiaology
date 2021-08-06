@@ -1,8 +1,8 @@
 // performs grid traversal and collision detection
-import { EPhase, Matter } from 'src/component/matter'
-import { Scale } from 'src/component/scale'
-import { SpaceTime } from 'src/component/spacetime'
-import { Velocity } from 'src/component/velocity'
+import { EPhase, Matter } from 'src/buffer/matter'
+import { Scale } from 'src/buffer/scale'
+import { SpaceTime } from 'src/buffer/spacetime'
+import { Velocity } from 'src/buffer/velocity'
 import { GRAVITY, PHYSICS_BOUNDS } from 'src/config'
 import { Octree } from 'src/octree'
 import { Box3, Vector3 } from 'three'

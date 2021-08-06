@@ -1,6 +1,6 @@
 import { upperAvg } from 'src/audio'
-import { animation } from 'src/component'
-import { EAnimation } from 'src/component/animation'
+import { animation } from 'src/buffer'
+import { EAnimation } from 'src/buffer/animation'
 import { Asset, ReadURL } from 'src/file'
 import { mouse_left, mouse_right } from 'src/input/mouse'
 import { MagickaVoxel } from 'src/magica'
@@ -32,7 +32,7 @@ export default () => {
   planeOpts.where.setPosition(0, 0, 0)
 
   const bigPlane = new PlaneOptions(5, true, 1000)
-  bigPlane.where.setPosition(0, -0.1, 0)
+  bigPlane.where.setPosition(0, -0.3, 0)
   const skyPlane = new PlaneOptions(6, true, 20000)
   skyPlane.color.setRGB(0, 0.5, 1)
   skyPlane.where.setPosition(0, 4000, 0)
@@ -94,17 +94,31 @@ export default () => {
     )
   }
 
-  for (let i = 0; i < 21; i++) {
+  for (let i = 0; i < 7; i++) {
     Asset('/vox/stairs.vox', (asset: ArrayBuffer) => {
       // TODO: maybe do some sprite color pallete shifting to create a water effect in the distance
 
       const $o3d = new Object3D()
       $o3d.scale.set(2, 1, 2).multiplyScalar(100)
-      $o3d.position.set(Math.sin(i) * 150, 0, Math.cos(i) * 150)
+      $o3d.position.set(Math.sin(i * 2) * 150, 0, Math.cos(i * 2) * 150)
       $o3d.lookAt(0, 0, 0)
       $o3d.rotateY(Math.PI / 2)
       $o3d.updateMatrix()
       voxels_static.push(new Voxel($o3d.matrix, new MagickaVoxel(asset)))
+    })
+  }
+
+  for (let i = 0; i < 11; i++) {
+    Asset('/vox/stairs.vox', (asset: ArrayBuffer) => {
+      // TODO: maybe do some sprite color pallete shifting to create a water effect in the distance
+
+      const $o3d = new Object3D()
+      $o3d.scale.set(2, 1, 2).multiplyScalar(50)
+      $o3d.position.set(Math.sin(i * 5) * 100, 0, Math.cos(i * 5) * 100)
+      $o3d.lookAt(0, 0, 0)
+      $o3d.rotateY(Math.PI / 2)
+      $o3d.updateMatrix()
+      voxels_static.push(new Voxel($o3d.matrix, new MagickaVoxel(asset), 0.5))
     })
   }
 

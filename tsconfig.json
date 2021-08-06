@@ -11,7 +11,7 @@
         "src/*": ["./src/*"],
         "public/*": ["./public/*"]
       },
-  
+      "types": ["svelte", "node"],
       "allowSyntheticDefaultImports": true,
       "isolatedModules": true,
       "resolveJsonModule": true,

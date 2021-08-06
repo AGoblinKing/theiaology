@@ -23,6 +23,8 @@ scene.$.add(body.$.add(camera))
 
 export const renderer = new WebGLRenderer()
 
+renderer.setClearColor(0x0055ff, 1)
+
 renderer.setSize(window.innerWidth, window.innerHeight)
 document.body.appendChild(renderer.domElement)
 

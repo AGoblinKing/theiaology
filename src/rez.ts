@@ -6,7 +6,7 @@ import {
   Matrix4,
   Vector3,
 } from 'three'
-import { animation, future, matter, past, velocity } from './component'
+import { animation, future, matter, past, velocity } from './buffer'
 import { ENTITY_COUNT } from './config'
 import { scene } from './render'
 import { material } from './shader/material'

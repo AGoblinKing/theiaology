@@ -54,6 +54,10 @@ export class Value<T> {
     this.$ = value
   }
 
+  set(value: T) {
+    return this.is(value)
+  }
+
   is(value: T) {
     this.$ = value
     this.poke()
@@ -70,6 +74,10 @@ export class Value<T> {
 
     subscribe(this.$)
     return () => this.callbacks.delete(subscribe)
+  }
+
+  subscribe(subscribe: FSubscribe<T>) {
+    return this.on(subscribe)
   }
 
   keep(where: string) {

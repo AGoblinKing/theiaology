@@ -19,20 +19,34 @@ export enum EMatter {
   WOOD = 0x00ff00,
 }
 
+export enum EGravity {
+  NORMAL = 0,
+  NONE,
+  REVERSE,
+}
+
 export class Matter extends AtomicByte {
-  static COUNT = 2
+  static COUNT = 3
 
   constructor(shared = new SharedArrayBuffer(ENTITY_COUNT * Matter.COUNT)) {
     super(shared)
   }
+
   phase(i: number, p?: EPhase) {
     return p !== undefined
       ? Atomics.store(this, i * Matter.COUNT, p)
       : Atomics.load(this, i * Matter.COUNT)
   }
+
   matter(i: number, m?: EMatter) {
     return m !== undefined
       ? Atomics.store(this, i * Matter.COUNT + 1, m)
       : Atomics.load(this, i * Matter.COUNT + 1)
+  }
+
+  gravity(i: number, g?: EGravity) {
+    return g !== undefined
+      ? Atomics.store(this, i * Matter.COUNT + 2, g)
+      : Atomics.load(this, i * Matter.COUNT + 2)
   }
 }

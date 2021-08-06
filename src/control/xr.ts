@@ -1,5 +1,4 @@
 import { doRez } from 'src/time'
-import { Vector3 } from 'three'
 import { VRButton } from 'three/examples/jsm/webxr/VRButton.js'
 import { audio } from '../audio'
 import {
@@ -62,8 +61,6 @@ button.addEventListener('click', () => {
 
   VRInit.is(true)
 })
-
-const $vec3 = new Vector3()
 
 // return the variance from the two posts
 function comparePose(p1: PoseValues, p2: PoseValues): number {

@@ -1,5 +1,5 @@
-import { animation } from 'src/component'
-import { EAnimation } from 'src/component/animation'
+import { animation } from 'src/buffer'
+import { EAnimation } from 'src/buffer/animation'
 import { atoms, Rez } from 'src/rez'
 import { Color, Matrix4, Vector3 } from 'three'
 

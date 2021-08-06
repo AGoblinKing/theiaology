@@ -1,0 +1,19 @@
+namespace fbs;
+
+// Flatbuffers for storing/reading Theia Files
+file_identifier "THEA";
+file_extension "theia";
+
+table Asset {
+    name: string;
+    data: [byte];
+}
+
+table Theia {
+    SOUND: Asset; 
+    VOX: [Asset];
+    // TIMELINE name determines name of Theia
+    TIME: Asset;
+}
+
+root_type Theia;

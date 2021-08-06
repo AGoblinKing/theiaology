@@ -1,5 +1,5 @@
-import { animation } from 'src/component'
-import { EAnimation } from 'src/component/animation'
+import { animation } from 'src/buffer'
+import { EAnimation } from 'src/buffer/animation'
 import { left_hand_uniform, right_hand_uniform } from 'src/input/xr'
 import { body } from 'src/render'
 import { IJointGroup, vr_keys } from 'src/xr/joints'

@@ -2,9 +2,11 @@
 import resolve from '@rollup/plugin-node-resolve'
 import commonjs from '@rollup/plugin-commonjs'
 import { terser } from 'rollup-plugin-terser'
-
+import css from 'rollup-plugin-css-only'
 import glslify from 'rollup-plugin-glslify'
 
+import svelte from 'rollup-plugin-svelte'
+import autoPreprocess from 'svelte-preprocess'
 import json from '@rollup/plugin-json'
 
 import path from 'path'
@@ -52,19 +54,31 @@ const config = (input) => {
       dir: `public/build/`,
     },
     plugins: [
+      css(),
+      svelte({
+        extensions: ['.svelte'],
+        preprocess: autoPreprocess({
+          typescript: {
+            compilerOptions: {
+              checkJs: false,
+            },
+          },
+        }),
+      }),
+
       json(),
       glslify({
         compress: false,
       }),
       ts(),
       rootImport({
-        extensions: ['.ts', '', '.json', '.js'],
+        extensions: ['.ts', '.svelte', '', '.json', '.js'],
         root: `${__dirname}/`,
       }),
 
       resolve({
         browser: true,
-        preferBuiltins: false,
+        dedupe: ['svelte'],
         extensions: ['.js', '.ts'],
       }),
 
@@ -76,10 +90,8 @@ const config = (input) => {
             "Cross-Origin-Opener-Policy": "same-origin",
             "Cross-Origin-Embedder-Policy": "require-corp"
         }
-      }), // index.html should be in root of project
+      }), 
 
-      // If we're building for production (npm run build
-      // instead of npm run dev), minify
       production && terser(),
     ],
     watch: {
@@ -88,4 +100,4 @@ const config = (input) => {
   }
 }
 
-export default [config('main'), config('system/physics'), config('system/fuzz'), config('system/cardinal')]
+export default [config('main'), config('system/physics'), config('system/fuzz'), config('system/cardinal'), config('system/weather')]

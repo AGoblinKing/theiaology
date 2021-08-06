@@ -35,3 +35,7 @@ body {
   color: rgba(255, 0, 0, 0.95);
   text-decoration: none;
 }
+
+#gna {
+  position: absolute;
+}

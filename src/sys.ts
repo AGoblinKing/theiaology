@@ -1,6 +1,8 @@
 import { IAtomic } from 'src/atomic'
 import { Value } from './valuechannel'
 
+export type IMessage = IAtomic | number
+
 export class SystemWorker extends Worker {
   _delay = 0
   msg = new Value<any>()
@@ -16,10 +18,10 @@ export class SystemWorker extends Worker {
     this._delay = ms
   }
 
-  send(...buffers: IAtomic[]) {
+  send(...buffers: IMessage[]) {
     setTimeout(() => {
       for (let b of buffers) {
-        this.postMessage(b.sab)
+        this.postMessage(typeof b === 'number' ? b : b.sab)
       }
     }, this._delay)
     return this

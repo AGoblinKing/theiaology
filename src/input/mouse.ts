@@ -47,13 +47,13 @@ function Move(e: MouseEvent) {
   )
 }
 
-window.addEventListener('mousemove', Move)
-window.addEventListener('mouseup', Up)
-window.addEventListener('touchend', Up)
+renderer.domElement.addEventListener('mousemove', Move)
+renderer.domElement.addEventListener('mouseup', Up)
+renderer.domElement.addEventListener('touchend', Up)
 
-window.addEventListener('mousedown', Down)
-window.addEventListener('touchstart', Down)
-window.addEventListener(
+renderer.domElement.addEventListener('mousedown', Down)
+renderer.domElement.addEventListener('touchstart', Down)
+renderer.domElement.addEventListener(
   'contextmenu',
   function (evt) {
     evt.preventDefault()

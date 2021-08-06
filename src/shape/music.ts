@@ -1,5 +1,5 @@
-import { matter } from 'src/component'
-import { EPhase } from 'src/component/matter'
+import { matter } from 'src/buffer'
+import { EPhase } from 'src/buffer/matter'
 import { colors_default } from 'src/magica'
 import { atoms } from 'src/rez'
 import { delta } from 'src/time'
