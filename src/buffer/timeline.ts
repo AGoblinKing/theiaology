@@ -50,75 +50,79 @@ export enum EVar {
 // ETimeline events are reversable transactions that allow for time travel
 // WARNING: Safe to add new events to end but not remove/reorder existing ones
 export enum ETimeline {
-  None = 0,
-  Define,
-  Music,
-  Flock,
-  Shape,
-  Color,
-  Scale,
-  ScaleVariance,
-  Rotation,
-  Rez,
-  DeRez,
-  Interval,
-  StopInterval,
-  MoveToPosition,
-  MoveToFlock,
-  ApplyVelocity,
-  ApplyRandomVelocity,
-  LookAtPosition,
-  LookAtFlock,
+  NONE = 0,
+  DEFINE,
+  MUSIC,
+  FLOCK,
+  SHAPE,
+  COLOR,
+  SCALE,
+  SCALEVAR,
+  ROTATION,
+  REZ,
+  DEREZ,
+  INTERVAL,
+  INTERVALSTOP,
+  MOVE,
+  MOVEFLOCK,
+  VELOCITY,
+  VELOCITYRAND,
+  LOOK,
+  LOOKFLOCK,
   // Copy's a markers or flocks children's effects
-  Copy,
+  COPY,
   // When something interesting happens the who
-  Event,
+  EVENT,
 
   // Bind the children's who to another
-  Bind,
+  BIND,
   // TODO: save state and load states, useful if they want to place/spawn a bunch of things like a traditional scene
-  Snapshot,
-  SnapshotLoad,
+  SNAP,
+  SNAPLOAD,
 }
 
 export const Commands: { [key: number]: any } = {
-  [ETimeline.Define]: { text: EVar.String },
-  [ETimeline.Music]: { audio: EVar.Audio },
-  [ETimeline.Flock]: { shape: EVar.Shape, count: EVar.Positive },
+  [ETimeline.DEFINE]: { text: EVar.String },
+  [ETimeline.MUSIC]: { audio: EVar.Audio },
+  [ETimeline.FLOCK]: { shape: EVar.Shape, count: EVar.Positive },
 
-  [ETimeline.Color]: {
+  [ETimeline.COLOR]: {
     rgb: EVar.Color,
     tilt: EVar.Number,
     variance: EVar.Normal,
   },
 
-  [ETimeline.Shape]: { shape: EVar.Shape },
-  [ETimeline.Scale]: { x: EVar.Positive, y: EVar.Positive, z: EVar.Positive },
-  [ETimeline.ScaleVariance]: {
+  [ETimeline.SHAPE]: { shape: EVar.Shape },
+  [ETimeline.SCALE]: { x: EVar.Positive, y: EVar.Positive, z: EVar.Positive },
+  [ETimeline.SCALEVAR]: {
     x: EVar.Positive,
     y: EVar.Positive,
     z: EVar.Positive,
   },
-  [ETimeline.Rotation]: { x: EVar.Number, y: EVar.Number, z: EVar.Number },
+  [ETimeline.ROTATION]: { x: EVar.Number, y: EVar.Number, z: EVar.Number },
 
-  [ETimeline.Rez]: { xyz: EVar.Position },
-  [ETimeline.DeRez]: {},
-  [ETimeline.Copy]: { text: EVar.String },
-  [ETimeline.Interval]: {
+  [ETimeline.REZ]: { xyz: EVar.Position },
+  [ETimeline.DEREZ]: {},
+  [ETimeline.COPY]: { text: EVar.String },
+  [ETimeline.INTERVAL]: {
     seconds: EVar.Positive,
     start: EVar.TimelineID,
     end: EVar.Positive,
   },
 
-  [ETimeline.StopInterval]: {},
-  [ETimeline.MoveToPosition]: { xyz: EVar.Position },
-  [ETimeline.MoveToFlock]: { flock: EVar.FlockID },
-  [ETimeline.ApplyVelocity]: { x: EVar.Number, y: EVar.Number, z: EVar.Number },
+  [ETimeline.INTERVALSTOP]: {},
+  [ETimeline.MOVE]: { xyz: EVar.Position },
+  [ETimeline.MOVEFLOCK]: { flock: EVar.FlockID },
+  [ETimeline.VELOCITY]: {
+    x: EVar.Number,
+    y: EVar.Number,
+    z: EVar.Number,
+  },
 
-  [ETimeline.ApplyRandomVelocity]: { thrust: EVar.Positive, axis: EVar.Axis },
+  [ETimeline.VELOCITYRAND]: { thrust: EVar.Positive, axis: EVar.Axis },
 
-  [ETimeline.LookAtPosition]: { xyz: EVar.Position },
-  [ETimeline.LookAtFlock]: { flock: EVar.FlockID },
+  [ETimeline.LOOK]: { xyz: EVar.Position },
+  [ETimeline.LOOKFLOCK]: { flock: EVar.FlockID },
 }
 
 const strConvertBuffer = new ArrayBuffer(4) // an Int32 takes 4 bytes
@@ -181,7 +185,7 @@ export class Timeline extends AtomicInt {
       const com = this.command(i)
 
       // next, the others could be anywhere
-      if (com === ETimeline.None) continue
+      if (com === ETimeline.NONE) continue
 
       // assume root unless who is specified
       const who = this.who(i)
@@ -203,7 +207,7 @@ export class Timeline extends AtomicInt {
       }
 
       switch (com) {
-        case ETimeline.Define:
+        case ETimeline.DEFINE:
           root.markers[i] = this.define(i)
 
         // fall through
@@ -246,7 +250,7 @@ export class Timeline extends AtomicInt {
       const w = this.command(i)
 
       // by using the buffer in order we can look to see if we can early exit
-      if (w === ETimeline.None) break
+      if (w === ETimeline.NONE) break
 
       res.push([
         this.when(i),

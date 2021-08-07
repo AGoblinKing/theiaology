@@ -15,6 +15,8 @@ export const modal_visible = new Value<false | ((result: string) => void)>(
   false
 )
 
+export const modal_cursor = new Value<number>(0)
+
 key_down.on((k) => {
   switch (k) {
     case '`':

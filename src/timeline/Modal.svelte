@@ -5,6 +5,8 @@
 
   // organize-imports-ignore
   import { modal_options, modal_location, modal_visible } from './editor'
+  import Number from './evar/Number.svelte'
+  import Color from './evar/Color.svelte'
 
   // modal is a singleton so Aok, but weird
   mouse_left.on(() => {
@@ -31,6 +33,10 @@
       {/each}
     {:else if $modal_options === EVar.String}
       <String />
+    {:else if $modal_options === EVar.Color}
+      <Color />
+    {:else if $modal_options === EVar.Number}
+      <Number />
     {/if}
   </div>
 {/if}

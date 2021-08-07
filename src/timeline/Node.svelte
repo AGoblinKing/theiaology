@@ -1,19 +1,23 @@
-<script context="module">
-  import { Color } from 'three'
-  const col = new Color()
-</script>
-
 <script lang="ts">
   // organize-imports-ignore
 
   import Box from './Box.svelte'
   import { timeline, timeline_json } from 'src/buffer'
   import { Commands, ETimeline, EVar } from 'src/buffer/timeline'
-  import { modal_location, modal_options, modal_visible } from './editor'
+  import {
+    modal_cursor,
+    modal_default,
+    modal_location,
+    modal_options,
+    modal_visible,
+  } from './editor'
   import { mouse_page, mouse_pos } from 'src/input/mouse'
-  import Modal from './Modal.svelte'
+
+  import { Color } from 'three'
 
   export let i = 0
+
+  const color = new Color()
 
   $: item = $timeline_json.flat[i] || { data: [0], children: {} }
   $: label = i === 0 ? 'ROOT' : $timeline_json.markers[i] || i
@@ -21,7 +25,7 @@
 
   function addTo(index: number) {
     modal_visible.set(false)
-    timeline.$.add(0, ETimeline.Define, index, 0, 0, 0)
+    timeline.$.add(0, ETimeline.DEFINE, index, 0, 0, 0)
     timeline.poke()
   }
 
@@ -58,8 +62,8 @@
       timeline.$.command(i, com)
 
       switch (ETimeline[res]) {
-        case ETimeline.Define:
-        case ETimeline.Flock:
+        case ETimeline.DEFINE:
+        case ETimeline.FLOCK:
           break
         default:
           for (let child of Object.keys(item.children)) {
@@ -73,6 +77,7 @@
   function inputString() {
     updateModal()
     modal_options.set(EVar.String)
+    modal_default.set(timeline.$.define(i))
     modal_visible.set((res) => {
       timeline.$.define(i, res)
       timeline.poke()
@@ -80,6 +85,27 @@
     })
   }
 
+  function inputNumber(cursor: number) {
+    updateModal()
+    modal_options.set(EVar.Number)
+    modal_cursor.set(cursor)
+    modal_default.set(timeline.$[`data${cursor + 1}`](i))
+    modal_visible.set((res) => {
+      timeline.$[`data${cursor + 1}`](i, res)
+      timeline.poke()
+      modal_visible.set(false)
+    })
+  }
+  function inputColor(cursor: number) {
+    updateModal()
+    modal_options.set(EVar.Color)
+    modal_cursor.set(cursor)
+    modal_visible.set((res) => {
+      timeline.$[`data${cursor + 1}`](i, res)
+      timeline.poke()
+      modal_visible.set(false)
+    })
+  }
   // show line number and data
 </script>
 
@@ -99,10 +125,33 @@
     </Box>
 
     {#if Commands[command]}
-      {#each Object.entries(Commands[command]) as [key, value] (key)}
+      {#each Object.entries(Commands[command]) as [key, value], index (key)}
         {#if value === EVar.String}
           <Box flex click={inputString}>
             "{$timeline.define(i)}"
+          </Box>
+        {:else if value === EVar.Number || value === EVar.Positive || value == EVar.Negative}
+          <Box flex click={() => inputNumber(index)}>
+            {$timeline[`data${index + 1}`](i)}
+          </Box>
+        {:else if value == EVar.Position}
+          <Box flex click={() => inputNumber(index)}>
+            {$timeline.data1(i)}
+          </Box>
+          <Box flex click={() => inputNumber(index + 1)}>
+            {$timeline.data2(i)}
+          </Box>
+          <Box flex click={() => inputNumber(index + 2)}>
+            {$timeline.data3(i)}
+          </Box>
+        {:else if value === EVar.Color}
+          <Box flex click={() => inputColor(index)}>
+            <div
+              class="color"
+              style="background-color: #{color
+                .set($timeline[`data${index + 1}`](i))
+                .getHexString()}"
+            />
           </Box>
         {:else}
           <Box flex />
@@ -110,9 +159,9 @@
       {/each}
     {/if}
 
-    {#if i === 0 || item.data[1] === ETimeline.Flock || item.data[1] === ETimeline.Define}
+    {#if i === 0 || item.data[1] === ETimeline.FLOCK || item.data[1] === ETimeline.DEFINE}
       <Box click={() => addTo(i)}>+</Box>
-    {:else if item.data[1] !== ETimeline.Define && item.data[1] !== undefined}
+    {:else if item.data[1] !== ETimeline.DEFINE && item.data[1] !== undefined}
       <Box>
         {item.data[0] / 60}:{item.data[0] % 60}
       </Box>
@@ -132,6 +181,9 @@
     /*border: solid 0.25rem rgba(151, 2, 151, 0.555);*/
   }
 
+  .color {
+    width: 2rem;
+  }
   .node.root {
     margin: 0;
   }
