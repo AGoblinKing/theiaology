@@ -1,5 +1,6 @@
 import { Matrix4, Vector3 } from 'three'
 import { audio } from './audio'
+import { Load } from './file/load'
 import { MagickaVoxel } from './magica'
 import { Voxel, voxels, voxels_static } from './shape/vox'
 
@@ -43,7 +44,10 @@ export function ReadFile(
 ) {
   const { name } = typeof file === 'string' ? { name: file } : file
   switch (true) {
-    case name.indexOf('.vox') != -1:
+    case name.indexOf('.theia') !== -1:
+      Load(buffer)
+      break
+    case name.indexOf('.vox') !== -1:
       ;(canSleep ? voxels_static : voxels).push(
         new Voxel(
           new Matrix4()

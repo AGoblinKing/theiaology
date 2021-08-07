@@ -63,6 +63,8 @@ class VRButton {
               'layers',
             ],
           }
+
+          // @ts-ignore
           navigator.xr
             .requestSession('immersive-vr', sessionInit)
             .then(onSessionStarted)
@@ -112,6 +114,7 @@ class VRButton {
 
       stylizeElement(button)
 
+      // @ts-ignore
       navigator.xr
         .isSessionSupported('immersive-vr')
         .then(function (supported) {

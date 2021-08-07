@@ -8,14 +8,16 @@
 
   import Box from './Box.svelte'
   import { timeline, timeline_json } from 'src/buffer'
-  import { ETimeline } from 'src/buffer/timeline'
+  import { Commands, ETimeline, EVar } from 'src/buffer/timeline'
   import { modal_location, modal_options, modal_visible } from './editor'
   import { mouse_page, mouse_pos } from 'src/input/mouse'
+  import Modal from './Modal.svelte'
 
   export let i = 0
 
   $: item = $timeline_json.flat[i] || { data: [0], children: {} }
   $: label = i === 0 ? 'ROOT' : $timeline_json.markers[i] || i
+  $: command = $timeline.command(i)
 
   function addTo(index: number) {
     modal_visible.set(false)
@@ -35,7 +37,12 @@
     timeline.poke()
   }
 
+  function updateModal() {
+    modal_location.set(modal_location.$.set($mouse_page.x, $mouse_page.y))
+  }
+
   function chooseCommand(e) {
+    if (command === 0) return
     // see if its a number
     modal_options.set(
       Object.keys(ETimeline).filter((k) => {
@@ -45,7 +52,7 @@
         }
       })
     )
-    modal_location.set(modal_location.$.set($mouse_page.x, $mouse_page.y))
+    updateModal()
     modal_visible.set((res) => {
       const com = ETimeline[res]
       timeline.$.command(i, com)
@@ -62,6 +69,17 @@
       timeline.poke()
     })
   }
+
+  function inputString() {
+    updateModal()
+    modal_options.set(EVar.String)
+    modal_visible.set((res) => {
+      timeline.$.define(i, res)
+      timeline.poke()
+      modal_visible.set(false)
+    })
+  }
+
   // show line number and data
 </script>
 
@@ -79,8 +97,17 @@
     <Box click={chooseCommand} upper>
       {ETimeline[item.data[1]] || 'root'}
     </Box>
-    {#if item.data.length > 0}
-      <Box flex>{item.data.slice(3).join(':')}</Box>
+
+    {#if Commands[command]}
+      {#each Object.entries(Commands[command]) as [key, value] (key)}
+        {#if value === EVar.String}
+          <Box flex click={inputString}>
+            "{$timeline.define(i)}"
+          </Box>
+        {:else}
+          <Box flex />
+        {/if}
+      {/each}
     {/if}
 
     {#if i === 0 || item.data[1] === ETimeline.Flock || item.data[1] === ETimeline.Define}

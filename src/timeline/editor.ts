@@ -1,3 +1,4 @@
+import { EVar } from 'src/buffer/timeline'
 import { key_down } from 'src/input/keyboard'
 import { mouse_wheel } from 'src/input/mouse'
 import { Value } from 'src/valuechannel'
@@ -8,7 +9,8 @@ export const timeline_shown = new Value(
 )
 
 export const modal_location = new Value(new Vector2())
-export const modal_options = new Value([])
+export const modal_options = new Value<string[] | EVar>([])
+export const modal_default = new Value<any>()
 export const modal_visible = new Value<false | ((result: string) => void)>(
   false
 )

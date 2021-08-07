@@ -6,8 +6,7 @@
   "scripts": {
     "build": "rollup -c",
     "dev": "rollup -c -w",
-    "test": "node ./public/build/test.js",
-    "fbs": "cd src/file & flatc --ts --no-warnings theia.fbs"
+    "test": "node ./public/build/test.js"
   },
   "author": "king@goblin.life",
   "license": "MIT",
@@ -22,7 +21,7 @@
     "@rollup/plugin-typescript": "^8.2.3",
     "@types/node": "^16.4.12",
     "@types/three": "^0.130.1",
-    "flatbuffers": "^2.0.3",
+    "file-saver": "^2.0.5",
     "idb": "^6.1.2",
     "prettier": "^2.3.2",
     "prettier-plugin-organize-imports": "^2.3.3",

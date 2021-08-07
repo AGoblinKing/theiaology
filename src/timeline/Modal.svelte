@@ -1,4 +1,6 @@
 <script lang="ts">
+  import { EVar } from 'src/buffer/timeline'
+  import String from './evar/String.svelte'
   import { mouse_left } from 'src/input/mouse'
 
   // organize-imports-ignore
@@ -15,17 +17,21 @@
     class="modal"
     style="left: {$modal_location.x}px; top: {$modal_location.y}px"
   >
-    {#each $modal_options as content}
-      <div
-        class="item"
-        on:click={() => {
-          if (typeof $modal_visible === 'function') $modal_visible(content)
-          modal_visible.set(false)
-        }}
-      >
-        {content}
-      </div>
-    {/each}
+    {#if Array.isArray($modal_options)}
+      {#each $modal_options as content}
+        <div
+          class="item"
+          on:click={() => {
+            if (typeof $modal_visible === 'function') $modal_visible(content)
+            modal_visible.set(false)
+          }}
+        >
+          {content}
+        </div>
+      {/each}
+    {:else if $modal_options === EVar.String}
+      <String />
+    {/if}
   </div>
 {/if}
 

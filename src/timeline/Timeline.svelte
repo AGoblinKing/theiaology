@@ -1,16 +1,34 @@
 <script lang="ts">
-  import { modal_visible } from './editor'
+  import { Load } from 'src/file/load'
 
-  import Modal from './Modal.svelte'
+  import { Save } from 'src/file/save'
+  import Box from './Box.svelte'
 
   // organize-imports-ignore
   import Node from './Node.svelte'
+
+  async function loadFile(event) {
+    const reader = new FileReader()
+    reader.addEventListener('load', (e: any) => {
+      Load(e.target.result)
+    })
+    reader.readAsArrayBuffer(event.target.files[0])
+  }
 </script>
 
 <div class="commands">
-  <div>> THEIAOLOGY</div>
-  <div>LOAD</div>
-  <div>SAVE</div>
+  <Box>> THEIAOLOGY</Box>
+  <Box
+    ><input
+      id="load"
+      type="file"
+      title="LOAD"
+      accept=".theia"
+      on:change={loadFile}
+    />
+    <label for="load">LOAD</label></Box
+  >
+  <Box click={Save}>SAVE</Box>
 </div>
 <div class="timeline">
   <div class="nodes">
@@ -23,17 +41,10 @@
     pointer-events: all;
     display: flex;
   }
-  .commands div {
-    background-color: rgb(72, 2, 75);
-    border: solid 0.1rem rgba(255, 255, 255, 0.418);
-    color: rgb(250, 194, 9);
-    font-size: 0.75rem;
-    padding: 0.4rem;
+  label {
     cursor: pointer;
   }
-  .commands div:hover {
-    filter: sepia(0.5);
-  }
+
   .nodes {
     direction: ltr;
   }

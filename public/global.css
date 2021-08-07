@@ -55,6 +55,13 @@ audio::-webkit-media-controls-time-remaining-display {
   font-size: 0.75rem;
 }
 
+input[type='file']::-webkit-file-upload-button {
+  display: none;
+}
+input[type='file' i] {
+  display: none;
+  padding: 0;
+}
 body::-webkit-scrollbar-track {
   background-color: rgba(0, 28, 189, 0.842);
   outline: 1px solid slategrey;
@@ -90,4 +97,14 @@ body::-webkit-scrollbar-track {
   height: 100%;
   position: absolute;
   pointer-events: none;
+}
+
+input {
+  background: transparent;
+  border: none;
+  outline: none;
+  color: rgb(250, 194, 9);
+  font-size: 0.75rem;
+  padding: 0.4rem;
+  font-family: pixel;
 }

@@ -9,6 +9,7 @@ export interface INode {
   data?: number[]
   children: { [key: string]: INode }
 }
+
 // easier for humans to read
 export interface ITimeline extends INode {
   markers: IMarkers
@@ -80,62 +81,44 @@ export enum ETimeline {
   SnapshotLoad,
 }
 
-export const Commands: { [key: number]: [who: ETimeline, params: any] } = {
-  [ETimeline.Define]: [ETimeline.Define, { text: EVar.String }],
-  [ETimeline.Music]: [ETimeline.Define, { audio: EVar.Audio }],
-  [ETimeline.Flock]: [
-    ETimeline.Define,
-    { shape: EVar.Shape, count: EVar.Positive },
-  ],
-  [ETimeline.Color]: [
-    ETimeline.Flock,
-    {
-      rgb: EVar.Color,
-      tilt: EVar.Number,
-      variance: EVar.Normal,
-    },
-  ],
-  [ETimeline.Shape]: [ETimeline.Flock, { shape: EVar.Shape }],
-  [ETimeline.Scale]: [
-    ETimeline.Flock,
-    { x: EVar.Positive, y: EVar.Positive, z: EVar.Positive },
-  ],
-  [ETimeline.ScaleVariance]: [
-    ETimeline.Flock,
-    {
-      x: EVar.Positive,
-      y: EVar.Positive,
-      z: EVar.Positive,
-    },
-  ],
-  [ETimeline.Rotation]: [
-    ETimeline.Flock,
-    { x: EVar.Number, y: EVar.Number, z: EVar.Number },
-  ],
-  [ETimeline.Rez]: [ETimeline.Flock, { xyz: EVar.Position }],
-  [ETimeline.DeRez]: [ETimeline.Flock, {}],
-  [ETimeline.Copy]: [ETimeline.Flock, { text: EVar.String }],
-  [ETimeline.Interval]: [
-    ETimeline.Define,
-    {
-      seconds: EVar.Positive,
-      start: EVar.TimelineID,
-      end: EVar.Positive,
-    },
-  ],
-  [ETimeline.StopInterval]: [ETimeline.Interval, {}],
-  [ETimeline.MoveToPosition]: [ETimeline.Flock, { xyz: EVar.Position }],
-  [ETimeline.MoveToFlock]: [ETimeline.Flock, { flock: EVar.FlockID }],
-  [ETimeline.ApplyVelocity]: [
-    ETimeline.Flock,
-    { x: EVar.Number, y: EVar.Number, z: EVar.Number },
-  ],
-  [ETimeline.ApplyRandomVelocity]: [
-    ETimeline.Flock,
-    { thrust: EVar.Positive, axis: EVar.Axis },
-  ],
-  [ETimeline.LookAtPosition]: [ETimeline.Flock, { xyz: EVar.Position }],
-  [ETimeline.LookAtFlock]: [ETimeline.Flock, { flock: EVar.FlockID }],
+export const Commands: { [key: number]: any } = {
+  [ETimeline.Define]: { text: EVar.String },
+  [ETimeline.Music]: { audio: EVar.Audio },
+  [ETimeline.Flock]: { shape: EVar.Shape, count: EVar.Positive },
+
+  [ETimeline.Color]: {
+    rgb: EVar.Color,
+    tilt: EVar.Number,
+    variance: EVar.Normal,
+  },
+
+  [ETimeline.Shape]: { shape: EVar.Shape },
+  [ETimeline.Scale]: { x: EVar.Positive, y: EVar.Positive, z: EVar.Positive },
+  [ETimeline.ScaleVariance]: {
+    x: EVar.Positive,
+    y: EVar.Positive,
+    z: EVar.Positive,
+  },
+  [ETimeline.Rotation]: { x: EVar.Number, y: EVar.Number, z: EVar.Number },
+
+  [ETimeline.Rez]: { xyz: EVar.Position },
+  [ETimeline.DeRez]: {},
+  [ETimeline.Copy]: { text: EVar.String },
+  [ETimeline.Interval]: {
+    seconds: EVar.Positive,
+    start: EVar.TimelineID,
+    end: EVar.Positive,
+  },
+
+  [ETimeline.StopInterval]: {},
+  [ETimeline.MoveToPosition]: { xyz: EVar.Position },
+  [ETimeline.MoveToFlock]: { flock: EVar.FlockID },
+  [ETimeline.ApplyVelocity]: { x: EVar.Number, y: EVar.Number, z: EVar.Number },
+
+  [ETimeline.ApplyRandomVelocity]: { thrust: EVar.Positive, axis: EVar.Axis },
+
+  [ETimeline.LookAtPosition]: { xyz: EVar.Position },
+  [ETimeline.LookAtFlock]: { flock: EVar.FlockID },
 }
 
 const strConvertBuffer = new ArrayBuffer(4) // an Int32 takes 4 bytes
@@ -163,6 +146,26 @@ export class Timeline extends AtomicInt {
     this.reserve()
   }
 
+  copy(arr: ArrayBuffer) {
+    this.freeAll()
+    this.resetAvailable()
+
+    const v = new DataView(arr)
+
+    for (
+      let i = 0;
+      i < Math.min(arr.byteLength / 4, this.sab.byteLength / 4);
+      i++
+    ) {
+      const val = v.getInt32(i * 4, true)
+
+      if (i < 10) console.log(i, val)
+      if (i % Timeline.COUNT === 0 && val !== 0) {
+        this.available.splice(this.available.indexOf(i / Timeline.COUNT), 1)
+      }
+      this.store(i, val)
+    }
+  }
   // rip through array and create a tree
   toObject(): ITimeline {
     // cache markers by number
@@ -201,7 +204,7 @@ export class Timeline extends AtomicInt {
 
       switch (com) {
         case ETimeline.Define:
-          root.markers[i] = this.marker(i)
+          root.markers[i] = this.define(i)
 
         // fall through
         default:
@@ -269,9 +272,13 @@ export class Timeline extends AtomicInt {
       this.add.apply(this, arr[i])
     }
 
+    this.resetAvailable(arr.length)
+  }
+
+  resetAvailable(offset: number = 0) {
     // reset available
-    this.available = [...new Array(TIMELINE_MAX - arr.length)].map(
-      (_, i) => i + arr.length
+    this.available = [...new Array(TIMELINE_MAX - offset)].map(
+      (_, i) => i + offset
     )
   }
 
@@ -323,8 +330,8 @@ export class Timeline extends AtomicInt {
   }
 
   // markers are special, only strings
-  marker(i: number, marker?: string) {
-    if (marker === undefined) {
+  define(i: number, str?: string) {
+    if (str === undefined) {
       return [this.data1(i), this.data2(i), this.data3(i)]
         .map((num: number) => {
           strView.setInt32(0, num, false)
@@ -339,14 +346,14 @@ export class Timeline extends AtomicInt {
     }
 
     // max 12 chars
-    marker = marker.slice(0, 12)
+    str = str.slice(0, 12)
 
     for (let si = 0; si < 12; si++) {
       const six = si % 4
       const siy = Math.floor(si / 4)
 
-      if (si < marker.length) {
-        strView.setUint8(six, marker.charCodeAt(si))
+      if (si < str.length) {
+        strView.setUint8(six, str.charCodeAt(si))
       } else {
         strView.setUint8(six, 0)
       }
@@ -361,7 +368,7 @@ export class Timeline extends AtomicInt {
       }
     }
 
-    return marker
+    return str
   }
 
   // when
