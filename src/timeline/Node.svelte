@@ -47,7 +47,18 @@
     )
     modal_location.set(modal_location.$.set($mouse_page.x, $mouse_page.y))
     modal_visible.set((res) => {
-      timeline.$.command(i, ETimeline[res])
+      const com = ETimeline[res]
+      timeline.$.command(i, com)
+
+      switch (ETimeline[res]) {
+        case ETimeline.Define:
+        case ETimeline.Flock:
+          break
+        default:
+          for (let child of Object.keys(item.children)) {
+            remove(parseInt(child, 10))
+          }
+      }
       timeline.poke()
     })
   }

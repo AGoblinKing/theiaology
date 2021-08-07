@@ -1,5 +1,5 @@
 import { doRez } from 'src/time'
-import { VRButton } from 'three/examples/jsm/webxr/VRButton.js'
+import { VRButton } from 'src/VRButton'
 import { audio } from '../audio'
 import {
   hands,
@@ -23,7 +23,8 @@ export const MIN_POSE_VALUE = 0.25
 
 export type PoseValues = number[][]
 
-export const button = VRButton.createButton(renderer)
+export const button = VRButton.createButton(renderer, undefined)
+
 document.body.appendChild(button)
 
 export const onVRClick = new Value(false)
