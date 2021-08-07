@@ -42,13 +42,16 @@ export enum EVar {
   // think 0 - 1 but like 0 - MAX_SAFE_INTEGER
   Normal,
   Axis,
+  Audio,
+  Vox,
 }
 
 // ETimeline events are reversable transactions that allow for time travel
 // WARNING: Safe to add new events to end but not remove/reorder existing ones
 export enum ETimeline {
   None = 0,
-  Marker,
+  Define,
+  Music,
   Flock,
   Shape,
   Color,
@@ -65,13 +68,23 @@ export enum ETimeline {
   ApplyRandomVelocity,
   LookAtPosition,
   LookAtFlock,
+  // Copy's a markers or flocks children's effects
   Copy,
+  // When something interesting happens the who
+  Event,
+
+  // Bind the children's who to another
+  Bind,
+  // TODO: save state and load states, useful if they want to place/spawn a bunch of things like a traditional scene
+  Snapshot,
+  SnapshotLoad,
 }
 
 export const Commands: { [key: number]: [who: ETimeline, params: any] } = {
-  [ETimeline.Marker]: [ETimeline.Marker, { text: EVar.String }],
+  [ETimeline.Define]: [ETimeline.Define, { text: EVar.String }],
+  [ETimeline.Music]: [ETimeline.Define, { audio: EVar.Audio }],
   [ETimeline.Flock]: [
-    ETimeline.Marker,
+    ETimeline.Define,
     { shape: EVar.Shape, count: EVar.Positive },
   ],
   [ETimeline.Color]: [
@@ -103,7 +116,7 @@ export const Commands: { [key: number]: [who: ETimeline, params: any] } = {
   [ETimeline.DeRez]: [ETimeline.Flock, {}],
   [ETimeline.Copy]: [ETimeline.Flock, { text: EVar.String }],
   [ETimeline.Interval]: [
-    ETimeline.Marker,
+    ETimeline.Define,
     {
       seconds: EVar.Positive,
       start: EVar.TimelineID,
@@ -187,7 +200,7 @@ export class Timeline extends AtomicInt {
       }
 
       switch (com) {
-        case ETimeline.Marker:
+        case ETimeline.Define:
           root.markers[i] = this.marker(i)
 
         // fall through

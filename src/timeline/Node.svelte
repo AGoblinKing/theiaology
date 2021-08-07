@@ -1,6 +1,5 @@
 <script context="module">
   import { Color } from 'three'
-
   const col = new Color()
 </script>
 
@@ -12,7 +11,7 @@
 
   export let i = 0
 
-  $: item = $timeline_json.flat[i] || { data: [], children: {} }
+  $: item = $timeline_json.flat[i] || { data: [0], children: {} }
   $: label = i === 0 ? 'ROOT' : $timeline_json.markers[i] || i
 
   // show line number and data
@@ -24,20 +23,22 @@
   {/each}
 {/if}
 
-<div class="node">
+<div class="node" class:root={i === 0 || item.data[2] === 0}>
   <div class="items">
-    {#if item.data.length > 0}
-      <div class="flex">{item.data.join(':')}</div>
-    {/if}
+    <div class="action">{i === 0 ? '>' : 'x'}</div>
     <div class="upper">{ETimeline[item.data[1]] || 'root'}</div>
 
-    {#if i === 0 || item.data[1] === ETimeline.Flock || item.data[1] === ETimeline.Marker}
-      <div class="action">+</div>
-    {:else}
-      <div class="action">o</div>
+    {#if item.data.length > 0}
+      <div class="flex">{item.data.slice(3).join(':')}</div>
     {/if}
-    <div>#{i}</div>
-    <div class="action">{i === 0 ? 'o' : '-'}</div>
+
+    {#if i === 0 || item.data[1] === ETimeline.Flock || item.data[1] === ETimeline.Define}
+      <div class="action">+</div>
+    {:else if item.data[1] !== ETimeline.Define && item.data[1] !== undefined}
+      <div>
+        {item.data[0] / 60}:{item.data[0] % 60}
+      </div>
+    {/if}
   </div>
   <div class="children">
     {#each Object.keys(item.children) as key (key)}
@@ -62,11 +63,13 @@
   .action {
     cursor: pointer;
   }
+  .node.root {
+    margin: 0;
+  }
   .node {
-    margin-left: 2rem;
+    margin-left: 1.75rem;
   }
   .items {
-    border-radius: 0.1rem 0 0 0.1rem;
     display: flex;
   }
 

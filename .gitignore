@@ -8,3 +8,4 @@
 public/stats.html
 .rollup.cache*
 public/build/
+public/build/music/unshared/

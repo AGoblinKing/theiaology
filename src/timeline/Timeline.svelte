@@ -4,8 +4,7 @@
 </script>
 
 <div class="commands">
-  <div>AUDIO</div>
-  <div>VOX</div>
+  <div>> THEIAOLOGY</div>
   <div>LOAD</div>
   <div>SAVE</div>
 </div>
