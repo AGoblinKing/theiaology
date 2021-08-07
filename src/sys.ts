@@ -21,7 +21,7 @@ export class SystemWorker extends Worker {
   send(...buffers: IMessage[]) {
     setTimeout(() => {
       for (let b of buffers) {
-        this.postMessage(typeof b === 'number' ? b : b.sab)
+        this.postMessage(typeof b === 'object' ? b.sab : b)
       }
     }, this._delay)
     return this

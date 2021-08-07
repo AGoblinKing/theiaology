@@ -64,6 +64,7 @@ class Cardinal extends System {
       case this.timeline:
         this.timeline = new Timeline(e.data)
         break
+
       // expecting int EMessage
       default:
         if (typeof e.data !== 'number') return

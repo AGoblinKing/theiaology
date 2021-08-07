@@ -4,7 +4,7 @@ import RainScene from 'src/scene/rain'
 import { url } from './input/browser'
 
 switch (true) {
-  case url.$.indexOf('timeline') !== -1:
+  case url.$.indexOf('blank') !== -1:
     TimelineScene()
     break
   case url.$.indexOf('kaiju') !== -1:

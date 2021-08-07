@@ -12,21 +12,21 @@ export type ICancel = () => void
 export type FSubscribe<T> = (value: T) => any
 
 export class Channel {
-  protected callbacks: Set<FSubscribe<undefined>>
+  protected reactions: Set<FSubscribe<undefined>>
   on(subscribe: FSubscribe<any>): ICancel {
-    if (this.callbacks === undefined) {
-      this.callbacks = new Set()
+    if (this.reactions === undefined) {
+      this.reactions = new Set()
     }
 
-    this.callbacks.add(subscribe)
+    this.reactions.add(subscribe)
 
-    return () => this.callbacks.delete(subscribe)
+    return () => this.reactions.delete(subscribe)
   }
 
   poke() {
-    if (this.callbacks === undefined) return
+    if (this.reactions === undefined) return
 
-    for (let callback of this.callbacks) {
+    for (let callback of this.reactions) {
       callback(undefined)
     }
 
@@ -47,7 +47,7 @@ export const db = openDB<IValueChannelDB>(DB_NAME, 2, {
 
 export class Value<T> {
   $: T
-  protected callbacks: Set<FSubscribe<T>>
+  protected reactions: Set<FSubscribe<T>>
   stopKeeping: ICancel
 
   constructor(value: T = undefined) {
@@ -66,14 +66,14 @@ export class Value<T> {
   }
 
   on(subscribe: FSubscribe<any>): ICancel {
-    if (this.callbacks === undefined) {
-      this.callbacks = new Set()
+    if (this.reactions === undefined) {
+      this.reactions = new Set()
     }
 
-    this.callbacks.add(subscribe)
+    this.reactions.add(subscribe)
 
     subscribe(this.$)
-    return () => this.callbacks.delete(subscribe)
+    return () => this.reactions.delete(subscribe)
   }
 
   subscribe(subscribe: FSubscribe<T>) {
@@ -102,9 +102,9 @@ export class Value<T> {
   }
 
   poke() {
-    if (this.callbacks === undefined) return
+    if (this.reactions === undefined) return
 
-    for (let callback of this.callbacks) {
+    for (let callback of this.reactions) {
       callback(this.$)
     }
 

@@ -5,7 +5,7 @@ import { Matter } from './matter'
 import { Scale } from './scale'
 import { SpaceTime } from './spacetime'
 import { Status } from './status'
-import { Timeline } from './timeline'
+import { ITimeline, Timeline } from './timeline'
 import { Velocity } from './velocity'
 
 export const velocity = new Velocity()
@@ -22,3 +22,13 @@ export const status = new Status()
 
 // Used to alert when timeline changes and to notify the cardinal
 export const timeline = new Value(new Timeline())
+
+export const timeline_json = new Value<ITimeline>({
+  markers: {},
+  children: {},
+  flat: {},
+})
+
+timeline.on(() => {
+  timeline_json.is(timeline.$.toObject())
+})

@@ -1,9 +1,18 @@
 import { AtomicInt } from 'src/atomic'
-import { TIMELINE_START_SIZE } from 'src/config'
+import { TIMELINE_MAX } from 'src/config'
 
+export interface IMarkers {
+  [markerID: number]: string
+}
+
+export interface INode {
+  data?: number[]
+  children: { [key: string]: INode }
+}
 // easier for humans to read
-export interface ITimeline {
-  [key: string]: number[] | ITimeline
+export interface ITimeline extends INode {
+  markers: IMarkers
+  flat: { [key: string]: INode }
 }
 
 export enum EAxis {
@@ -116,22 +125,6 @@ export const Commands: { [key: number]: [who: ETimeline, params: any] } = {
   [ETimeline.LookAtFlock]: [ETimeline.Flock, { flock: EVar.FlockID }],
 }
 
-function BuildObject(
-  markers: { [key: number]: string },
-  data: { [key: number]: number[] },
-  parentage: { [key: number]: number[] },
-  cursor = 0
-) {
-  const obj = {}
-  for (let child of parentage[cursor]) {
-    obj[markers[child] || child] = {
-      children: BuildObject(markers, data, parentage, child),
-      data: data[child],
-    }
-  }
-  return obj
-}
-
 const strConvertBuffer = new ArrayBuffer(4) // an Int32 takes 4 bytes
 const strView = new DataView(strConvertBuffer)
 
@@ -149,73 +142,108 @@ export class Timeline extends AtomicInt {
   available: number[]
 
   // expandable
-  constructor(
-    sab = new SharedArrayBuffer(Timeline.COUNT * 4 * TIMELINE_START_SIZE)
-  ) {
+  constructor(sab = new SharedArrayBuffer(Timeline.COUNT * 4 * TIMELINE_MAX)) {
     super(sab)
-    this.available = [...new Array(Timeline.COUNT)].map((_, i) => i)
+    // reset available
+    this.available = [...new Array(TIMELINE_MAX)].map((_, i) => i)
+    // never 0
+    this.reserve()
   }
 
   // rip through array and create a tree
   toObject(): ITimeline {
     // cache markers by number
-    const markers: { [markerID: number]: string } = {}
-    const data: { [id: number]: number[] } = {}
-    const parentage: { [parentID: number]: number[] } = {}
 
-    for (let i = 0; i < this.length; i++) {
-      const w = this.command(i)
+    const root = {
+      flat: {},
+      markers: {},
+      data: [],
+      children: {},
+    }
 
-      // Early exit
-      if (w === ETimeline.None) break
+    for (let i = 1; i < TIMELINE_MAX; i++) {
+      const com = this.command(i)
+
+      // next, the others could be anywhere
+      if (com === ETimeline.None) continue
+
+      // assume root unless who is specified
       const who = this.who(i)
 
-      switch (w) {
-        case ETimeline.None:
-          return BuildObject(markers, data, parentage)
-        case ETimeline.Marker:
-          markers[i] = this.marker(i)
+      let cursor
+      switch (true) {
+        case who === 0:
+          cursor = root
+          break
 
-          parentage[who] = parentage[who] || []
-          parentage[who].push(i)
-
+        case root.flat[who] !== undefined:
+          cursor = root.flat[who]
           break
 
         default:
-          parentage[who] = parentage[who] || []
-          parentage[who].push(i)
+          root.flat[who] = cursor = {
+            children: {},
+          }
+      }
 
-          data[i] = [
-            this.command(i),
-            this.who(i),
+      switch (com) {
+        case ETimeline.Marker:
+          root.markers[i] = this.marker(i)
+
+        // fall through
+        default:
+          if (!root.flat[i]) {
+            root.flat[i] = {
+              children: {},
+            }
+          }
+
+          root.flat[i].data = [
+            this.when(i),
+            com,
+            who,
             this.data1(i),
             this.data2(i),
             this.data3(i),
           ]
+
+          cursor.children[i] = root.flat[i]
       }
     }
 
-    return BuildObject(markers, data, parentage)
+    return root
   }
 
   fromObject(obj: ITimeline) {
     throw new Error('Not Implemented')
   }
 
+  toJSON(): string {
+    return JSON.stringify(this.toObject())
+  }
+
   // rip through and return a sorted array of the events
   toArray() {
-    const res = []
-    for (let i = 0; i < this.length; i++) {
+    const res = [[]]
+    // 1 is for control
+    for (let i = 1; i < this.length; i++) {
       const w = this.command(i)
 
       // by using the buffer in order we can look to see if we can early exit
       if (w === ETimeline.None) break
 
-      res.push([w, this.who(i), this.data1(i), this.data2(i), this.data3(i)])
+      res.push([
+        this.when(i),
+        w,
+        this.who(i),
+        this.data1(i),
+        this.data2(i),
+        this.data3(i),
+      ])
     }
 
     return res.sort((e1, e2) => {
-      return e1.when - e2.when
+      return e1[0] - e2[0]
     })
   }
 
@@ -223,7 +251,8 @@ export class Timeline extends AtomicInt {
     // reset existing
     this.freeAll()
 
-    for (let i = 0; i < arr.length; i++) {
+    // always skip 0
+    for (let i = 1; i < arr.length; i++) {
       this.add.apply(this, arr[i])
     }
 
@@ -235,11 +264,19 @@ export class Timeline extends AtomicInt {
 
   // freeAll but do not mark them as available
   freeAll() {
-    for (let i = 0; i < this.length; i++) {
-      for (let c = 0; c < Timeline.COUNT; c++) {
-        super.free(i * Timeline.COUNT + c, Timeline.COUNT)
-      }
+    this.available = []
+    for (let i = TIMELINE_MAX - 1; i >= 0; i--) {
+      this.free(i)
     }
+    // always reserve 0
+    const r = this.reserve()
+    if (r !== 0) {
+      throw new Error(`tried to reserve 0, got ${r}`)
+    }
+  }
+
+  reserve() {
+    return this.available.shift()
   }
 
   free(i: number) {
