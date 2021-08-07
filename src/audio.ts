@@ -11,7 +11,7 @@ let started = false
 audio.onplay = function () {
   if (started) return
   started = true
-  context.is(new AudioContext())
+  context.set(new AudioContext())
   const src = context.$.createMediaElementSource(audio)
 
   const analyser = context.$.createAnalyser()
@@ -41,8 +41,8 @@ audio.onplay = function () {
       dataArray.length - 1
     )
 
-    lowerAvg.is(sum(lowerHalfArray) / lowerHalfArray.length)
-    upperAvg.is(sum(upperHalfArray) / upperHalfArray.length)
+    lowerAvg.set(sum(lowerHalfArray) / lowerHalfArray.length)
+    upperAvg.set(sum(upperHalfArray) / upperHalfArray.length)
   })
 }
 

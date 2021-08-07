@@ -50,7 +50,7 @@ delta.on(($dt) => {
   }
 
   if (move_inputs.$.z !== 0 || mouse_right.$) {
-    velocity.is((velocity.$ += move_inputs.$.z * $dt * 3))
+    velocity.set((velocity.$ += move_inputs.$.z * $dt * 3))
   }
 
   if (mouse_right.$ || mouse_left.$) UpdateCamera($dt)

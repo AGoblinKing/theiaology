@@ -30,5 +30,5 @@ export const timeline_json = new Value<ITimeline>({
 })
 
 timeline.on(() => {
-  timeline_json.is(timeline.$.toObject())
+  timeline_json.set(timeline.$.toObject())
 })

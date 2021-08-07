@@ -3,9 +3,10 @@
 
   import { timeline_shown } from './editor'
   import Timeline from './Timeline.svelte'
+  import Modal from './Modal.svelte'
 </script>
 
-<toggle class="ribbon" on:click={() => timeline_shown.is(!$timeline_shown)}
+<toggle class="ribbon" on:click={() => timeline_shown.set(!$timeline_shown)}
   >THEIAOLOGY</toggle
 >
 <a
@@ -14,9 +15,12 @@
   target="_new">GITHUB</a
 >
 
-<gna class:hidden={!$timeline_shown}>
-  <Timeline />
-</gna>
+{#if $timeline_shown}
+  <Modal />
+  <gna>
+    <Timeline />
+  </gna>
+{/if}
 
 <style>
   .ribbon {
@@ -29,6 +33,7 @@
     text-decoration: none;
     text-align: center;
     transform: rotate(45deg);
+    text-shadow: rgb(0, 0, 0) 0.075rem 0.075rem 0rem;
   }
 
   .ribbon:hover {
@@ -47,6 +52,7 @@
 
   .github {
     top: 1rem;
+    text-shadow: rgb(0, 0, 0) 0.075rem 0.075rem 0rem;
     pointer-events: all;
     right: -5.5rem;
     font-size: 0.75rem;
@@ -57,10 +63,12 @@
   }
 
   gna {
+    display: flex;
+    flex-direction: column;
     pointer-events: none;
     top: 0;
-    right: 0;
-    width: 100%;
+    left: 0;
+
     height: 100%;
     position: absolute;
     z-index: 1000;

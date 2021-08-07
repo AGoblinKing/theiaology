@@ -54,6 +54,12 @@ audio::-webkit-media-controls-time-remaining-display {
   font-family: pixel;
   font-size: 0.75rem;
 }
+
+body::-webkit-scrollbar-track {
+  background-color: rgba(0, 28, 189, 0.842);
+  outline: 1px solid slategrey;
+}
+
 .warning {
   display: none;
   position: absolute;

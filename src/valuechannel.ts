@@ -11,34 +11,6 @@ export interface IValueChannelDB extends DBSchema {
 export type ICancel = () => void
 export type FSubscribe<T> = (value: T) => any
 
-export class Channel {
-  protected reactions: Set<FSubscribe<undefined>>
-  on(subscribe: FSubscribe<any>): ICancel {
-    if (this.reactions === undefined) {
-      this.reactions = new Set()
-    }
-
-    this.reactions.add(subscribe)
-
-    return () => this.reactions.delete(subscribe)
-  }
-
-  poke() {
-    if (this.reactions === undefined) return
-
-    for (let callback of this.reactions) {
-      callback(undefined)
-    }
-
-    return this
-  }
-
-  log(msg) {
-    this.on(() => console.log(msg))
-    return this
-  }
-}
-
 export const db = openDB<IValueChannelDB>(DB_NAME, 2, {
   upgrade(db): void {
     db.createObjectStore('valuechannel')
@@ -55,10 +27,6 @@ export class Value<T> {
   }
 
   set(value: T) {
-    return this.is(value)
-  }
-
-  is(value: T) {
     this.$ = value
     this.poke()
 
@@ -90,7 +58,7 @@ export class Value<T> {
     db.then(($db) =>
       $db
         .get('valuechannel', where)
-        .then((v) => v !== undefined && this.is(JSON.parse(v)))
+        .then((v) => v !== undefined && this.set(JSON.parse(v)))
     )
 
     return this

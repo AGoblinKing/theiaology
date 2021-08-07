@@ -12,7 +12,7 @@ export interface INode {
 // easier for humans to read
 export interface ITimeline extends INode {
   markers: IMarkers
-  flat: { [key: string]: INode }
+  flat: { [key: number]: INode }
 }
 
 export enum EAxis {
@@ -270,7 +270,7 @@ export class Timeline extends AtomicInt {
     }
 
     // reset available
-    this.available = [...new Array(Timeline.COUNT - arr.length)].map(
+    this.available = [...new Array(TIMELINE_MAX - arr.length)].map(
       (_, i) => i + arr.length
     )
   }

@@ -28,7 +28,7 @@ export class SystemWorker extends Worker {
   }
 
   message(e: MessageEvent) {
-    this.msg.is(e.data)
+    this.msg.set(e.data)
   }
 
   // pipe received messages to other worker

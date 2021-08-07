@@ -6,14 +6,51 @@
 <script lang="ts">
   // organize-imports-ignore
 
-  import { timeline_json } from 'src/buffer'
+  import Box from './Box.svelte'
+  import { timeline, timeline_json } from 'src/buffer'
   import { ETimeline } from 'src/buffer/timeline'
+  import { modal_location, modal_options, modal_visible } from './editor'
+  import { mouse_page, mouse_pos } from 'src/input/mouse'
 
   export let i = 0
 
   $: item = $timeline_json.flat[i] || { data: [0], children: {} }
   $: label = i === 0 ? 'ROOT' : $timeline_json.markers[i] || i
 
+  function addTo(index: number) {
+    modal_visible.set(false)
+    timeline.$.add(0, ETimeline.Define, index, 0, 0, 0)
+    timeline.poke()
+  }
+
+  function remove(index: number) {
+    modal_visible.set(false)
+
+    if (index === 0) return
+
+    for (let child of Object.keys($timeline_json.flat[index].children)) {
+      remove(parseInt(child, 10))
+    }
+    timeline.$.free(index)
+    timeline.poke()
+  }
+
+  function chooseCommand(e) {
+    // see if its a number
+    modal_options.set(
+      Object.keys(ETimeline).filter((k) => {
+        const v = parseInt(k, 10)
+        if (Number.isNaN(v)) {
+          return true
+        }
+      })
+    )
+    modal_location.set(modal_location.$.set($mouse_page.x, $mouse_page.y))
+    modal_visible.set((res) => {
+      timeline.$.command(i, ETimeline[res])
+      timeline.poke()
+    })
+  }
   // show line number and data
 </script>
 
@@ -25,19 +62,22 @@
 
 <div class="node" class:root={i === 0 || item.data[2] === 0}>
   <div class="items">
-    <div class="action">{i === 0 ? '>' : 'x'}</div>
-    <div class="upper">{ETimeline[item.data[1]] || 'root'}</div>
-
+    <Box click={() => remove(i)}>
+      {i === 0 ? '>' : 'x'}
+    </Box>
+    <Box click={chooseCommand} upper>
+      {ETimeline[item.data[1]] || 'root'}
+    </Box>
     {#if item.data.length > 0}
-      <div class="flex">{item.data.slice(3).join(':')}</div>
+      <Box flex>{item.data.slice(3).join(':')}</Box>
     {/if}
 
     {#if i === 0 || item.data[1] === ETimeline.Flock || item.data[1] === ETimeline.Define}
-      <div class="action">+</div>
+      <Box click={() => addTo(i)}>+</Box>
     {:else if item.data[1] !== ETimeline.Define && item.data[1] !== undefined}
-      <div>
+      <Box>
         {item.data[0] / 60}:{item.data[0] % 60}
-      </div>
+      </Box>
     {/if}
   </div>
   <div class="children">
@@ -49,47 +89,19 @@
 
 <style>
   .children {
-    background-color: rgba(2, 255, 213, 0.589);
-    border-radius: 0 0 0 0.5rem;
+    background-color: rgba(2, 91, 255, 0.288);
 
     /*border: solid 0.25rem rgba(151, 2, 151, 0.555);*/
   }
-  .upper {
-    text-transform: uppercase;
-  }
-  .flex {
-    flex: 1;
-  }
-  .action {
-    cursor: pointer;
-  }
+
   .node.root {
     margin: 0;
   }
   .node {
+    cursor: pointer;
     margin-left: 1.75rem;
   }
   .items {
     display: flex;
-  }
-
-  .items div:hover {
-    filter: sepia(0.5);
-  }
-
-  .items div {
-    pointer-events: all;
-
-    background-color: rgb(72, 2, 75);
-    border: solid 0.1rem rgba(255, 255, 255, 0.418);
-    color: rgb(250, 194, 9);
-    font-size: 0.75rem;
-    padding: 0.4rem;
-
-    align-items: right;
-    min-width: 0.5rem;
-    justify-content: center;
-    align-content: center;
-    text-align: center;
   }
 </style>

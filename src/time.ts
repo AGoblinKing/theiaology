@@ -6,10 +6,10 @@ export const delta = new Value(0)
 export const timestamp = new Value(0)
 
 export function Loop($t) {
-  delta.is(($t - timestamp.$) / 1000)
-  timestamp.is($t)
+  delta.set(($t - timestamp.$) / 1000)
+  timestamp.set($t)
 
-  tick.is(tick.$ + 1)
+  tick.set(tick.$ + 1)
 }
 
 export const timeUniform = new Uniform(0.0)

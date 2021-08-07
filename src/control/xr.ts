@@ -29,7 +29,7 @@ document.body.appendChild(button)
 export const onVRClick = new Value(false)
 
 button.addEventListener('click', () => {
-  onVRClick.is(true)
+  onVRClick.set(true)
 
   if (VRInit.$) return
 
@@ -44,10 +44,10 @@ button.addEventListener('click', () => {
       hand.handedness = e.data.handedness
       switch (hand.handedness) {
         case 'left':
-          left_hand.is(hand)
+          left_hand.set(hand)
           break
         case 'right':
-          right_hand.is(hand)
+          right_hand.set(hand)
           break
       }
     })
@@ -59,7 +59,7 @@ button.addEventListener('click', () => {
 
   audio.play()
 
-  VRInit.is(true)
+  VRInit.set(true)
 })
 
 // return the variance from the two posts
@@ -73,7 +73,7 @@ function comparePose(p1: PoseValues, p2: PoseValues): number {
   )
 }
 
-pose.on((v) => requestAnimationFrame(() => last_pose.is(v)))
+pose.on((v) => requestAnimationFrame(() => last_pose.set(v)))
 
 function doPose(hand: IJointGroup) {
   const handPoseValue = poseValue(hand)

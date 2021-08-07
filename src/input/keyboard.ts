@@ -9,7 +9,7 @@ window.addEventListener('keydown', (e) => {
   if (e.target.tagName === 'INPUT') {
     return
   }
-  key_down.is(e.key)
+  key_down.set(e.key)
   key_map.$[e.key] = true
   key_map.poke()
 })
@@ -19,7 +19,7 @@ window.addEventListener('keyup', (e) => {
   if (e.target.tagName === 'INPUT') {
     return
   }
-  key_up.is(e.key)
+  key_up.set(e.key)
   key_map.$[e.key] = false
   key_map.poke()
 })

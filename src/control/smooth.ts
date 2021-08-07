@@ -2,7 +2,7 @@
 
 import { body, camera, renderer } from 'src/render'
 import { delta, doStatic } from 'src/time'
-import { Channel, Value } from 'src/valuechannel'
+import { Value } from 'src/valuechannel'
 import { Vector3 } from 'three'
 
 export const FRICTION = 0.995
@@ -11,7 +11,7 @@ export const MIN_VELOCITY = 0.01
 export const velocity = new Value(-1)
 export const angular = new Value(0)
 
-export const walk = new Channel()
+export const walk = new Value()
 
 const $vec3 = new Vector3(0, 0, -1)
 

@@ -1,4 +1,4 @@
-import GNA from 'src/timeline/GNA.svelte'
+import Theiaology from 'src/timeline/Theiaology.svelte'
 import './audio'
 import * as Buffers from './buffer'
 import './file'
@@ -30,7 +30,7 @@ window.b = Buffers
 // sys.start('physics').send(past, future, matter, velocity, scale)
 
 // startup editor
-const gna = new GNA({
-  target: document.getElementById('gna'),
+const theiaology = new Theiaology({
+  target: document.getElementById('theiaology'),
   props: {},
 })
