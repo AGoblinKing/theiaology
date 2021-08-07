@@ -12,7 +12,9 @@
     reader.addEventListener('load', (e: any) => {
       Load(e.target.result)
     })
-    reader.readAsArrayBuffer(event.target.files[0])
+    try {
+      reader.readAsArrayBuffer(event.target.files[0])
+    } catch (ex) {}
   }
 </script>
 
