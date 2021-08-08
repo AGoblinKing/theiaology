@@ -1,5 +1,5 @@
 import { Matrix4, Vector3 } from 'three'
-import { audio } from './audio'
+import { audio, audio_buffer } from './audio'
 import { Load } from './file/load'
 import { MagickaVoxel } from './magica'
 import { Voxel, voxels, voxels_static } from './shape/vox'
@@ -69,9 +69,12 @@ export function ReadFile(
     case name.indexOf('.mp3') != -1:
     case name.indexOf('.wav') != -1:
     case name.indexOf('.ogg') != -1:
-      audio.src = URL.createObjectURL(file)
+      audio_buffer.set(buffer)
+      audio.src = URL.createObjectURL(
+        file instanceof File ? file : new File([buffer], file)
+      )
       audio.load()
-      audio.play()
+
       break
   }
 }

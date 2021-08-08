@@ -1,3 +1,4 @@
+import { ITimeline } from 'src/timeline/def-timeline'
 import { Value } from 'src/valuechannel'
 import { Animation } from './animation'
 import { Impact } from './impact'
@@ -5,7 +6,7 @@ import { Matter } from './matter'
 import { Scale } from './scale'
 import { SpaceTime } from './spacetime'
 import { Status } from './status'
-import { ITimeline, Timeline } from './timeline'
+import { Timeline } from './timeline'
 import { Velocity } from './velocity'
 
 export const velocity = new Velocity()

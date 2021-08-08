@@ -5,6 +5,7 @@ import { ENTITY_COUNT } from 'src/config'
 export enum EPhase {
   SKIP = 0,
   STUCK,
+  UNBOOPABLE,
   SOLID,
   LIQUID,
   GAS,

@@ -1,8 +1,8 @@
-import { EVar } from 'src/buffer/timeline'
 import { key_down } from 'src/input/keyboard'
 import { mouse_wheel } from 'src/input/mouse'
 import { Value } from 'src/valuechannel'
 import { Vector2 } from 'three'
+import { EVar } from './def-timeline'
 
 export const timeline_shown = new Value(
   `${window.location.hash}`.indexOf('dev') !== -1

@@ -1,129 +1,6 @@
 import { AtomicInt } from 'src/atomic'
 import { TIMELINE_MAX } from 'src/config'
-
-export interface IMarkers {
-  [markerID: number]: string
-}
-
-export interface INode {
-  data?: number[]
-  children: { [key: string]: INode }
-}
-
-// easier for humans to read
-export interface ITimeline extends INode {
-  markers: IMarkers
-  flat: { [key: number]: INode }
-}
-
-export enum EAxis {
-  X,
-  Y,
-  Z,
-  XY,
-  YZ,
-  XZ,
-  XYZ,
-}
-
-// Only allows 0.01 precision
-export enum EVar {
-  Number,
-  String,
-  Positive,
-  Negative,
-  TimelineID,
-  // allows for selection of ID by marker name
-  MarkerID,
-  Color,
-  FlockID,
-  RezID,
-  Position,
-  Shape,
-  // think 0 - 1 but like 0 - MAX_SAFE_INTEGER
-  Normal,
-  Axis,
-  Audio,
-  Vox,
-}
-
-// ETimeline events are reversable transactions that allow for time travel
-// WARNING: Safe to add new events to end but not remove/reorder existing ones
-export enum ETimeline {
-  NONE = 0,
-  DEFINE,
-  MUSIC,
-  FLOCK,
-  SHAPE,
-  COLOR,
-  SCALE,
-  SCALEVAR,
-  ROTATION,
-  REZ,
-  DEREZ,
-  INTERVAL,
-  INTERVALSTOP,
-  MOVE,
-  MOVEFLOCK,
-  VELOCITY,
-  VELOCITYRAND,
-  LOOK,
-  LOOKFLOCK,
-  // Copy's a markers or flocks children's effects
-  COPY,
-  // When something interesting happens the who
-  EVENT,
-
-  // Bind the children's who to another
-  BIND,
-  // TODO: save state and load states, useful if they want to place/spawn a bunch of things like a traditional scene
-  SNAP,
-  SNAPLOAD,
-}
-
-export const Commands: { [key: number]: any } = {
-  [ETimeline.DEFINE]: { text: EVar.String },
-  [ETimeline.MUSIC]: { audio: EVar.Audio },
-  [ETimeline.FLOCK]: { shape: EVar.Shape, count: EVar.Positive },
-
-  [ETimeline.COLOR]: {
-    rgb: EVar.Color,
-    tilt: EVar.Number,
-    variance: EVar.Normal,
-  },
-
-  [ETimeline.SHAPE]: { shape: EVar.Shape },
-  [ETimeline.SCALE]: { x: EVar.Positive, y: EVar.Positive, z: EVar.Positive },
-  [ETimeline.SCALEVAR]: {
-    x: EVar.Positive,
-    y: EVar.Positive,
-    z: EVar.Positive,
-  },
-  [ETimeline.ROTATION]: { x: EVar.Number, y: EVar.Number, z: EVar.Number },
-
-  [ETimeline.REZ]: { xyz: EVar.Position },
-  [ETimeline.DEREZ]: {},
-  [ETimeline.COPY]: { text: EVar.String },
-  [ETimeline.INTERVAL]: {
-    seconds: EVar.Positive,
-    start: EVar.TimelineID,
-    end: EVar.Positive,
-  },
-
-  [ETimeline.INTERVALSTOP]: {},
-  [ETimeline.MOVE]: { xyz: EVar.Position },
-  [ETimeline.MOVEFLOCK]: { flock: EVar.FlockID },
-  [ETimeline.VELOCITY]: {
-    x: EVar.Number,
-    y: EVar.Number,
-    z: EVar.Number,
-  },
-
-  [ETimeline.VELOCITYRAND]: { thrust: EVar.Positive, axis: EVar.Axis },
-
-  [ETimeline.LOOK]: { xyz: EVar.Position },
-  [ETimeline.LOOKFLOCK]: { flock: EVar.FlockID },
-}
+import { ETimeline, ITimeline } from 'src/timeline/def-timeline'
 
 const strConvertBuffer = new ArrayBuffer(4) // an Int32 takes 4 bytes
 const strView = new DataView(strConvertBuffer)
@@ -163,7 +40,6 @@ export class Timeline extends AtomicInt {
     ) {
       const val = v.getInt32(i * 4, true)
 
-      if (i < 10) console.log(i, val)
       if (i % Timeline.COUNT === 0 && val !== 0) {
         this.available.splice(this.available.indexOf(i / Timeline.COUNT), 1)
       }
@@ -207,7 +83,7 @@ export class Timeline extends AtomicInt {
       }
 
       switch (com) {
-        case ETimeline.DEFINE:
+        case ETimeline.TAG:
           root.markers[i] = this.define(i)
 
         // fall through
@@ -333,7 +209,7 @@ export class Timeline extends AtomicInt {
     return i
   }
 
-  // markers are special, only strings
+  // defines are special, only strings available
   define(i: number, str?: string) {
     if (str === undefined) {
       return [this.data1(i), this.data2(i), this.data3(i)]

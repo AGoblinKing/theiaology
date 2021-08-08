@@ -3,7 +3,7 @@
 
   import Box from './Box.svelte'
   import { timeline, timeline_json } from 'src/buffer'
-  import { Commands, ETimeline, EVar } from 'src/buffer/timeline'
+
   import {
     modal_cursor,
     modal_default,
@@ -14,6 +14,7 @@
   import { mouse_page, mouse_pos } from 'src/input/mouse'
 
   import { Color } from 'three'
+  import { Commands, ETimeline, EVar } from './def-timeline'
 
   export let i = 0
 
@@ -25,7 +26,7 @@
 
   function addTo(index: number) {
     modal_visible.set(false)
-    timeline.$.add(0, ETimeline.DEFINE, index, 0, 0, 0)
+    timeline.$.add(0, ETimeline.TAG, index, 0, 0, 0)
     timeline.poke()
   }
 
@@ -62,8 +63,7 @@
       timeline.$.command(i, com)
 
       switch (ETimeline[res]) {
-        case ETimeline.DEFINE:
-        case ETimeline.FLOCK:
+        case ETimeline.TAG:
           break
         default:
           for (let child of Object.keys(item.children)) {
@@ -76,7 +76,7 @@
 
   function inputString() {
     updateModal()
-    modal_options.set(EVar.String)
+    modal_options.set(EVar.STRING)
     modal_default.set(timeline.$.define(i))
     modal_visible.set((res) => {
       timeline.$.define(i, res)
@@ -87,7 +87,7 @@
 
   function inputNumber(cursor: number) {
     updateModal()
-    modal_options.set(EVar.Number)
+    modal_options.set(EVar.NUMBER)
     modal_cursor.set(cursor)
     modal_default.set(timeline.$[`data${cursor + 1}`](i))
     modal_visible.set((res) => {
@@ -98,7 +98,7 @@
   }
   function inputColor(cursor: number) {
     updateModal()
-    modal_options.set(EVar.Color)
+    modal_options.set(EVar.COLOR)
     modal_cursor.set(cursor)
     modal_visible.set((res) => {
       timeline.$[`data${cursor + 1}`](i, res)
@@ -126,15 +126,15 @@
 
     {#if Commands[command]}
       {#each Object.entries(Commands[command]) as [key, value], index (key)}
-        {#if value === EVar.String}
+        {#if value === EVar.STRING}
           <Box flex click={inputString}>
             "{$timeline.define(i)}"
           </Box>
-        {:else if value === EVar.Number || value === EVar.Positive || value == EVar.Negative}
+        {:else if value === EVar.NUMBER || value === EVar.POSITIVE || value == EVar.NEGATIVE}
           <Box flex click={() => inputNumber(index)}>
             {$timeline[`data${index + 1}`](i)}
           </Box>
-        {:else if value == EVar.Position}
+        {:else if value == EVar.VEC3}
           <Box flex click={() => inputNumber(index)}>
             {$timeline.data1(i)}
           </Box>
@@ -144,7 +144,7 @@
           <Box flex click={() => inputNumber(index + 2)}>
             {$timeline.data3(i)}
           </Box>
-        {:else if value === EVar.Color}
+        {:else if value === EVar.COLOR}
           <Box flex click={() => inputColor(index)}>
             <div
               class="color"
@@ -159,9 +159,9 @@
       {/each}
     {/if}
 
-    {#if i === 0 || item.data[1] === ETimeline.FLOCK || item.data[1] === ETimeline.DEFINE}
+    {#if i === 0 || item.data[1] === ETimeline.TAG}
       <Box click={() => addTo(i)}>+</Box>
-    {:else if item.data[1] !== ETimeline.DEFINE && item.data[1] !== undefined}
+    {:else if item.data[1] !== ETimeline.TAG && item.data[1] !== undefined}
       <Box>
         {item.data[0] / 60}:{item.data[0] % 60}
       </Box>

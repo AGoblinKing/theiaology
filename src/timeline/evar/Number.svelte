@@ -12,6 +12,9 @@
 
   function keydown(e: KeyboardEvent) {
     switch (e.key) {
+      case 'Escape':
+        modal_visible.set(false)
+        break
       case 'Enter':
         submit()
         break

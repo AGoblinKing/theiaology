@@ -1,11 +1,11 @@
-import { url } from 'src/input/browser'
 import { Uniform } from 'three'
 import { tick } from './time'
 import { Value } from './valuechannel'
 
 export const audio = document.getElementById('bgm') as HTMLAudioElement
+export const audio_buffer = new Value<ArrayBufferLike>()
 
-export const context = new Value<AudioContext>(undefined)
+export const context = new Value<AudioContext>()
 let started = false
 
 audio.onplay = function () {
@@ -54,12 +54,3 @@ upperAvg.on(($ua) => (upperUniform.value = $ua))
 
 export const lowerAvg = new Value(0)
 lowerAvg.on(($la) => (lowerUniform.value = $la))
-
-// change audio source based on URL
-url.on(($url) => {
-  switch ($url[0]) {
-    case 'music':
-      audio.src = `/music/${$url[1]}.mp3`
-      audio.load()
-  }
-})

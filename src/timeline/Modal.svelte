@@ -1,5 +1,4 @@
 <script lang="ts">
-  import { EVar } from 'src/buffer/timeline'
   import String from './evar/String.svelte'
   import { mouse_left } from 'src/input/mouse'
 
@@ -7,10 +6,20 @@
   import { modal_options, modal_location, modal_visible } from './editor'
   import Number from './evar/Number.svelte'
   import Color from './evar/Color.svelte'
+  import { key_down } from 'src/input/keyboard'
+  import { EVar } from './def-timeline'
 
   // modal is a singleton so Aok, but weird
   mouse_left.on(() => {
     modal_visible.set(false)
+  })
+
+  key_down.on((k) => {
+    switch (k) {
+      case 'Escape':
+        modal_visible.set(false)
+        break
+    }
   })
 </script>
 
@@ -31,11 +40,11 @@
           {content}
         </div>
       {/each}
-    {:else if $modal_options === EVar.String}
+    {:else if $modal_options === EVar.STRING}
       <String />
-    {:else if $modal_options === EVar.Color}
+    {:else if $modal_options === EVar.COLOR}
       <Color />
-    {:else if $modal_options === EVar.Number}
+    {:else if $modal_options === EVar.NUMBER}
       <Number />
     {/if}
   </div>
