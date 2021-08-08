@@ -38,6 +38,7 @@ audio::-webkit-media-controls-enclosure {
   left: 50%;
   bottom: 1rem;
   transform: translate(-50%, 0);
+  z-index: 1001;
 }
 audio::-webkit-media-controls-play-button,
 audio::-webkit-media-controls-volume-control-container {

@@ -1,4 +1,3 @@
-import { doRez } from 'src/time'
 import { VRButton } from 'src/VRButton'
 import { audio } from '../audio'
 import {
@@ -10,10 +9,8 @@ import {
   VRInit,
 } from '../input/xr'
 import { renderer, scene } from '../render'
-import { Rez } from '../rez'
-import { HandShape } from '../shape/hand'
 import * as Spells from '../spell'
-import { Value } from '../valuechannel'
+import { Value } from '../value'
 import { IJointGroup } from '../xr/joints'
 import { poses, poseValue } from '../xr/poses'
 
@@ -114,13 +111,14 @@ function doPose(hand: IJointGroup) {
   }
 }
 
-doRez.on(() => {
-  for (let i = 0; i < hands.$.length; i++) {
-    const count = Object.keys(hands.$[i].joints).length
-    if (count === 0) continue
+// TODO: Update Hand using theiaology
+// doRez.on(() => {
+//   for (let i = 0; i < hands.$.length; i++) {
+//     const count = Object.keys(hands.$[i].joints).length
+//     if (count === 0) continue
 
-    doPose(hands.$[i])
-    // also triggers joint_update for each joint
-    Rez(HandShape, count, hands.$[i])
-  }
-})
+//     doPose(hands.$[i])
+//     // also triggers joint_update for each joint
+//     Rez(HandShape, count, hands.$[i])
+//   }
+// })

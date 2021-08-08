@@ -1,5 +1,5 @@
 import { Uniform } from 'three'
-import { Value } from './valuechannel'
+import { Value } from './value'
 
 export const tick = new Value(0)
 export const delta = new Value(0)
@@ -16,8 +16,3 @@ export const timeUniform = new Uniform(0.0)
 timestamp.on(($t) => {
   timeUniform.value = $t
 })
-
-// timing functions
-export const doRez = new Value(0)
-export const doStatic = new Value(undefined)
-export const doLast = new Value(undefined)

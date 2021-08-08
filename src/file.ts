@@ -1,8 +1,6 @@
 import { Matrix4, Vector3 } from 'three'
 import { audio, audio_buffer } from './audio'
 import { Load } from './file/load'
-import { MagickaVoxel } from './magica'
-import { Voxel, voxels, voxels_static } from './shape/vox'
 
 export const SPAWN_DISTRO = 75
 
@@ -48,22 +46,22 @@ export function ReadFile(
       Load(buffer)
       break
     case name.indexOf('.vox') !== -1:
-      ;(canSleep ? voxels_static : voxels).push(
-        new Voxel(
-          new Matrix4()
-            .identity()
-            .copy(offset || $matrix)
-            .setPosition(
-              $vec3.set(
-                SPAWN_DISTRO * Math.random() - SPAWN_DISTRO / 2,
-                0,
-                SPAWN_DISTRO * Math.random() - SPAWN_DISTRO / 2
-              )
-            ),
-          new MagickaVoxel(buffer),
-          shift
-        )
-      )
+      // ;(canSleep ? voxels_static : voxels).push(
+      //   new Voxel(
+      //     new Matrix4()
+      //       .identity()
+      //       .copy(offset || $matrix)
+      //       .setPosition(
+      //         $vec3.set(
+      //           SPAWN_DISTRO * Math.random() - SPAWN_DISTRO / 2,
+      //           0,
+      //           SPAWN_DISTRO * Math.random() - SPAWN_DISTRO / 2
+      //         )
+      //       ),
+      //     new MagickaVoxel(buffer),
+      //     shift
+      //   )
+      // )
 
       break
     case name.indexOf('.mp3') != -1:
@@ -79,7 +77,6 @@ export function ReadFile(
   }
 }
 
-const $matrix = new Matrix4()
 const cache = {}
 
 export async function ReadURL(
@@ -92,7 +89,7 @@ export async function ReadURL(
     cache[url] = fetch(url).then((r) => r.arrayBuffer())
   }
 
-  ReadFile(url, await cache[url], offset, canSleep, shift)
+  return ReadFile(url, await cache[url], offset, canSleep, shift)
 }
 
 export async function Asset<T>(url: string, callback: Function) {

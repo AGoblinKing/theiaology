@@ -1,7 +1,7 @@
 import { key_down, key_up } from 'src/input/keyboard'
 import { mouse_left, mouse_pos, mouse_right } from 'src/input/mouse'
 import { delta } from 'src/time'
-import { Value } from 'src/valuechannel'
+import { Value } from 'src/value'
 import { MathUtils, Vector2, Vector3 } from 'three'
 import { body, renderer } from '../render'
 import { velocity } from './smooth'

@@ -1,9 +1,9 @@
 import { Uniform } from 'three'
 import { tick } from './time'
-import { Value } from './valuechannel'
+import { Value } from './value'
 
 export const audio = document.getElementById('bgm') as HTMLAudioElement
-export const audio_buffer = new Value<ArrayBufferLike>()
+export const audio_buffer = new Value<ArrayBufferLike | DataView>()
 
 export const context = new Value<AudioContext>()
 let started = false

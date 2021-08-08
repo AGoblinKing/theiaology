@@ -1,4 +1,4 @@
-import { Value } from 'src/valuechannel'
+import { Value } from 'src/value'
 import { Uniform, Vector3 } from 'three'
 import { IJointGroup } from '../xr/joints'
 

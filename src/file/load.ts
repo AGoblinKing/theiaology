@@ -1,26 +1,62 @@
+import { audio, audio_buffer } from 'src/audio'
 import { timeline } from 'src/buffer'
 import { Timeline } from 'src/buffer/timeline'
+import { Value } from 'src/value'
 
 // Load .theia file into the timeline
-export const TIME_START = 4 * 4
+export const SIGNATURE = 'THEA'
+export const HEADER_START = 4 * 4
+export const theia_file = new Value<ArrayBufferLike>().keep('theia_file')
+export const HEADER_END = HEADER_START + 4 * 4
+
 export function Load(bytes: ArrayBuffer) {
-  const view = new DataView(bytes)
-  const timeLength = view.getInt32(TIME_START)
+  try {
+    const view = new DataView(bytes)
 
-  timeline.$.freeAll()
-
-  for (let i = 0; i < timeLength - 1; i++) {
-    const val = view.getInt32(TIME_START * 2 + i * 4)
-    timeline.$.store(i, val)
-
-    // if
-    if (i % Timeline.COUNT === 1 && val !== 0) {
-      timeline.$.available.splice(
-        timeline.$.available.indexOf(Math.floor(i / Timeline.COUNT)),
-        1
-      )
+    // check for THEA file type
+    for (let i = 0; i < SIGNATURE.length; i++) {
+      if (view.getUint8(i) !== SIGNATURE.charCodeAt(i)) {
+        throw new Error('Not a valid THEIA file')
+      }
     }
-  }
 
-  timeline.poke()
+    // Timeline
+    const timeLength = view.getInt32(HEADER_START)
+    const timeEnd = HEADER_END + timeLength
+
+    timeline.$.freeAll()
+    for (let i = 0; i < timeLength / 4; i++) {
+      const val = view.getInt32(HEADER_END + i * 4)
+      timeline.$.store(i, val)
+
+      // remove indexes from available as you come across them
+      if (i % Timeline.COUNT === 1 && val !== 0) {
+        timeline.$.available.splice(
+          timeline.$.available.indexOf(Math.floor(i / Timeline.COUNT)),
+          1
+        )
+      }
+    }
+
+    // Music
+    const musicLength = view.getInt32(HEADER_START + 4)
+
+    if (musicLength > 0) {
+      const mab = new ArrayBuffer(musicLength)
+      const music = new DataView(mab)
+      for (let i = 0; i < musicLength / 4 - 1; i++) {
+        music.setInt32(i * 4, view.getInt32(timeEnd + i * 4))
+      }
+      audio_buffer.set(music)
+      audio.src = URL.createObjectURL(new File([mab], 'thea'))
+      audio.load()
+    }
+
+    // only poke at the end incase we need to revert
+    timeline.poke()
+  } catch (ex) {
+    // undo that garbo
+    console.log(ex)
+    timeline.$.freeAll()
+  }
 }

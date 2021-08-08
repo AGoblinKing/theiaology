@@ -7,7 +7,7 @@ import {
   WebGLRenderer,
 } from 'three'
 import { Loop, tick } from './time'
-import { Value } from './valuechannel'
+import { Value } from './value'
 
 export const scene = new Value(new Scene())
 export const camera = new PerspectiveCamera(

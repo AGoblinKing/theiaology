@@ -73,8 +73,4 @@
     position: absolute;
     z-index: 1000;
   }
-
-  .hidden {
-    display: none;
-  }
 </style>

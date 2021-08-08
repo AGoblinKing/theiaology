@@ -157,6 +157,10 @@
           <Box flex />
         {/if}
       {/each}
+    {:else if i === 0}
+      <Box flex click={inputString}>
+        "{$timeline.define(i)}"
+      </Box>
     {/if}
 
     {#if i === 0 || item.data[1] === ETimeline.TAG}
@@ -177,7 +181,6 @@
 <style>
   .children {
     background-color: rgba(2, 91, 255, 0.288);
-
     /*border: solid 0.25rem rgba(151, 2, 151, 0.555);*/
   }
 

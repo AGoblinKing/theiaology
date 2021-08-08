@@ -1,4 +1,4 @@
-import { Value } from 'src/valuechannel'
+import { Value } from 'src/value'
 
 export const key_down = new Value('')
 export const key_up = new Value('')

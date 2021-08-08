@@ -1,5 +1,5 @@
 import { IAtomic } from 'src/atomic'
-import { Value } from './valuechannel'
+import { Value } from './value'
 
 export type IMessage = IAtomic | number
 

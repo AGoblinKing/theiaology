@@ -1,11 +1,11 @@
 import Theiaology from 'src/timeline/Theiaology.svelte'
+import './atoms'
 import './audio'
 import * as Buffers from './buffer'
 import './file'
 import { ReadURL } from './file'
 import { url } from './input/browser'
 import './player'
-import './scene'
 
 // @ts-ignore
 window.b = Buffers
@@ -37,13 +37,7 @@ const theiaology = new Theiaology({
   props: {},
 })
 
-// change audio source based on URL
+// change theia based on URL
 url.on(($url) => {
-  switch ($url[0]) {
-    case 'music':
-      ReadURL(`/music/${$url[1]}.mp3`)
-      break
-    default:
-      ReadURL(`/music/excellet.mp3`)
-  }
+  ReadURL(`/${$url.join('/')}.theia`)
 })
