@@ -22,10 +22,18 @@
   }
 
   let val = $modal_default
+  let ele
+
+  $: {
+    if (ele) {
+      ele.select()
+    }
+  }
 </script>
 
 <input
   type="text"
+  bind:this={ele}
   bind:value={val}
   autofocus
   maxlength="12"
@@ -35,8 +43,11 @@
 
 <style>
   .modal {
+    column-span: all;
     font-size: 1.5rem;
     width: 18.5rem;
     padding: 1rem;
+
+    grid-column: span 3;
   }
 </style>

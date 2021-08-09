@@ -9,7 +9,7 @@ export const timeline_shown = new Value(
 )
 
 export const modal_location = new Value(new Vector2())
-export const modal_options = new Value<string[] | EVar>([])
+export const modal_options = new Value<string[] | EVar | string>([])
 export const modal_default = new Value<any>()
 export const modal_visible = new Value<false | ((result: string) => void)>(
   false

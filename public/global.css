@@ -109,3 +109,7 @@ input {
   padding: 0.4rem;
   font-family: pixel;
 }
+
+input[type='color'] {
+  padding: 0;
+}

@@ -4,6 +4,7 @@ import { Value } from './value'
 
 export const audio = document.getElementById('bgm') as HTMLAudioElement
 export const audio_buffer = new Value<ArrayBufferLike | DataView>()
+export const audio_name = new Value('')
 
 export const context = new Value<AudioContext>()
 let started = false

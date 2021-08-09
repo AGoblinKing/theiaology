@@ -53,8 +53,8 @@ export class MagickaVoxel {
   xyzi: Uint8Array
   rgba: Uint8Array
 
-  constructor(data: ArrayBufferLike) {
-    this.view = new DataView(data)
+  constructor(data: ArrayBufferLike | DataView) {
+    this.view = data instanceof DataView ? data : new DataView(data)
 
     this.chunk()
     if (!this.rgba) {

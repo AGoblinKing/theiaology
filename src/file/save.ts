@@ -1,31 +1,43 @@
 import fs from 'file-saver'
-import { audio_buffer } from 'src/audio'
+import { set } from 'idb-keyval'
+import { audio_buffer, audio_name } from 'src/audio'
 import { timeline } from 'src/buffer'
-import { HEADER_START, Load, SIGNATURE } from './load'
-
+import { timeline_shown } from 'src/timeline/editor'
+import { voxes } from 'src/vox'
+import { dbLoaded, HEADER_START, SIGNATURE } from './load'
 // Save .theia file
-export function Save() {
+export function Save(withFile = true) {
   const name = timeline.$.text(0)
   const buff = BuildBuffer()
 
-  fs.saveAs(
-    new Blob([buff], {
-      type: 'application/octet-stream',
-    }),
-    `${name}.theia`
-  )
+  withFile &&
+    fs.saveAs(
+      new Blob([buff], {
+        type: 'application/octet-stream',
+      }),
+      `${name}.theia`
+    )
 
-  setTimeout(() => Load(buff), 1000)
+  // also save to DB
+
+  set(window.location.pathname, buff)
 }
 
 export function BuildBuffer() {
   // [THEA, TIME_SIZE, VOX_SIZE, MUSIC_SIZE, 0, 0, ...
   const header = HEADER_START * 2
   const timelineLength = timeline.$.length * 4
-  const audioLength = audio_buffer.$ ? audio_buffer.$.byteLength : 0
+  const audioLength = audio_buffer.$ ? audio_buffer.$.byteLength + 12 : 0
+
+  let voxLength = 0
+
+  Object.entries(voxes.$).forEach(([key, value]) => {
+    // size, string, bytes
+    voxLength += 16 + value.view.byteLength
+  })
 
   const buffer = new DataView(
-    new ArrayBuffer(audioLength + timelineLength + header)
+    new ArrayBuffer(audioLength + timelineLength + header + voxLength)
   )
 
   SIGNATURE.split('').forEach((s, i) => {
@@ -45,20 +57,48 @@ export function BuildBuffer() {
   // Music
   if (audio_buffer.$) {
     // we store in int length
-    buffer.setInt32(HEADER_START + 4, audio_buffer.$.byteLength)
+    buffer.setInt32(HEADER_START + 4, audioLength)
     const audioView =
       audio_buffer.$ instanceof DataView
         ? audio_buffer.$
         : new DataView(audio_buffer.$)
+
+    // set audio name
+    for (let i = 0; i < Math.min(audio_name.$.length, 12); i++) {
+      buffer.setUint8(i + header + timelineLength, audio_name.$.charCodeAt(i))
+    }
+
     for (let i = 0; i < audioView.byteLength; i++) {
-      buffer.setUint8(i + header + timelineLength, audioView.getUint8(i))
+      buffer.setUint8(i + header + timelineLength + 12, audioView.getUint8(i))
     }
   } else {
     buffer.setInt32(HEADER_START + 4, 0)
   }
 
   // VOX files total int size
-  buffer.setInt32(HEADER_START + 4 * 2, 0)
+  const voxStart = header + timelineLength + audioLength
+  buffer.setInt32(HEADER_START + 4 + 4, voxLength)
+
+  let cursor = voxStart
+  Object.entries(voxes.$).forEach(([key, value]) => {
+    buffer.setInt32(cursor, value.view.byteLength)
+    cursor += 4
+
+    for (let i = 0; i < Math.min(12, key.length); i++) {
+      buffer.setUint8(cursor, key[i].charCodeAt(i))
+    }
+    cursor += 12
+
+    for (let i = 0; i < value.view.byteLength; i++) {
+      buffer.setUint8(cursor + i, value.view.getUint8(i))
+    }
+    cursor += value.view.byteLength
+  })
 
   return buffer.buffer
 }
+
+setInterval(() => {
+  if (!timeline_shown.$ || !dbLoaded.$) return
+  Save(false)
+}, 1000)

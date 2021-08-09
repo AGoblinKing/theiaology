@@ -11,15 +11,11 @@
     modal_options,
     modal_visible,
   } from './editor'
-  import { mouse_page, mouse_pos } from 'src/input/mouse'
+  import { mouse_page } from 'src/input/mouse'
 
-  import { Color } from 'three'
   import { Commands, ETimeline, EVar } from './def-timeline'
-  import { hashcode } from './color'
 
   export let i = 0
-
-  const color = new Color()
 
   $: item = $timeline_json.flat[i] || { data: [0], children: {} }
   $: command = $timeline.command(i)
@@ -43,7 +39,9 @@
   }
 
   function updateModal() {
-    modal_location.set(modal_location.$.set($mouse_page.x, $mouse_page.y))
+    modal_location.set(
+      modal_location.$.set($mouse_page.x - 5, $mouse_page.y - 5)
+    )
   }
 
   function chooseCommand() {
@@ -52,7 +50,10 @@
     modal_options.set(
       Object.keys(ETimeline).filter((k) => {
         const v = parseInt(k, 10)
-        if (Number.isNaN(v)) {
+
+        if (k === 'NONE' || Commands[ETimeline[k]] === undefined) return false
+
+        if (window.Number.isNaN(v)) {
           return true
         }
       })
@@ -74,6 +75,25 @@
     })
   }
 
+  function inputEnum(cursor: number, en: any) {
+    updateModal()
+
+    modal_options.set(
+      Object.keys(en).filter((k) => {
+        const v = parseInt(k, 10)
+
+        if (window.Number.isNaN(v)) {
+          return true
+        }
+      })
+    )
+
+    modal_visible.set((res) => {
+      timeline.$[`data${cursor}`](i, en[res])
+      timeline.poke()
+    })
+  }
+
   function inputString() {
     updateModal()
     modal_options.set(EVar.STRING)
@@ -89,23 +109,33 @@
     updateModal()
     modal_options.set(EVar.NUMBER)
     modal_cursor.set(cursor)
-    modal_default.set(timeline.$[`data${cursor + 1}`](i))
+    modal_default.set(timeline.$[`data${cursor}`](i))
     modal_visible.set((res) => {
-      timeline.$[`data${cursor + 1}`](i, res)
+      timeline.$[`data${cursor}`](i, res)
       timeline.poke()
       modal_visible.set(false)
     })
   }
-  function inputColor(cursor: number) {
+
+  function inputNormal(cursor: number) {
     updateModal()
-    modal_options.set(EVar.COLOR)
+    modal_options.set(EVar.NORMAL)
     modal_cursor.set(cursor)
+    modal_default.set(timeline.$[`data${cursor}`](i))
     modal_visible.set((res) => {
-      timeline.$[`data${cursor + 1}`](i, res)
+      timeline.$[`data${cursor}`](i, res)
       timeline.poke()
       modal_visible.set(false)
     })
   }
+
+  function inputVOX(cursor: number) {}
+
+  function submitColor(index: number, val: number) {
+    timeline.$[`data${index}`](i, val)
+    timeline.poke()
+  }
+
   $: label = ETimeline[item.data[1]] || 'root'
 
   $: nadd = `${i}-add`
@@ -174,6 +204,7 @@
         {#if value === EVar.STRING}
           <Box
             flex
+            hover={key}
             click={inputString}
             nav={{
               tag: `${ndata}-${index}`,
@@ -187,38 +218,70 @@
             "{$timeline.text(i)}"
           </Box>
         {:else if value === EVar.NUMBER || value === EVar.POSITIVE || value == EVar.NEGATIVE}
-          <Box flex click={() => inputNumber(index)} nav={{ tag: `${i}-data` }}>
-            {$timeline[`data${index + 1}`](i)}
+          <Box
+            flex
+            hover={key}
+            click={() => inputNumber(index)}
+            nav={{ tag: `${i}-data-${index}` }}
+          >
+            {$timeline[`data${index}`](i)}
           </Box>
         {:else if value == EVar.VEC3}
-          <Box flex click={() => inputNumber(index)} nav={{ tag: `${i}-data` }}>
+          <Box
+            flex
+            hover={key}
+            click={() => inputNumber(index)}
+            nav={{ tag: `${i}-data-${index}` }}
+          >
+            {$timeline.data0(i)}
+          </Box>
+          <Box
+            hover={key}
+            flex
+            click={() => inputNumber(index + 1)}
+            nav={{ tag: `${i}-data-${index}` }}
+          >
             {$timeline.data1(i)}
           </Box>
           <Box
+            hover={key}
             flex
-            click={() => inputNumber(index + 1)}
-            nav={{ tag: `${i}-data` }}
+            click={() => inputNumber(index + 2)}
+            nav={{ tag: `${i}-data-${index}` }}
           >
             {$timeline.data2(i)}
           </Box>
-          <Box
-            flex
-            click={() => inputNumber(index + 2)}
-            nav={{ tag: `${i}-data` }}
-          >
-            {$timeline.data3(i)}
-          </Box>
         {:else if value === EVar.COLOR}
-          <Box flex click={() => inputColor(index)} nav={{ tag: `${i}-data` }}>
-            <div
-              class="color"
-              style="background-color: #{color
-                .set($timeline[`data${index + 1}`](i))
-                .getHexString()}"
+          <Box hover={key} notilt flex nav={{ tag: `${i}-data-${index}` }}>
+            <input
+              type="color"
+              value="#{`000000${$timeline[`data${index}`](i).toString(
+                16
+              )}`.slice(-6)}"
+              on:change={(e) => {
+                // @ts-ignore
+                submitColor(index, parseInt(e.target.value.slice(1), 16))
+              }}
             />
           </Box>
+        {:else if typeof value === 'object'}
+          <Box
+            hover={key}
+            flex
+            click={() => inputEnum(index, value)}
+            nav={{ tag: `${i}-data-${index}` }}
+          >
+            {value[$timeline[`data${index}`](i)]}
+          </Box>
+        {:else if value === EVar.NORMAL}
+          <Box flex hover={key} click={() => inputNormal(index)}>
+            {(
+              ($timeline[`data${index}`](i) / window.Number.MAX_SAFE_INTEGER) *
+              100
+            ).toFixed(0)}%
+          </Box>
         {:else}
-          <Box flex />
+          <Box flex hover="{key} - Not Implemented" />
         {/if}
       {/each}
     {:else if i === 0}
@@ -264,9 +327,6 @@
     /*border: solid 0.25rem rgba(151, 2, 151, 0.555);*/
   }
 
-  .color {
-    width: 2rem;
-  }
   .node.root {
     margin: 0;
   }

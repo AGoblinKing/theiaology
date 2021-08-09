@@ -1,7 +1,9 @@
 <script lang="ts">
-  import { Load } from 'src/file/load'
+  import { audio, audio_buffer, audio_name } from 'src/audio'
+  import { ReadFile } from 'src/file'
 
   import { Save } from 'src/file/save'
+  import { voxes } from 'src/vox'
   import Box from './Box.svelte'
 
   // organize-imports-ignore
@@ -10,7 +12,7 @@
   async function loadFile(event) {
     const reader = new FileReader()
     reader.addEventListener('load', (e: any) => {
-      Load(e.target.result)
+      ReadFile(event.target.files[0], e.target.result)
     })
     try {
       reader.readAsArrayBuffer(event.target.files[0])
@@ -19,15 +21,24 @@
 </script>
 
 <div class="commands">
-  <Box nav={{ tag: 'theiaology', right: 'load', left: 'save', down: 'root' }}
-    >> THEIAOLOGY</Box
+  <Box
+    hover="Editor for .Theia Files"
+    nav={{
+      tag: 'theiaology',
+
+      right: 'load',
+      left: 'save',
+      down: 'root',
+    }}>> THEIAOLOGY</Box
   >
-  <Box nav={{ tag: 'load', left: 'theiaology', right: 'save', down: 'root' }}
+  <Box
+    hover="Load files into theia "
+    nav={{ tag: 'load', left: 'theiaology', right: 'save', down: 'root' }}
     ><input
       id="load"
       type="file"
       title="LOAD"
-      accept=".theia"
+      accept=".theia,.mp3,.ogg,.wav,.vox"
       on:change={loadFile}
     />
     <label for="load">LOAD</label></Box
@@ -40,6 +51,35 @@
 <div class="timeline">
   <div class="nodes">
     <Node />
+    {#if $audio_buffer}
+      <div class="vox">
+        <Box
+          tilt={180}
+          hover="Remove Music"
+          click={() => {
+            audio_buffer.set(undefined)
+            audio.src = ''
+            audio.load()
+          }}>x</Box
+        >
+        <Box tilt={180} hover="Audio File">MUSIC</Box>
+        <Box tilt={180} hover="Audio File">{$audio_name}</Box>
+      </div>
+    {/if}
+    {#each Object.keys($voxes) as key}
+      <div class="vox">
+        <Box
+          tilt={90}
+          hover="Remove VOX"
+          click={() => {
+            delete $voxes[key]
+            voxes.poke()
+          }}>x</Box
+        >
+        <Box tilt={90} hover="VOX Model File">VOX</Box>
+        <Box tilt={90} hover="Name of the VOX">{key}</Box>
+      </div>
+    {/each}
   </div>
 </div>
 
@@ -50,6 +90,10 @@
   }
   label {
     cursor: pointer;
+  }
+
+  .vox {
+    display: flex;
   }
 
   .nodes {

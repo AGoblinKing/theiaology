@@ -22,6 +22,27 @@
   }
 
   let val = $modal_default
+
+  let ele
+
+  $: {
+    if (ele) {
+      ele.select()
+    }
+  }
 </script>
 
-<input type="number" bind:value={val} autofocus on:keydown={keydown} />
+<input
+  type="number"
+  bind:value={val}
+  autofocus
+  bind:this={ele}
+  on:keydown={keydown}
+  class="span"
+/>
+
+<style>
+  .span {
+    grid-column: span 3;
+  }
+</style>

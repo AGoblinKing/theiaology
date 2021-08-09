@@ -1,8 +1,8 @@
-import { Matrix4, Vector3 } from 'three'
-import { audio, audio_buffer } from './audio'
+import { audio, audio_buffer, audio_name } from './audio'
+import { timeline } from './buffer'
 import { Load } from './file/load'
-
-export const SPAWN_DISTRO = 75
+import { MagickaVoxel } from './magica'
+import { voxes } from './vox'
 
 window.addEventListener('dragover', (e) => {
   e.dataTransfer.dropEffect = `copy`
@@ -30,39 +30,18 @@ window.addEventListener('drop', async (e) => {
   }
 })
 
-const $vec3 = new Vector3()
-
 // ReadFile
-export function ReadFile(
-  file: File | string,
-  buffer: ArrayBufferLike,
-  offset?: Matrix4,
-  canSleep?: boolean,
-  shift?: number
-) {
+export function ReadFile(file: File | string, buffer: ArrayBufferLike) {
   const { name } = typeof file === 'string' ? { name: file } : file
   switch (true) {
+    case name.indexOf('.vox') !== -1:
+      console.log(name)
+      voxes.$[name.slice(12)] = new MagickaVoxel(buffer)
+      voxes.poke()
+      timeline.poke()
+      break
     case name.indexOf('.theia') !== -1:
       Load(buffer)
-      break
-    case name.indexOf('.vox') !== -1:
-      // ;(canSleep ? voxels_static : voxels).push(
-      //   new Voxel(
-      //     new Matrix4()
-      //       .identity()
-      //       .copy(offset || $matrix)
-      //       .setPosition(
-      //         $vec3.set(
-      //           SPAWN_DISTRO * Math.random() - SPAWN_DISTRO / 2,
-      //           0,
-      //           SPAWN_DISTRO * Math.random() - SPAWN_DISTRO / 2
-      //         )
-      //       ),
-      //     new MagickaVoxel(buffer),
-      //     shift
-      //   )
-      // )
-
       break
     case name.indexOf('.mp3') != -1:
     case name.indexOf('.wav') != -1:
@@ -72,6 +51,7 @@ export function ReadFile(
         file instanceof File ? file : new File([buffer], file)
       )
       audio.load()
+      audio_name.set(name.split('.')[0].slice(16))
 
       break
   }
@@ -79,23 +59,10 @@ export function ReadFile(
 
 const cache = {}
 
-export async function ReadURL(
-  url: string,
-  offset?: Matrix4,
-  canSleep?: boolean,
-  shift?: number
-) {
+export async function ReadURL(url: string) {
   if (!cache[url]) {
     cache[url] = fetch(url).then((r) => r.arrayBuffer())
   }
 
-  return ReadFile(url, await cache[url], offset, canSleep, shift)
-}
-
-export async function Asset<T>(url: string, callback: Function) {
-  if (!cache[url]) {
-    cache[url] = fetch(url).then((r) => r.arrayBuffer())
-  }
-
-  return callback(await cache[url])
+  return ReadFile(url, await cache[url])
 }

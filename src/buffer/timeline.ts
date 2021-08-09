@@ -98,9 +98,9 @@ export class Timeline extends AtomicInt {
             this.when(i),
             com,
             who,
+            this.data0(i),
             this.data1(i),
             this.data2(i),
-            this.data3(i),
           ]
 
           cursor.children[i] = root.flat[i]
@@ -132,9 +132,9 @@ export class Timeline extends AtomicInt {
         this.when(i),
         w,
         this.who(i),
+        this.data0(i),
         this.data1(i),
         this.data2(i),
-        this.data3(i),
       ])
     }
 
@@ -212,7 +212,7 @@ export class Timeline extends AtomicInt {
   // defines are special, only strings available
   text(i: number, str?: string) {
     if (str === undefined) {
-      return [this.data1(i), this.data2(i), this.data3(i)]
+      return [this.data0(i), this.data1(i), this.data2(i)]
         .map((num: number) => {
           strView.setInt32(0, num, false)
           return (
@@ -272,19 +272,19 @@ export class Timeline extends AtomicInt {
       : Atomics.store(this, i * Timeline.COUNT + 2, who)
   }
 
-  data1(i: number, d1?: number) {
+  data0(i: number, d1?: number) {
     return d1 === undefined
       ? Atomics.load(this, i * Timeline.COUNT + 3)
       : Atomics.store(this, i * Timeline.COUNT + 3, d1)
   }
 
-  data2(i: number, d2?: number) {
+  data1(i: number, d2?: number) {
     return d2 === undefined
       ? Atomics.load(this, i * Timeline.COUNT + 4)
       : Atomics.store(this, i * Timeline.COUNT + 4, d2)
   }
 
-  data3(i: number, d3?: number) {
+  data2(i: number, d3?: number) {
     return d3 === undefined
       ? Atomics.load(this, i * Timeline.COUNT + 5)
       : Atomics.store(this, i * Timeline.COUNT + 5, d3)

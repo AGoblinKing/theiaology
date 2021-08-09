@@ -1,3 +1,4 @@
+import { EAnimation } from 'src/buffer/animation'
 import { EGravity, EMatter, EPhase } from 'src/buffer/matter'
 
 export interface IMarkers {
@@ -13,6 +14,16 @@ export interface INode {
 export interface ITimeline extends INode {
   markers: IMarkers
   flat: { [key: number]: INode }
+}
+
+export enum EShape {
+  Plane,
+  Sphere,
+  Circle,
+
+  Wall,
+  Box,
+  Ring,
 }
 
 export enum EAxis {
@@ -38,11 +49,11 @@ export enum EVar {
   SHAPE,
   // think 0 - 1 but like 0 - MAX_SAFE_INTEGER
   NORMAL,
-  AXIS,
   AUDIO,
   VOX,
   // -1 0 1
   SIGN,
+  TIME,
 }
 
 // ETimeline events are reversable transactions that allow for time travel
@@ -59,10 +70,10 @@ export enum ETimeline {
   DEREZ,
   POS,
   POSTO,
-  POSRAND,
+  POSVAR,
   THRUST,
   THRUSTTO,
-  THRUSTRAND,
+  THRUSTVAR,
   ROTATION,
   LOOK,
   LOOKTO,
@@ -77,20 +88,25 @@ export enum ETimeline {
   CONTROL,
   NET,
   AI,
+  EFFECTS,
 }
 
 export const Commands: { [key: number]: any } = {
   [ETimeline.TAG]: { text: EVar.STRING },
-  [ETimeline.SHAPE]: { shape: EVar.SHAPE, count: EVar.POSITIVE },
+  [ETimeline.SHAPE]: {
+    shape: EVar.SHAPE,
+    size1: EVar.POSITIVE,
+    size2: EVar.POSITIVE,
+  },
   [ETimeline.MATTER]: { phase: EPhase, matter: EMatter, gravity: EGravity },
   [ETimeline.COLOR]: {
     rgb: EVar.COLOR,
-    tilt: EVar.NUMBER,
+    tilt: EVar.NORMAL,
     variance: EVar.NORMAL,
   },
 
   [ETimeline.SIZE]: { x: EVar.POSITIVE, y: EVar.POSITIVE, z: EVar.POSITIVE },
-  [ETimeline.MUSIC]: { audio: EVar.AUDIO },
+  //   [ETimeline.MUSIC]: { audio: EVar.AUDIO },
   [ETimeline.SIZEVAR]: {
     x: EVar.POSITIVE,
     y: EVar.POSITIVE,
@@ -102,24 +118,24 @@ export const Commands: { [key: number]: any } = {
   [ETimeline.DEREZ]: {},
 
   [ETimeline.POS]: { xyz: EVar.VEC3 },
-  [ETimeline.POSRAND]: {
-    thrust: EVar.POSITIVE,
-    axis: EVar.AXIS,
-    constraint: EVar.SIGN,
+  [ETimeline.POSVAR]: {
+    xyz: EVar.VEC3,
   },
-  [ETimeline.POSTO]: { tag: EVar.TAGID },
   [ETimeline.THRUST]: {
     xyz: EVar.VEC3,
   },
-  [ETimeline.THRUSTTO]: {
-    tag: EVar.TAGID,
-  },
-  [ETimeline.THRUSTRAND]: {
+
+  [ETimeline.THRUSTVAR]: {
     thrust: EVar.POSITIVE,
-    axis: EVar.AXIS,
+    axis: EAxis,
     constraint: EVar.SIGN,
   },
 
   [ETimeline.LOOK]: { xyz: EVar.VEC3 },
-  [ETimeline.LOOKTO]: { tag: EVar.TAGID },
+  // [ETimeline.POSTO]: { tag: EVar.TAGID },
+  // [ETimeline.LOOKTO]: { tag: EVar.TAGID },
+  // [ETimeline.THRUSTTO]: {
+  //     tag: EVar.TAGID,
+  // },
+  [ETimeline.EFFECTS]: { animation: EAnimation },
 }

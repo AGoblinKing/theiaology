@@ -83,8 +83,10 @@
 
   $: selected = $cursor.tag !== '' && $cursor.tag === nav.tag
 
+  export let notilt = false
   export let tilt = 0
   export let hover = ''
+  export let span = false
   // organize-imports-ignore
   export let flex = false
   export let upper = false
@@ -129,18 +131,20 @@
 </script>
 
 <div
-  class="box"
+  class="box "
+  class:span
   class:flex
   class:upper
   bind:this={box}
   on:click={doClick}
+  class:notilt
   on:focus={() => {}}
   on:mouseover={() => {
     if (hover === '') return
 
     modal_location.set(modal_location.$.set(300, 5))
     modal_visible.set(() => {})
-    modal_options.set([hover])
+    modal_options.set(hover)
   }}
   style="filter: hue-rotate({selected ? 90 : tilt}deg);"
 >
@@ -148,6 +152,9 @@
 </div>
 
 <style>
+  .span {
+    grid-column: span 3;
+  }
   .upper {
     text-transform: uppercase;
   }
@@ -155,8 +162,9 @@
     flex: 1;
   }
   .box {
-    text-shadow: rgb(0, 0, 0) 0.075rem 0.075rem 0rem;
-    transition: all 1000ms ease-in-out;
+    text-shadow: rgb(0, 0, 0) 0.075rem 0.075rem 0rem,
+      rgb(0, 0, 0) -0.075rem -0.075rem 0rem;
+
     box-shadow: inset 0 0.075rem 5rem rgb(72, 2, 75);
     border: solid 0.1rem rgba(255, 255, 255, 0.418);
     color: rgb(250, 194, 9);
@@ -166,13 +174,14 @@
     pointer-events: all;
     min-width: 0.5rem;
     cursor: pointer;
-    align-items: right;
 
     display: flex;
     justify-content: center;
-    align-content: center;
+    align-items: center;
   }
-
+  .box.notilt {
+    filter: none !important;
+  }
   .box:hover {
     filter: sepia(0.5) hue-rotate(-90deg) !important;
   }

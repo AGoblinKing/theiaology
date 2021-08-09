@@ -5,11 +5,12 @@
   // organize-imports-ignore
   import { modal_options, modal_location, modal_visible } from './editor'
   import Number from './evar/Number.svelte'
-  import Color from './evar/Color.svelte'
+  import Normal from './evar/Normal.svelte'
+
   import { key_down } from 'src/input/keyboard'
   import { EVar } from './def-timeline'
   import Box from 'src/timeline/Box.svelte'
-  import { hashcode } from './color'
+
   // modal is a singleton so Aok, but weird
   mouse_left.on(() => {
     modal_visible.set(false)
@@ -34,7 +35,11 @@
       ? $modal_location.y - (len / 5) * 40
       : $modal_location.y}px"
   >
-    {#if Array.isArray($modal_options)}
+    {#if typeof $modal_options === 'string'}
+      <Box span>
+        {$modal_options}
+      </Box>
+    {:else if Array.isArray($modal_options)}
       {#each $modal_options as content}
         <Box>
           <div
@@ -48,10 +53,10 @@
           </div>
         </Box>
       {/each}
+    {:else if $modal_options === EVar.NORMAL}
+      <Normal />
     {:else if $modal_options === EVar.STRING}
       <String />
-    {:else if $modal_options === EVar.COLOR}
-      <Color />
     {:else if $modal_options === EVar.NUMBER}
       <Number />
     {/if}
@@ -62,14 +67,14 @@
   .item {
     text-align: center;
     padding: 0.4rem;
-    transition: all 250ms ease-in-out;
+
     cursor: pointer;
     font-size: 0.75rem;
   }
 
   .modal {
     display: grid;
-    grid-template-columns: auto auto auto auto auto;
+    grid-template-columns: 1fr 1fr 1fr;
     pointer-events: all;
     position: absolute;
     z-index: 1001;
