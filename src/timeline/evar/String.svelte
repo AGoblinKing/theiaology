@@ -30,4 +30,13 @@
   autofocus
   maxlength="12"
   on:keydown={keydown}
+  class="modal"
 />
+
+<style>
+  .modal {
+    font-size: 1.5rem;
+    width: 18.5rem;
+    padding: 1rem;
+  }
+</style>

@@ -84,7 +84,7 @@ export class Timeline extends AtomicInt {
 
       switch (com) {
         case ETimeline.TAG:
-          root.markers[i] = this.define(i)
+          root.markers[i] = this.text(i)
 
         // fall through
         default:
@@ -210,7 +210,7 @@ export class Timeline extends AtomicInt {
   }
 
   // defines are special, only strings available
-  define(i: number, str?: string) {
+  text(i: number, str?: string) {
     if (str === undefined) {
       return [this.data1(i), this.data2(i), this.data3(i)]
         .map((num: number) => {

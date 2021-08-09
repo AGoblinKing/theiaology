@@ -19,8 +19,10 @@
 </script>
 
 <div class="commands">
-  <Box>> THEIAOLOGY</Box>
-  <Box
+  <Box nav={{ tag: 'theiaology', right: 'load', left: 'save', down: 'root' }}
+    >> THEIAOLOGY</Box
+  >
+  <Box nav={{ tag: 'load', left: 'theiaology', right: 'save', down: 'root' }}
     ><input
       id="load"
       type="file"
@@ -30,7 +32,10 @@
     />
     <label for="load">LOAD</label></Box
   >
-  <Box click={Save}>SAVE</Box>
+  <Box
+    nav={{ tag: 'save', right: 'theiaology', left: 'load', down: 'root' }}
+    click={Save}>SAVE</Box
+  >
 </div>
 <div class="timeline">
   <div class="nodes">

@@ -5,7 +5,7 @@ import { HEADER_START, Load, SIGNATURE } from './load'
 
 // Save .theia file
 export function Save() {
-  const name = window.location.pathname || 'root'
+  const name = timeline.$.text(0)
   const buff = BuildBuffer()
 
   fs.saveAs(

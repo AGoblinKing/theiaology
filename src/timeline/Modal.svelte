@@ -8,7 +8,8 @@
   import Color from './evar/Color.svelte'
   import { key_down } from 'src/input/keyboard'
   import { EVar } from './def-timeline'
-
+  import Box from 'src/timeline/Box.svelte'
+  import { hashcode } from './color'
   // modal is a singleton so Aok, but weird
   mouse_left.on(() => {
     modal_visible.set(false)
@@ -21,24 +22,31 @@
         break
     }
   })
+
+  $: len = Array.isArray($modal_options) ? $modal_options.length : 1
 </script>
 
 {#if $modal_visible}
   <div
     class="modal"
-    style="left: {$modal_location.x}px; top: {$modal_location.y}px"
+    style="left: {$modal_location.x}px; top: {$modal_location.y >
+    window.innerHeight / 2
+      ? $modal_location.y - (len / 5) * 40
+      : $modal_location.y}px"
   >
     {#if Array.isArray($modal_options)}
       {#each $modal_options as content}
-        <div
-          class="item"
-          on:click={() => {
-            if (typeof $modal_visible === 'function') $modal_visible(content)
-            modal_visible.set(false)
-          }}
-        >
-          {content}
-        </div>
+        <Box>
+          <div
+            class="item"
+            on:click={() => {
+              if (typeof $modal_visible === 'function') $modal_visible(content)
+              modal_visible.set(false)
+            }}
+          >
+            {content}
+          </div>
+        </Box>
       {/each}
     {:else if $modal_options === EVar.STRING}
       <String />
@@ -56,21 +64,16 @@
     padding: 0.4rem;
     transition: all 250ms ease-in-out;
     cursor: pointer;
-    border-bottom: 0.1rem solid rgba(255, 255, 255, 0.541);
-  }
-  .item:hover {
-    filter: sepia(0.5) hue-rotate(90deg);
+    font-size: 0.75rem;
   }
 
   .modal {
+    display: grid;
+    grid-template-columns: auto auto auto auto auto;
     pointer-events: all;
     position: absolute;
-    background-color: rgb(72, 2, 75);
-    border: solid 0.1rem rgba(255, 255, 255, 0.418);
-    color: rgb(250, 194, 9);
-    font-size: 0.5rem;
-
     z-index: 1001;
-    text-shadow: rgb(0, 0, 0) 0.075rem 0.075rem 0rem;
+    background-color: rgba(72, 2, 75, 0.75);
+    border: solid 0.1rem rgba(255, 255, 255, 0.418);
   }
 </style>

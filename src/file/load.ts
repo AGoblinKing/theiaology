@@ -1,12 +1,11 @@
 import { audio, audio_buffer } from 'src/audio'
 import { timeline } from 'src/buffer'
 import { Timeline } from 'src/buffer/timeline'
-import { Value } from 'src/value'
 
 // Load .theia file into the timeline
 export const SIGNATURE = 'THEA'
 export const HEADER_START = 4 * 4
-export const theia_file = new Value<ArrayBufferLike>().keep('theia_file')
+
 export const HEADER_END = HEADER_START + 4 * 4
 
 export function Load(bytes: ArrayBuffer) {
