@@ -56,7 +56,8 @@ export function BuildBuffer() {
   }
 
   // Music
-  if (audio_buffer.$) {
+
+  if (audio_buffer.$ !== undefined) {
     // we store in int length
     buffer.setInt32(HEADER_START + 4, audioLength)
     const audioView =
@@ -86,7 +87,8 @@ export function BuildBuffer() {
     cursor += 4
 
     for (let i = 0; i < Math.min(12, key.length); i++) {
-      buffer.setUint8(cursor, key[i].charCodeAt(i))
+      const v = key.charCodeAt(i)
+      buffer.setUint8(cursor + i, Number.isNaN(v) ? 0 : v)
     }
     cursor += 12
 
