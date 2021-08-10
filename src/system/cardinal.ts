@@ -78,6 +78,7 @@ class Cardinal extends System {
               case ECardinalMessage.RequestID:
                 break
               case ECardinalMessage.TimelineUpdated:
+                this.timelineUpdated()
                 break
               case ECardinalMessage.FreeAll:
                 this.freeAll()
@@ -86,6 +87,12 @@ class Cardinal extends System {
             return
         }
     }
+  }
+
+  timelineUpdated() {
+    this.freeAll()
+
+    // run through timeline and execute rezes
   }
 
   freeAll() {

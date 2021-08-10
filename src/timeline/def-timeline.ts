@@ -96,8 +96,8 @@ export const Commands: { [key: number]: any } = {
   [ETimeline.TAG]: { text: EVar.STRING },
   [ETimeline.SHAPE]: {
     shape: EShape,
-    size1: EVar.POSITIVE,
-    size2: EVar.POSITIVE,
+    size: EVar.POSITIVE,
+    step: EVar.POSITIVE,
   },
   [ETimeline.MATTER]: { phase: EPhase, matter: EMatter, gravity: EGravity },
   [ETimeline.COLOR]: {
@@ -116,7 +116,10 @@ export const Commands: { [key: number]: any } = {
   [ETimeline.ROT]: { xyz: EVar.VEC3 },
   [ETimeline.ROTVAR]: { xyz: EVar.VEC3 },
 
-  [ETimeline.REZ]: { count: EVar.POSITIVE, priority: EVar.NUMBER },
+  [ETimeline.REZ]: {
+    count: EVar.NUMBER,
+    'Shape Start': EVar.POSITIVE,
+  },
   [ETimeline.DEREZ]: {},
 
   [ETimeline.POS]: { xyz: EVar.VEC3 },

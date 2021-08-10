@@ -50,7 +50,7 @@ export function ReadFile(file: File | string, buffer: ArrayBufferLike) {
         file instanceof File ? file : new File([buffer], file)
       )
       audio.load()
-      audio_name.set(name.split('.')[0].slice(16))
+      audio_name.set(name.split('.')[0].slice(0, 12))
 
       break
   }

@@ -300,10 +300,7 @@
           </Box>
         {:else if value === EVar.NORMAL}
           <Box flex hover={key} click={() => inputNormal(index)}>
-            {(
-              ($timeline[`data${index}`](i) / window.Number.MAX_SAFE_INTEGER) *
-              100
-            ).toFixed(0)}%
+            {Math.abs(($timeline[`data${index}`](i) / 1024) * 100).toFixed(0)}%
           </Box>
         {:else}
           <Box flex hover="{key} - Not Implemented" />
