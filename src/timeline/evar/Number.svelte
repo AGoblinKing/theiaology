@@ -43,6 +43,8 @@
 
 <style>
   .span {
+    font-size: 1.5rem;
+    width: 8rem;
     grid-column: span 3;
   }
 </style>

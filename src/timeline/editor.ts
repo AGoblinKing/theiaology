@@ -11,9 +11,7 @@ export const timeline_shown = new Value(
 export const modal_location = new Value(new Vector2())
 export const modal_options = new Value<string[] | EVar | string>([])
 export const modal_default = new Value<any>()
-export const modal_visible = new Value<false | ((result: string) => void)>(
-  false
-)
+export const modal_visible = new Value<false | ((result: any) => void)>(false)
 
 export const modal_cursor = new Value<number>(0)
 

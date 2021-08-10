@@ -43,14 +43,13 @@ export enum EVar {
   POSITIVE,
   NEGATIVE,
   // allows for selection of ID by marker name
-  TAGID,
+  TAG,
   COLOR,
   VEC3,
-  SHAPE,
+  VOX,
   // think 0 - 1 but like 0 - MAX_SAFE_INTEGER
   NORMAL,
   AUDIO,
-  VOX,
   // -1 0 1
   SIGN,
   TIME,
@@ -89,12 +88,13 @@ export enum ETimeline {
   NET,
   AI,
   EFFECTS,
+  VOX,
 }
 
 export const Commands: { [key: number]: any } = {
   [ETimeline.TAG]: { text: EVar.STRING },
   [ETimeline.SHAPE]: {
-    shape: EVar.SHAPE,
+    shape: EShape,
     size1: EVar.POSITIVE,
     size2: EVar.POSITIVE,
   },
@@ -114,7 +114,7 @@ export const Commands: { [key: number]: any } = {
   },
   [ETimeline.ROTATION]: { xyz: EVar.VEC3 },
 
-  [ETimeline.REZ]: { priority: EVar.NUMBER },
+  [ETimeline.REZ]: { count: EVar.POSITIVE, priority: EVar.NUMBER },
   [ETimeline.DEREZ]: {},
 
   [ETimeline.POS]: { xyz: EVar.VEC3 },
@@ -138,4 +138,5 @@ export const Commands: { [key: number]: any } = {
   //     tag: EVar.TAGID,
   // },
   [ETimeline.EFFECTS]: { animation: EAnimation },
+  [ETimeline.VOX]: { 'Vox Model': EVar.VOX },
 }

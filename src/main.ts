@@ -12,9 +12,8 @@ import {
   timeline,
   velocity,
 } from './buffer'
+import { voxes } from './buffer/vox'
 import './file'
-import { ReadURL } from './file'
-import { url } from './input/browser'
 import './player'
 import { sys } from './sys'
 import { ECardinalMessage } from './system/message'
@@ -38,15 +37,14 @@ timeline.on(() => {
   cardinal.send(ECardinalMessage.TimelineUpdated)
 })
 
+voxes.on(($voxes) => {
+  cardinal.send($voxes)
+})
+
 // sys.start('physics').send(past, future, matter, velocity, scale)
 
 // startup editor
 const theiaology = new Theiaology({
   target: document.getElementById('theiaology'),
   props: {},
-})
-
-// change theia based on URL
-url.on(($url) => {
-  ReadURL(`/${$url.join('/')}.theia`)
 })

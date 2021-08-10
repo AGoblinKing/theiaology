@@ -2,24 +2,25 @@ import fs from 'file-saver'
 import { set } from 'idb-keyval'
 import { audio_buffer, audio_name } from 'src/audio'
 import { timeline } from 'src/buffer'
+import { voxes } from 'src/buffer/vox'
 import { timeline_shown } from 'src/timeline/editor'
-import { voxes } from 'src/vox'
 import { dbLoaded, HEADER_START, SIGNATURE } from './load'
+
 // Save .theia file
 export function Save(withFile = true) {
   const name = timeline.$.text(0)
   const buff = BuildBuffer()
 
-  withFile &&
+  if (withFile) {
     fs.saveAs(
       new Blob([buff], {
         type: 'application/octet-stream',
       }),
       `${name}.theia`
     )
+  }
 
   // also save to DB
-
   set(window.location.pathname, buff)
 }
 

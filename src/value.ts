@@ -17,7 +17,7 @@ export class Value<T> {
     return this
   }
 
-  on(subscribe: FSubscribe<any>): ICancel {
+  on(subscribe: FSubscribe<T>): ICancel {
     if (this.reactions === undefined) {
       this.reactions = new Set()
     }

@@ -3,7 +3,7 @@
   import { ReadFile } from 'src/file'
 
   import { Save } from 'src/file/save'
-  import { voxes } from 'src/vox'
+  import { voxes } from 'src/buffer/vox'
   import Box from './Box.svelte'
 
   // organize-imports-ignore
@@ -44,13 +44,13 @@
     <label for="load">LOAD</label></Box
   >
   <Box
+    hover="Download .theia file.  Drag + Drop or load!"
     nav={{ tag: 'save', right: 'theiaology', left: 'load', down: 'root' }}
     click={Save}>SAVE</Box
   >
 </div>
 <div class="timeline">
   <div class="nodes">
-    <Node />
     {#if $audio_buffer}
       <div class="vox">
         <Box
@@ -62,24 +62,38 @@
             audio.load()
           }}>x</Box
         >
-        <Box tilt={180} hover="Audio File">MUSIC</Box>
+        <Box
+          tilt={180}
+          hover="Download Audio File"
+          click={() => {
+            // download audio file
+          }}>MUSIC</Box
+        >
         <Box tilt={180} hover="Audio File">{$audio_name}</Box>
       </div>
     {/if}
     {#each Object.keys($voxes) as key}
       <div class="vox">
         <Box
-          tilt={90}
+          tilt={-90}
           hover="Remove VOX"
           click={() => {
             delete $voxes[key]
             voxes.poke()
           }}>x</Box
         >
-        <Box tilt={90} hover="VOX Model File">VOX</Box>
-        <Box tilt={90} hover="Name of the VOX">{key}</Box>
+        <Box
+          tilt={-90}
+          click={() => {
+            // download vox file
+          }}
+          hover="Download VOX Model File">VOX</Box
+        >
+        <Box tilt={-90} hover="Name of the VOX">{key}</Box>
       </div>
     {/each}
+
+    <Node />
   </div>
 </div>
 

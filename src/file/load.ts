@@ -1,18 +1,18 @@
-import { get } from 'idb-keyval'
 import { audio, audio_buffer, audio_name } from 'src/audio'
 import { timeline } from 'src/buffer'
 import { Timeline } from 'src/buffer/timeline'
+import { voxes } from 'src/buffer/vox'
 import { MagickaVoxel } from 'src/magica'
 import { Value } from 'src/value'
-import { voxes } from 'src/vox'
 
-// Load .theia file into the timeline
+// Load .theia file into the timePline
 export const SIGNATURE = 'THEA'
 export const HEADER_START = 4 * 4
 
 export const HEADER_END = HEADER_START + 4 * 4
 
 export function Load(bytes: ArrayBuffer) {
+  console.log(`Loading ${bytes.byteLength} bytes`)
   try {
     const view = new DataView(bytes)
 
@@ -95,6 +95,7 @@ export function Load(bytes: ArrayBuffer) {
           new DataView(bytes, cursor + musicEnd, size)
         )
         cursor += size
+        size = 0
       }
 
       voxes.set(voxUpdate)
@@ -104,16 +105,10 @@ export function Load(bytes: ArrayBuffer) {
     timeline.poke()
   } catch (ex) {
     // undo that garbo
-    console.log(ex)
     timeline.$.freeAll()
     timeline.poke()
+    throw ex
   }
 }
 
 export const dbLoaded = new Value(false)
-get(window.location.pathname).then((v) => {
-  dbLoaded.set(true)
-  if (v) {
-    Load(v)
-  }
-})

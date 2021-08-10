@@ -6,6 +6,7 @@
   import { modal_options, modal_location, modal_visible } from './editor'
   import Number from './evar/Number.svelte'
   import Normal from './evar/Normal.svelte'
+  import Time from './evar/Time.svelte'
 
   import { key_down } from 'src/input/keyboard'
   import { EVar } from './def-timeline'
@@ -53,6 +54,8 @@
           </div>
         </Box>
       {/each}
+    {:else if $modal_options === EVar.TIME}
+      <Time />
     {:else if $modal_options === EVar.NORMAL}
       <Normal />
     {:else if $modal_options === EVar.STRING}

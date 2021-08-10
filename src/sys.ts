@@ -1,7 +1,7 @@
 import { IAtomic } from 'src/atomic'
 import { Value } from './value'
 
-export type IMessage = IAtomic | number
+export type IMessage = IAtomic | number | object
 
 export class SystemWorker extends Worker {
   _delay = 0
@@ -21,7 +21,8 @@ export class SystemWorker extends Worker {
   send(...buffers: IMessage[]) {
     setTimeout(() => {
       for (let b of buffers) {
-        this.postMessage(typeof b === 'object' ? b.sab : b)
+        // @ts-ignore - send the SharedArrayBuffer for our atomic types
+        this.postMessage(b.sab !== undefined ? b.sab : b)
       }
     }, this._delay)
     return this

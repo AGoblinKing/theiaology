@@ -14,6 +14,7 @@
   import { mouse_page } from 'src/input/mouse'
 
   import { Commands, ETimeline, EVar } from './def-timeline'
+  import { voxes } from 'src/buffer/vox'
 
   export let i = 0
 
@@ -59,8 +60,9 @@
       })
     )
     updateModal()
-    modal_visible.set((res) => {
-      const com = ETimeline[res]
+    modal_visible.set((res: string) => {
+      const com: number = ETimeline[res]
+
       timeline.$.command(i, com)
 
       switch (ETimeline[res]) {
@@ -91,6 +93,19 @@
     modal_visible.set((res) => {
       timeline.$[`data${cursor}`](i, en[res])
       timeline.poke()
+      modal_visible.set(false)
+    })
+  }
+
+  function inputVox() {
+    updateModal()
+
+    modal_options.set(['None', ...Object.keys(voxes.$)])
+
+    modal_visible.set((res) => {
+      timeline.$.text(i, res)
+      timeline.poke()
+      modal_visible.set(false)
     })
   }
 
@@ -129,8 +144,19 @@
     })
   }
 
-  function inputVOX(cursor: number) {}
-
+  function inputTime() {
+    updateModal()
+    modal_options.set(EVar.TIME)
+    modal_default.set(timeline.$.when(i))
+    modal_visible.set((res) => {
+      timeline.$.when(i, res)
+      timeline.poke()
+      modal_visible.set(false)
+    })
+  }
+  function d0(t) {
+    return `00${Math.floor(t)}`.slice(-2)
+  }
   function submitColor(index: number, val: number) {
     timeline.$[`data${index}`](i, val)
     timeline.poke()
@@ -142,12 +168,6 @@
   $: ncomm = `${i}-command`
   $: ndata = `${i}-data`
   $: nremove = `${i}-remove`
-
-  // TODO:
-  // calc these based on the position in the tree.
-  // The tree is explored by svelte deterministically
-  $: downi = i - 1
-  $: upi = i + 1
 
   function NavData(count: number, start = 0, reverse = false) {
     let str = []
@@ -163,12 +183,6 @@
   }
   // show line number and data
 </script>
-
-{#if i === 0}
-  {#each Object.keys($timeline_json.children).sort() as key}
-    <svelte:self i={key} />
-  {/each}
-{/if}
 
 <div class="node" class:root={i === 0 || item.data[2] === 0}>
   <div class="items">
@@ -226,6 +240,16 @@
           >
             {$timeline[`data${index}`](i)}
           </Box>
+        {:else if value == EVar.VOX}
+          <Box
+            hover={key}
+            flex
+            tilt={-90}
+            click={inputVox}
+            nav={{ tag: `${i}-data-${index}` }}
+          >
+            {$timeline.text(i)}
+          </Box>
         {:else if value == EVar.VEC3}
           <Box
             flex
@@ -268,6 +292,7 @@
           <Box
             hover={key}
             flex
+            tilt={-90}
             click={() => inputEnum(index, value)}
             nav={{ tag: `${i}-data-${index}` }}
           >
@@ -309,17 +334,22 @@
         }}>+</Box
       >
     {:else if item.data[1] !== ETimeline.TAG && item.data[1] !== undefined}
-      <Box>
-        {item.data[0] / 60}:{item.data[0] % 60}
+      <Box hover="When to Apply" click={inputTime}>
+        {d0(item.data[0] / 60)}:{d0(item.data[0] % 60)}
       </Box>
     {/if}
   </div>
   <div class="children">
-    {#each Object.keys(item.children) as key (key)}
+    {#each Object.keys(item.children).reverse() as key (key)}
       <svelte:self i={key} />
     {/each}
   </div>
 </div>
+{#if i === 0}
+  {#each Object.keys($timeline_json.children).sort() as key}
+    <svelte:self i={key} />
+  {/each}
+{/if}
 
 <style>
   .children {

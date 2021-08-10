@@ -1,8 +1,9 @@
+import { get } from 'idb-keyval'
 import { audio, audio_buffer, audio_name } from './audio'
-import { timeline } from './buffer'
-import { Load } from './file/load'
+import { voxes } from './buffer/vox'
+import { dbLoaded, Load } from './file/load'
+import { url } from './input/browser'
 import { MagickaVoxel } from './magica'
-import { voxes } from './vox'
 
 window.addEventListener('dragover', (e) => {
   e.dataTransfer.dropEffect = `copy`
@@ -35,10 +36,8 @@ export function ReadFile(file: File | string, buffer: ArrayBufferLike) {
   const { name } = typeof file === 'string' ? { name: file } : file
   switch (true) {
     case name.indexOf('.vox') !== -1:
-      console.log(name)
-      voxes.$[name.slice(12)] = new MagickaVoxel(buffer)
+      voxes.$[name.split('.')[0].slice(0, 12)] = new MagickaVoxel(buffer)
       voxes.poke()
-      timeline.poke()
       break
     case name.indexOf('.theia') !== -1:
       Load(buffer)
@@ -66,3 +65,14 @@ export async function ReadURL(url: string) {
 
   return ReadFile(url, await cache[url])
 }
+
+// try reading static file and if it misses load DB
+ReadURL(`/${url.$.join('/')}.theia`).catch(() => {
+  get(window.location.pathname).then((v) => {
+    if (v) {
+      Load(v)
+    }
+
+    dbLoaded.set(true)
+  })
+})

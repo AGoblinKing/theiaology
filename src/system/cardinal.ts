@@ -6,6 +6,7 @@ import { SpaceTime } from 'src/buffer/spacetime'
 import { EStatus, Status } from 'src/buffer/status'
 import { Timeline } from 'src/buffer/timeline'
 import { Velocity } from 'src/buffer/velocity'
+import { voxes } from 'src/buffer/vox'
 import { ENTITY_COUNT } from 'src/config'
 import { ECardinalMessage } from './message'
 import { System } from './system'
@@ -65,17 +66,24 @@ class Cardinal extends System {
         this.timeline = new Timeline(e.data)
         break
 
-      // expecting int EMessage
+      // expecting IMessage but no atomics
       default:
-        if (typeof e.data !== 'number') return
-
-        switch (e.data) {
-          case ECardinalMessage.RequestID:
-          case ECardinalMessage.TimelineUpdated:
-
-          case ECardinalMessage.FreeAll:
-            this.freeAll()
-            break
+        switch (typeof e.data) {
+          case 'object':
+            // this is voxes data
+            voxes.set(e.data)
+            return
+          case 'number':
+            switch (e.data) {
+              case ECardinalMessage.RequestID:
+                break
+              case ECardinalMessage.TimelineUpdated:
+                break
+              case ECardinalMessage.FreeAll:
+                this.freeAll()
+                break
+            }
+            return
         }
     }
   }
