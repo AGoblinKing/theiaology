@@ -12,7 +12,6 @@ export const HEADER_START = 4 * 4
 export const HEADER_END = HEADER_START + 4 * 4
 
 export function Load(bytes: ArrayBuffer) {
-  console.log(`Loading ${bytes.byteLength} bytes`)
   try {
     const view = new DataView(bytes)
 
@@ -66,6 +65,9 @@ export function Load(bytes: ArrayBuffer) {
       audio.src = URL.createObjectURL(new File([mab], 'thea'))
       audio.load()
     }
+
+    // clear existing vox
+    voxes.set({})
 
     // Vox
     const voxLength = view.getInt32(HEADER_START + 4 + 4)

@@ -248,7 +248,7 @@
             click={inputVox}
             nav={{ tag: `${i}-data-${index}` }}
           >
-            {$timeline.text(i)}
+            {$timeline.text(i) === '' ? 'None' : $timeline.text(i)}
           </Box>
         {:else if value == EVar.VEC3}
           <Box

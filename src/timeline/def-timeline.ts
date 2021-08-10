@@ -73,7 +73,7 @@ export enum ETimeline {
   THRUST,
   THRUSTTO,
   THRUSTVAR,
-  ROTATION,
+  ROT,
   LOOK,
   LOOKTO,
 
@@ -89,6 +89,7 @@ export enum ETimeline {
   AI,
   EFFECTS,
   VOX,
+  ROTVAR,
 }
 
 export const Commands: { [key: number]: any } = {
@@ -112,7 +113,8 @@ export const Commands: { [key: number]: any } = {
     y: EVar.POSITIVE,
     z: EVar.POSITIVE,
   },
-  [ETimeline.ROTATION]: { xyz: EVar.VEC3 },
+  [ETimeline.ROT]: { xyz: EVar.VEC3 },
+  [ETimeline.ROTVAR]: { xyz: EVar.VEC3 },
 
   [ETimeline.REZ]: { count: EVar.POSITIVE, priority: EVar.NUMBER },
   [ETimeline.DEREZ]: {},

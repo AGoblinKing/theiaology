@@ -8,7 +8,7 @@
 
   // organize-imports-ignore
   import Node from './Node.svelte'
-
+  import fs from 'file-saver'
   async function loadFile(event) {
     const reader = new FileReader()
     reader.addEventListener('load', (e: any) => {
@@ -38,7 +38,7 @@
       id="load"
       type="file"
       title="LOAD"
-      accept=".theia,.mp3,.ogg,.wav,.vox"
+      accept=".theia,.mp3,.vox"
       on:change={loadFile}
     />
     <label for="load">LOAD</label></Box
@@ -66,6 +66,10 @@
           tilt={180}
           hover="Download Audio File"
           click={() => {
+            fs.saveAs(
+              new Blob([audio_buffer.$], { type: 'audio/mp3' }),
+              audio_name.$
+            )
             // download audio file
           }}>MUSIC</Box
         >
@@ -86,6 +90,11 @@
           tilt={-90}
           click={() => {
             // download vox file
+
+            fs.saveAs(
+              new Blob([$voxes[key].view], { type: 'vox' }),
+              `${key}.vox`
+            )
           }}
           hover="Download VOX Model File">VOX</Box
         >
@@ -117,7 +126,6 @@
     transition: all ease-in-out 0.25s;
     display: flex;
     flex-direction: column;
-    border-top: 0.1rem solid rgba(255, 255, 255, 0.418);
 
     flex: 1;
     overflow-y: scroll;
