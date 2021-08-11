@@ -4,7 +4,7 @@ import {
   InstancedMesh,
   Matrix4,
 } from 'three'
-import { animation, future, matter, past, velocity } from './buffer'
+import { animation, future, matter, past, size, velocity } from './buffer'
 import { Matter } from './buffer/matter'
 import { SpaceTime } from './buffer/spacetime'
 import { Velocity } from './buffer/velocity'
@@ -35,7 +35,8 @@ export const atoms = new Value(
       .setAttribute(
         'velocity',
         new InstancedBufferAttribute(velocity, Velocity.COUNT)
-      ),
+      )
+      .setAttribute('size', new InstancedBufferAttribute(size, Velocity.COUNT)),
     material,
     ENTITY_COUNT
   )
@@ -55,4 +56,5 @@ tick.on(($t) => {
   atoms.$.geometry.getAttribute('future').needsUpdate = true
   atoms.$.geometry.getAttribute('matter').needsUpdate = true
   atoms.$.geometry.getAttribute('velocity').needsUpdate = true
+  atoms.$.geometry.getAttribute('size').needsUpdate = true
 })

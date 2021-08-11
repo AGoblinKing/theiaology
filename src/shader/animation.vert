@@ -51,7 +51,7 @@ mat4 AnimationMatrix(in mat4 mvMatrix) {
 	}
     float lav = (1. + audioLow * 0.0004);
 
-    mvMatrix = mvMatrix * scale(lav, lav, lav);
+    mvMatrix = mvMatrix * scale(lav * float(size.x), lav * float(size.y), float(size.z) * lav);
 	return mvMatrix;
 }
 

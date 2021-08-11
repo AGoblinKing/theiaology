@@ -4,9 +4,9 @@ import { lowerUniform, upperUniform } from '../audio'
 import { timeUniform } from '../time'
 import AnimationFrag from './animation.frag'
 import AnimationVert from './animation.vert'
-import postVertChunk from './chunkPost.vert'
 import EnumVert from './enum.vert'
 import HeaderVert from './header.vert'
+import MainVert from './main.vert'
 import MatterFrag from './matter.frag'
 import SpaceTime from './spacetime.vert'
 
@@ -40,7 +40,7 @@ material.onBeforeCompile = function (shader) {
 
   shader.vertexShader = shader.vertexShader
     .replace('#include <common>', commonVertChunk)
-    .replace('#include <project_vertex>', postVertChunk)
+    .replace('#include <project_vertex>', MainVert)
 
   shader.fragmentShader = shader.fragmentShader
     .replace('#include <common>', fragmentParsChunk)

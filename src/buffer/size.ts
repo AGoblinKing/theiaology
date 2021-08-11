@@ -1,3 +1,3 @@
 import { Velocity } from './velocity'
 
-export class Scale extends Velocity {}
+export class Size extends Velocity {}

@@ -6,6 +6,7 @@ uniform vec3 handRight;
 
 attribute int animation;
 attribute ivec3 velocity;
+attribute ivec3 size;
 attribute ivec4 past;
 attribute ivec4 future;
 attribute ivec4 matter;

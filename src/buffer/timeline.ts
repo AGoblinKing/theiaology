@@ -1,6 +1,6 @@
 import { AtomicInt } from 'src/atomic'
 import { TIMELINE_MAX } from 'src/config'
-import { ETimeline, ITimeline } from 'src/timeline/def-timeline'
+import { ETimeline, INode, ITimeline } from 'src/timeline/def-timeline'
 
 const strConvertBuffer = new ArrayBuffer(4) // an Int32 takes 4 bytes
 const strView = new DataView(strConvertBuffer)
@@ -110,12 +110,17 @@ export class Timeline extends AtomicInt {
     return root
   }
 
-  fromObject(obj: ITimeline) {
-    throw new Error('Not Implemented')
+  fromObject(obj: { [key: string]: INode }) {
+    this.freeAll()
+
+    // traverse the tree
+    const reader = (part: INode) => {}
+
+    reader({ children: obj })
   }
 
   toJSON(): string {
-    return JSON.stringify(this.toObject())
+    return JSON.stringify(this.toObject().children, undefined, ' ')
   }
 
   // rip through and return a sorted array of the events

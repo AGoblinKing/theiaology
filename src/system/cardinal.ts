@@ -1,7 +1,7 @@
 import { Animation } from 'src/buffer/animation'
 import { Impact } from 'src/buffer/impact'
 import { Matter } from 'src/buffer/matter'
-import { Scale } from 'src/buffer/scale'
+import { Size } from 'src/buffer/size'
 import { SpaceTime } from 'src/buffer/spacetime'
 import { EStatus, Status } from 'src/buffer/status'
 import { Timeline } from 'src/buffer/timeline'
@@ -13,14 +13,14 @@ import { System } from './system'
 
 // Deal out entity IDs, execute timeline events
 class Cardinal extends System {
-  IDS = [...new Array(ENTITY_COUNT)].map((i) => i)
+  _available = [...new Array(ENTITY_COUNT)].map((i) => i)
   ticks = 0
   // entity components
   past: SpaceTime
   future: SpaceTime
   matter: Matter
   velocity: Velocity
-  scale: Scale
+  size: Size
   impact: Impact
   animation: Animation
   status: Status
@@ -47,8 +47,8 @@ class Cardinal extends System {
       case this.velocity:
         this.velocity = new Velocity(e.data)
         break
-      case this.scale:
-        this.scale = new Scale(e.data)
+      case this.size:
+        this.size = new Size(e.data)
         break
       case this.animation:
         this.animation = new Animation(e.data)
@@ -98,7 +98,7 @@ class Cardinal extends System {
     for (let i = 0; i < ENTITY_COUNT; i++) {
       this.free(i)
     }
-    this.IDS = [...new Array(ENTITY_COUNT)].map((i) => i)
+    this._available = [...new Array(ENTITY_COUNT)].map((_, i) => i)
   }
 
   free(i: number) {
@@ -108,17 +108,17 @@ class Cardinal extends System {
     this.velocity.free(i, Velocity.COUNT)
     this.matter.free(i, Matter.COUNT)
     this.impact.free(i, Impact.COUNT)
-    this.scale.free(i, Velocity.COUNT)
+    this.size.free(i, Velocity.COUNT)
     this.status.free(i)
   }
 
   available(i: number) {
     this.free(i)
-    this.IDS.push(i)
+    this._available.push(i)
   }
 
   reserve() {
-    const i = this.IDS.pop()
+    const i = this._available.pop()
     this.free(i)
 
     this.status.store(i, EStatus.Assigned)
@@ -129,13 +129,14 @@ class Cardinal extends System {
     this.randomize()
   }
   randomize() {
-    const scale = 80000
+    const scale = 800000
     const t = Math.floor(performance.now())
 
     const chunk = (this.tickrate / 1000) * ENTITY_COUNT * 0.1
     // lets prove out thhese even render
     for (let ix = last; ix < last + chunk; ix++) {
-      const i = ix % ENTITY_COUNT
+      // only use left overs
+      const i = this._available[ix % this._available.length]
       this.past.x(i, this.future.x(i))
       this.past.y(i, this.future.y(i))
       this.past.z(i, this.future.z(i))
@@ -146,9 +147,15 @@ class Cardinal extends System {
       this.future.z(i, Math.floor(Math.random() * scale - scale / 2))
       this.future.time(i, t + 10000 + 100)
 
-      this.matter.blue(i, Math.floor(Math.random() * 0x22))
-      this.matter.red(i, Math.floor(Math.random() * 0x22))
-      this.matter.green(i, Math.floor(Math.random() * 0x22))
+      const s = 1 + Math.abs(Math.sin(ix) * 10)
+
+      this.size.x(i, s)
+      this.size.y(i, s)
+      this.size.z(i, s)
+
+      this.matter.blue(i, 0xff)
+      this.matter.red(i, Math.floor(Math.random() * 0x55))
+      this.matter.green(i, Math.floor(Math.random() * 0x55))
     }
 
     last += chunk

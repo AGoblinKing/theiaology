@@ -3,7 +3,7 @@ import { Value } from 'src/value'
 import { Animation } from './animation'
 import { Impact } from './impact'
 import { Matter } from './matter'
-import { Scale } from './scale'
+import { Size } from './size'
 import { SpaceTime } from './spacetime'
 import { Status } from './status'
 import { Timeline } from './timeline'
@@ -18,7 +18,7 @@ export const animation = new Animation()
 export const matter = new Matter()
 
 export const impact = new Impact()
-export const scale = new Scale()
+export const size = new Size()
 export const status = new Status()
 
 // Used to alert when timeline changes and to notify the cardinal

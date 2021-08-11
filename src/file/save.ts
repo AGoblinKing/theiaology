@@ -6,7 +6,12 @@ import { voxes } from 'src/buffer/vox'
 import { timeline_shown } from 'src/timeline/editor'
 import { dbLoaded, HEADER_START, SIGNATURE } from './load'
 
-export function SaveScript() {}
+export function SaveScript() {
+  if (!dbLoaded) return
+
+  const blob = new Blob([timeline.$.toJSON()], { type: 'application/json' })
+  fs.saveAs(blob, timeline.$.text(0) + '.json')
+}
 
 // Save .theia file
 export function Save(withFile = true) {

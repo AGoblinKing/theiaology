@@ -1,6 +1,6 @@
 // performs grid traversal and collision detection
 import { EPhase, Matter } from 'src/buffer/matter'
-import { Scale } from 'src/buffer/scale'
+import { Size } from 'src/buffer/size'
 import { SpaceTime } from 'src/buffer/spacetime'
 import { Velocity } from 'src/buffer/velocity'
 import { GRAVITY, PHYSICS_BOUNDS } from 'src/config'
@@ -16,7 +16,7 @@ class Physics extends System {
   future: SpaceTime
   matter: Matter
   velocity: Velocity
-  scale: Scale
+  scale: Size
 
   // chance of a -1 velocity
   decay = 0.5
@@ -43,7 +43,7 @@ class Physics extends System {
         this.velocity = new Velocity(e.data)
         break
       case this.scale:
-        this.scale = new Scale(e.data)
+        this.scale = new Size(e.data)
         break
     }
   }
