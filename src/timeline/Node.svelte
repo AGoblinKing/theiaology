@@ -15,6 +15,7 @@
 
   import { Commands, ETimeline, EVar } from './def-timeline'
   import { voxes } from 'src/buffer/vox'
+  import { SaveScript } from 'src/file/save'
 
   export let i = 0
 
@@ -46,7 +47,10 @@
   }
 
   function chooseCommand() {
-    if (command === 0) return
+    if (command === 0) {
+      SaveScript()
+      return
+    }
     // see if its a number
     modal_options.set(
       Object.keys(ETimeline).filter((k) => {
@@ -202,7 +206,9 @@
     <Box
       click={chooseCommand}
       upper
-      hover={label === 'root' ? 'ROOT' : 'Command'}
+      hover={label === 'root'
+        ? 'Download a .json of the ROOT script'
+        : 'Command'}
       nav={{
         tag: `${i}-command`,
         left: `${nremove}|${nadd}|${NavData(3, 0, true)}`,

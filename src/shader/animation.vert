@@ -10,10 +10,14 @@ mat4 scale(float x, float y, float z){
 }
 
 const float HAND_DST = 0.4;
+float modulator(float x, float y) {
+  return x - y * floor(x/y);
+}
 
 // Position
 vec4 Animation(in vec4 pos) {
 	v_animation = float(animation);
+	v_matter = vec3(float(matter.x)/256., float(matter.y)/256., float(matter.z)/256.);
 	
 	if(animation == ANIM_NO_EFFECT) {
 		return pos;

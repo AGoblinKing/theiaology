@@ -1,54 +1,14 @@
 <script lang="ts">
   import { audio, audio_buffer, audio_name } from 'src/audio'
-  import { ReadFile } from 'src/file'
 
-  import { Save } from 'src/file/save'
   import { voxes } from 'src/buffer/vox'
   import Box from './Box.svelte'
 
   // organize-imports-ignore
   import Node from './Node.svelte'
   import fs from 'file-saver'
-  async function loadFile(event) {
-    const reader = new FileReader()
-    reader.addEventListener('load', (e: any) => {
-      ReadFile(event.target.files[0], e.target.result)
-    })
-    try {
-      reader.readAsArrayBuffer(event.target.files[0])
-    } catch (ex) {}
-  }
 </script>
 
-<div class="commands">
-  <Box
-    hover="Editor for .Theia Files"
-    nav={{
-      tag: 'theiaology',
-
-      right: 'load',
-      left: 'save',
-      down: 'root',
-    }}>> THEIAOLOGY</Box
-  >
-  <Box
-    hover="Load files into theia "
-    nav={{ tag: 'load', left: 'theiaology', right: 'save', down: 'root' }}
-    ><input
-      id="load"
-      type="file"
-      title="LOAD"
-      accept=".theia,.mp3,.vox"
-      on:change={loadFile}
-    />
-    <label for="load">LOAD</label></Box
-  >
-  <Box
-    hover="Download .theia file.  Drag + Drop or load!"
-    nav={{ tag: 'save', right: 'theiaology', left: 'load', down: 'root' }}
-    click={Save}>SAVE</Box
-  >
-</div>
 <div class="timeline">
   <div class="nodes">
     {#if $audio_buffer}
@@ -107,14 +67,6 @@
 </div>
 
 <style>
-  .commands {
-    pointer-events: all;
-    display: flex;
-  }
-  label {
-    cursor: pointer;
-  }
-
   .vox {
     display: flex;
   }

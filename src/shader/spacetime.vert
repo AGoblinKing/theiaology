@@ -1,10 +1,10 @@
-
-
 vec4 SpaceTime(in vec4 pos) {
-    //+ mix(past, future, max(0.0, min(1.0, (time - past.a) / (future.a - past.a))));
-    float fa = float(past.w);
+    return pos + vec4(
 
-    return vec4(
-        pos.xyz +vec3(future.xyz), 1.0
+        mix(  
+            vec3(past.xyz) * 0.001, 
+            vec3(future.xyz)*0.001, 
+            max(0.0, min(1., (time - float(past.a)) / float((future.a - past.a))))
+        ), 1.0
     );
 }

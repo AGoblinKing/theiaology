@@ -38,6 +38,7 @@ key_up.on(($k) => {
   }
 })
 
+const $vec3 = new Vector3()
 let camera_mucked = false
 delta.on(($dt) => {
   // only run not in VR
@@ -49,8 +50,8 @@ delta.on(($dt) => {
     return
   }
 
-  if (move_inputs.$.z !== 0 || mouse_right.$) {
-    velocity.set((velocity.$ += move_inputs.$.z * $dt * 3))
+  if (move_inputs.$.length() !== 0 || mouse_right.$) {
+    velocity.$.add($vec3.copy(move_inputs.$).multiplyScalar($dt * 3))
   }
 
   if (mouse_right.$ || mouse_left.$) UpdateCamera($dt)

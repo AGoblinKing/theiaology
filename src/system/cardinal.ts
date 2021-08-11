@@ -14,7 +14,7 @@ import { System } from './system'
 // Deal out entity IDs, execute timeline events
 class Cardinal extends System {
   IDS = [...new Array(ENTITY_COUNT)].map((i) => i)
-
+  ticks = 0
   // entity components
   past: SpaceTime
   future: SpaceTime
@@ -29,8 +29,7 @@ class Cardinal extends System {
   timeline: Timeline
 
   constructor() {
-    // run every 1/10th of a second
-    super(100)
+    super(200)
   }
 
   // receives buffers then IDs to free
@@ -127,8 +126,35 @@ class Cardinal extends System {
   }
 
   tick() {
-    // run through timeline
+    this.randomize()
+  }
+  randomize() {
+    const scale = 80000
+    const t = Math.floor(performance.now())
+
+    const chunk = (this.tickrate / 1000) * ENTITY_COUNT * 0.1
+    // lets prove out thhese even render
+    for (let ix = last; ix < last + chunk; ix++) {
+      const i = ix % ENTITY_COUNT
+      this.past.x(i, this.future.x(i))
+      this.past.y(i, this.future.y(i))
+      this.past.z(i, this.future.z(i))
+      this.past.time(i, t + 100)
+
+      this.future.x(i, Math.floor(Math.random() * scale - scale / 2))
+      this.future.y(i, Math.floor((Math.random() * scale) / 2))
+      this.future.z(i, Math.floor(Math.random() * scale - scale / 2))
+      this.future.time(i, t + 10000 + 100)
+
+      this.matter.blue(i, Math.floor(Math.random() * 0x22))
+      this.matter.red(i, Math.floor(Math.random() * 0x22))
+      this.matter.green(i, Math.floor(Math.random() * 0x22))
+    }
+
+    last += chunk
   }
 }
+
+let last = 0
 
 new Cardinal()

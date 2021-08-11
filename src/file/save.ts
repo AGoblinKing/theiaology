@@ -6,6 +6,8 @@ import { voxes } from 'src/buffer/vox'
 import { timeline_shown } from 'src/timeline/editor'
 import { dbLoaded, HEADER_START, SIGNATURE } from './load'
 
+export function SaveScript() {}
+
 // Save .theia file
 export function Save(withFile = true) {
   const name = timeline.$.text(0)

@@ -50,7 +50,7 @@ export class Sys {
   }
 
   start(worker: string): SystemWorker {
-    const w = new SystemWorker(`/build/${worker}.js`)
+    const w = new SystemWorker(`/build/${worker}.js?${Date.now()}`)
     this.$.add(w)
     return w
   }

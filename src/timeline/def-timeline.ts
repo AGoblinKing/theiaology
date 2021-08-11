@@ -1,5 +1,5 @@
 import { EAnimation } from 'src/buffer/animation'
-import { EGravity, EMatter, EPhase } from 'src/buffer/matter'
+import { EPhase } from 'src/buffer/matter'
 
 export interface IMarkers {
   [markerID: number]: string
@@ -99,7 +99,7 @@ export const Commands: { [key: number]: any } = {
     size: EVar.POSITIVE,
     step: EVar.POSITIVE,
   },
-  [ETimeline.MATTER]: { phase: EPhase, matter: EMatter, gravity: EGravity },
+  [ETimeline.MATTER]: { phase: EPhase },
   [ETimeline.COLOR]: {
     rgb: EVar.COLOR,
     tilt: EVar.NORMAL,

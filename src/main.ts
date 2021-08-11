@@ -18,7 +18,7 @@ import './player'
 import { sys } from './sys'
 import { ECardinalMessage } from './system/message'
 
-// // setup systems
+// setup systems
 const cardinal = sys
   .start('cardinal')
   .send(
@@ -33,7 +33,9 @@ const cardinal = sys
     timeline.$
   )
 
-timeline.on(() => {
+timeline.on(($t) => {
+  if ($t === undefined) return
+
   cardinal.send(ECardinalMessage.TimelineUpdated)
 })
 
@@ -41,6 +43,18 @@ voxes.on(($voxes) => {
   cardinal.send($voxes)
 })
 
+// @ts-ignore
+window.b = {
+  past,
+  future,
+  matter,
+  velocity,
+  scale,
+  animation,
+  impact,
+  status,
+  timeline,
+}
 // sys.start('physics').send(past, future, matter, velocity, scale)
 
 // startup editor

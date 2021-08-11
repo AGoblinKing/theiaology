@@ -4,25 +4,76 @@
   import { timeline_shown } from './editor'
   import Timeline from './Timeline.svelte'
   import Modal from './Modal.svelte'
+
+  import { ReadFile } from 'src/file'
+
+  import { Save } from 'src/file/save'
+
+  import Box from './Box.svelte'
+
+  async function loadFile(event) {
+    const reader = new FileReader()
+    reader.addEventListener('load', (e: any) => {
+      ReadFile(event.target.files[0], e.target.result)
+    })
+    try {
+      reader.readAsArrayBuffer(event.target.files[0])
+    } catch (ex) {}
+  }
 </script>
 
-<toggle class="ribbon" on:click={() => timeline_shown.set(!$timeline_shown)}
-  >THEIAOLOGY</toggle
->
 <a
   class="ribbon github"
   href="https://github.com/agoblinking/Theia.games"
   target="_new">GITHUB</a
 >
 
+<div class="commands">
+  <Box
+    hover="Toggle the Theiaology Editor"
+    click={() => timeline_shown.set(!timeline_shown.$)}
+    nav={{
+      tag: 'theiaology',
+
+      right: 'load',
+      left: 'save',
+      down: 'root',
+    }}>> THEIAOLOGY</Box
+  >
+  <Box
+    hover="Load files into theia "
+    nav={{ tag: 'load', left: 'theiaology', right: 'save', down: 'root' }}
+    ><input
+      id="load"
+      type="file"
+      title="LOAD"
+      accept=".theia,.mp3,.vox"
+      on:change={loadFile}
+    />
+    <label for="load">LOAD</label></Box
+  >
+  <Box
+    hover="Download .theia file.  Drag + Drop or load!"
+    nav={{ tag: 'save', right: 'theiaology', left: 'load', down: 'root' }}
+    click={Save}>SAVE</Box
+  >
+</div>
 {#if $timeline_shown}
   <Modal />
-  <gna>
+  <theiaology>
     <Timeline />
-  </gna>
+  </theiaology>
 {/if}
 
 <style>
+  .commands {
+    position: absolute;
+    pointer-events: all;
+    display: flex;
+  }
+  label {
+    cursor: pointer;
+  }
   .ribbon {
     transition: all 0.2s ease-in-out;
     cursor: pointer;
@@ -40,16 +91,6 @@
     background-color: rgb(7, 136, 179);
   }
 
-  toggle {
-    top: 2.5rem;
-    right: -6.5rem;
-    pointer-events: all;
-    font-size: 1rem;
-    border: 0.5rem solid white;
-
-    background-color: darkslateblue;
-  }
-
   .github {
     top: 1rem;
     text-shadow: rgb(0, 0, 0) 0.075rem 0.075rem 0rem;
@@ -62,14 +103,14 @@
     background-color: darkslategray;
   }
 
-  gna {
+  theiaology {
     display: flex;
     flex-direction: column;
     pointer-events: none;
-    top: 0;
+    top: 1.75rem;
     left: 0;
 
-    height: 100%;
+    height: calc(100% - 1.75rem);
     position: absolute;
     z-index: 1000;
   }

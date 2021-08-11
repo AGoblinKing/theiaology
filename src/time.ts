@@ -13,6 +13,7 @@ export function Loop($t) {
 }
 
 export const timeUniform = new Uniform(0.0)
+
 timestamp.on(($t) => {
-  timeUniform.value = $t
+  timeUniform.value = performance.now()
 })

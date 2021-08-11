@@ -7,6 +7,7 @@ import AnimationVert from './animation.vert'
 import postVertChunk from './chunkPost.vert'
 import EnumVert from './enum.vert'
 import HeaderVert from './header.vert'
+import MatterFrag from './matter.frag'
 import SpaceTime from './spacetime.vert'
 
 export const material = new MeshToonMaterial({ color: 0xffffff })
@@ -19,12 +20,15 @@ const commonVertChunk = [
   SpaceTime,
 ].join('\n')
 
-const fragmentParsChunk = ['#include <common>', EnumVert, AnimationFrag].join(
-  '\n'
-)
+const fragmentParsChunk = [
+  '#include <common>',
+  EnumVert,
+  MatterFrag,
+  AnimationFrag,
+].join('\n')
 
 const colorChunk = [
-  `vec4 diffuseColor = AnimationFrag(vec4( diffuse, opacity));`,
+  `vec4 diffuseColor = MatterFrag(AnimationFrag(vec4( diffuse, opacity)));`,
 ].join('\n')
 
 material.onBeforeCompile = function (shader) {

@@ -1,4 +1,4 @@
-import { AtomicByte } from 'src/atomic'
+import { AtomicInt } from 'src/atomic'
 import { ENTITY_COUNT } from 'src/config'
 
 // how together something is
@@ -11,43 +11,34 @@ export enum EPhase {
   GAS,
 }
 
-// more for setting a pallete of colors
-export enum EMatter {
-  ROCK = 0xffaaaa,
-  DIRT = 0xffcccc,
-  WATER = 0x0000ff,
-  SAND = 0xffff00,
-  WOOD = 0x00ff00,
-}
+export class Matter extends AtomicInt {
+  static COUNT = 4
 
-export enum EGravity {
-  NORMAL = 0,
-  NONE,
-  REVERSE,
-}
-
-export class Matter extends AtomicByte {
-  static COUNT = 3
-
-  constructor(shared = new SharedArrayBuffer(ENTITY_COUNT * Matter.COUNT)) {
+  constructor(shared = new SharedArrayBuffer(ENTITY_COUNT * Matter.COUNT * 4)) {
     super(shared)
+  }
+
+  red(i: number, r?: EPhase) {
+    return r !== undefined
+      ? Atomics.store(this, i * Matter.COUNT, r)
+      : Atomics.load(this, i * Matter.COUNT)
+  }
+
+  green(i: number, g?: EPhase) {
+    return g !== undefined
+      ? Atomics.store(this, i * Matter.COUNT + 1, g)
+      : Atomics.load(this, i * Matter.COUNT + 1)
+  }
+
+  blue(i: number, b?: EPhase) {
+    return b !== undefined
+      ? Atomics.store(this, i * Matter.COUNT + 2, b)
+      : Atomics.load(this, i * Matter.COUNT + 2)
   }
 
   phase(i: number, p?: EPhase) {
     return p !== undefined
-      ? Atomics.store(this, i * Matter.COUNT, p)
-      : Atomics.load(this, i * Matter.COUNT)
-  }
-
-  matter(i: number, m?: EMatter) {
-    return m !== undefined
-      ? Atomics.store(this, i * Matter.COUNT + 1, m)
-      : Atomics.load(this, i * Matter.COUNT + 1)
-  }
-
-  gravity(i: number, g?: EGravity) {
-    return g !== undefined
-      ? Atomics.store(this, i * Matter.COUNT + 2, g)
-      : Atomics.load(this, i * Matter.COUNT + 2)
+      ? Atomics.store(this, i * Matter.COUNT + 3, p)
+      : Atomics.load(this, i * Matter.COUNT + 3)
   }
 }
