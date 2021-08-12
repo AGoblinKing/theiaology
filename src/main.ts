@@ -54,6 +54,7 @@ window.b = {
   impact,
   status,
   timeline,
+  voxes,
 }
 // sys.start('physics').send(past, future, matter, velocity, scale)
 

@@ -17,8 +17,9 @@ float modulator(float x, float y) {
 // Position
 vec4 Animation(in vec4 pos) {
 	v_animation = float(animation);
-	v_matter = vec3(float(matter.x)/256., float(matter.y)/256., float(matter.z)/256.);
-	
+	v_matter = vec3(float(matter.x)/NORMALIZER, float(matter.y)/NORMALIZER, float(matter.z)/NORMALIZER);
+	v_vel = vec3(velocity);
+
 	if(animation == ANIM_NO_EFFECT) {
 		return pos;
 	}
@@ -29,7 +30,7 @@ vec4 Animation(in vec4 pos) {
 	sin(xyz  + time * 0.001  ) * 0.01;
 
 	pos.x += tes;
-	pos.y += tes +  0.5 * (-audioHigh/2000.);
+	pos.y += tes +  0.05 * (-audioHigh/2000.);
 	pos.z += tes;
 
 	float dist = length(v_pos - handLeft);
@@ -49,7 +50,7 @@ mat4 AnimationMatrix(in mat4 mvMatrix) {
 	if(animation == ANIM_NO_EFFECT) {
 		return mvMatrix;
 	}
-    float lav = (1. + audioLow * 0.0004);
+    float lav = (1. + audioLow * 0.0002);
 
     mvMatrix = mvMatrix * scale(lav * float(size.x), lav * float(size.y), float(size.z) * lav);
 	return mvMatrix;

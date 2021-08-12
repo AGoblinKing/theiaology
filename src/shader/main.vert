@@ -1,9 +1,9 @@
 	
 vec4 mvPosition = vec4( transformed, 1.0 );
 
-v_pos = (modelMatrix * (instanceMatrix * mvPosition)).xyz;
 
 mvPosition = AnimationMatrix(instanceMatrix) * mvPosition;
+v_pos = (modelMatrix * SpaceTime(mvPosition)).xyz;
 mvPosition = modelViewMatrix * Animation(SpaceTime(mvPosition));
 
 mvPosition = projectionMatrix * mvPosition;

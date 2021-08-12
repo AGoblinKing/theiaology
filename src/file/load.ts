@@ -88,7 +88,9 @@ export function Load(bytes: ArrayBuffer) {
         let str = ''
         // decode string here
         for (let i = 0; i < 12; i++) {
-          str += String.fromCharCode(view.getUint8(musicEnd + cursor + i))
+          const c = view.getUint8(musicEnd + cursor + i)
+          if (c === 0) continue
+          str += String.fromCharCode(c)
         }
         cursor += 12
 

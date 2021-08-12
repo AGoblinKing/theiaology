@@ -36,7 +36,7 @@ export function ReadFile(file: File | string, buffer: ArrayBufferLike) {
   const { name } = typeof file === 'string' ? { name: file } : file
   switch (true) {
     case name.indexOf('.vox') !== -1:
-      voxes.$[name.split('.')[0].slice(0, 12)] = new MagickaVoxel(buffer)
+      voxes.$[name.split('.')[0].slice(0, 12).trim()] = new MagickaVoxel(buffer)
       voxes.poke()
       break
     case name.indexOf('.theia') !== -1:

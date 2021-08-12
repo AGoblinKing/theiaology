@@ -16,6 +16,7 @@
   import { Commands, ETimeline, EVar } from './def-timeline'
   import { voxes } from 'src/buffer/vox'
   import { SaveScript } from 'src/file/save'
+  import { NORMALIZER } from 'src/config'
 
   export let i = 0
 
@@ -306,7 +307,9 @@
           </Box>
         {:else if value === EVar.NORMAL}
           <Box flex hover={key} click={() => inputNormal(index)}>
-            {Math.abs(($timeline[`data${index}`](i) / 1024) * 100).toFixed(0)}%
+            {Math.abs(
+              ($timeline[`data${index}`](i) / NORMALIZER) * 100
+            ).toFixed(0)}%
           </Box>
         {:else}
           <Box flex hover="{key} - Not Implemented" />

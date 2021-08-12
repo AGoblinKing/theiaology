@@ -1,5 +1,6 @@
 import { EAnimation } from 'src/buffer/animation'
 import { EPhase } from 'src/buffer/matter'
+import { Color, Vector3 } from 'three'
 
 export interface IMarkers {
   [markerID: number]: string
@@ -14,6 +15,32 @@ export interface INode {
 export interface ITimeline extends INode {
   markers: IMarkers
   flat: { [key: number]: INode }
+}
+
+export class Rez {
+  color = new Color()
+  pos = new Vector3()
+  rot = new Vector3()
+  size = new Vector3()
+  col = { tilt: 0, variance: 0 }
+  vox = ''
+  sizevar = new Vector3()
+  posvar = new Vector3()
+  shape: { shape: EShape; size: number; step: number }
+
+  reset() {
+    this.color.setRGB(1, 1, 1)
+    this.pos.set(0, 0, 0)
+    this.rot.set(0, 0, 0)
+    this.size.set(1, 1, 1)
+    this.vox = ''
+    this.col.tilt = 0
+    this.col.variance = 0
+
+    this.sizevar.set(0, 0, 0)
+    this.posvar.set(0, 0, 0)
+    this.shape = { shape: EShape.Box, size: 1, step: 0 }
+  }
 }
 
 export enum EShape {
@@ -118,7 +145,6 @@ export const Commands: { [key: number]: any } = {
 
   [ETimeline.REZ]: {
     count: EVar.NUMBER,
-    'Shape Start': EVar.POSITIVE,
   },
   [ETimeline.DEREZ]: {},
 

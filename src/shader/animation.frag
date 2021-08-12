@@ -4,6 +4,7 @@ uniform vec3 handLeft;
 uniform vec3 handRight;
 
 varying vec3 v_pos;
+varying vec3 v_vel;
 varying float v_animation;
 
 float modu(float x, float y) {
@@ -21,6 +22,7 @@ vec4 AnimationFrag(in vec4 col) {
 	}
 
 	col.xyz *= 0.95 + 0.05 * sin(audioLow * 0.01);
+	
 	if(v_animation == float(ANIM_NO_EFFECT)) {
 		return col;
 	}
@@ -34,5 +36,6 @@ vec4 AnimationFrag(in vec4 col) {
 	if(dist2 < 0.15) {
 		col.xyz +=abs(sin(dist2 * 200. + time* 0.01));
 	}
+	// col.xyz *= length(v_vel) * 0.01;
 	return col;
 }

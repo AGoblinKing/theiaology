@@ -7,9 +7,16 @@ import { EStatus, Status } from 'src/buffer/status'
 import { Timeline } from 'src/buffer/timeline'
 import { Velocity } from 'src/buffer/velocity'
 import { voxes } from 'src/buffer/vox'
-import { ENTITY_COUNT } from 'src/config'
+import { ENTITY_COUNT, NORMALIZER } from 'src/config'
+import { ShapeMap } from 'src/shape'
+import { ETimeline, Rez } from 'src/timeline/def-timeline'
+import { Color } from 'three'
 import { ECardinalMessage } from './message'
 import { System } from './system'
+
+const $rez = new Rez()
+const $hsl = { h: 0, s: 0, l: 0 }
+const $col = new Color()
 
 // Deal out entity IDs, execute timeline events
 class Cardinal extends System {
@@ -27,6 +34,10 @@ class Cardinal extends System {
 
   // world components
   timeline: Timeline
+  defines: { [key: number]: number[] } = []
+
+  // performance.now()
+  timing: number
 
   constructor() {
     super(200)
@@ -71,16 +82,20 @@ class Cardinal extends System {
           case 'object':
             // this is voxes data
             voxes.set(e.data)
+
+            // update the timeline
+            this.timelineUpdated()
             return
           case 'number':
             switch (e.data) {
               case ECardinalMessage.RequestID:
                 break
-              case ECardinalMessage.TimelineUpdated:
-                this.timelineUpdated()
-                break
+
               case ECardinalMessage.FreeAll:
                 this.freeAll()
+                break
+              case ECardinalMessage.TimelineUpdated:
+                this.timelineUpdated()
                 break
             }
             return
@@ -88,10 +103,179 @@ class Cardinal extends System {
     }
   }
 
+  // Entity ID number to init
+  entity(def: number, offset: number) {
+    // navigate up the tree to root
+    // build for loops to apply
+    const define = this.defines[def]
+    if (define === undefined) {
+      throw new Error('invalid define number for flat timelinemap')
+    }
+
+    // fill out the Rez then execute it
+    // not cached because timeline has a time dependency
+    // so could be differnet every second
+    // also allows editor to not request a rebuild
+    // if the structure doesn't change
+
+    $rez.reset()
+
+    // TODO: check time when applying
+    for (let child of define) {
+      switch (this.timeline.command(child)) {
+        case ETimeline.VOX:
+          $rez.vox = this.timeline.text(child)
+          break
+        case ETimeline.SHAPE:
+          $rez.shape.shape = this.timeline.data0(child)
+          $rez.shape.size = this.timeline.data1(child)
+          $rez.shape.step = this.timeline.data2(child)
+          break
+        case ETimeline.SIZE:
+          $rez.size.x = this.timeline.data0(child)
+          $rez.size.y = this.timeline.data1(child)
+          $rez.size.z = this.timeline.data2(child)
+          break
+        case ETimeline.COLOR:
+          const rgb = this.timeline.data0(child)
+          $rez.color.setHex(rgb)
+          $rez.col.tilt = this.timeline.data1(child)
+          $rez.col.variance = this.timeline.data2(child)
+
+          break
+        case ETimeline.POSVAR:
+          $rez.posvar.x = this.timeline.data0(child)
+          $rez.posvar.y = this.timeline.data1(child)
+          $rez.posvar.z = this.timeline.data2(child)
+          break
+        case ETimeline.POS:
+          $rez.pos.x = this.timeline.data0(child)
+          $rez.pos.y = this.timeline.data1(child)
+          $rez.pos.z = this.timeline.data2(child)
+          break
+        case ETimeline.VOX:
+          $rez.vox = this.timeline.text(child)
+          break
+      }
+    }
+
+    // now we rez
+    // determine voxel count, for loop over them
+    const shape = ShapeMap[$rez.shape.shape]
+    if (!shape) {
+      throw new Error("couldn't find shape on shapemap" + $rez.shape.shape)
+    }
+
+    const atoms = shape.AtomCount($rez.shape.size, $rez.shape.step)
+
+    for (let i = 0; i < atoms; i++) {
+      const $shape = shape(i, $rez.shape.size, $rez.shape.step)
+
+      // apply $rez data
+
+      const x =
+        $rez.pos.x +
+        $shape.x +
+        Math.round($rez.posvar.x * Math.random() * 2 - $rez.posvar.x)
+      const y =
+        $rez.pos.y +
+        $shape.y +
+        Math.round($rez.posvar.y * Math.random() * 2 - $rez.posvar.y)
+
+      const z =
+        $rez.pos.z +
+        $shape.z +
+        Math.round($rez.posvar.z * Math.random() * 2 - $rez.posvar.z)
+
+      $col
+        .setRGB(Math.random(), Math.random(), Math.random())
+        .lerp($rez.color, (NORMALIZER - $rez.col.variance) / NORMALIZER)
+
+      // tilt
+      $col.getHSL($hsl)
+      $col.setHSL($hsl.h + $rez.col.tilt / NORMALIZER, $hsl.s, $hsl.l)
+
+      if ($rez.vox !== '' && voxes.$[$rez.vox]) {
+        // vox miss, but could be because we haven't loaded $voxes yet
+        const voxDef = voxes.$[$rez.vox]
+
+        for (let i = 0; i < voxDef.xyzi.length / 4; i++) {
+          const id = this.reserve()
+
+          const ix = i * 4
+
+          this.future.time(id, this.timing + 1000 * Math.random() + 500)
+          this.future.x(id, x + voxDef.xyzi[ix] * $rez.size.x * 10)
+          this.future.y(id, y + voxDef.xyzi[ix + 2] * $rez.size.y * 10)
+          this.future.z(id, z + voxDef.xyzi[ix + 1] * $rez.size.z * 10)
+
+          // -1 because magica?
+          const c = (voxDef.xyzi[ix + 3] - 1) * 4
+          this.matter.red(id, Math.floor((voxDef.rgba[c] / 255) * NORMALIZER))
+          this.matter.green(
+            id,
+            Math.floor((voxDef.rgba[c + 1] / 255) * NORMALIZER)
+          )
+          this.matter.blue(
+            id,
+            Math.floor((voxDef.rgba[c + 2] / 255) * NORMALIZER)
+          )
+
+          this.size.x(id, $rez.size.x)
+          this.size.y(id, $rez.size.y)
+          this.size.z(id, $rez.size.z)
+        }
+        continue
+      }
+
+      const id = this.reserve()
+
+      this.future.time(id, this.timing + 1000 * Math.random() + 500)
+      this.future.x(id, x)
+      this.future.y(id, y)
+      this.future.z(id, z)
+
+      this.matter.red(id, Math.floor($col.r * NORMALIZER))
+      this.matter.green(id, Math.floor($col.g * NORMALIZER))
+      this.matter.blue(id, Math.floor($col.b * NORMALIZER))
+
+      this.size.x(id, $rez.size.x)
+      this.size.y(id, $rez.size.y)
+      this.size.z(id, $rez.size.z)
+    }
+  }
+
   timelineUpdated() {
     this.freeAll()
+    // clear it
+    this.defines = []
 
+    // could have just passed the object instead of buffer nonsense, but useful for saves
+
+    const toRez = []
     // run through timeline and execute rezes
+    for (let i = 0; i < this.timeline.length / Timeline.COUNT; i++) {
+      const who = this.timeline.who(i)
+
+      if (!this.defines[who]) {
+        this.defines[who] = []
+      }
+
+      this.defines[who].push(i)
+
+      switch (this.timeline.command(i)) {
+        // rez time
+        case ETimeline.REZ:
+          toRez.push(i)
+          break
+      }
+    }
+
+    for (let rez of toRez) {
+      for (let c = 0; c < this.timeline.data0(rez); c++) {
+        this.entity(this.timeline.who(rez), c)
+      }
+    }
   }
 
   freeAll() {
@@ -126,11 +310,12 @@ class Cardinal extends System {
   }
 
   tick() {
-    this.randomize()
+    this.timing = Math.floor(performance.now())
+    //this.randomize()
   }
   randomize() {
     const scale = 800000
-    const t = Math.floor(performance.now())
+    const t = this.timing
 
     const chunk = (this.tickrate / 1000) * ENTITY_COUNT * 0.1
     // lets prove out thhese even render

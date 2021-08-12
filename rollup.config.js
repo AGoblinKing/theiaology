@@ -58,6 +58,7 @@ const config = (input) => {
       svelte({
         onwarn: (warning, handler) => {
           switch (warning.code) {
+            case "missing-declaration":
             case 'a11y-mouse-events-have-key-events':
             case 'a11y-autofocus':
             case 'module-script-reactive-declaration':

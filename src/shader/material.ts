@@ -28,7 +28,7 @@ const fragmentParsChunk = [
 ].join('\n')
 
 const colorChunk = [
-  `vec4 diffuseColor = MatterFrag(AnimationFrag(vec4( diffuse, opacity)));`,
+  `vec4 diffuseColor = AnimationFrag(MatterFrag(vec4( diffuse, opacity)));`,
 ].join('\n')
 
 material.onBeforeCompile = function (shader) {

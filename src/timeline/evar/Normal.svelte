@@ -11,13 +11,16 @@
   name="range"
   min="0"
   bind:value={val}
-  max={1024}
+  max={NORMALIZER}
   class="range"
   on:change={(e) => {
     modal_visible.$(e.target.value)
   }}
 />
-<Box><label for="range">{Math.abs((val / 1024) * 100).toFixed(0)}%</label></Box>
+<Box
+  ><label for="range">{Math.abs((val / NORMALIZER) * 100).toFixed(0)}%</label
+  ></Box
+>
 
 <style>
   .range {

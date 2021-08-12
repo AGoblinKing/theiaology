@@ -170,6 +170,7 @@ export class Timeline extends AtomicInt {
   // freeAll but do not mark them as available
   freeAll() {
     this.available = []
+
     for (let i = TIMELINE_MAX - 1; i >= 0; i--) {
       this.free(i)
     }
