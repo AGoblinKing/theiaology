@@ -126,10 +126,10 @@ class Cardinal extends System {
         case ETimeline.VOX:
           $rez.vox = this.timeline.text(child)
           break
-        case ETimeline.SHAPE:
-          $rez.shape.shape = this.timeline.data0(child)
-          $rez.shape.size = this.timeline.data1(child)
-          $rez.shape.step = this.timeline.data2(child)
+        case ETimeline.FLOCK:
+          $rez.flock.shape = this.timeline.data0(child)
+          $rez.flock.size = this.timeline.data1(child)
+          $rez.flock.step = this.timeline.data2(child)
           break
         case ETimeline.SIZE:
           $rez.size.x = this.timeline.data0(child)
@@ -161,15 +161,15 @@ class Cardinal extends System {
 
     // now we rez
     // determine voxel count, for loop over them
-    const shape = ShapeMap[$rez.shape.shape]
+    const shape = ShapeMap[$rez.flock.shape]
     if (!shape) {
-      throw new Error("couldn't find shape on shapemap" + $rez.shape.shape)
+      throw new Error("couldn't find shape on shapemap" + $rez.flock.shape)
     }
 
-    const atoms = shape.AtomCount($rez.shape.size, $rez.shape.step)
+    const atoms = shape.AtomCount($rez.flock.size, $rez.flock.step)
 
     for (let i = 0; i < atoms; i++) {
-      const $shape = shape(i, $rez.shape.size, $rez.shape.step)
+      const $shape = shape(i, $rez.flock.size, $rez.flock.step)
 
       // apply $rez data
 

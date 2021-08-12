@@ -89,6 +89,7 @@
   export let span = false
   // organize-imports-ignore
   export let flex = false
+  export let bold = false
   export let upper = false
 
   export let click = () => {}
@@ -135,6 +136,7 @@
   class:span
   class:flex
   class:upper
+  class:bold
   bind:this={box}
   on:click={doClick}
   class:notilt
@@ -162,11 +164,8 @@
     flex: 1;
   }
   .box {
-    text-shadow: rgb(0, 0, 0) 0.075rem 0.075rem 0rem,
-      rgb(0, 0, 0) -0.075rem -0.075rem 0rem;
-
-    box-shadow: inset 0 0.075rem 5rem rgb(72, 2, 75);
-    border: solid 0.1rem rgba(255, 255, 255, 0.418);
+    background: rgb(72, 2, 75, 0.8);
+    border: solid 0.1rem rgba(255, 255, 255, 0.25);
     color: rgb(250, 194, 9);
     font-size: 0.75rem;
     padding: 0.4rem;
@@ -178,6 +177,9 @@
     display: flex;
     justify-content: center;
     align-items: center;
+  }
+  .bold {
+    font-weight: bold;
   }
   .box.notilt {
     filter: none !important;

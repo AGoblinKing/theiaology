@@ -26,7 +26,7 @@ export const timeline = new Value(new Timeline())
 
 export const timeline_json = new Value<ITimeline>({
   markers: {},
-  children: {},
+  _: {},
   flat: {},
 })
 

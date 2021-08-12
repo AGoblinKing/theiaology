@@ -3,6 +3,7 @@ import { timeline } from 'src/buffer'
 import { Timeline } from 'src/buffer/timeline'
 import { voxes } from 'src/buffer/vox'
 import { MagickaVoxel } from 'src/magica'
+import { INode } from 'src/timeline/def-timeline'
 import { Value } from 'src/value'
 
 // Load .theia file into the timePline
@@ -10,6 +11,31 @@ export const SIGNATURE = 'THEA'
 export const HEADER_START = 4 * 4
 
 export const HEADER_END = HEADER_START + 4 * 4
+
+// map json ID to timeline ID
+
+export function LoadJSON(json: INode, key = '0', map = {}) {
+  if (map[key] === undefined) {
+    map[key] = timeline.$.reserve()
+  }
+
+  // oh hi
+  const id = map[key]
+  timeline.$.when(id, json.$[0])
+  timeline.$.command(id, json.$[1])
+  // who is special!
+  if (map[json.$[2]] === undefined) {
+    map[json.$[2]] = json.$[2] === timeline.$.reserve()
+  }
+  timeline.$.who(id, id === 0 ? 0 : map[json.$[2]])
+  timeline.$.data0(id, json.$[3])
+  timeline.$.data1(id, json.$[4])
+  timeline.$.data2(id, json.$[5])
+
+  for (let entry of Object.entries(json._)) {
+    LoadJSON(entry[1], entry[0], map)
+  }
+}
 
 export function Load(bytes: ArrayBuffer) {
   try {
@@ -67,13 +93,11 @@ export function Load(bytes: ArrayBuffer) {
     }
 
     // clear existing vox
-    voxes.set({})
 
     // Vox
     const voxLength = view.getInt32(HEADER_START + 4 + 4)
-
+    const voxUpdate = {}
     if (voxLength > 0) {
-      const voxUpdate = {}
       //size[ 12 char string name, vox raw data]size[]
       // rip through and read these
 
@@ -90,21 +114,21 @@ export function Load(bytes: ArrayBuffer) {
         for (let i = 0; i < 12; i++) {
           const c = view.getUint8(musicEnd + cursor + i)
           if (c === 0) continue
+
           str += String.fromCharCode(c)
         }
         cursor += 12
 
-        // create dataview into this now
+        // Slice so you can share the data to the worker
         voxUpdate[str] = new MagickaVoxel(
-          new DataView(bytes, cursor + musicEnd, size)
+          new DataView(bytes.slice(cursor + musicEnd, cursor + musicEnd + size))
         )
+
         cursor += size
         size = 0
       }
-
-      voxes.set(voxUpdate)
     }
-
+    voxes.set(voxUpdate)
     // only poke at the end incase we need to revert
     timeline.poke()
   } catch (ex) {

@@ -1,4 +1,6 @@
 <script lang="ts">
+  import { onDestroy } from 'svelte'
+
   import { modal_default, modal_visible } from '../editor'
 
   // organize-imports-ignore
@@ -10,9 +12,11 @@
     modal_visible.$(val)
   }
 
+  let escape = false
   function keydown(e: KeyboardEvent) {
     switch (e.key) {
       case 'Escape':
+        escape = true
         modal_visible.set(false)
         break
       case 'Enter':
@@ -33,6 +37,8 @@
 </script>
 
 <input
+  on:blur={submit}
+  on:mouseout={submit}
   type="number"
   bind:value={val}
   autofocus

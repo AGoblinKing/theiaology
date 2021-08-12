@@ -1,6 +1,6 @@
 @font-face {
   font-family: 'pixel';
-  src: url('/font/PressStart2P-Regular.ttf') format('truetype');
+  src: url('/font/MajorMonoDisplay-Regular.ttf') format('truetype');
 }
 
 html,
@@ -9,6 +9,7 @@ body {
   margin: 0;
   user-select: none;
   font-family: pixel;
+  font-weight: 1000;
   width: 100%;
   height: 100%;
   overflow: hidden;

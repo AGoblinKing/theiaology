@@ -47,7 +47,7 @@
       id="load"
       type="file"
       title="LOAD"
-      accept=".theia,.mp3,.vox"
+      accept=".theia,.mp3,.vox,.json"
       on:change={loadFile}
     />
     <label for="load">LOAD</label></Box

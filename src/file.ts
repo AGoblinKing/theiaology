@@ -1,7 +1,8 @@
 import { get } from 'idb-keyval'
 import { audio, audio_buffer, audio_name } from './audio'
+import { timeline } from './buffer'
 import { voxes } from './buffer/vox'
-import { dbLoaded, Load } from './file/load'
+import { dbLoaded, Load, LoadJSON } from './file/load'
 import { url } from './input/browser'
 import { MagickaVoxel } from './magica'
 
@@ -35,6 +36,16 @@ window.addEventListener('drop', async (e) => {
 export function ReadFile(file: File | string, buffer: ArrayBufferLike) {
   const { name } = typeof file === 'string' ? { name: file } : file
   switch (true) {
+    case name.indexOf('.json') !== -1:
+      try {
+        LoadJSON(
+          JSON.parse(new TextDecoder('utf-8').decode(new Uint8Array(buffer)))
+        )
+        timeline.poke()
+      } catch (ex) {
+        console.log("Couldn't load JSON", file)
+      }
+      break
     case name.indexOf('.vox') !== -1:
       voxes.$[name.split('.')[0].slice(0, 12).trim()] = new MagickaVoxel(buffer)
       voxes.poke()

@@ -91,6 +91,7 @@ export class MagickaVoxel {
   chunk(start: number = 8) {
     let cursor = start
     const id = this.readID(cursor)
+
     cursor += INT_SIZE
 
     const chunkBytes = this.view.getInt32(cursor, true)

@@ -20,7 +20,7 @@
 
   export let i = 0
 
-  $: item = $timeline_json.flat[i] || { data: [0], children: {} }
+  $: item = $timeline_json.flat[i] || { $: [0], _: {} }
   $: command = $timeline.command(i)
 
   function addTo(index: number) {
@@ -34,7 +34,7 @@
 
     if (index === 0) return
 
-    for (let child of Object.keys($timeline_json.flat[index].children)) {
+    for (let child of Object.keys($timeline_json.flat[index]._)) {
       remove(parseInt(child, 10))
     }
     timeline.$.free(index)
@@ -74,7 +74,7 @@
         case ETimeline.TAG:
           break
         default:
-          for (let child of Object.keys(item.children)) {
+          for (let child of Object.keys(item._)) {
             remove(parseInt(child, 10))
           }
       }
@@ -167,7 +167,7 @@
     timeline.poke()
   }
 
-  $: label = ETimeline[item.data[1]] || 'root'
+  $: label = ETimeline[item.$[1]] || 'root'
 
   $: nadd = `${i}-add`
   $: ncomm = `${i}-command`
@@ -189,7 +189,7 @@
   // show line number and data
 </script>
 
-<div class="node" class:root={i === 0 || item.data[2] === 0}>
+<div class="node" class:root={i === 0 || item.$[2] === 0}>
   <div class="items">
     <Box
       hover="Remove"
@@ -210,6 +210,7 @@
       hover={label === 'root'
         ? 'Download a .json of the ROOT script'
         : 'Command'}
+      tilt={label === 'REZ' ? 45 : -45}
       nav={{
         tag: `${i}-command`,
         left: `${nremove}|${nadd}|${NavData(3, 0, true)}`,
@@ -321,13 +322,15 @@
         flex
         click={inputString}
         nav={{ tag: `${i}-data` }}
+        bold
       >
         "{$timeline.text(i)}"
       </Box>
     {/if}
 
-    {#if i === 0 || item.data[1] === ETimeline.TAG}
+    {#if i === 0 || item.$[1] === ETimeline.TAG}
       <Box
+        tilt={180}
         click={() => addTo(i)}
         hover="Add"
         nav={{
@@ -339,27 +342,27 @@
           down: ``,
         }}>+</Box
       >
-    {:else if item.data[1] !== ETimeline.TAG && item.data[1] !== undefined}
-      <Box hover="When to Apply" click={inputTime}>
-        {d0(item.data[0] / 60)}:{d0(item.data[0] % 60)}
+    {:else if item.$[1] !== ETimeline.TAG && item.$[1] !== undefined}
+      <Box hover="When to Apply" click={inputTime} tilt={-45}>
+        {d0(item.$[0] / 60)}:{d0(item.$[0] % 60)}
       </Box>
     {/if}
   </div>
   <div class="children">
-    {#each Object.keys(item.children).reverse() as key (key)}
+    {#each Object.keys(item._).reverse() as key (key)}
       <svelte:self i={key} />
     {/each}
   </div>
 </div>
 {#if i === 0}
-  {#each Object.keys($timeline_json.children).sort() as key}
+  {#each Object.keys($timeline_json._).sort() as key}
     <svelte:self i={key} />
   {/each}
 {/if}
 
 <style>
   .children {
-    background-color: rgba(2, 91, 255, 0.288);
+    background-color: rgba(213, 2, 255, 0.419);
     /*border: solid 0.25rem rgba(151, 2, 151, 0.555);*/
   }
 

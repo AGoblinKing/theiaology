@@ -1,4 +1,6 @@
 <script>
+  import { NORMALIZER } from 'src/config'
+
   import Box from '../Box.svelte'
 
   import { modal_default, modal_visible } from '../editor'

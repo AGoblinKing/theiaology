@@ -7,8 +7,8 @@ export interface IMarkers {
 }
 
 export interface INode {
-  data?: number[]
-  children: { [key: string]: INode }
+  $?: number[]
+  _: { [key: string]: INode }
 }
 
 // easier for humans to read
@@ -26,7 +26,7 @@ export class Rez {
   vox = ''
   sizevar = new Vector3()
   posvar = new Vector3()
-  shape: { shape: EShape; size: number; step: number }
+  flock: { shape: EShape; size: number; step: number }
 
   reset() {
     this.color.setRGB(1, 1, 1)
@@ -39,7 +39,7 @@ export class Rez {
 
     this.sizevar.set(0, 0, 0)
     this.posvar.set(0, 0, 0)
-    this.shape = { shape: EShape.Box, size: 1, step: 0 }
+    this.flock = { shape: EShape.Box, size: 1, step: 0 }
   }
 }
 
@@ -88,7 +88,7 @@ export enum ETimeline {
   NONE = 0,
   TAG,
   MUSIC,
-  SHAPE,
+  FLOCK,
   COLOR,
   SIZE,
   SIZEVAR,
@@ -121,7 +121,7 @@ export enum ETimeline {
 
 export const Commands: { [key: number]: any } = {
   [ETimeline.TAG]: { text: EVar.STRING },
-  [ETimeline.SHAPE]: {
+  [ETimeline.FLOCK]: {
     shape: EShape,
     size: EVar.POSITIVE,
     step: EVar.POSITIVE,

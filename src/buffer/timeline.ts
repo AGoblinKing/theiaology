@@ -1,6 +1,6 @@
 import { AtomicInt } from 'src/atomic'
 import { TIMELINE_MAX } from 'src/config'
-import { ETimeline, INode, ITimeline } from 'src/timeline/def-timeline'
+import { ETimeline, ITimeline } from 'src/timeline/def-timeline'
 
 const strConvertBuffer = new ArrayBuffer(4) // an Int32 takes 4 bytes
 const strView = new DataView(strConvertBuffer)
@@ -53,8 +53,15 @@ export class Timeline extends AtomicInt {
     const root = {
       flat: {},
       markers: {},
-      data: [],
-      children: {},
+      $: [
+        this.when(0),
+        this.command(0),
+        this.who(0),
+        this.data0(0),
+        this.data1(0),
+        this.data2(0),
+      ],
+      _: {},
     }
 
     for (let i = 1; i < TIMELINE_MAX; i++) {
@@ -78,7 +85,7 @@ export class Timeline extends AtomicInt {
 
         default:
           root.flat[who] = cursor = {
-            children: {},
+            _: {},
           }
       }
 
@@ -90,11 +97,11 @@ export class Timeline extends AtomicInt {
         default:
           if (!root.flat[i]) {
             root.flat[i] = {
-              children: {},
+              _: {},
             }
           }
 
-          root.flat[i].data = [
+          root.flat[i].$ = [
             this.when(i),
             com,
             who,
@@ -103,24 +110,16 @@ export class Timeline extends AtomicInt {
             this.data2(i),
           ]
 
-          cursor.children[i] = root.flat[i]
+          cursor._[i] = root.flat[i]
       }
     }
 
     return root
   }
 
-  fromObject(obj: { [key: string]: INode }) {
-    this.freeAll()
-
-    // traverse the tree
-    const reader = (part: INode) => {}
-
-    reader({ children: obj })
-  }
-
   toJSON(): string {
-    return JSON.stringify(this.toObject().children, undefined, ' ')
+    const { _, $ } = this.toObject()
+    return JSON.stringify({ _, $ }, undefined, ' ')
   }
 
   // rip through and return a sorted array of the events
