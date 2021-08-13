@@ -73,6 +73,12 @@
       switch (ETimeline[res]) {
         case ETimeline.TAG:
           break
+        case ETimeline.REZ:
+        case ETimeline.FLOCK:
+        case ETimeline.SIZE:
+          timeline.$.data0(i, 1)
+          timeline.$.data1(i, 1)
+          timeline.$.data2(i, 1)
         default:
           for (let child of Object.keys(item._)) {
             remove(parseInt(child, 10))
@@ -167,7 +173,7 @@
     timeline.poke()
   }
 
-  $: label = ETimeline[item.$[1]] || 'root'
+  $: label = ETimeline[item.$[1]] || 'boot'
 
   $: nadd = `${i}-add`
   $: ncomm = `${i}-command`
@@ -207,8 +213,8 @@
     <Box
       click={chooseCommand}
       upper
-      hover={label === 'root'
-        ? 'Download a .json of the ROOT script'
+      hover={label === 'boot'
+        ? 'Download a .json of the BOOT script'
         : 'Command'}
       tilt={label === 'REZ' ? 45 : -45}
       nav={{
@@ -257,31 +263,6 @@
             nav={{ tag: `${i}-data-${index}` }}
           >
             {$timeline.text(i) === '' ? 'None' : $timeline.text(i)}
-          </Box>
-        {:else if value == EVar.VEC3}
-          <Box
-            flex
-            hover={key}
-            click={() => inputNumber(index)}
-            nav={{ tag: `${i}-data-${index}` }}
-          >
-            {$timeline.data0(i)}
-          </Box>
-          <Box
-            hover={key}
-            flex
-            click={() => inputNumber(index + 1)}
-            nav={{ tag: `${i}-data-${index}` }}
-          >
-            {$timeline.data1(i)}
-          </Box>
-          <Box
-            hover={key}
-            flex
-            click={() => inputNumber(index + 2)}
-            nav={{ tag: `${i}-data-${index}` }}
-          >
-            {$timeline.data2(i)}
           </Box>
         {:else if value === EVar.COLOR}
           <Box hover={key} notilt flex nav={{ tag: `${i}-data-${index}` }}>

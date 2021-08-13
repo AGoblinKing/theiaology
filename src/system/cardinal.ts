@@ -10,13 +10,17 @@ import { voxes } from 'src/buffer/vox'
 import { ENTITY_COUNT, NORMALIZER } from 'src/config'
 import { ShapeMap } from 'src/shape'
 import { ETimeline, Rez } from 'src/timeline/def-timeline'
-import { Color } from 'three'
+import { Color, Euler, Object3D, Vector3 } from 'three'
 import { ECardinalMessage } from './message'
 import { System } from './system'
 
 const $rez = new Rez()
 const $hsl = { h: 0, s: 0, l: 0 }
 const $col = new Color()
+const $col2 = new Color()
+const $eule = new Euler()
+const $o3d = new Object3D()
+const $vec3 = new Vector3()
 
 // Deal out entity IDs, execute timeline events
 class Cardinal extends System {
@@ -123,6 +127,35 @@ class Cardinal extends System {
     // TODO: check time when applying
     for (let child of define) {
       switch (this.timeline.command(child)) {
+        case ETimeline.SIZEVAR:
+          $rez.sizevar.set(
+            this.timeline.data0(child),
+            this.timeline.data1(child),
+            this.timeline.data2(child)
+          )
+          break
+        case ETimeline.ROTVAR:
+          $rez.rotvar.set(
+            this.timeline.data0(child),
+            this.timeline.data1(child),
+            this.timeline.data2(child)
+          )
+          break
+        case ETimeline.ROT:
+          $rez.rot.set(
+            this.timeline.data0(child),
+            this.timeline.data1(child),
+            this.timeline.data2(child)
+          )
+          break
+        case ETimeline.LOOK:
+          $rez.look.set(
+            this.timeline.data0(child),
+            this.timeline.data1(child),
+            this.timeline.data2(child)
+          )
+
+          break
         case ETimeline.VOX:
           $rez.vox = this.timeline.text(child)
           break
@@ -193,37 +226,89 @@ class Cardinal extends System {
 
       // tilt
       $col.getHSL($hsl)
+
+      const ts = $hsl.s
+      const tl = $hsl.l
+
       $col.setHSL($hsl.h + $rez.col.tilt / NORMALIZER, $hsl.s, $hsl.l)
 
+      const sx = $rez.size.x + Math.round(Math.random() * $rez.sizevar.x)
+      const sy = $rez.size.y + Math.round(Math.random() * $rez.sizevar.y)
+      const sz = $rez.size.z + Math.round(Math.random() * $rez.sizevar.z)
       if ($rez.vox !== '' && voxes.$[$rez.vox]) {
         // vox miss, but could be because we haven't loaded $voxes yet
         const voxDef = voxes.$[$rez.vox]
+
+        const variance = ($rez.col.variance / NORMALIZER) * Math.random()
+        let rx = ($rez.rotvar.x / NORMALIZER) * Math.random() * Math.PI * 2
+        let ry = ($rez.rotvar.y / NORMALIZER) * Math.random() * Math.PI * 2
+        let rz = ($rez.rotvar.z / NORMALIZER) * Math.random() * Math.PI * 2
+
+        if ($rez.doLook) {
+          $o3d.position.set(x, y, z)
+          $o3d.lookAt($rez.look)
+
+          rx += $o3d.rotation.x
+          ry += $o3d.rotation.y
+          rz += $o3d.rotation.z
+        }
 
         for (let i = 0; i < voxDef.xyzi.length / 4; i++) {
           const id = this.reserve()
 
           const ix = i * 4
 
+          $vec3
+            .set(
+              x + voxDef.xyzi[ix] * sx * 10,
+              y + voxDef.xyzi[ix + 2] * sy * 10,
+              z + voxDef.xyzi[ix + 1] * sz * 10
+            )
+
+            .applyEuler(
+              $eule.set(
+                rx + ($rez.rot.x / NORMALIZER) * Math.PI * 2,
+                ry + ($rez.rot.y / NORMALIZER) * Math.PI * 2,
+                rz + ($rez.rot.z / NORMALIZER) * Math.PI * 2
+              )
+            )
+
           this.future.time(id, this.timing + 1000 * Math.random() + 500)
-          this.future.x(id, x + voxDef.xyzi[ix] * $rez.size.x * 10)
-          this.future.y(id, y + voxDef.xyzi[ix + 2] * $rez.size.y * 10)
-          this.future.z(id, z + voxDef.xyzi[ix + 1] * $rez.size.z * 10)
+          this.future.x(id, $vec3.x)
+          this.future.y(id, $vec3.y)
+          this.future.z(id, $vec3.z)
 
           // -1 because magica?
           const c = (voxDef.xyzi[ix + 3] - 1) * 4
-          this.matter.red(id, Math.floor((voxDef.rgba[c] / 255) * NORMALIZER))
-          this.matter.green(
-            id,
-            Math.floor((voxDef.rgba[c + 1] / 255) * NORMALIZER)
-          )
-          this.matter.blue(
-            id,
-            Math.floor((voxDef.rgba[c + 2] / 255) * NORMALIZER)
+
+          $col2
+            .setRGB(
+              voxDef.rgba[c] / 255,
+              voxDef.rgba[c + 1] / 255,
+              voxDef.rgba[c + 2] / 255
+            )
+            .getHSL($hsl)
+
+          $col2.setHSL(
+            ($hsl.h +
+              $rez.col.tilt / NORMALIZER +
+              variance +
+              Math.random() * 0.05) %
+              1,
+            ($hsl.s + ts) / 2,
+            ($hsl.l + tl) / 2
           )
 
-          this.size.x(id, $rez.size.x)
-          this.size.y(id, $rez.size.y)
-          this.size.z(id, $rez.size.z)
+          // tilt based on tilt value on color
+          // lets do nothing with the color for now
+
+          this.matter.red(id, $col2.r * NORMALIZER)
+          this.matter.green(id, $col2.g * NORMALIZER)
+          this.matter.blue(id, $col2.b * NORMALIZER)
+
+          this.size.x(id, sx)
+          this.size.y(id, sy)
+          this.size.z(id, sz)
         }
         continue
       }
@@ -239,9 +324,9 @@ class Cardinal extends System {
       this.matter.green(id, Math.floor($col.g * NORMALIZER))
       this.matter.blue(id, Math.floor($col.b * NORMALIZER))
 
-      this.size.x(id, $rez.size.x)
-      this.size.y(id, $rez.size.y)
-      this.size.z(id, $rez.size.z)
+      this.size.x(id, sx)
+      this.size.y(id, sy)
+      this.size.z(id, sz)
     }
   }
 
@@ -311,7 +396,6 @@ class Cardinal extends System {
 
   tick() {
     this.timing = Math.floor(performance.now())
-    //this.randomize()
   }
   randomize() {
     const scale = 800000
