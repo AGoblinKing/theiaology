@@ -1,10 +1,10 @@
-import { audio, audio_buffer, audio_name } from 'src/audio'
 import { timeline } from 'src/buffer'
 import { Timeline } from 'src/buffer/timeline'
 import { voxes } from 'src/buffer/vox'
-import { MagickaVoxel } from 'src/magica'
+import { MagickaVoxel } from 'src/render/magica'
+import { audio, audio_buffer, audio_name } from 'src/sound/audio'
 import { INode } from 'src/timeline/def-timeline'
-import { Value } from 'src/value'
+import { Value } from 'src/util/value'
 
 // Load .theia file into the timePline
 export const SIGNATURE = 'THEA'

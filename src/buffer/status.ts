@@ -1,4 +1,4 @@
-import { AtomicByte } from 'src/atomic'
+import { AtomicByte } from 'src/buffer/atomic'
 import { ENTITY_COUNT } from 'src/config'
 
 export enum EStatus {

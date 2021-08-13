@@ -1,6 +1,6 @@
 import { key_down } from 'src/input/keyboard'
 import { mouse_wheel } from 'src/input/mouse'
-import { Value } from 'src/value'
+import { Value } from 'src/util/value'
 import { Vector2 } from 'three'
 import { EVar } from './def-timeline'
 

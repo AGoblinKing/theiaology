@@ -5,11 +5,10 @@
   import Timeline from './Timeline.svelte'
   import Modal from './Modal.svelte'
 
-  import { ReadFile } from 'src/file'
-
   import { Save } from 'src/file/save'
 
   import Box from './Box.svelte'
+  import { ReadFile } from 'src/file/file'
 
   async function loadFile(event) {
     const reader = new FileReader()

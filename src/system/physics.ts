@@ -4,7 +4,7 @@ import { Size } from 'src/buffer/size'
 import { SpaceTime } from 'src/buffer/spacetime'
 import { Velocity } from 'src/buffer/velocity'
 import { GRAVITY, PHYSICS_BOUNDS } from 'src/config'
-import { Octree } from 'src/octree'
+import { Octree } from 'src/util/octree'
 import { Box3, Vector3 } from 'three'
 import { System } from './system'
 

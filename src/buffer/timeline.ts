@@ -1,4 +1,4 @@
-import { AtomicInt } from 'src/atomic'
+import { AtomicInt } from 'src/buffer/atomic'
 import { TIMELINE_MAX } from 'src/config'
 import { ETimeline, ITimeline } from 'src/timeline/def-timeline'
 

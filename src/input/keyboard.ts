@@ -1,4 +1,4 @@
-import { Value } from 'src/value'
+import { Value } from 'src/util/value'
 
 export const key_down = new Value('')
 export const key_up = new Value('')

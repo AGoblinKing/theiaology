@@ -4,15 +4,15 @@ import {
   InstancedMesh,
   Matrix4,
 } from 'three'
-import { animation, future, matter, past, size, velocity } from './buffer'
-import { Matter } from './buffer/matter'
-import { SpaceTime } from './buffer/spacetime'
-import { Velocity } from './buffer/velocity'
-import { ENTITY_COUNT, FACES, SIZE } from './config'
-import { scene } from './render'
-import { material } from './shader/material'
-import { tick } from './time'
-import { Value } from './value'
+import { animation, future, matter, past, size, velocity } from '../buffer'
+import { Matter } from '../buffer/matter'
+import { SpaceTime } from '../buffer/spacetime'
+import { Velocity } from '../buffer/velocity'
+import { ENTITY_COUNT, FACES, SIZE } from '../config'
+import { scene } from '../render/render'
+import { tick } from '../uniform/time'
+import { Value } from '../util/value'
+import { material } from './material'
 
 // mesh setup
 // TODO: Remove instanceMatrix sinces it's not used

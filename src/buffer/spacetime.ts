@@ -1,4 +1,4 @@
-import { AtomicInt } from 'src/atomic'
+import { AtomicInt } from 'src/buffer/atomic'
 import { ENTITY_COUNT } from 'src/config'
 
 export class SpaceTime extends AtomicInt {

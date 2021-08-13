@@ -114,4 +114,4 @@ const config = (input) => {
   }
 }
 
-export default [config('main'), config('system/physics'), config('system/fuzz'), config('system/cardinal'), config('system/weather')]
+export default [config('main'), config('service'), config('system/physics'), config('system/fuzz'), config('system/cardinal'), config('system/weather')]

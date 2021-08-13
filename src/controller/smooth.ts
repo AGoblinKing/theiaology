@@ -1,8 +1,8 @@
 // move body smoothly in VR mode
 
-import { body, camera, renderer } from 'src/render'
-import { delta, tick } from 'src/time'
-import { Value } from 'src/value'
+import { body, camera, renderer } from 'src/render/render'
+import { delta, tick } from 'src/uniform/time'
+import { Value } from 'src/util/value'
 import { Vector3 } from 'three'
 
 export const MIN_VELOCITY = 0.01

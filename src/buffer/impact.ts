@@ -1,4 +1,4 @@
-import { AtomicInt } from 'src/atomic'
+import { AtomicInt } from 'src/buffer/atomic'
 import { ENTITY_COUNT, IMPACTS_MAX_PER } from 'src/config'
 
 export class Impact extends AtomicInt {

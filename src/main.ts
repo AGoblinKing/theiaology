@@ -1,6 +1,5 @@
+import 'src/file/file'
 import Theiaology from 'src/timeline/Theiaology.svelte'
-import './atoms'
-import './audio'
 import {
   animation,
   future,
@@ -13,10 +12,12 @@ import {
   velocity,
 } from './buffer'
 import { voxes } from './buffer/vox'
-import './file'
-import './player'
-import { sys } from './sys'
+import './controller/player'
+import { RezHands } from './rez/hand-joints'
+import './shader/atoms'
+import './sound/audio'
 import { ECardinalMessage } from './system/message'
+import { sys } from './system/sys'
 
 // setup systems
 const cardinal = sys
@@ -37,6 +38,11 @@ timeline.on(($t) => {
   if ($t === undefined) return
 
   cardinal.send(ECardinalMessage.TimelineUpdated)
+  // clear queue of replies
+  cardinal._queue = []
+
+  // Rez the player hands
+  RezHands(cardinal)
 })
 
 voxes.on(($voxes) => {

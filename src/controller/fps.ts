@@ -1,9 +1,9 @@
 import { key_down, key_up } from 'src/input/keyboard'
 import { mouse_left, mouse_pos, mouse_right } from 'src/input/mouse'
-import { delta } from 'src/time'
-import { Value } from 'src/value'
+import { delta } from 'src/uniform/time'
+import { Value } from 'src/util/value'
 import { MathUtils, Vector2, Vector3 } from 'three'
-import { body, renderer } from '../render'
+import { body, renderer } from '../render/render'
 import { velocity } from './smooth'
 
 export const move_inputs = new Value(new Vector3(0, 0, 0))

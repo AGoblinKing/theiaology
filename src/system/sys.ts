@@ -1,10 +1,11 @@
-import { IAtomic } from 'src/atomic'
-import { Value } from './value'
+import { IAtomic } from 'src/buffer/atomic'
+import { Value } from 'src/util/value'
 
 export type IMessage = IAtomic | number | object
 
 export class SystemWorker extends Worker {
   _delay = 0
+  _queue = []
   msg = new Value<any>()
 
   constructor(url: string) {
@@ -28,8 +29,16 @@ export class SystemWorker extends Worker {
     return this
   }
 
+  queue(e: (msg: any) => void) {
+    this._queue.push(e)
+  }
+
   message(e: MessageEvent) {
     this.msg.set(e.data)
+    const i = this._queue.pop()
+    if (i) {
+      i(e.data)
+    }
   }
 
   // pipe received messages to other worker

@@ -20,6 +20,8 @@ _Undock your imagination._
 - [x] Unified Velocity locomotion
 - [x] Pet DogSheeps in VR
 - [x] SharedArrayBuffer Workers, like uh.. an ECS that your GPU has access to
+- [x] .theia file format for sharing the whole thing as drag n' drop or linkable
+- [?] a Timeline editor in VR with funky text
 
 ![Promotional Gif](./public/image/interaction.gif)
 
@@ -65,9 +67,7 @@ Which are brutal but enable SharedArrayBuffers which are magic.
 ## Maybe One Day
 
 - [ ] Spells like uh fireballs and lightning raining from the sky
-- [ ] a Timeline editor in VR with funky text
 - [ ] Physics on a worker making use of those magic buffers
-- [ ] .theia file format for sharing the whole thing as drag n' drop or linkable
 - [ ] WebRTC Networking
 - [ ] Play Queue / Gateways / Playlists / Albums?
 - [ ] Motion: Climbing, ride the tiger, zip line, swing

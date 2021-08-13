@@ -24,7 +24,7 @@ const $vec3 = new Vector3()
 
 // Deal out entity IDs, execute timeline events
 class Cardinal extends System {
-  _available = [...new Array(ENTITY_COUNT)].map((i) => i)
+  _available: number[] = [...new Array(ENTITY_COUNT)].map((i) => i)
   ticks = 0
   // entity components
   past: SpaceTime
@@ -93,6 +93,7 @@ class Cardinal extends System {
           case 'number':
             switch (e.data) {
               case ECardinalMessage.RequestID:
+                this.post(this.reserve())
                 break
 
               case ECardinalMessage.FreeAll:

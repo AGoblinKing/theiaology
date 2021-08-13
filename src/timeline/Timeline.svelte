@@ -1,12 +1,12 @@
 <script lang="ts">
-  import { audio, audio_buffer, audio_name } from 'src/audio'
+  import { audio, audio_buffer, audio_name } from 'src/sound/audio'
 
-  import { voxes } from 'src/buffer/vox'
   import Box from './Box.svelte'
 
   // organize-imports-ignore
   import Node from './Node.svelte'
   import fs from 'file-saver'
+  import { voxes } from 'src/buffer/vox'
 </script>
 
 <div class="timeline">

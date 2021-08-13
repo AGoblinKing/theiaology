@@ -1,5 +1,4 @@
-import { VRButton } from 'src/VRButton'
-import { audio } from '../audio'
+import { VRButton } from 'src/render/VRButton'
 import {
   hands,
   last_pose,
@@ -8,9 +7,10 @@ import {
   right_hand,
   VRInit,
 } from '../input/xr'
-import { renderer, scene } from '../render'
+import { renderer, scene } from '../render/render'
+import { audio } from '../sound/audio'
 import * as Spells from '../spell'
-import { Value } from '../value'
+import { Value } from '../util/value'
 import { IJointGroup } from '../xr/joints'
 import { poses, poseValue } from '../xr/poses'
 

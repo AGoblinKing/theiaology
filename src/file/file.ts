@@ -1,10 +1,10 @@
 import { get } from 'idb-keyval'
-import { audio, audio_buffer, audio_name } from './audio'
-import { timeline } from './buffer'
-import { voxes } from './buffer/vox'
-import { dbLoaded, Load, LoadJSON } from './file/load'
-import { url } from './input/browser'
-import { MagickaVoxel } from './magica'
+import { timeline } from 'src/buffer'
+import { voxes } from 'src/buffer/vox'
+import { url } from 'src/input/browser'
+import { MagickaVoxel } from 'src/render/magica'
+import { audio, audio_buffer, audio_name } from 'src/sound/audio'
+import { dbLoaded, Load, LoadJSON } from './load'
 
 window.addEventListener('dragover', (e) => {
   e.dataTransfer.dropEffect = `copy`

@@ -1,5 +1,5 @@
+import { Value } from 'src/util/value'
 import { Uniform } from 'three'
-import { Value } from './value'
 
 export const tick = new Value(0)
 export const delta = new Value(0)

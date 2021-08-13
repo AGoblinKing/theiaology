@@ -1,4 +1,4 @@
-import { velocity } from 'src/control/smooth'
+import { velocity } from 'src/controller/smooth'
 
 export const WALK_SPEED = -1
 

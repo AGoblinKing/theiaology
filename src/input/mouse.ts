@@ -1,6 +1,6 @@
 import { Vector2, Vector3 } from 'three'
-import { renderer } from '../render'
-import { Value } from '../value'
+import { renderer } from '../render/render'
+import { Value } from '../util/value'
 
 // Normalized Mouse Position from center of screen
 export const mouse_pos = new Value(new Vector2())

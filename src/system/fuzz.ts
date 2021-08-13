@@ -1,4 +1,4 @@
-import { AtomicInt } from 'src/atomic'
+import { AtomicInt } from 'src/buffer/atomic'
 import { System } from './system'
 
 // add fuzz to the entire range

@@ -1,4 +1,4 @@
-import { angular } from 'src/control/smooth'
+import { angular } from 'src/controller/smooth'
 import { IJointGroup } from 'src/xr/joints'
 
 export function Swipe(hand: IJointGroup) {

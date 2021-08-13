@@ -6,8 +6,8 @@ import {
   Scene,
   WebGLRenderer,
 } from 'three'
-import { Loop, tick } from './time'
-import { Value } from './value'
+import { Loop, tick } from '../uniform/time'
+import { Value } from '../util/value'
 
 export const scene = new Value(new Scene())
 export const camera = new PerspectiveCamera(

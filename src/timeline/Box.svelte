@@ -1,6 +1,6 @@
 <script lang="ts" context="module">
   import { key_down } from 'src/input/keyboard'
-  import { Value } from 'src/value'
+  import { Value } from 'src/util/value'
   interface INav {
     left?: string
     up?: string
