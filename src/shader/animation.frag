@@ -14,14 +14,14 @@ float modu(float x, float y) {
 vec4 AnimationFrag(in vec4 col) {
 
 	if(modu(abs(v_pos.x * v_pos.y * 100. + time * 0.0001) , 2.) >= 1.) {
-		col.xyz *= 0.90;
+		col.xyz *= 0.95;
 	}
 
 	if(modu(abs(v_pos.z * v_pos.x * v_pos.y * 10.) + time * 0.0001, 4.) >= 1.) {
-		col.xyz *= 0.90;
+		col.xyz *= 0.95;
 	}
 
-	col.xyz *= 0.95 + 0.05 * sin(audioLow * 0.01);
+	col.xyz *= 1. - 0.05 * sin(audioLow * 0.01);
 	
 	if(v_animation == float(ANIM_NO_EFFECT)) {
 		return col;

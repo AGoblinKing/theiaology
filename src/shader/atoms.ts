@@ -16,9 +16,17 @@ import { material } from './material'
 
 // mesh setup
 // TODO: Remove instanceMatrix sinces it's not used
+const BIGGER = 1.05
 export const atoms = new Value(
   new InstancedMesh(
-    new BoxBufferGeometry(SIZE, SIZE, SIZE, FACES, FACES, FACES)
+    new BoxBufferGeometry(
+      SIZE * BIGGER,
+      SIZE * BIGGER,
+      SIZE * BIGGER,
+      FACES,
+      FACES,
+      FACES
+    )
       .setAttribute('animation', new InstancedBufferAttribute(animation, 1))
       .setAttribute('past', new InstancedBufferAttribute(past, SpaceTime.COUNT))
       .setAttribute(

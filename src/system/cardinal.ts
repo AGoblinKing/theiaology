@@ -281,9 +281,9 @@ class Cardinal extends System {
             .add($vec3_o.set(x, y, z))
 
           this.future.time(id, this.timing + 1000 * Math.random() + 500)
-          this.future.x(id, $vec3.x)
-          this.future.y(id, $vec3.y)
-          this.future.z(id, $vec3.z)
+          this.future.x(id, $vec3.x + Math.round(Math.random() * 2 - 1))
+          this.future.y(id, $vec3.y + Math.round(Math.random() * 2 - 1))
+          this.future.z(id, $vec3.z + Math.round(Math.random() * 2 - 1))
 
           // -1 because magica?
           const c = (voxDef.xyzi[ix + 3] - 1) * 4
