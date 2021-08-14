@@ -40,13 +40,22 @@ const rootImport = (options) => ({
   },
 })
 
-const config = (input, dst = "") => {
+const config = (input, dst = "", noExternal = false) => {
   return {
     input: `src/${input}.ts`,
 
+    external: noExternal ? [] : [
+      'three',
+      'file-saver',
+      'idb-keyval'
+    ],
     output: {
+      globals: {
+        'three': "THREE",
+        'file-saver': "FS",
+        'idb-keyval': "IDB"
+      },
       format: 'es',
- 
       chunkFileNames: '[name].js',
       sourcemap: true,
 
@@ -91,8 +100,8 @@ const config = (input, dst = "") => {
       }),
 
       resolve({
-        browser: true,
-        dedupe: ['svelte'],
+        
+        dedupe: ['svelte', 'three'],
         extensions: ['.js', '.ts'],
       }),
 
@@ -114,4 +123,4 @@ const config = (input, dst = "") => {
   }
 }
 
-export default [config('main'), config('service', ".."), config('system/physics'), config('system/fuzz'), config('system/cardinal'), config('system/weather')]
+export default [config('three', "", true), config('main'), config('service', ".."), config('system/physics'), config('system/fuzz'), config('system/cardinal'), config('system/weather')]

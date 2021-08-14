@@ -1,3 +1,5 @@
+importScripts('/build/three.js')
+
 import { Animation } from 'src/buffer/animation'
 import { Impact } from 'src/buffer/impact'
 import { Matter } from 'src/buffer/matter'

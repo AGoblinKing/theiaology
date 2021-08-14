@@ -1,3 +1,5 @@
+importScripts('/build/three.js')
+
 // performs grid traversal and collision detection
 import { Impact } from 'src/buffer/impact'
 import { EPhase, Matter } from 'src/buffer/matter'
@@ -11,7 +13,6 @@ import { Box3, Vector3 } from 'three'
 import { System } from './system'
 
 const $box = new Box3()
-const $box2 = new Box3()
 
 class Physics extends System {
   past: SpaceTime
@@ -74,6 +75,8 @@ class Physics extends System {
   tick() {
     if (!this.ready) return
 
+    const t = performance.now()
+
     this.octree.reset()
 
     // add everyone to the octree
@@ -85,7 +88,6 @@ class Physics extends System {
       this.octree.insert(this.box(i), i)
     }
 
-    console.log(this.octree)
     // rip through matter, update their grid_past/futures
     for (let i = 0; i < this.matter.length / Matter.COUNT; i++) {
       switch (this.matter.phase(i)) {
@@ -93,7 +95,6 @@ class Physics extends System {
         case EPhase.STUCK:
           continue
       }
-      console.log(i)
 
       let vx = this.velocity.x(i),
         vy = this.velocity.y(i),
@@ -145,7 +146,7 @@ class Physics extends System {
           this.velocity.addZ(i, vz === 0 ? 0 : -Math.sign(vz))
         }
 
-        this.future.time(i, Date.now() + this.tickrate)
+        this.future.time(i, t + this.tickrate)
       }
     }
   }

@@ -4,7 +4,7 @@
       "incremental": true,
       "lib": ["es2019", "dom", "webworker"],
       "moduleResolution": "node",
-      "target": "es2017",
+      "target": "ES2020",
     
       "baseUrl": ".",
       "paths": {
@@ -18,7 +18,8 @@
       
       "skipLibCheck": true,
       "strict": false,
-      "downlevelIteration": true,
+     
+      "emitDeclarationOnly": false,
       "tsBuildInfoFile": "public/build/.tsbuildinfo"
     },
   
