@@ -8,8 +8,22 @@ import { velocity } from './smooth'
 
 export const move_inputs = new Value(new Vector3(0, 0, 0))
 
+const SLOW_SPEED = 0.075
 key_down.on(($k) => {
   switch ($k) {
+    case 'A':
+      move_inputs.$.x = -SLOW_SPEED
+      break
+
+    case 'D':
+      move_inputs.$.x = SLOW_SPEED
+      break
+    case 'W':
+      move_inputs.$.z = -SLOW_SPEED
+      break
+    case 'S':
+      move_inputs.$.z = SLOW_SPEED
+      break
     case 'a':
       move_inputs.$.x = -1
       break
@@ -26,7 +40,7 @@ key_down.on(($k) => {
 })
 
 key_up.on(($k) => {
-  switch ($k) {
+  switch ($k.toLowerCase()) {
     case 'a':
     case 'd':
       move_inputs.$.x = 0

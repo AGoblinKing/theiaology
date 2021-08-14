@@ -49,8 +49,8 @@ function Move(e: MouseEvent) {
 }
 
 export const mouse_wheel = new Value(0)
-window.addEventListener('mousewheel', (e: any) => {
-  mouse_wheel.set(e.wheelDelta)
+renderer.domElement.addEventListener('mousewheel', (e: any) => {
+  mouse_wheel.set(-e.wheelDelta)
 })
 
 window.addEventListener('mousemove', (e) => {

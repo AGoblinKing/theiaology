@@ -8,6 +8,7 @@
     "dev": "rollup -c -w",
     "test": "node ./public/build/test.js"
   },
+
   "author": "king@goblin.life",
   "license": "MIT",
   "prettier": {

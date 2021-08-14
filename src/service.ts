@@ -10,6 +10,7 @@ self.addEventListener('install', (event: any) => {
         '/favicon.png',
         '/font/MajorMonoDisplay-Regular.ttf',
         '/build/cardinal.js',
+        '/build/physics.js',
         '/build/bundle.css',
         '/build/main.js',
       ])
