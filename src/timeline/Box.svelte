@@ -38,23 +38,29 @@
 
     // vimish controls
     switch (k) {
+      case 'e':
       case 'Enter':
       case 'i':
         doclick.set(true)
         break
 
+      case 'r':
       case 'ArrowUp':
       case 'j':
         AttemptNav('up')
         break
+      case 'f':
       case 'ArrowDown':
       case 'k':
         AttemptNav('down')
         break
+
+      case 'q':
       case 'ArrowLeft':
       case 'l':
         AttemptNav('left')
         break
+      case 'Tab':
       case 'ArrowRight':
       case ';':
         AttemptNav('right')

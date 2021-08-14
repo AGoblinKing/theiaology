@@ -9,6 +9,7 @@ window.addEventListener('keydown', (e) => {
   if (e.target.tagName === 'INPUT') {
     return
   }
+  e.preventDefault()
   key_down.set(e.key)
   key_map.$[e.key] = true
   key_map.poke()

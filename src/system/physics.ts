@@ -1,4 +1,5 @@
 // performs grid traversal and collision detection
+import { Impact } from 'src/buffer/impact'
 import { EPhase, Matter } from 'src/buffer/matter'
 import { Size } from 'src/buffer/size'
 import { SpaceTime } from 'src/buffer/spacetime'
@@ -16,8 +17,10 @@ class Physics extends System {
   future: SpaceTime
   matter: Matter
   velocity: Velocity
-  scale: Size
+  size: Size
+  impact: Impact
 
+  ready = false
   // chance of a -1 velocity
   decay = 0.5
 
@@ -27,6 +30,10 @@ class Physics extends System {
       new Vector3(PHYSICS_BOUNDS, PHYSICS_BOUNDS, PHYSICS_BOUNDS)
     )
   )
+
+  constructor() {
+    super(200)
+  }
 
   onmessage(e: MessageEvent) {
     switch (undefined) {
@@ -42,16 +49,20 @@ class Physics extends System {
       case this.velocity:
         this.velocity = new Velocity(e.data)
         break
-      case this.scale:
-        this.scale = new Size(e.data)
+      case this.size:
+        this.size = new Size(e.data)
+        break
+      case this.impact:
+        this.impact = new Impact(e.data)
+        this.ready = true
         break
     }
   }
 
   box(i: number, $bb: Box3 = $box) {
-    const sx = this.scale.x(i) / 2,
-      sy = this.scale.y(i) / 2,
-      sz = this.scale.z(i) / 2,
+    const sx = this.size.x(i) / 2,
+      sy = this.size.y(i) / 2,
+      sz = this.size.z(i) / 2,
       x = this.future.x(i),
       y = this.future.y(i),
       z = this.future.z(i)
@@ -60,7 +71,7 @@ class Physics extends System {
   }
 
   tick() {
-    if (!this.scale) return
+    if (!this.ready) return
 
     this.octree.reset()
 

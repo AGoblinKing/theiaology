@@ -51,6 +51,15 @@ export class Rez {
   }
 }
 
+export enum EImpactReaction {
+  None = 0,
+  Destroy,
+  Bounce,
+  DestroyOther,
+  DestroyBoth,
+  Respawn,
+}
+
 export enum EShape {
   Plane,
   Sphere,
@@ -124,6 +133,7 @@ export enum ETimeline {
   EFFECTS,
   VOX,
   ROTVAR,
+  IMPACT,
 }
 
 export const Commands: { [key: number]: any } = {
@@ -181,4 +191,5 @@ export const Commands: { [key: number]: any } = {
   // },
   [ETimeline.EFFECTS]: { animation: EAnimation },
   [ETimeline.VOX]: { 'Vox Model': EVar.VOX },
+  [ETimeline.IMPACT]: { reaction: EImpactReaction },
 }

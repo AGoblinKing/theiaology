@@ -55,14 +55,15 @@ window.b = {
   future,
   matter,
   velocity,
-  scale: size,
+  size,
   animation,
   impact,
   status,
   timeline,
   voxes,
 }
-// sys.start('physics').send(past, future, matter, velocity, scale)
+
+sys.start('physics').send(past, future, matter, velocity, size, impact)
 
 // startup editor
 const theiaology = new Theiaology({
