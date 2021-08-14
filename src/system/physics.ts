@@ -4,7 +4,8 @@ import { EPhase, Matter } from 'src/buffer/matter'
 import { Size } from 'src/buffer/size'
 import { SpaceTime } from 'src/buffer/spacetime'
 import { Velocity } from 'src/buffer/velocity'
-import { GRAVITY, PHYSICS_BOUNDS } from 'src/config'
+import { PHYSICS_BOUNDS } from 'src/config'
+import { EImpactReaction } from 'src/timeline/def-timeline'
 import { Octree } from 'src/util/octree'
 import { Box3, Vector3 } from 'three'
 import { System } from './system'
@@ -32,7 +33,7 @@ class Physics extends System {
   )
 
   constructor() {
-    super(200)
+    super(1000)
   }
 
   onmessage(e: MessageEvent) {
@@ -78,19 +79,21 @@ class Physics extends System {
     // add everyone to the octree
     for (let i = 0; i < this.matter.length / Matter.COUNT; i++) {
       switch (this.matter.phase(i)) {
-        case EPhase.SKIP:
+        case EPhase.GHOST:
           continue
       }
       this.octree.insert(this.box(i), i)
     }
 
+    console.log(this.octree)
     // rip through matter, update their grid_past/futures
     for (let i = 0; i < this.matter.length / Matter.COUNT; i++) {
       switch (this.matter.phase(i)) {
-        case EPhase.SKIP:
+        case EPhase.GHOST:
         case EPhase.STUCK:
           continue
       }
+      console.log(i)
 
       let vx = this.velocity.x(i),
         vy = this.velocity.y(i),
@@ -105,9 +108,9 @@ class Physics extends System {
       // the edge of tomorrow
       // do move
       if (vx !== 0 && vy !== 0 && vz !== 0) {
-        this.future.addX(i, vx + GRAVITY.x)
-        this.future.addY(i, vy + GRAVITY.y)
-        this.future.addZ(i, vz + GRAVITY.z)
+        this.future.addX(i, vx)
+        this.future.addY(i, vy)
+        this.future.addZ(i, vz)
 
         const box = this.box(i)
 
@@ -115,13 +118,23 @@ class Physics extends System {
 
         // should collide with selves
         if (collisions.size > 1) {
-          // resolve each collision with a force to try to escape it
-          for (let collision of collisions) {
-            // this is our overlap area
-            this.box(collision, $box2).union(box)
+          switch (this.impact.reaction(i)) {
+            case EImpactReaction.DestroyBoth:
+            case EImpactReaction.DestroyOther:
+              for (let collision of collisions) {
+                if (collision === i) continue
 
-            // the lower phase of matter doesn't move, if they're the same then
-            // stuck should not move but higher phases will equally move
+                this.post(collision)
+              }
+              // conditional fallthrough
+              if (this.impact.reaction(i) === EImpactReaction.DestroyOther)
+                break
+            case EImpactReaction.Destroy:
+              this.post(i)
+              break
+            case EImpactReaction.Respawn:
+              // give back to the cardinal to respawn
+              break
           }
         }
 

@@ -29,10 +29,18 @@ export class Rez {
   posvar = new Vector3()
   flock: { shape: EShape; size: number; step: number }
   look = new Vector3()
+  impact = EImpactReaction.None
+  phase = EPhase.STUCK
+  vel = new Vector3()
+  velvar = new Vector3()
 
   doLook = false
 
   reset() {
+    this.phase = EPhase.STUCK
+    this.impact = EImpactReaction.None
+    this.vel.set(0, 0, 0)
+    this.velvar.set(0, 0, 0)
     this.color.setRGB(1, 1, 1)
     this.pos.set(0, 0, 0)
     this.rot.set(0, 0, 0)
@@ -125,7 +133,7 @@ export enum ETimeline {
 
   // Bind the children's who to another
   BIND,
-  MATTER,
+  PHASE,
   // TODO:
   CONTROL,
   NET,
@@ -143,7 +151,7 @@ export const Commands: { [key: number]: any } = {
     size: EVar.POSITIVE,
     step: EVar.POSITIVE,
   },
-  [ETimeline.MATTER]: { phase: EPhase },
+  [ETimeline.PHASE]: { phase: EPhase },
   [ETimeline.COLOR]: {
     rgb: EVar.COLOR,
     tilt: EVar.NORMAL,

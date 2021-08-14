@@ -3,8 +3,8 @@ import { ENTITY_COUNT } from 'src/config'
 
 // how together something is
 export enum EPhase {
-  SKIP = 0,
   STUCK,
+  GHOST,
   UNBOOPABLE,
   SOLID,
   LIQUID,

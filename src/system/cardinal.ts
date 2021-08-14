@@ -191,8 +191,29 @@ class Cardinal extends System {
           $rez.pos.y = this.timeline.data1(child)
           $rez.pos.z = this.timeline.data2(child)
           break
-        case ETimeline.VOX:
-          $rez.vox = this.timeline.text(child)
+        case ETimeline.THRUST:
+          $rez.vel.set(
+            this.timeline.data0(child),
+            this.timeline.data1(child),
+            this.timeline.data2(child)
+          )
+          break
+        case ETimeline.THRUSTVAR:
+          $rez.velvar.set(
+            this.timeline.data0(child),
+            this.timeline.data1(child),
+            this.timeline.data2(child)
+          )
+          break
+
+        // TODO: useful for bullets and such
+        case ETimeline.THRUSTTO:
+          break
+        case ETimeline.PHASE:
+          $rez.phase = this.timeline.data0(child)
+          break
+        case ETimeline.IMPACT:
+          $rez.impact = this.timeline.data0(child)
           break
       }
     }
@@ -306,16 +327,11 @@ class Cardinal extends System {
             ($hsl.l + tl) / 2
           )
 
-          // tilt based on tilt value on color
-          // lets do nothing with the color for now
-
-          this.matter.red(id, $col2.r * NORMALIZER)
-          this.matter.green(id, $col2.g * NORMALIZER)
-          this.matter.blue(id, $col2.b * NORMALIZER)
-
           this.size.x(id, sx)
           this.size.y(id, sy)
           this.size.z(id, sz)
+
+          this.basics(id, $col2)
         }
         continue
       }
@@ -327,14 +343,25 @@ class Cardinal extends System {
       this.future.y(id, y)
       this.future.z(id, z)
 
-      this.matter.red(id, Math.floor($col.r * NORMALIZER))
-      this.matter.green(id, Math.floor($col.g * NORMALIZER))
-      this.matter.blue(id, Math.floor($col.b * NORMALIZER))
-
       this.size.x(id, sx)
       this.size.y(id, sy)
       this.size.z(id, sz)
+
+      this.basics(id, $col)
     }
+  }
+
+  basics(id: number, color: Color) {
+    this.matter.red(id, Math.floor(color.r * NORMALIZER))
+    this.matter.green(id, Math.floor(color.g * NORMALIZER))
+    this.matter.blue(id, Math.floor(color.b * NORMALIZER))
+
+    this.velocity.x(id, $rez.vel.x + Math.random() * $rez.velvar.x)
+    this.velocity.y(id, $rez.vel.y + Math.random() * $rez.velvar.y)
+    this.velocity.z(id, $rez.vel.z + Math.random() * $rez.velvar.z)
+
+    this.matter.phase(id, $rez.phase)
+    this.impact.reaction(id, $rez.impact)
   }
 
   timelineUpdated() {
