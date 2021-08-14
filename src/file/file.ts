@@ -78,7 +78,9 @@ export async function ReadURL(url: string) {
 }
 
 // try reading static file and if it misses load DB
-ReadURL(`/${url.$.join('/')}.theia`).catch(() => {
+const u = url.$.join('/')
+
+ReadURL(`/${u || 'root'}.theia`).catch(() => {
   get(window.location.pathname).then((v) => {
     if (v) {
       Load(v)
