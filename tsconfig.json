@@ -4,13 +4,14 @@
       "incremental": true,
       "lib": ["es2019", "dom", "webworker"],
       "moduleResolution": "node",
-      "target": "ES2020",
+      "target": "ES2017",
     
       "baseUrl": ".",
       "paths": {
         "src/*": ["./src/*"],
         "public/*": ["./public/*"]
       },
+      
       "types": ["svelte", "node"],
       "allowSyntheticDefaultImports": true,
       "isolatedModules": true,

@@ -40,20 +40,14 @@ const rootImport = (options) => ({
   },
 })
 
-const config = (input, dst = "", noExternal = false) => {
+const config = (input, dst = "") => {
   return {
     input: `src/${input}.ts`,
 
-    external: noExternal ? [] : [
-      'three',
-      'file-saver',
-      'idb-keyval'
-    ],
+    
     output: {
       globals: {
-        'three': "THREE",
-        'file-saver': "FS",
-        'idb-keyval': "IDB"
+        three: "THREE"
       },
       format: 'es',
       chunkFileNames: '[name].js',
@@ -64,6 +58,12 @@ const config = (input, dst = "", noExternal = false) => {
     },
     plugins: [
       css(),
+      resolve({
+        browser: true,
+        moduleDirectories: ['node_modules'],
+        dedupe: ['svelte'],
+        extensions: ['.js', '.ts'],
+      }),
       svelte({
         onwarn: (warning, handler) => {
           switch (warning.code) {
@@ -99,11 +99,6 @@ const config = (input, dst = "", noExternal = false) => {
         root: `${__dirname}/`,
       }),
 
-      resolve({
-        
-        dedupe: ['svelte', 'three'],
-        extensions: ['.js', '.ts'],
-      }),
 
       commonjs(),
       !production && serve({
@@ -123,4 +118,4 @@ const config = (input, dst = "", noExternal = false) => {
   }
 }
 
-export default [config('three', "", true), config('main'), config('service', ".."), config('system/physics'), config('system/fuzz'), config('system/cardinal'), config('system/weather')]
+export default [ config('main'), config('service', ".."), config('system/physics'), config('system/fuzz'), config('system/cardinal'), config('system/weather')]
