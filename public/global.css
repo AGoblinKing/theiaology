@@ -70,7 +70,7 @@ body::-webkit-scrollbar-track {
 }
 
 .warning {
-  display: none;
+  display: block;
   position: absolute;
   top: 50%;
   left: 50%;
@@ -83,8 +83,8 @@ body::-webkit-scrollbar-track {
   border-radius: 1rem;
 }
 
-.nosab .warning {
-  display: block;
+.sab .warning {
+  display: none;
 }
 .warning a {
   font-weight: bold;
