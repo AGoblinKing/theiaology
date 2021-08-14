@@ -7,9 +7,8 @@ export const IMPACTS_MAX_PER = 8
 export const TIMELINE_MAX = 1024 * 8
 export const PHYSICS_BOUNDS = 1000 * 1000
 export const GRAVITY = new Vector3(0, -1, 0)
-// used for the shader atm
-export const INTEGER_PRECISION = 0.01
 
-export const SIZE = 0.16
+export const SIZE = 0.01
 export const FACES = 1
 export const NORMALIZER = 0x7fffffff
+export const CACHE = 'v1'

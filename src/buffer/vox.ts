@@ -1,6 +1,6 @@
 // the vox cache of assets available
 
-import { MagickaVoxel } from 'src/render/magica/magica'
+import { MagickaVoxel } from 'src/render/magica'
 import { Value } from 'src/util/value'
 
 // RUNTIME: name to idx number, populated by the theia file

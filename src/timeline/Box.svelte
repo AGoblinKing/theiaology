@@ -144,7 +144,7 @@
   on:mouseover={() => {
     if (hover === '') return
 
-    modal_location.set(modal_location.$.set(300, 5))
+    modal_location.set(modal_location.$.set(350, 20))
     modal_visible.set(() => {})
     modal_options.set(hover)
   }}

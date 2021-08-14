@@ -1,6 +1,6 @@
 import { velocity } from 'src/controller/smooth'
 
-export const WALK_SPEED = -1
+export const WALK_SPEED = 0.75
 
 function DoWalk() {
   velocity.$.y = velocity.$.y + WALK_SPEED

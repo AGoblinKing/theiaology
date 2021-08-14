@@ -21,6 +21,7 @@ const $col2 = new Color()
 const $eule = new Euler()
 const $o3d = new Object3D()
 const $vec3 = new Vector3()
+const $vec3_o = new Vector3()
 
 // Deal out entity IDs, execute timeline events
 class Cardinal extends System {
@@ -150,6 +151,7 @@ class Cardinal extends System {
           )
           break
         case ETimeline.LOOK:
+          $rez.doLook = true
           $rez.look.set(
             this.timeline.data0(child),
             this.timeline.data1(child),
@@ -246,12 +248,19 @@ class Cardinal extends System {
         let rz = ($rez.rotvar.z / NORMALIZER) * Math.random() * Math.PI * 2
 
         if ($rez.doLook) {
-          $o3d.position.set(x, y, z)
+          $o3d.position.set(x, $rez.look.y, z)
           $o3d.lookAt($rez.look)
+          $eule.setFromQuaternion($o3d.quaternion)
 
-          rx += $o3d.rotation.x
-          ry += $o3d.rotation.y
-          rz += $o3d.rotation.z
+          $eule.y += ($rez.rot.y / NORMALIZER) * Math.PI * 2
+          $eule.z += ($rez.rot.z / NORMALIZER) * Math.PI * 2
+          $eule.x += ($rez.rot.x / NORMALIZER) * Math.PI * 2
+        } else {
+          $eule.set(
+            rx + ($rez.rot.x / NORMALIZER) * Math.PI * 2,
+            ry + ($rez.rot.y / NORMALIZER) * Math.PI * 2,
+            rz + ($rez.rot.z / NORMALIZER) * Math.PI * 2
+          )
         }
 
         for (let i = 0; i < voxDef.xyzi.length / 4; i++) {
@@ -261,18 +270,13 @@ class Cardinal extends System {
 
           $vec3
             .set(
-              x + voxDef.xyzi[ix] * sx * 10,
-              y + voxDef.xyzi[ix + 2] * sy * 10,
-              z + voxDef.xyzi[ix + 1] * sz * 10
+              voxDef.xyzi[ix] * sx * 10,
+              voxDef.xyzi[ix + 2] * sy * 10,
+              voxDef.xyzi[ix + 1] * sz * 10
             )
 
-            .applyEuler(
-              $eule.set(
-                rx + ($rez.rot.x / NORMALIZER) * Math.PI * 2,
-                ry + ($rez.rot.y / NORMALIZER) * Math.PI * 2,
-                rz + ($rez.rot.z / NORMALIZER) * Math.PI * 2
-              )
-            )
+            .applyEuler($eule)
+            .add($vec3_o.set(x, y, z))
 
           this.future.time(id, this.timing + 1000 * Math.random() + 500)
           this.future.x(id, $vec3.x)
@@ -398,6 +402,7 @@ class Cardinal extends System {
   tick() {
     this.timing = Math.floor(performance.now())
   }
+
   randomize() {
     const scale = 800000
     const t = this.timing

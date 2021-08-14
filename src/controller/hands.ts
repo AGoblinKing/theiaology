@@ -73,7 +73,7 @@ function comparePose(p1: PoseValues, p2: PoseValues): number {
 
 pose.on((v) => requestAnimationFrame(() => last_pose.set(v)))
 
-function doPose(hand: IJointGroup) {
+export function doPose(hand: IJointGroup) {
   const handPoseValue = poseValue(hand)
   let winner
   let valueToBeat = MIN_POSE_VALUE
@@ -110,15 +110,3 @@ function doPose(hand: IJointGroup) {
     }
   }
 }
-
-// TODO: Update Hand using theiaology
-// doRez.on(() => {
-//   for (let i = 0; i < hands.$.length; i++) {
-//     const count = Object.keys(hands.$[i].joints).length
-//     if (count === 0) continue
-
-//     doPose(hands.$[i])
-//     // also triggers joint_update for each joint
-//     Rez(HandShape, count, hands.$[i])
-//   }
-// })

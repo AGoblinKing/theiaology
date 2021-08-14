@@ -25,9 +25,9 @@ vec4 Animation(in vec4 pos) {
 	}
 
 	float xyz = pos.x * pos.y *pos.z;
-	float tes = sin(xyz  + time * 1.  ) * 0.005 +
-	sin(xyz  + time * 0.0005  ) * 0.05 +
-	sin(xyz  + time * 0.001  ) * 0.01;
+	float tes = sin(xyz  + time * 1.  ) * 0.0001 +
+	sin(xyz  + time * 0.000005  ) * 0.05 +
+	sin(xyz  + time * 0.00001  ) * 0.01;
 
 	pos.x += tes;
 	pos.y += tes +  0.05 * (-audioHigh/2000.);
@@ -50,7 +50,7 @@ mat4 AnimationMatrix(in mat4 mvMatrix) {
 	if(animation == ANIM_NO_EFFECT) {
 		return mvMatrix;
 	}
-    float lav = (1. + audioLow * 0.0002);
+    float lav = (1. + audioLow * 0.00125);
 
     mvMatrix = mvMatrix * scale(lav * float(size.x), lav * float(size.y), float(size.z) * lav);
 	return mvMatrix;

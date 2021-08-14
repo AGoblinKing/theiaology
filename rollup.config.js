@@ -40,7 +40,7 @@ const rootImport = (options) => ({
   },
 })
 
-const config = (input) => {
+const config = (input, dst = "") => {
   return {
     input: `src/${input}.ts`,
 
@@ -51,7 +51,7 @@ const config = (input) => {
       sourcemap: true,
 
       name: 'app',
-      dir: `public/build/`,
+      dir: `public/build/${dst}`,
     },
     plugins: [
       css(),
@@ -114,4 +114,4 @@ const config = (input) => {
   }
 }
 
-export default [config('main'), config('service'), config('system/physics'), config('system/fuzz'), config('system/cardinal'), config('system/weather')]
+export default [config('main'), config('service', ".."), config('system/physics'), config('system/fuzz'), config('system/cardinal'), config('system/weather')]

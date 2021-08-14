@@ -2,7 +2,7 @@
     "$schema": "https://json.schemastore.org/tsconfig",
     "compilerOptions": {
       "incremental": true,
-      "lib": ["es2019", "dom"],
+      "lib": ["es2019", "dom", "webworker"],
       "moduleResolution": "node",
       "target": "es2017",
     

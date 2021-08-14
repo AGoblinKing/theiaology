@@ -33,6 +33,8 @@
 
 <input
   type="text"
+  on:blur={submit}
+  on:mouseout={submit}
   bind:this={ele}
   bind:value={val}
   autofocus

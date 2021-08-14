@@ -1,7 +1,13 @@
 <script lang="ts">
   // organize-imports-ignore
 
-  import { timeline_shown } from './editor'
+  import {
+    modal_default,
+    modal_location,
+    modal_options,
+    modal_visible,
+    timeline_shown,
+  } from './editor'
   import Timeline from './Timeline.svelte'
   import Modal from './Modal.svelte'
 
@@ -9,6 +15,9 @@
 
   import Box from './Box.svelte'
   import { ReadFile } from 'src/file/file'
+  import { url } from 'src/input/browser'
+  import { EVar } from './def-timeline'
+  import { mouse_page } from 'src/input/mouse'
 
   async function loadFile(event) {
     const reader = new FileReader()
@@ -39,6 +48,27 @@
       down: 'root',
     }}>> THEIAOLOGY</Box
   >
+
+  <Box
+    tilt={220}
+    hover="The workspace, click to change"
+    click={() => {
+      modal_location.$.set(mouse_page.$.x - 5, mouse_page.$.y - 5)
+      modal_default.set($url + window.location.hash)
+      modal_options.set(EVar.STRING)
+      modal_visible.set((r) => {
+        // @ts-ignore
+        window.location = r
+
+        // incase the hash changed too
+        setTimeout(() => {
+          window.location.reload()
+        }, 100)
+      })
+    }}
+  >
+    {$url}{window.location.hash}
+  </Box>
   <Box
     hover="Load files into theia "
     nav={{ tag: 'load', left: 'theiaology', right: 'save', down: 'root' }}
@@ -57,8 +87,8 @@
     click={Save}>SAVE</Box
   >
 </div>
+<Modal />
 {#if $timeline_shown}
-  <Modal />
   <theiaology>
     <Timeline />
   </theiaology>

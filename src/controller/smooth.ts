@@ -5,7 +5,7 @@ import { delta, tick } from 'src/uniform/time'
 import { Value } from 'src/util/value'
 import { Vector3 } from 'three'
 
-export const MIN_VELOCITY = 0.01
+export const MIN_VELOCITY = 0.1
 
 export const velocity = new Value(new Vector3(0, 0, -1))
 export const angular = new Value(0)

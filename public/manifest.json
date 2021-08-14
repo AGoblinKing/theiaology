@@ -1,0 +1,23 @@
+{
+    "name": "Theia.Games",
+    "short_name": "Theia.Games",
+    "icons": [
+      {
+        "src": "/favicon_smol.png",
+        "type": "image/png",
+        "sizes": "192x192"
+      },
+      {
+        "src": "/favicon.png",
+        "type": "image/png",
+        "sizes": "512x512",
+        "purpose": "any maskable"
+      }
+    ],
+    "start_url": "/?source=pwa",
+    "theme_color": "navy",
+    "background_color": "navy",
+    "scope": "/",
+    "description": "Undock your Imagination.",
+    "display": "standalone"
+  }

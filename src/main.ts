@@ -69,3 +69,8 @@ const theiaology = new Theiaology({
   target: document.getElementById('theiaology'),
   props: {},
 })
+
+// register service worker
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('/service.js', { scope: '/' })
+}
