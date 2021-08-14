@@ -16,7 +16,7 @@ import { material } from './material'
 
 // mesh setup
 // TODO: Remove instanceMatrix sinces it's not used
-const BIGGER = 1.05
+const BIGGER = 1
 export const atoms = new Value(
   new InstancedMesh(
     new BoxBufferGeometry(
