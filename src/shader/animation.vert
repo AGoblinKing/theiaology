@@ -9,7 +9,7 @@ mat4 scale(float x, float y, float z){
     );
 }
 
-const float HAND_DST = 0.4;
+const float HAND_DST = 0.3;
 float modulator(float x, float y) {
   return x - y * floor(x/y);
 }

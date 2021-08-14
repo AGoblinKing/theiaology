@@ -41,11 +41,12 @@ class Cardinal extends System {
   timeline: Timeline
   defines: { [key: number]: number[] } = []
 
+  ready = false
   // performance.now()
   timing: number
 
   constructor() {
-    super(200)
+    super(20)
   }
 
   // receives buffers then IDs to free
@@ -79,6 +80,7 @@ class Cardinal extends System {
 
       case this.timeline:
         this.timeline = new Timeline(e.data)
+        this.ready = true
         break
 
       // expecting IMessage but no atomics
@@ -401,13 +403,14 @@ class Cardinal extends System {
 
   tick() {
     this.timing = Math.floor(performance.now())
+    if (this.ready) this.randomize()
   }
 
   randomize() {
-    const scale = 800000
+    const scale = 18000
     const t = this.timing
 
-    const chunk = (this.tickrate / 1000) * ENTITY_COUNT * 0.1
+    const chunk = (this.tickrate / 1000) * ENTITY_COUNT * 0.05
     // lets prove out thhese even render
     for (let ix = last; ix < last + chunk; ix++) {
       // only use left overs
@@ -415,22 +418,22 @@ class Cardinal extends System {
       this.past.x(i, this.future.x(i))
       this.past.y(i, this.future.y(i))
       this.past.z(i, this.future.z(i))
-      this.past.time(i, t + 100)
+      this.past.time(i, t)
 
       this.future.x(i, Math.floor(Math.random() * scale - scale / 2))
       this.future.y(i, Math.floor((Math.random() * scale) / 2))
       this.future.z(i, Math.floor(Math.random() * scale - scale / 2))
-      this.future.time(i, t + 10000 + 100)
+      this.future.time(i, t + 30000 + 100)
 
-      const s = 1 + Math.abs(Math.sin(ix) * 10)
+      const s = 1
 
       this.size.x(i, s)
       this.size.y(i, s)
       this.size.z(i, s)
 
-      this.matter.blue(i, 0xff)
-      this.matter.red(i, Math.floor(Math.random() * 0x55))
-      this.matter.green(i, Math.floor(Math.random() * 0x55))
+      this.matter.blue(i, NORMALIZER)
+      this.matter.red(i, Math.floor(Math.random() * NORMALIZER))
+      this.matter.green(i, Math.floor(Math.random() * NORMALIZER))
     }
 
     last += chunk

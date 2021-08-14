@@ -1,5 +1,6 @@
 // move body smoothly in VR mode
 
+import { mouse_wheel } from 'src/input/mouse'
 import { body, camera, renderer } from 'src/render/render'
 import { delta, tick } from 'src/uniform/time'
 import { Value } from 'src/util/value'
@@ -14,6 +15,7 @@ export const walk = new Value()
 
 const velta = new Vector3()
 
+body.$.position.y = renderer.xr.isPresenting ? 0 : 1.5
 tick.on(() => {
   if (Math.abs(velocity.$.length()) > MIN_VELOCITY) {
     velta.copy(velocity.$).multiplyScalar(delta.$)
@@ -26,7 +28,6 @@ tick.on(() => {
     )
   }
 
-  body.$.position.y = renderer.xr.isPresenting ? 0 : 1.5
   if (Math.abs(angular.$) > MIN_VELOCITY) {
     const angleta = angular.$ * delta.$
 
@@ -34,4 +35,8 @@ tick.on(() => {
 
     angular.$ -= angleta
   }
+})
+
+mouse_wheel.on(($wheel) => {
+  velocity.$.y -= $wheel * 0.001
 })
