@@ -47,9 +47,10 @@ export const atoms = new Value(
   )
 )
 
-const $matrix = new Matrix4()
+// gotta initialize or else bad stuff
+const $matrix = new Matrix4().identity()
 for (let i = 0; i < atoms.$.count; i++) {
-  atoms.$.setMatrixAt(i, $matrix.setPosition(0, 0, 0))
+  atoms.$.setMatrixAt(i, $matrix)
 }
 
 scene.$.add(atoms.$)
