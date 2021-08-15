@@ -4,14 +4,44 @@ import { EPhase, Matter } from 'src/buffer/matter'
 import { Size } from 'src/buffer/size'
 import { SpaceTime } from 'src/buffer/spacetime'
 import { Velocity } from 'src/buffer/velocity'
-import { ENTITY_COUNT } from 'src/config'
-import { Box3 } from 'three'
+import { ENTITY_COUNT, NORMALIZER } from 'src/config'
+import { Box3, Vector3 } from 'three'
 import { System } from './system'
 
 const $box = new Box3()
 
+const $box2 = new Box3()
+const $box3 = new Box3()
+
+const $min = new Vector3()
+const $max = new Vector3()
+const $vec = new Vector3()
+const $vec2 = new Vector3()
+
+const SECTORS = {
+  ALPHA: new Vector3(-1, -1, -1),
+  BETA: new Vector3(-1, -1, 1),
+  GAMMA: new Vector3(-1, 1, 1),
+  DELTA: new Vector3(1, 1, 1),
+  EPSILON: new Vector3(1, -1, 1),
+  ZETA: new Vector3(1, -1, -1),
+  ETA: new Vector3(1, 1, -1),
+  THETA: new Vector3(-1, 1, -1),
+}
+
+const SECTORSA = Object.values(SECTORS)
+
 // put each
-const flat_spaces = {}
+// each sector is indexed here, '442313' is a possible sector
+const sectors = {}
+// ids 2 sector
+const ids = {}
+
+// physics bounds
+const $sector = new Box3(
+  new Vector3(-NORMALIZER / 2, -NORMALIZER / 2, -NORMALIZER / 2),
+  new Vector3(NORMALIZER, NORMALIZER, NORMALIZER)
+)
 
 class Physics extends System {
   past: SpaceTime
@@ -50,6 +80,11 @@ class Physics extends System {
     }
   }
 
+  collide(id1: number, id2: number) {
+    // get their x y z and sizes and compare
+    return this.box(id1, $box).intersectsBox(this.box(id2, $box2))
+  }
+
   box(i: number, $bb: Box3 = $box) {
     const sx = this.size.x(i) / 2,
       sy = this.size.y(i) / 2,
@@ -57,8 +92,43 @@ class Physics extends System {
       x = this.future.x(i),
       y = this.future.y(i),
       z = this.future.z(i)
+
+    // update their sector while you have their data
+
     $bb.min.set(x - sx, y - sy, z - sz), $bb.max.set(x + sx, y + sy, z + sz)
     return $bb
+  }
+
+  // calc and update sector
+  sector(i: number, $bb?: Box3) {
+    if (!$bb) $bb = this.box(i)
+
+    let sector = $sector
+    let width = Math.abs(sector.min.x - sector.max.x) / 2
+    let height = Math.abs(sector.min.y - sector.max.y) / 2
+    let depth = Math.abs(sector.min.z - sector.max.z) / 2
+
+    for (let sector_depth = 0; sector_depth < 4; sector_depth++) {
+      // check each sector if it contains the point
+      let next_sector
+      for (let i = 0; i < 8; i++) {
+        const s = $vec
+          .copy(SECTORSA[i])
+          .multiply($vec2.set(width, height, depth))
+
+        if (
+          $box2
+            .set(
+              $min.set(s.x - width, s.y - height, s.z - depth),
+              $max.set(s.x + width, s.y + height, s.z + depth)
+            )
+            .containsBox($bb)
+        ) {
+          // we have a match
+          sector = $box3.copy($box2)
+        }
+      }
+    }
   }
 
   tick() {
@@ -79,19 +149,31 @@ class Physics extends System {
         vz = this.velocity.z(i)
 
       if (vx !== 0 || vy !== 0 || vz !== 0) {
-        this.future.addX(i, vx)
+        const x = this.future.addX(i, vx)
         const y = this.future.addY(i, vy)
-        this.future.addZ(i, vz)
+        const z = this.future.addZ(i, vz)
+
         this.future.time(i, t)
 
+        // warp out of bounds to other side
         if (y < 0) {
           this.future.y(i, 14000)
+        }
+
+        if (Math.abs(x) > BOUNDS) {
+          this.future.x(i, x > 0 ? -BOUNDS : BOUNDS)
+        }
+
+        if (Math.abs(z) > BOUNDS) {
+          this.future.z(i, z > 0 ? -BOUNDS : BOUNDS)
         }
       }
     }
   }
 }
 
+// CAGE FOR NOW
+const BOUNDS = 20 * 1000
 new Physics()
 
 // periodacally update a voxels' sector
