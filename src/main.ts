@@ -9,6 +9,7 @@ import {
   size,
   status,
   timeline,
+  universal,
   velocity,
 } from './buffer'
 import { voxes } from './buffer/vox'
@@ -31,7 +32,8 @@ const cardinal = sys
     animation,
     impact,
     status,
-    timeline.$
+    timeline.$,
+    universal
   )
 
 timeline.on(($t) => {
@@ -60,10 +62,14 @@ window.b = {
   impact,
   status,
   timeline,
+  universal,
+  // voxes goes last as a normal message
   voxes,
 }
 
-sys.start('physics').send(past, future, matter, velocity, size, impact)
+sys
+  .start('physics')
+  .send(past, future, matter, velocity, size, impact, universal)
 
 // startup editor
 const theiaology = new Theiaology({

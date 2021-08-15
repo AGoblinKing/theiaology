@@ -3,6 +3,7 @@ import { Impact } from 'src/buffer/impact'
 import { EPhase, Matter } from 'src/buffer/matter'
 import { Size } from 'src/buffer/size'
 import { SpaceTime } from 'src/buffer/spacetime'
+import { Universal } from 'src/buffer/universal'
 import { Velocity } from 'src/buffer/velocity'
 import { ENTITY_COUNT, NORMALIZER } from 'src/config'
 import { Box3, Vector3 } from 'three'
@@ -50,6 +51,8 @@ class Physics extends System {
   velocity: Velocity
   size: Size
   impact: Impact
+  universal: Universal
+
   ready = false
   // 50 frames a second, idealy get this to 5
   constructor() {
@@ -75,6 +78,9 @@ class Physics extends System {
         break
       case this.impact:
         this.impact = new Impact(e.data)
+        break
+      case this.universal:
+        this.universal = new Universal(e.data)
         this.ready = true
         break
     }
@@ -136,6 +142,13 @@ class Physics extends System {
 
     const t = Math.floor(performance.now())
 
+    const mx = this.universal.minX()
+    const my = this.universal.minY()
+    const mz = this.universal.minZ()
+    const max = this.universal.maxX()
+    const may = this.universal.maxY()
+    const maz = this.universal.maxZ()
+
     // rip through matter, update their grid_past/futures
     for (let i = 0; i < ENTITY_COUNT; i++) {
       switch (this.matter.phase(i)) {
@@ -156,24 +169,29 @@ class Physics extends System {
         this.future.time(i, t)
 
         // warp out of bounds to other side
-        if (y < 0) {
-          this.future.y(i, 14000)
+
+        if (x > max) {
+          this.future.x(i, mx)
+        } else if (x < mx) {
+          this.future.x(i, max)
         }
 
-        if (Math.abs(x) > BOUNDS) {
-          this.future.x(i, x > 0 ? -BOUNDS : BOUNDS)
+        if (y > may) {
+          this.future.y(i, my)
+        } else if (y < my) {
+          this.future.y(i, may)
         }
 
-        if (Math.abs(z) > BOUNDS) {
-          this.future.z(i, z > 0 ? -BOUNDS : BOUNDS)
+        if (z > maz) {
+          this.future.z(i, mz)
+        } else if (z < mz) {
+          this.future.z(i, maz)
         }
       }
     }
   }
 }
 
-// CAGE FOR NOW
-const BOUNDS = 20 * 1000
 new Physics()
 
 // periodacally update a voxels' sector

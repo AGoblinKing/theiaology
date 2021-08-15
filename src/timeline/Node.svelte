@@ -216,7 +216,7 @@
       hover={label === 'boot'
         ? 'Download a .json of the BOOT script'
         : 'Command'}
-      tilt={label === 'REZ' ? 45 : -45}
+      tilt={label === 'REZ' ? 45 : label === 'CAGE' ? -180 : -45}
       nav={{
         tag: `${i}-command`,
         left: `${nremove}|${nadd}|${NavData(3, 0, true)}`,

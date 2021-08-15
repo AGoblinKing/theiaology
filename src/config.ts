@@ -10,5 +10,13 @@ export const FACES = 1
 
 // max int 32, which are used in the SharedArrayBuffer
 export const NORMALIZER = 0x7fffffff
-export const PHYSICS_BOUNDS = NORMALIZER
+export const UNIVERSALS = [
+  (-20 * 1000) / 2,
+  (-20 * 1000) / 2,
+  (-20 * 1000) / 2,
+  20 * 1000,
+  20 * 1000,
+  20 * 1000,
+]
+
 export const CACHE = 'v1'

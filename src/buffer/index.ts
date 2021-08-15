@@ -1,3 +1,4 @@
+import { UNIVERSALS } from 'src/config'
 import { ITimeline } from 'src/timeline/def-timeline'
 import { Value } from 'src/util/value'
 import { Animation } from './animation'
@@ -7,6 +8,7 @@ import { Size } from './size'
 import { SpaceTime } from './spacetime'
 import { Status } from './status'
 import { Timeline } from './timeline'
+import { Universal } from './universal'
 import { Velocity } from './velocity'
 
 export const velocity = new Velocity()
@@ -20,7 +22,10 @@ export const matter = new Matter()
 export const impact = new Impact()
 export const size = new Size()
 export const status = new Status()
-
+export const universal = new Universal()
+for (let i = 0; i < UNIVERSALS.length; i++) {
+  universal.store(i, UNIVERSALS[i])
+}
 // Used to alert when timeline changes and to notify the cardinal
 export const timeline = new Value(new Timeline())
 

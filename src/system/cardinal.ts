@@ -5,11 +5,12 @@ import { Size } from 'src/buffer/size'
 import { SpaceTime } from 'src/buffer/spacetime'
 import { EStatus, Status } from 'src/buffer/status'
 import { Timeline } from 'src/buffer/timeline'
+import { Universal } from 'src/buffer/universal'
 import { Velocity } from 'src/buffer/velocity'
 import { voxes } from 'src/buffer/vox'
 import { ENTITY_COUNT, NORMALIZER } from 'src/config'
 import { ShapeMap } from 'src/shape'
-import { ETimeline, Rez } from 'src/timeline/def-timeline'
+import { EAxis, ETimeline, Rez } from 'src/timeline/def-timeline'
 import { Color, Euler, Object3D, Vector3 } from 'three'
 import { ECardinalMessage } from './message'
 import { System } from './system'
@@ -37,8 +38,9 @@ class Cardinal extends System {
   animation: Animation
   status: Status
 
-  // world components
   timeline: Timeline
+  universal: Universal
+  // world components
   defines: { [key: number]: number[] } = []
 
   ready = false
@@ -80,6 +82,10 @@ class Cardinal extends System {
 
       case this.timeline:
         this.timeline = new Timeline(e.data)
+        break
+
+      case this.universal:
+        this.universal = new Universal(e.data)
         this.ready = true
         break
 
@@ -383,6 +389,46 @@ class Cardinal extends System {
       this.defines[who].push(i)
 
       switch (this.timeline.command(i)) {
+        case ETimeline.CAGE:
+          const min = this.timeline.data1(i)
+          const max = this.timeline.data2(i)
+          switch (this.timeline.data0(i)) {
+            case EAxis.XYZ:
+              this.universal.minZ(min)
+              this.universal.maxZ(max)
+            // fallthrough
+            case EAxis.XY:
+              this.universal.minY(min)
+              this.universal.maxY(max)
+              this.universal.minX(min)
+              this.universal.maxX(max)
+              break
+            case EAxis.XZ:
+              this.universal.minX(min)
+              this.universal.maxX(max)
+              this.universal.minZ(min)
+              this.universal.maxZ(max)
+              break
+            case EAxis.YZ:
+              this.universal.minY(min)
+              this.universal.maxY(max)
+              this.universal.minZ(min)
+              this.universal.maxZ(max)
+              break
+            case EAxis.X:
+              this.universal.minX(min)
+              this.universal.maxX(max)
+              break
+            case EAxis.Y:
+              this.universal.minY(min)
+              this.universal.maxY(max)
+              break
+            case EAxis.Z:
+              this.universal.minZ(min)
+              this.universal.maxZ(max)
+              break
+          }
+          break
         // rez time
         case ETimeline.REZ:
           toRez.push(i)

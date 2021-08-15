@@ -131,8 +131,8 @@ export enum ETimeline {
   // When something interesting happens the who
   EVENT,
 
-  // Bind the children's who to another
-  BIND,
+  // Cage this physics item to these bounds
+  CAGE,
   PHASE,
   // TODO:
   CONTROL,
@@ -200,4 +200,5 @@ export const Commands: { [key: number]: any } = {
   [ETimeline.EFFECTS]: { animation: EAnimation },
   [ETimeline.VOX]: { 'Vox Model': EVar.VOX },
   [ETimeline.IMPACT]: { reaction: EImpactReaction },
+  [ETimeline.CAGE]: { axis: EAxis, min: EVar.NUMBER, max: EVar.NUMBER },
 }
