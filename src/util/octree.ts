@@ -26,7 +26,7 @@ export class Octree {
     this.data = new Set()
   }
 
-  sample(box: Box3): Set<number> {
+  sample(box: Box3): number[] {
     const results = []
 
     const queue: Octree[] = [this]
@@ -38,7 +38,7 @@ export class Octree {
       queue.push(...node.children)
     }
 
-    return new Set(results)
+    return results
   }
 
   subdivide() {

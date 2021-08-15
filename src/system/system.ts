@@ -6,6 +6,7 @@ export class System {
     self.onmessage = this.onmessage.bind(this)
 
     this.tickrate = tickrate
+    if (tickrate === 0) return
     setInterval(this.tick.bind(this), tickrate)
   }
 
