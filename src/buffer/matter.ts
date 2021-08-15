@@ -3,12 +3,19 @@ import { ENTITY_COUNT } from 'src/config'
 
 // how together something is
 export enum EPhase {
-  STUCK,
+  // doesn't exist according to physics
+  VOID,
+  // doesn't get added to any collision
   GHOST,
+
+  // no reaction to collision but has velocity
   UNBOOPABLE,
+  // levels of reactivity
   SOLID,
   LIQUID,
   GAS,
+  // Doesn't move, but exists
+  STUCK,
 }
 
 export class Matter extends AtomicInt {

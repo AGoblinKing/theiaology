@@ -152,8 +152,12 @@ class Physics extends System {
     // rip through matter, update their grid_past/futures
     for (let i = 0; i < ENTITY_COUNT; i++) {
       switch (this.matter.phase(i)) {
-        case EPhase.GHOST:
+        case EPhase.VOID:
+          continue
         case EPhase.STUCK:
+          this.matter.phase(i, EPhase.VOID)
+          // add to sectors
+          this.sector(i)
           continue
       }
 

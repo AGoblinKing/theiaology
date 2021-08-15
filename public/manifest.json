@@ -19,5 +19,5 @@
     "background_color": "navy",
     "scope": "/",
     "description": "Undock your Imagination.",
-    "display": "standalone"
+    "display": "browser"
   }

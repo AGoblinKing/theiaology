@@ -30,14 +30,14 @@ export class Rez {
   flock: { shape: EShape; size: number; step: number }
   look = new Vector3()
   impact = EImpactReaction.None
-  phase = EPhase.STUCK
+  phase = EPhase.VOID
   vel = new Vector3()
   velvar = new Vector3()
 
   doLook = false
 
   reset() {
-    this.phase = EPhase.STUCK
+    this.phase = EPhase.VOID
     this.impact = EImpactReaction.None
     this.vel.set(0, 0, 0)
     this.velvar.set(0, 0, 0)
