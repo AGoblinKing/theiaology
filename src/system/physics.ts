@@ -56,7 +56,7 @@ class Physics extends System {
   ready = false
   // 50 frames a second, idealy get this to 5
   constructor() {
-    super((1 / 60) * 1000)
+    super((1 / 20) * 1000)
   }
 
   onmessage(e: MessageEvent) {
@@ -157,7 +157,7 @@ class Physics extends System {
         case EPhase.STUCK:
           this.matter.phase(i, EPhase.VOID)
           // add to sectors
-          this.sector(i)
+          //this.sector(i)
           continue
       }
 
@@ -166,11 +166,16 @@ class Physics extends System {
         vz = this.velocity.z(i)
 
       if (vx !== 0 || vy !== 0 || vz !== 0) {
+        this.past.x(i, this.future.x(i))
+        this.past.y(i, this.future.y(i))
+
+        this.past.z(i, this.future.z(i))
+        this.past.time(i, t)
         const x = this.future.addX(i, vx)
         const y = this.future.addY(i, vy)
         const z = this.future.addZ(i, vz)
 
-        this.future.time(i, t)
+        this.future.time(i, t + this.tickrate)
 
         // warp out of bounds to other side
 

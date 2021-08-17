@@ -25,6 +25,9 @@ _Undock your imagination._
 
 ![Promotional Gif](./public/image/interaction.gif)
 
+## Quicker Start
+Use GitHub CodeSpaces and slam that F5. You can make the URL public, it defaults to only you.
+
 ## Quick Start
 
 Install https://nodejs.org/en/download/ or have >v14

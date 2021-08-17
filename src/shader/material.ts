@@ -37,7 +37,7 @@ material.onBeforeCompile = function (shader) {
   shader.uniforms.audioHigh = upperUniform
   shader.uniforms.handLeft = left_hand_uniform
   shader.uniforms.handRight = right_hand_uniform
-
+  
   shader.vertexShader = shader.vertexShader
     .replace('#include <common>', commonVertChunk)
     .replace('#include <project_vertex>', MainVert)

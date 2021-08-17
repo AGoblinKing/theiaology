@@ -8,7 +8,7 @@ import { ECardinalMessage } from 'src/system/message'
 import { SystemWorker } from 'src/system/sys'
 import { timestamp } from 'src/uniform/time'
 import { vr_keys } from 'src/xr/joints'
-import { Vector3 } from 'three'
+import { Matrix4, Vector3 } from 'three'
 
 let hand_joints: number[] = []
 const $vec = new Vector3()
@@ -37,11 +37,13 @@ export function RezHands(cardinal: SystemWorker) {
   }
 }
 
+const rTip = /tip$/
 // update hand rezes if they exist
 timestamp.on(() => {
   // no hands, nothing to do
   if (hands.$.length === 0) return
 
+  let tip = 0
   for (let i = 0; i < hand_joints.length; i++) {
     const ix = i % 25
     const iy = Math.floor(i / 25)
@@ -62,16 +64,20 @@ timestamp.on(() => {
       .add(body.$.position)
       .multiplyScalar(2)
 
-    if (vr_keys[ix] === 'index-finger-tip') {
+    if (rTip.test(vr_keys[ix])) {
+      let target: Matrix4
       // copy hand pos to the uniforms
       switch (hands.$[iy].handedness) {
         case 'left':
-          left_hand_uniform.value = left_hand_uniform.value.copy($vec)
-
+          target = left_hand_uniform.value
           break
         case 'right':
-          right_hand_uniform.value = right_hand_uniform.value.copy($vec)
+          target = right_hand_uniform.value
       }
+
+      target.elements[tip] = $vec.x
+      target.elements[tip + 1] = $vec.y
+      target.elements[tip + 2] = $vec.z
     }
 
     $vec.multiplyScalar(1000)
