@@ -7,7 +7,7 @@ export const TIMELINE_MAX = 1024 * 8
 
 export const SIZE = 0.01
 export const FACES = 1
-
+export const MIN_POSE_VALUE = 0.15
 // max int 32, which are used in the SharedArrayBuffer
 export const NORMALIZER = 0x7fffffff
 export const UNIVERSALS = [

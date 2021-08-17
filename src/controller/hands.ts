@@ -1,3 +1,4 @@
+import { MIN_POSE_VALUE } from 'src/config'
 import { VRButton } from 'src/render/VRButton'
 import {
   hands,
@@ -15,8 +16,6 @@ import { IJointGroup } from '../xr/joints'
 import { poses, poseValue } from '../xr/poses'
 
 renderer.xr.enabled = true
-
-export const MIN_POSE_VALUE = 0.25
 
 export type PoseValues = number[][]
 

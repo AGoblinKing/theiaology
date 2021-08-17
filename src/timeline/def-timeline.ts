@@ -25,6 +25,7 @@ export class Rez {
   size = new Vector3()
   col = { tilt: 0, variance: 0 }
   vox = ''
+  voxvar = new Vector3()
   sizevar = new Vector3()
   posvar = new Vector3()
   flock: { shape: EShape; size: number; step: number }
@@ -45,6 +46,7 @@ export class Rez {
     this.pos.set(0, 0, 0)
     this.rot.set(0, 0, 0)
     this.rotvar.set(0, 0, 0)
+    this.voxvar.set(0, 0, 0)
     this.size.set(1, 1, 1)
     this.vox = ''
     this.col.tilt = 0
@@ -142,6 +144,7 @@ export enum ETimeline {
   VOX,
   ROTVAR,
   IMPACT,
+  VOXVAR,
 }
 
 export const Commands: { [key: number]: any } = {
@@ -157,7 +160,11 @@ export const Commands: { [key: number]: any } = {
     tilt: EVar.NORMAL,
     variance: EVar.NORMAL,
   },
-
+  [ETimeline.VOXVAR]: {
+    rgb: EVar.COLOR,
+    tilt: EVar.NORMAL,
+    variance: EVar.NORMAL,
+  },
   [ETimeline.SIZE]: { x: EVar.POSITIVE, y: EVar.POSITIVE, z: EVar.POSITIVE },
   //   [ETimeline.MUSIC]: { audio: EVar.AUDIO },
   [ETimeline.SIZEVAR]: {
@@ -186,8 +193,8 @@ export const Commands: { [key: number]: any } = {
   },
 
   [ETimeline.THRUSTVAR]: {
-    thrust: EVar.POSITIVE,
     axis: EAxis,
+    thrust: EVar.POSITIVE,
     constraint: EVar.SIGN,
   },
 

@@ -167,6 +167,13 @@ class Cardinal extends System {
           )
 
           break
+        case ETimeline.VOXVAR:
+          $rez.voxvar.set(
+            this.timeline.data0(child),
+            this.timeline.data1(child),
+            this.timeline.data2(child)
+          )
+          break
         case ETimeline.VOX:
           $rez.vox = this.timeline.text(child)
           break
@@ -291,7 +298,9 @@ class Cardinal extends System {
             rz + ($rez.rot.z / NORMALIZER) * Math.PI * 2
           )
         }
-
+        const rtx = Math.random() * $rez.velvar.x
+        const rty = Math.random() * $rez.velvar.y
+        const rtz = Math.random() * $rez.velvar.z
         for (let i = 0; i < voxDef.xyzi.length / 4; i++) {
           const id = this.reserve()
 
@@ -315,17 +324,20 @@ class Cardinal extends System {
           // -1 because magica?
           const c = (voxDef.xyzi[ix + 3] - 1) * 4
 
-          $col2
-            .setRGB(
-              voxDef.rgba[c] / 255,
-              voxDef.rgba[c + 1] / 255,
-              voxDef.rgba[c + 2] / 255
-            )
-            .getHSL($hsl)
+          const r = voxDef.rgba[c]
+          const g = voxDef.rgba[c + 1]
+          const b = voxDef.rgba[c + 2]
+          $col2.setRGB(r / 255, g / 255, b / 255).getHSL($hsl)
+
+          let addTilt = 0
+          if ($rez.voxvar.x === r * 256 * 256 + g * 256 + b) {
+            addTilt = Math.random() * $rez.voxvar.z + $rez.voxvar.y
+          }
 
           $col2.setHSL(
             ($hsl.h +
               $rez.col.tilt / NORMALIZER +
+              addTilt +
               variance +
               Math.random() * 0.05) %
               1,
@@ -336,7 +348,9 @@ class Cardinal extends System {
           this.size.x(id, sx)
           this.size.y(id, sy)
           this.size.z(id, sz)
-
+          this.velocity.x(id, $rez.vel.x + rtx)
+          this.velocity.y(id, $rez.vel.y + rty)
+          this.velocity.z(id, $rez.vel.z + rtz)
           this.basics(id, $col2)
         }
         continue
@@ -352,7 +366,9 @@ class Cardinal extends System {
       this.size.x(id, sx)
       this.size.y(id, sy)
       this.size.z(id, sz)
-
+      this.velocity.x(id, $rez.vel.x + Math.random() * $rez.velvar.x)
+      this.velocity.y(id, $rez.vel.y + Math.random() * $rez.velvar.y)
+      this.velocity.z(id, $rez.vel.z + Math.random() * $rez.velvar.z)
       this.basics(id, $col)
     }
   }
@@ -361,10 +377,6 @@ class Cardinal extends System {
     this.matter.red(id, Math.floor(color.r * NORMALIZER))
     this.matter.green(id, Math.floor(color.g * NORMALIZER))
     this.matter.blue(id, Math.floor(color.b * NORMALIZER))
-
-    this.velocity.x(id, $rez.vel.x + Math.random() * $rez.velvar.x)
-    this.velocity.y(id, $rez.vel.y + Math.random() * $rez.velvar.y)
-    this.velocity.z(id, $rez.vel.z + Math.random() * $rez.velvar.z)
 
     this.matter.phase(id, $rez.phase)
     this.impact.reaction(id, $rez.impact)
