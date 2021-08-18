@@ -93,7 +93,9 @@ const config = (input, dst = "") => {
       glslify({
         compress: false,
       }),
-      ts(),
+      ts({
+        
+      }),
       rootImport({
         extensions: ['.ts', '.svelte', '', '.json', '.js'],
         root: `${__dirname}/`,
@@ -119,3 +121,4 @@ const config = (input, dst = "") => {
 }
 
 export default [ config('main'), config('service', ".."), config('system/physics'), config('system/fuzz'), config('system/cardinal'), config('system/weather')]
+s
