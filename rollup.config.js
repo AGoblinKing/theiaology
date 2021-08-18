@@ -121,4 +121,3 @@ const config = (input, dst = "") => {
 }
 
 export default [ config('main'), config('service', ".."), config('system/physics'), config('system/fuzz'), config('system/cardinal'), config('system/weather')]
-s
