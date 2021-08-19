@@ -1,5 +1,5 @@
 import { Value } from 'src/util/value'
-import { Matrix4, Uniform, Vector3 } from 'three'
+import { Uniform, Vector3 } from 'three'
 import { IJointGroup } from '../xr/joints'
 
 export const last_pose = new Value({
@@ -17,6 +17,18 @@ export const left_hand = new Value<IJointGroup>()
 export const right_hand = new Value<IJointGroup>()
 export const VRInit = new Value(false)
 
-// 5x3vectors3
-export const left_hand_uniform = new Uniform(new Matrix4())
-export const right_hand_uniform = new Uniform(new Matrix4())
+export const left_hand_uniforms = {
+  ['thumb-tip']: new Uniform(new Vector3()),
+  ['index-finger-tip']: new Uniform(new Vector3()),
+  ['middle-finger-tip']: new Uniform(new Vector3()),
+  ['ring-finger-tip']: new Uniform(new Vector3()),
+  ['pinky-finger-tip']: new Uniform(new Vector3()),
+}
+
+export const right_hand_uniforms = {
+  ['thumb-tip']: new Uniform(new Vector3()),
+  ['index-finger-tip']: new Uniform(new Vector3()),
+  ['middle-finger-tip']: new Uniform(new Vector3()),
+  ['ring-finger-tip']: new Uniform(new Vector3()),
+  ['pinky-finger-tip']: new Uniform(new Vector3()),
+}

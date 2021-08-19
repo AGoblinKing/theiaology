@@ -1,8 +1,17 @@
 uniform float time;
 uniform float audioHigh;
 uniform float audioLow;
-uniform mat4 handLeft;
-uniform mat4 handRight;
+
+uniform vec3 leftindex;
+uniform vec3 leftthumb;
+uniform vec3 leftmiddle;
+uniform vec3 leftring;
+uniform vec3 leftpinky;
+uniform vec3 rightindex;
+uniform vec3 rightthumb;
+uniform vec3 rightmiddle;
+uniform vec3 rightring;
+uniform vec3 rightpinky;
 
 attribute int animation;
 attribute ivec3 velocity;

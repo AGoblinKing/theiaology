@@ -2,13 +2,13 @@ import { animation, future, matter, past, size } from 'src/buffer'
 import { EAnimation } from 'src/buffer/animation'
 import { NORMALIZER } from 'src/config'
 import { doPose } from 'src/controller/hands'
-import { hands, left_hand_uniform, right_hand_uniform } from 'src/input/xr'
+import { hands, left_hand_uniforms, right_hand_uniforms } from 'src/input/xr'
 import { body } from 'src/render/render'
 import { ECardinalMessage } from 'src/system/message'
 import { SystemWorker } from 'src/system/sys'
 import { timestamp } from 'src/uniform/time'
 import { vr_keys } from 'src/xr/joints'
-import { Matrix4, Vector3 } from 'three'
+import { Vector3 } from 'three'
 
 let hand_joints: number[] = []
 const $vec = new Vector3()
@@ -65,19 +65,18 @@ timestamp.on(() => {
       .multiplyScalar(2)
 
     if (rTip.test(vr_keys[ix])) {
-      let target: Matrix4
+      let target
       // copy hand pos to the uniforms
       switch (hands.$[iy].handedness) {
         case 'left':
-          target = left_hand_uniform.value
+          target = left_hand_uniforms
           break
         case 'right':
-          target = right_hand_uniform.value
+          target = right_hand_uniforms
       }
 
-      target.elements[tip] = $vec.x
-      target.elements[tip + 1] = $vec.y
-      target.elements[tip + 2] = $vec.z
+      target[vr_keys[ix]].value.copy($vec)
+      console.log($vec)
     }
 
     $vec.multiplyScalar(1000)

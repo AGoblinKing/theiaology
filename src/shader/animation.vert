@@ -14,15 +14,10 @@ float modulator(float x, float y) {
   return x - y * floor(x/y);
 }
 
-float MatIndex(int i, in mat4 target) {
-	int x = (i * 3) % 4;
-	int y = i/4;
-
-	return target[x][y];
-}
-
 // Position
 vec4 Animation(in vec4 pos) {
+	 vec3[] pts = vec3[](leftindex, leftthumb, leftmiddle, leftring, leftpinky, rightindex, rightthumb, rightmiddle, rightring, rightpinky);
+
 	v_animation = float(animation);
 	v_matter = vec3(float(matter.x)/NORMALIZER, float(matter.y)/NORMALIZER, float(matter.z)/NORMALIZER);
 	v_vel = vec3(velocity);
@@ -40,8 +35,8 @@ vec4 Animation(in vec4 pos) {
 	pos.y += tes +  0.05 * (-audioHigh/2000.);
 	pos.z += tes;
 
-    for(int i = 0; i < 5; i++) {
-		vec3 target = vec3(MatIndex(i*3, handLeft), MatIndex(i*3+1, handLeft), MatIndex(i*3+2, handLeft));
+	for(int i = 0; i < 10; i++) {
+		vec3 target = pts[i];
 		float dist = length(v_pos - target );
 		if(dist < HAND_DST) {
 			pos.xyz = mix(target, pos.xyz, dist/ HAND_DST);

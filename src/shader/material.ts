@@ -1,4 +1,4 @@
-import { left_hand_uniform, right_hand_uniform } from 'src/input/xr'
+import { left_hand_uniforms, right_hand_uniforms } from 'src/input/xr'
 import { MeshToonMaterial } from 'three'
 import { lowerUniform, upperUniform } from '../sound/audio'
 import { timeUniform } from '../uniform/time'
@@ -35,9 +35,15 @@ material.onBeforeCompile = function (shader) {
   shader.uniforms.time = timeUniform
   shader.uniforms.audioLow = lowerUniform
   shader.uniforms.audioHigh = upperUniform
-  shader.uniforms.handLeft = left_hand_uniform
-  shader.uniforms.handRight = right_hand_uniform
-  
+  const addUniform =
+    (dir) =>
+    ([key, value]) => {
+      shader.uniforms[`${dir}${key.split('-')[0]}`] = value
+    }
+
+  Object.entries(left_hand_uniforms).forEach(addUniform('left'))
+  Object.entries(right_hand_uniforms).forEach(addUniform('right'))
+
   shader.vertexShader = shader.vertexShader
     .replace('#include <common>', commonVertChunk)
     .replace('#include <project_vertex>', MainVert)

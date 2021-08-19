@@ -26,6 +26,7 @@ _Undock your imagination._
 ![Promotional Gif](./public/image/interaction.gif)
 
 ## Quicker Start
+
 Use GitHub CodeSpaces and slam that F5. You can make the URL public, it defaults to only you.
 
 ## Quick Start
@@ -70,8 +71,8 @@ Which are brutal but enable SharedArrayBuffers which are magic.
 ## Maybe One Day
 
 - [ ] Spells like uh fireballs and lightning raining from the sky
-- [ ] Physics on a worker making use of those magic buffers
-- [ ] WebRTC Networking
+- [~] Physics on a worker making use of those magic buffers
+- [~] ~~WebRTC~~ Networking
 - [ ] Play Queue / Gateways / Playlists / Albums?
 - [ ] Motion: Climbing, ride the tiger, zip line, swing
 - [ ] Interaction: Buttons, triggers, branching?
