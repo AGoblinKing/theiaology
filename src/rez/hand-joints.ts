@@ -16,9 +16,9 @@ const $vec = new Vector3()
 function Init(id: number) {
   animation.store(id, EAnimation.NoEffects)
 
-  size.x(id, 5)
-  size.y(id, 5)
-  size.z(id, 5)
+  size.x(id, 500)
+  size.y(id, 500)
+  size.z(id, 500)
 
   matter.red(id, NORMALIZER)
 }
@@ -43,7 +43,6 @@ timestamp.on(() => {
   // no hands, nothing to do
   if (hands.$.length === 0) return
 
-  let tip = 0
   for (let i = 0; i < hand_joints.length; i++) {
     const ix = i % 25
     const iy = Math.floor(i / 25)
@@ -76,7 +75,6 @@ timestamp.on(() => {
       }
 
       target[vr_keys[ix]].value.copy($vec)
-      console.log($vec)
     }
 
     $vec.multiplyScalar(1000)

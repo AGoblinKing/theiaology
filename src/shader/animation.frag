@@ -44,7 +44,7 @@ vec3[] pts = vec3[](leftindex, leftthumb, leftmiddle, leftring, leftpinky, right
 
 		float dist = length(v_pos - target );
 		if(dist < 0.15) {
-			col.xyz += sin(dist * 200. + time * 0.005 )* 0.05;
+			col.xyz += sin(dist * 200. - time * 0.05 )* 0.05;
 		}
 	}
 	// col.xyz *= length(v_vel) * 0.01;
