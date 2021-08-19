@@ -26,7 +26,7 @@ const $vec3_o = new Vector3()
 
 // Deal out entity IDs, execute timeline events
 class Cardinal extends System {
-  _available: number[] = [...new Array(ENTITY_COUNT)].map((i) => i)
+  _available: number[] = [...new Array(ENTITY_COUNT)].map((_, i) => i)
   ticks = 0
   // entity components
   past: SpaceTime
@@ -488,7 +488,7 @@ class Cardinal extends System {
 
   tick() {
     this.timing = Math.floor(performance.now())
-    if (this.ready) this.randomize()
+    //if (this.ready) this.randomize()
   }
 
   randomize() {

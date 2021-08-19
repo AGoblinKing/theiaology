@@ -16,7 +16,7 @@ float modulator(float x, float y) {
 
 // Position
 vec4 Animation(in vec4 pos) {
-	 vec3[] pts = vec3[](leftindex, leftthumb, leftmiddle, leftring, leftpinky, rightindex, rightthumb, rightmiddle, rightring, rightpinky);
+	vec3[] pts = vec3[](leftindex, leftthumb, leftmiddle, leftring, leftpinky, rightindex, rightthumb, rightmiddle, rightring, rightpinky);
 
 	v_animation = float(animation);
 	v_matter = vec3(float(matter.x)/NORMALIZER, float(matter.y)/NORMALIZER, float(matter.z)/NORMALIZER);
@@ -49,10 +49,13 @@ vec4 Animation(in vec4 pos) {
 
 // Rotations, maybe scale?
 mat4 AnimationMatrix(in mat4 mvMatrix) {
-	if(animation == ANIM_NO_EFFECT) {
-		return mvMatrix;
+	
+
+	float lav = 1.;
+
+	if(animation != ANIM_NO_EFFECT) {
+    	lav += audioLow * 0.00125;
 	}
-    float lav = (1. + audioLow * 0.00125);
 
     mvMatrix = mvMatrix * scale(lav * float(size.x), lav * float(size.y), float(size.z) * lav);
 	return mvMatrix;

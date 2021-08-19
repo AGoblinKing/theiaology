@@ -13,15 +13,6 @@ import { Vector3 } from 'three'
 let hand_joints: number[] = []
 const $vec = new Vector3()
 
-function Init(id: number) {
-  animation.store(id, EAnimation.NoEffects)
-
-  size.x(id, 500)
-  size.y(id, 500)
-  size.z(id, 500)
-
-  matter.red(id, NORMALIZER)
-}
 // Rezes allow us to inject into the worker simulation from the main thread
 export function RezHands(cardinal: SystemWorker) {
   hand_joints = []
@@ -32,12 +23,13 @@ export function RezHands(cardinal: SystemWorker) {
     cardinal.send(ECardinalMessage.RequestID)
     cardinal.queue((id) => {
       hand_joints.push(id)
-      Init(id)
     })
   }
 }
 
 const rTip = /tip$/
+const rMeta = /metacarpal$|proximal$/
+
 // update hand rezes if they exist
 timestamp.on(() => {
   // no hands, nothing to do
@@ -56,7 +48,6 @@ timestamp.on(() => {
       doPose(hands.$[iy])
     }
 
-    Init(id)
     $vec
       .copy(j.position)
       .applyQuaternion(body.$.quaternion)
@@ -76,7 +67,14 @@ timestamp.on(() => {
 
       target[vr_keys[ix]].value.copy($vec)
     }
+    animation.store(id, EAnimation.NoEffects)
 
+    const s = rMeta.test(vr_keys[ix]) ? 8 : 6
+    size.x(id, s)
+    size.y(id, s)
+    size.z(id, s)
+
+    matter.red(id, NORMALIZER - (Math.random() * NORMALIZER) / 100)
     $vec.multiplyScalar(1000)
     future.x(id, Math.floor($vec.x))
     future.y(id, Math.floor($vec.y))
