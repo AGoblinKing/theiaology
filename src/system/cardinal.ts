@@ -488,7 +488,7 @@ class Cardinal extends System {
 
   tick() {
     this.timing = Math.floor(performance.now())
-    //if (this.ready) this.randomize()
+    if (this.ready) this.randomize()
   }
 
   randomize() {

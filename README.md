@@ -1,6 +1,6 @@
 # Theia.Games
 
-[![Itch](https://github.com/AGoblinKing/theia.games/actions/workflows/itch.yml/badge.svg)](https://github.com/AGoblinKing/theia.games/actions/workflows/itch.yml)
+[![Itch](https://github.com/AGoblinKing/theia.games/actions/workflows/itch.yml/badge.svg)](https://corporate-entity.itch.io/theiagames)
 | [Discord](https://discord.gg/bPq8U3zhvy)
 
 _Undock your imagination._
