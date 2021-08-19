@@ -40,16 +40,18 @@ const rootImport = (options) => ({
   },
 })
 
-const config = (input, dst = "") => {
-  return {
+let once = true
+const config = (input, dst = "", importThree = false) => {
+
+  const o = {
     input: `src/${input}.ts`,
 
-    
+    external: ["three"],
     output: {
       globals: {
         three: "THREE"
       },
-      format: 'es',
+      format: 'iife',
       chunkFileNames: '[name].js',
       sourcemap: true,
 
@@ -102,8 +104,10 @@ const config = (input, dst = "") => {
       }),
 
 
-      commonjs(),
-      !production && serve({
+      commonjs({
+     
+      }),
+      !production && once && serve({
         historyApiFallback: true,
         contentBase: 'public',
         headers: {
@@ -113,11 +117,24 @@ const config = (input, dst = "") => {
       }), 
 
       production && terser(),
+
+      {
+        renderChunk(code) {
+          return {
+            code: `${importThree ? `import "/three.js"\r\n`: ''}${code}`,
+            map: null
+          }
+        }
+
+      }
     ],
     watch: {
       clearScreen: false,
     },
+    
   }
+  once = false
+  return o 
 }
 
-export default [ config('main'), config('service', ".."), config('system/physics'), config('system/fuzz'), config('system/cardinal'), config('system/weather')]
+export default [ config('main'), config('service', ".."), config('system/physics', "",  true), config('system/fuzz',"", true), config('system/cardinal',"", true), config('system/weather', "", true)]

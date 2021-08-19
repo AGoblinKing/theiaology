@@ -9,7 +9,9 @@ export class SystemWorker extends Worker {
   msg = new Value<any>()
 
   constructor(url: string) {
-    super(url)
+    super(url, {
+      type: 'module',
+    })
 
     this.onmessage = this.message.bind(this)
   }
