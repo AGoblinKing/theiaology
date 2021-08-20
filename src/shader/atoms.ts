@@ -57,6 +57,7 @@ for (let i = 0; i < atoms.$.count; i++) {
 scene.$.add(atoms.$)
 
 tick.on(($t) => {
+  // Update: WebGL isn't binding the buffer! wow not threejs
   // TODO: Figure out why threejs is not leveraging the sharedarray
   atoms.$.geometry.getAttribute('animation').needsUpdate = true
   atoms.$.geometry.getAttribute('past').needsUpdate = true

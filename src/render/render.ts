@@ -48,7 +48,7 @@ tick.on(() => {
 
 renderer.setAnimationLoop(Loop)
 
-export const ambient = new AmbientLight(0xffffff, 0.75)
+export const ambient = new AmbientLight(0xffffff, 1)
 export const directional = new DirectionalLight(0xffffff, 1)
 directional.position.set(0, 1, 1)
 
