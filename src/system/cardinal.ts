@@ -44,8 +44,6 @@ class Cardinal extends System {
   defines: { [key: number]: number[] } = []
 
   ready = false
-  // performance.now()
-  timing: number
 
   constructor() {
     super(20)
@@ -241,6 +239,7 @@ class Cardinal extends System {
 
     const atoms = shape.AtomCount($rez.flock.size, $rez.flock.step)
 
+    const t = this.universal.time()
     for (let i = 0; i < atoms; i++) {
       const $shape = shape(i, $rez.flock.size, $rez.flock.step)
 
@@ -317,7 +316,7 @@ class Cardinal extends System {
             .applyEuler($eule)
             .add($vec3_o.set(x, y, z))
 
-          this.future.time(id, this.timing + 1000 * Math.random() + 500)
+          this.future.time(id, t + 1000 * Math.random() + 500)
           this.future.x(id, $vec3.x + Math.round(Math.random() * 2 - 1))
           this.future.y(id, $vec3.y + Math.round(Math.random() * 2 - 1))
           this.future.z(id, $vec3.z + Math.round(Math.random() * 2 - 1))
@@ -359,7 +358,7 @@ class Cardinal extends System {
 
       const id = this.reserve()
 
-      this.future.time(id, this.timing + 1000 * Math.random() + 500)
+      this.future.time(id, t + 1000 * Math.random() + 500)
       this.future.x(id, x)
       this.future.y(id, y)
       this.future.z(id, z)
@@ -505,13 +504,12 @@ class Cardinal extends System {
   }
 
   tick() {
-    this.timing = Math.floor(performance.now())
     if (this.ready) this.randomize()
   }
 
   randomize() {
     const scale = 18000
-    const t = this.timing
+    const t = this.universal.time()
 
     const chunk = 20
     // lets prove out thhese even render

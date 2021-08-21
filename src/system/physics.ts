@@ -118,7 +118,7 @@ class Physics extends System {
   // these numbers never change so cache them
   sectorBox(sid: number) {
     if (sectorBoxCache[sid] === undefined) {
-      // dimensions of
+      // calc sector based on sid and $sector container
       sectorBoxCache[sid] = new Box3(new Vector3(), new Vector3())
     }
     return sectorBoxCache[sid]
@@ -141,14 +141,23 @@ class Physics extends System {
 
   // add to the ids sectors, only add to the sector you're most contained in
   sectorize(i: number, $bb?: Box3) {
-    return []
     if (!$bb) $bb = this.box(i)
     if (ids[i] === undefined) ids[i] = []
+    const eid = ids[i]
+    const elen = eid.length
+    if (
+      eid[elen - 1] !== undefined &&
+      this.sectorBox(eid[elen - 1]).containsBox($bb)
+    ) {
+      // didn't change sectors no need to update
+      // TODO: This could cause a bug if something becomes smaller and doesn't change sectors
+      return
+    }
 
     let id = 0
-    if (ids[i].length > 0) {
-      sectors[ids[i].pop()]?.delete(i)
-      ids[i].splice(0, ids[i].length)
+    if (elen > 0) {
+      sectors[eid.pop()]?.delete(i)
+      eid.splice(0, elen)
     }
 
     for (let sector_depth = 0; sector_depth < 4; sector_depth++) {
@@ -157,7 +166,7 @@ class Physics extends System {
       for (let s = 0; s < 8; s++) {
         const sid = id + s * Math.pow(8, sector_depth)
         if (this.sectorBox(sid).containsBox($bb)) {
-          ids[i].push(id)
+          eid.push(id)
           match = true
           break
         }
@@ -170,13 +179,13 @@ class Physics extends System {
       }
     }
 
-    return ids[i]
+    return eid
   }
 
   tick() {
     if (!this.ready) return
 
-    const t = Math.floor(performance.now())
+    const t = this.universal.time()
 
     // rip through matter, update their grid_past/futures
     for (let i = 0; i < ENTITY_COUNT; i++) {

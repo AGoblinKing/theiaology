@@ -2,7 +2,7 @@ import { AtomicInt } from 'src/buffer/atomic'
 import { UNIVERSALS } from 'src/config'
 
 export class Universal extends AtomicInt {
-  static COUNT = 6
+  static COUNT = 7
 
   constructor(shared = new SharedArrayBuffer(4 * Universal.COUNT)) {
     super(shared)
@@ -26,6 +26,10 @@ export class Universal extends AtomicInt {
   }
   maxZ(z?: number) {
     return z === undefined ? Atomics.load(this, 5) : Atomics.store(this, 5, z)
+  }
+
+  time(t?: number) {
+    return t === undefined ? Atomics.load(this, 6) : Atomics.store(this, 6, t)
   }
 
   reset() {

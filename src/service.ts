@@ -29,7 +29,8 @@ self.addEventListener('fetch', (e: any) => {
         })
         return response
       })
-      .catch(() => {
+      .catch((e) => {
+        console.log(e)
         return caches.match(request).then((resp) => {
           return resp || caches.match('/index.html')
         })

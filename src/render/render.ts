@@ -12,7 +12,7 @@ export const camera = new PerspectiveCamera(
 
 export const body = new Value(new Group())
 
-body.$.position.set(0, 0, 2.5)
+body.$.position.set(0, 0.15, 2.5)
 scene.$.add(body.$.add(camera))
 
 export const renderer = new WebGLRenderer()

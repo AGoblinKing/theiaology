@@ -15,7 +15,6 @@ export const walk = new Value()
 
 const velta = new Vector3()
 
-body.$.position.y = renderer.xr.isPresenting ? 0 : 1.5
 tick.on(() => {
   if (Math.abs(velocity.$.length()) > MIN_VELOCITY) {
     velta.copy(velocity.$).multiplyScalar(delta.$)
