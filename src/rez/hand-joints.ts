@@ -4,7 +4,7 @@ import { NORMALIZER } from 'src/config'
 import { doPose } from 'src/controller/hands'
 import { hands, left_hand_uniforms, right_hand_uniforms } from 'src/input/xr'
 import { body } from 'src/render/render'
-import { ECardinalMessage } from 'src/system/message'
+import { EMessage } from 'src/system/message'
 import { SystemWorker } from 'src/system/sys'
 import { timestamp } from 'src/uniform/time'
 import { vr_keys } from 'src/xr/joints'
@@ -20,8 +20,8 @@ export function RezHands(cardinal: SystemWorker) {
   // vr_keys is an enum and therefore 2x the length, which is what we want
   // for two hands anyhow
   for (let i = 0; i < Object.keys(vr_keys).length; i++) {
-    cardinal.send(ECardinalMessage.RequestID)
-    cardinal.queue((id) => {
+    cardinal.send(EMessage.REQUEST_ID)
+    cardinal.waitForEntity((id) => {
       hand_joints.push(id)
     })
   }

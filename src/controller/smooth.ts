@@ -3,7 +3,7 @@
 import { mouse_wheel } from 'src/input/mouse'
 import { body, camera, renderer } from 'src/render/render'
 import { delta, tick } from 'src/uniform/time'
-import { Value } from 'src/util/value'
+import { Value } from 'src/value/value'
 import { Vector3 } from 'three'
 
 export const MIN_VELOCITY = 0.1

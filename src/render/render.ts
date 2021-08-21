@@ -1,13 +1,6 @@
-import {
-  AmbientLight,
-  DirectionalLight,
-  Group,
-  PerspectiveCamera,
-  Scene,
-  WebGLRenderer,
-} from 'three'
+import { Group, PerspectiveCamera, Scene, WebGLRenderer } from 'three'
 import { Loop, tick } from '../uniform/time'
-import { Value } from '../util/value'
+import { Value } from '../value/value'
 
 export const scene = new Value(new Scene())
 export const camera = new PerspectiveCamera(
@@ -47,9 +40,3 @@ tick.on(() => {
 })
 
 renderer.setAnimationLoop(Loop)
-
-export const ambient = new AmbientLight(0xffffff, 1)
-export const directional = new DirectionalLight(0xffffff, 1)
-directional.position.set(0, 1, 1)
-
-scene.$.add(directional, ambient)

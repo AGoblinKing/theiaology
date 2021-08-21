@@ -11,7 +11,7 @@ import { Velocity } from '../buffer/velocity'
 import { ENTITY_COUNT, FACES, SIZE } from '../config'
 import { scene } from '../render/render'
 import { tick } from '../uniform/time'
-import { Value } from '../util/value'
+import { Value } from '../value/value'
 import { material } from './material'
 
 // mesh setup

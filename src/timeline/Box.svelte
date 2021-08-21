@@ -1,6 +1,6 @@
 <script lang="ts" context="module">
   import { key_down } from 'src/input/keyboard'
-  import { Value } from 'src/util/value'
+  import { Value } from 'src/value/value'
   interface INav {
     left?: string
     up?: string
@@ -8,7 +8,6 @@
     down?: string
     tag: string
   }
-
   const cursor = new Value<INav>({
     left: 'save',
     right: 'load',
@@ -16,34 +15,26 @@
     down: 'tags',
     tag: 'theiaology',
   })
-
   const navs = {}
-
   const doclick = new Value(false)
-
   function AttemptNav(dir: 'up' | 'down' | 'left' | 'right') {
     if (!cursor.$[dir]) return
     const attempts = cursor.$[dir].split('|')
-
     for (let attempt of attempts) {
       if (!navs[attempt]) continue
-
       cursor.set(navs[attempt])
       return
     }
   }
-
   key_down.on((k) => {
     if (!timeline_shown.$) return
-
-    // vimish controls
+      // vimish contro
     switch (k) {
       case 'e':
       case 'Enter':
       case 'i':
         doclick.set(true)
         break
-
       case 'r':
       case 'ArrowUp':
       case 'j':
@@ -54,7 +45,6 @@
       case 'k':
         AttemptNav('down')
         break
-
       case 'q':
       case 'ArrowLeft':
       case 'l':

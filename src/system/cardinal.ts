@@ -12,7 +12,7 @@ import { ENTITY_COUNT, NORMALIZER } from 'src/config'
 import { ShapeMap } from 'src/shape'
 import { EAxis, ETimeline, Rez } from 'src/timeline/def-timeline'
 import { Color, Euler, Object3D, Vector3 } from 'three'
-import { ECardinalMessage } from './message'
+import { EMessage } from './message'
 import { System } from './system'
 
 const $rez = new Rez()
@@ -101,14 +101,14 @@ class Cardinal extends System {
             return
           case 'number':
             switch (e.data) {
-              case ECardinalMessage.RequestID:
+              case EMessage.REQUEST_ID:
                 this.post(this.reserve())
                 break
 
-              case ECardinalMessage.FreeAll:
+              case EMessage.FREE_ALL:
                 this.freeAll()
                 break
-              case ECardinalMessage.TimelineUpdated:
+              case EMessage.TIMELINE_UPDATE:
                 this.timelineUpdated()
                 break
             }
@@ -366,9 +366,18 @@ class Cardinal extends System {
       this.size.x(id, sx)
       this.size.y(id, sy)
       this.size.z(id, sz)
-      this.velocity.x(id, $rez.vel.x + Math.random() * $rez.velvar.x)
-      this.velocity.y(id, $rez.vel.y + Math.random() * $rez.velvar.y)
-      this.velocity.z(id, $rez.vel.z + Math.random() * $rez.velvar.z)
+      this.velocity.x(
+        id,
+        $rez.vel.x + Math.floor(Math.random() * $rez.velvar.x)
+      )
+      this.velocity.y(
+        id,
+        $rez.vel.y + Math.floor(Math.random() * $rez.velvar.y)
+      )
+      this.velocity.z(
+        id,
+        $rez.vel.z + Math.floor(Math.random() * $rez.velvar.z)
+      )
       this.basics(id, $col)
     }
   }
@@ -387,6 +396,9 @@ class Cardinal extends System {
     // clear it
     this.defines = []
 
+    // Reset bounds
+    this.universal.reset()
+    this.post(EMessage.CAGE_UPDATE)
     // could have just passed the object instead of buffer nonsense, but useful for saves
 
     const toRez = []
@@ -440,6 +452,8 @@ class Cardinal extends System {
               this.universal.maxZ(max)
               break
           }
+
+          this.post(EMessage.CAGE_UPDATE)
           break
         // rez time
         case ETimeline.REZ:
@@ -495,7 +509,7 @@ class Cardinal extends System {
     const scale = 18000
     const t = this.timing
 
-    const chunk = (this.tickrate / 1000) * ENTITY_COUNT * 0.05
+    const chunk = (this.tickrate / 1000) * ENTITY_COUNT
     // lets prove out thhese even render
     for (let ix = last; ix < last + chunk; ix++) {
       // only use left overs

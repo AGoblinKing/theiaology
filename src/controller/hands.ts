@@ -11,7 +11,7 @@ import {
 import { renderer, scene } from '../render/render'
 import { audio } from '../sound/audio'
 import * as Spells from '../spell'
-import { Value } from '../util/value'
+import { Value } from '../value/value'
 import { IJointGroup } from '../xr/joints'
 import { poses, poseValue } from '../xr/poses'
 

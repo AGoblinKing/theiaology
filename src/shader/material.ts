@@ -10,7 +10,7 @@ import MainVert from './main.vert'
 import MatterFrag from './matter.frag'
 import SpaceTime from './spacetime.vert'
 
-export const material = new MeshBasicMaterial({ color: 0xffffff })
+export const material = new MeshBasicMaterial()
 
 const commonVertChunk = [
   '#include <common>',

@@ -1,6 +1,6 @@
 import { Uniform } from 'three'
 import { tick } from '../uniform/time'
-import { Value } from '../util/value'
+import { Value } from '../value/value'
 
 export const audio = document.getElementById('bgm') as HTMLAudioElement
 export const audio_buffer = new Value<ArrayBufferLike | DataView>()

@@ -1,5 +1,5 @@
 import { IAtomic } from 'src/buffer/atomic'
-import { Value } from 'src/util/value'
+import { Value } from 'src/value/value'
 
 export type IMessage = IAtomic | number | object
 
@@ -31,22 +31,33 @@ export class SystemWorker extends Worker {
     return this
   }
 
-  queue(e: (msg: any) => void) {
+  waitForEntity(e: (msg: any) => void) {
     this._queue.push(e)
   }
 
   message(e: MessageEvent) {
-    this.msg.set(e.data)
-    const i = this._queue.pop()
-    if (i) {
-      i(e.data)
+    // >= 0 are eids while - are commands
+    if (e.data >= 0) {
+      const i = this._queue.pop()
+      if (i) {
+        i(e.data)
+      }
+    } else {
+      this.msg.set(e.data)
     }
   }
 
   // pipe received messages to other worker
-  pipe(w: SystemWorker) {
+  pump(w: SystemWorker) {
     this.msg.on((data) => {
       w.postMessage(data)
+    })
+    return this
+  }
+
+  pipe(w: SystemWorker) {
+    w.msg.on((data) => {
+      this.postMessage(data)
     })
     return this
   }

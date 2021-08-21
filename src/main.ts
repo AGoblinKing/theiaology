@@ -17,7 +17,7 @@ import './controller/player'
 import { RezHands } from './rez/hand-joints'
 import './shader/atoms'
 import './sound/audio'
-import { ECardinalMessage } from './system/message'
+import { EMessage } from './system/message'
 import { sys } from './system/sys'
 
 // setup systems
@@ -36,12 +36,17 @@ const cardinal = sys
     universal
   )
 
+const physics = sys
+  .start('physics')
+  .send(past, future, matter, velocity, size, impact, universal)
+
 timeline.on(($t) => {
   if ($t === undefined) return
 
-  cardinal.send(ECardinalMessage.TimelineUpdated)
-  // clear queue of replies
+  cardinal.send(EMessage.TIMELINE_UPDATE)
   cardinal._queue = []
+
+  physics.send(EMessage.TIMELINE_UPDATE)
 
   // Rez the player hands
   RezHands(cardinal)
@@ -66,10 +71,6 @@ window.b = {
   // voxes goes last as a normal message
   voxes,
 }
-
-sys
-  .start('physics')
-  .send(past, future, matter, velocity, size, impact, universal)
 
 // startup editor
 const theiaology = new Theiaology({

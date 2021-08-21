@@ -1,10 +1,12 @@
 import { AtomicInt } from 'src/buffer/atomic'
+import { UNIVERSALS } from 'src/config'
 
 export class Universal extends AtomicInt {
   static COUNT = 6
 
   constructor(shared = new SharedArrayBuffer(4 * Universal.COUNT)) {
     super(shared)
+    this.reset()
   }
 
   minX(x?: number) {
@@ -24,5 +26,12 @@ export class Universal extends AtomicInt {
   }
   maxZ(z?: number) {
     return z === undefined ? Atomics.load(this, 5) : Atomics.store(this, 5, z)
+  }
+
+  reset() {
+    for (let i = 0; i < UNIVERSALS.length; i++) {
+      this.store(i, UNIVERSALS[i])
+    }
+    return this
   }
 }

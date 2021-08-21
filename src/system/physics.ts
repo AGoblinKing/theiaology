@@ -7,17 +7,12 @@ import { Universal } from 'src/buffer/universal'
 import { Velocity } from 'src/buffer/velocity'
 import { ENTITY_COUNT, NORMALIZER } from 'src/config'
 import { Box3, Vector3 } from 'three'
+import { EMessage } from './message'
 import { System } from './system'
 
 const $box = new Box3()
-
 const $box2 = new Box3()
 const $box3 = new Box3()
-
-const $min = new Vector3()
-const $max = new Vector3()
-const $vec = new Vector3()
-const $vec2 = new Vector3()
 
 const SECTORS = {
   ALPHA: new Vector3(-1, -1, -1),
@@ -31,14 +26,14 @@ const SECTORS = {
 }
 
 const SECTORSA = Object.values(SECTORS)
-
+const sectorBoxCache = {}
 // put each
 // each sector is indexed here, '442313' is a possible sector
-const sectors = {}
+let sectors: { [sectorId: number]: Set<number> } = {}
 // ids 2 sector
-const ids = {}
+let ids: { [id: number]: number[] } = {}
 
-// physics bounds
+// physics bounds, really big bounding box to start
 const $sector = new Box3(
   new Vector3(-NORMALIZER / 2, -NORMALIZER / 2, -NORMALIZER / 2),
   new Vector3(NORMALIZER, NORMALIZER, NORMALIZER)
@@ -81,9 +76,39 @@ class Physics extends System {
         break
       case this.universal:
         this.universal = new Universal(e.data)
-        this.ready = true
+        this.init()
         break
+
+      default:
+        switch (e.data) {
+          case EMessage.CAGE_UPDATE:
+            this.resetBounds()
+            break
+          case EMessage.TIMELINE_UPDATE:
+            sectors = {}
+            ids = {}
+            break
+        }
     }
+  }
+
+  init() {
+    this.ready = true
+    this.resetBounds()
+  }
+
+  resetBounds() {
+    $sector.min.set(
+      this.universal.minX(),
+      this.universal.minY(),
+      this.universal.minZ()
+    )
+    $sector.max.set(
+      this.universal.maxX(),
+      this.universal.maxY(),
+      this.universal.maxZ()
+    )
+    console.log($sector, 'reset')
   }
 
   collide(id1: number, id2: number) {
@@ -91,6 +116,16 @@ class Physics extends System {
     return this.box(id1, $box).intersectsBox(this.box(id2, $box2))
   }
 
+  // these numbers never change so cache them
+  sectorBox(sid: number) {
+    if (sectorBoxCache[sid] === undefined) {
+      // dimensions of
+      sectorBoxCache[sid] = new Box3(new Vector3(), new Vector3())
+    }
+    return sectorBoxCache[sid]
+  }
+
+  // these numbers change a bunch so better to just assign them to a tmp
   box(i: number, $bb: Box3 = $box) {
     const sx = this.size.x(i) / 2,
       sy = this.size.y(i) / 2,
@@ -105,49 +140,44 @@ class Physics extends System {
     return $bb
   }
 
-  // calc and update sector
-  sector(i: number, $bb?: Box3) {
+  // add to the ids sectors, only add to the sector you're most contained in
+  sectorize(i: number, $bb?: Box3) {
+    return []
     if (!$bb) $bb = this.box(i)
+    if (ids[i] === undefined) ids[i] = []
 
-    let sector = $sector
-    let width = Math.abs(sector.min.x - sector.max.x) / 2
-    let height = Math.abs(sector.min.y - sector.max.y) / 2
-    let depth = Math.abs(sector.min.z - sector.max.z) / 2
+    let id = 0
+    if (ids[i].length > 0) {
+      sectors[ids[i].pop()]?.delete(i)
+      ids[i].splice(0, ids[i].length)
+    }
 
     for (let sector_depth = 0; sector_depth < 4; sector_depth++) {
       // check each sector if it contains the point
-      let next_sector
-      for (let i = 0; i < 8; i++) {
-        const s = $vec
-          .copy(SECTORSA[i])
-          .multiply($vec2.set(width, height, depth))
-
-        if (
-          $box2
-            .set(
-              $min.set(s.x - width, s.y - height, s.z - depth),
-              $max.set(s.x + width, s.y + height, s.z + depth)
-            )
-            .containsBox($bb)
-        ) {
-          // we have a match
-          sector = $box3.copy($box2)
+      let match = false
+      for (let s = 0; s < 8; s++) {
+        const sid = id + s * Math.pow(8, sector_depth)
+        if (this.sectorBox(sid).containsBox($bb)) {
+          ids[i].push(id)
+          match = true
+          break
         }
       }
+
+      if (!match) {
+        if (sectors[id] === undefined) sectors[id] = new Set()
+        sectors[id].add(i)
+        break
+      }
     }
+
+    return ids[i]
   }
 
   tick() {
     if (!this.ready) return
 
     const t = Math.floor(performance.now())
-
-    const mx = this.universal.minX()
-    const my = this.universal.minY()
-    const mz = this.universal.minZ()
-    const max = this.universal.maxX()
-    const may = this.universal.maxY()
-    const maz = this.universal.maxZ()
 
     // rip through matter, update their grid_past/futures
     for (let i = 0; i < ENTITY_COUNT; i++) {
@@ -157,7 +187,7 @@ class Physics extends System {
         case EPhase.STUCK:
           this.matter.phase(i, EPhase.VOID)
           // add to sectors
-          //this.sector(i)
+          this.sectorize(i)
           continue
       }
 
@@ -166,41 +196,57 @@ class Physics extends System {
         vz = this.velocity.z(i)
 
       if (vx !== 0 || vy !== 0 || vz !== 0) {
-        this.past.x(i, this.future.x(i))
-        this.past.y(i, this.future.y(i))
-
-        this.past.z(i, this.future.z(i))
+        let x = this.past.x(i, this.future.x(i))
+        let y = this.past.y(i, this.future.y(i))
+        let z = this.past.z(i, this.future.z(i))
         this.past.time(i, t)
-        const x = this.future.addX(i, vx)
-        const y = this.future.addY(i, vy)
-        const z = this.future.addZ(i, vz)
 
-        this.future.time(i, t + this.tickrate)
+        let collisions = 0
+        for (let sid of this.sectorize(i)) {
+          // go through your sectors and check for collision
+          if (!sectors[sid]) continue
+
+          for (let oids of sectors[sid]) {
+            if (oids !== i && this.collide(oids, i)) {
+              collisions++
+              break
+            }
+          }
+          if (collisions > 0) {
+            break
+          }
+        }
+
+        if (collisions === 0) {
+          x = this.future.x(i, x + vx)
+          y = this.future.y(i, y + vy)
+          z = this.future.z(i, z + vz)
+
+          this.future.time(i, t + this.tickrate + 500)
+
+          if (x > $sector.max.x) {
+            this.future.x(i, $sector.min.x)
+          } else if (x < $sector.min.x) {
+            this.future.x(i, $sector.max.x)
+          }
+
+          if (y > $sector.max.y) {
+            this.future.y(i, $sector.min.y)
+          } else if (y < $sector.min.y) {
+            this.future.y(i, $sector.max.y)
+          }
+
+          if (z > $sector.max.z) {
+            this.future.z(i, $sector.min.z)
+          } else if (z < $sector.min.z) {
+            this.future.z(i, $sector.max.z)
+          }
+        }
 
         // warp out of bounds to other side
-
-        if (x > max) {
-          this.future.x(i, mx)
-        } else if (x < mx) {
-          this.future.x(i, max)
-        }
-
-        if (y > may) {
-          this.future.y(i, my)
-        } else if (y < my) {
-          this.future.y(i, may)
-        }
-
-        if (z > maz) {
-          this.future.z(i, mz)
-        } else if (z < mz) {
-          this.future.z(i, maz)
-        }
       }
     }
   }
 }
 
 new Physics()
-
-// periodacally update a voxels' sector

@@ -1,4 +1,4 @@
-import { Value } from 'src/util/value'
+import { Value } from 'src/value/value'
 import { Uniform, Vector3 } from 'three'
 import { IJointGroup } from '../xr/joints'
 

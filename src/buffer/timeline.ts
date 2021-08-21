@@ -270,7 +270,7 @@ export class Timeline extends AtomicInt {
       : Atomics.store(this, i * Timeline.COUNT + 1, e)
   }
 
-  // generally used for refering to something
+  // used for refering to something
   who(i: number, who?: number) {
     return who === undefined
       ? Atomics.load(this, i * Timeline.COUNT + 2)

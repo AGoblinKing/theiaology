@@ -1,4 +1,4 @@
-import { Value } from 'src/util/value'
+import { Value } from 'src/value/value'
 import { Uniform } from 'three'
 
 export const tick = new Value(0)
@@ -15,5 +15,5 @@ export function Loop($t) {
 export const timeUniform = new Uniform(0.0)
 
 timestamp.on(($t) => {
-  timeUniform.value = performance.now()
+  timeUniform.value = Math.floor(performance.now())
 })
