@@ -110,6 +110,7 @@ class Cardinal extends System {
                 break
               case EMessage.TIMELINE_UPDATE:
                 this.timelineUpdated()
+
                 break
             }
             return
@@ -396,9 +397,9 @@ class Cardinal extends System {
     // clear it
     this.defines = []
 
-    // Reset bounds
-    this.universal.reset()
-    this.post(EMessage.CAGE_UPDATE)
+    // TODO: Reset bounds
+    // this.universal.reset()
+    // this.post(EMessage.CAGE_UPDATE)
     // could have just passed the object instead of buffer nonsense, but useful for saves
 
     const toRez = []
@@ -454,6 +455,7 @@ class Cardinal extends System {
           }
 
           this.post(EMessage.CAGE_UPDATE)
+
           break
         // rez time
         case ETimeline.REZ:
@@ -467,6 +469,8 @@ class Cardinal extends System {
         this.entity(this.timeline.who(rez), c)
       }
     }
+
+    this.post(EMessage.TIMELINE_UPDATE)
   }
 
   freeAll() {

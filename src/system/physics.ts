@@ -108,7 +108,6 @@ class Physics extends System {
       this.universal.maxY(),
       this.universal.maxZ()
     )
-    console.log($sector, 'reset')
   }
 
   collide(id1: number, id2: number) {

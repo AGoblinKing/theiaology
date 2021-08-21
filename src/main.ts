@@ -47,8 +47,6 @@ timeline.on(($t) => {
   cardinal.send(EMessage.TIMELINE_UPDATE)
   cardinal._queue = []
 
-  physics.send(EMessage.TIMELINE_UPDATE)
-
   // Rez the player hands
   RezHands(cardinal)
 })

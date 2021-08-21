@@ -22,12 +22,11 @@ export class SystemWorker extends Worker {
   }
 
   send(...buffers: IMessage[]) {
-    setTimeout(() => {
-      for (let b of buffers) {
-        // @ts-ignore - send the SharedArrayBuffer for our atomic types
-        this.postMessage(b.sab !== undefined ? b.sab : b)
-      }
-    }, this._delay)
+    for (let b of buffers) {
+      // @ts-ignore - send the SharedArrayBuffer for our atomic types
+      this.postMessage(b.sab !== undefined ? b.sab : b)
+    }
+
     return this
   }
 
