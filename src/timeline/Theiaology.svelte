@@ -18,6 +18,7 @@
   import { url } from 'src/input/browser'
   import { EVar } from './def-timeline'
   import { mouse_page } from 'src/input/mouse'
+  import { dotTheia } from 'src/config'
 
   async function loadFile(event) {
     const reader = new FileReader()
@@ -27,6 +28,19 @@
     try {
       reader.readAsArrayBuffer(event.target.files[0])
     } catch (ex) {}
+  }
+
+  function Browse() {
+    modal_location.set(
+      modal_location.$.set($mouse_page.x - 5, $mouse_page.y - 5)
+    )
+
+    modal_options.set(dotTheia)
+
+    modal_visible.set((res) => {
+      window.open(res)
+      modal_visible.set(false)
+    })
   }
 </script>
 
@@ -57,13 +71,7 @@
       modal_default.set($url + window.location.hash)
       modal_options.set(EVar.STRING)
       modal_visible.set((r) => {
-        // @ts-ignore
-        window.location = r
-
-        // incase the hash changed too
-        setTimeout(() => {
-          window.location.reload()
-        }, 100)
+        window.open(r)
       })
     }}
   >
@@ -83,8 +91,14 @@
   >
   <Box
     hover="Download .theia file.  Drag + Drop or load!"
-    nav={{ tag: 'save', right: 'theiaology', left: 'load', down: 'root' }}
+    nav={{ tag: 'save', right: '.theian', left: 'load', down: 'root' }}
     click={Save}>SAVE</Box
+  >
+  <Box
+    tilt={290}
+    hover="Browse a collection of .theia files"
+    nav={{ tag: '.theia', right: 'theiaology', left: 'load', down: 'root' }}
+    click={Browse}>.THEIA</Box
   >
 </div>
 <Modal />

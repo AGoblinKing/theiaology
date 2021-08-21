@@ -1,6 +1,7 @@
 import { get } from 'idb-keyval'
 import { timeline } from 'src/buffer'
 import { voxes } from 'src/buffer/vox'
+import { rootTheia } from 'src/config'
 import { url } from 'src/input/browser'
 import { MagickaVoxel } from 'src/render/magica'
 import { audio, audio_buffer, audio_name } from 'src/sound/audio'
@@ -80,7 +81,7 @@ export async function ReadURL(url: string) {
 // try reading static file and if it misses load DB
 const u = url.$.join('/')
 
-ReadURL(`/${u || 'root'}.theia`).catch(() => {
+ReadURL(`/theia/${u || rootTheia}.theia`).catch(() => {
   get(window.location.pathname).then((v) => {
     if (v) {
       Load(v)

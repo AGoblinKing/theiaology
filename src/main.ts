@@ -39,6 +39,7 @@ const cardinal = sys
 const physics = sys
   .start('physics')
   .send(past, future, matter, velocity, size, impact, universal)
+  .bind(cardinal)
 
 timeline.on(($t) => {
   if ($t === undefined) return

@@ -20,3 +20,6 @@ export const UNIVERSALS = [
 ]
 
 export const CACHE = 'v1'
+
+export const dotTheia = ['forest', 'tread', 'rain']
+export const rootTheia = 'forest'

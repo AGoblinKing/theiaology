@@ -55,7 +55,7 @@ export class SystemWorker extends Worker {
     return this
   }
 
-  pipe(w: SystemWorker) {
+  bind(w: SystemWorker) {
     w.msg.on((data) => {
       this.postMessage(data)
     })
