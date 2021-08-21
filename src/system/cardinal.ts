@@ -513,7 +513,7 @@ class Cardinal extends System {
     const scale = 18000
     const t = this.timing
 
-    const chunk = (this.tickrate / 1000) * ENTITY_COUNT
+    const chunk = 20
     // lets prove out thhese even render
     for (let ix = last; ix < last + chunk; ix++) {
       // only use left overs
