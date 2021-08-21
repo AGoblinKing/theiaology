@@ -38,7 +38,7 @@
     modal_options.set(dotTheia)
 
     modal_visible.set((res) => {
-      window.open(res)
+      window.open(res, '_self')
       modal_visible.set(false)
     })
   }
@@ -71,7 +71,7 @@
       modal_default.set($url + window.location.hash)
       modal_options.set(EVar.STRING)
       modal_visible.set((r) => {
-        window.open(r)
+        window.open(r, '_self')
       })
     }}
   >

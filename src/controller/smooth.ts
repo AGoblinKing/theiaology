@@ -1,6 +1,5 @@
 // move body smoothly in VR mode
 
-import { mouse_wheel } from 'src/input/mouse'
 import { body, camera, renderer } from 'src/render/render'
 import { delta, tick } from 'src/uniform/time'
 import { Value } from 'src/value/value'
@@ -34,8 +33,4 @@ tick.on(() => {
 
     angular.$ -= angleta
   }
-})
-
-mouse_wheel.on(($wheel) => {
-  velocity.$.y -= $wheel * 0.001
 })

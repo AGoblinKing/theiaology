@@ -17,6 +17,8 @@ export const UNIVERSALS = [
   20 * 1000,
   20 * 1000,
   20 * 1000,
+  0, // time
+  10, // player size
 ]
 
 export const CACHE = 'v1'

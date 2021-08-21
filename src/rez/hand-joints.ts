@@ -1,4 +1,4 @@
-import { animation, future, matter, past, size } from 'src/buffer'
+import { animation, future, matter, past, size, universal } from 'src/buffer'
 import { EAnimation } from 'src/buffer/animation'
 import { NORMALIZER } from 'src/config'
 import { doPose } from 'src/controller/hands'
@@ -34,6 +34,7 @@ const rMeta = /metacarpal$|proximal$/
 timestamp.on(() => {
   // no hands, nothing to do
   if (hands.$.length === 0) return
+  const smod = universal.playerSize() / 10
 
   for (let i = 0; i < hand_joints.length; i++) {
     const ix = i % 25
@@ -69,13 +70,14 @@ timestamp.on(() => {
     }
     animation.store(id, EAnimation.NoEffects)
 
-    const s = rMeta.test(vr_keys[ix]) ? 8 : 6
+    const s = Math.floor(rMeta.test(vr_keys[ix]) ? 8 : 6 * smod)
     size.x(id, s)
     size.y(id, s)
     size.z(id, s)
 
     matter.red(id, NORMALIZER - (Math.random() * NORMALIZER) / 100)
     $vec.multiplyScalar(1000)
+
     future.x(id, Math.floor($vec.x))
     future.y(id, Math.floor($vec.y))
     future.z(id, Math.floor($vec.z))

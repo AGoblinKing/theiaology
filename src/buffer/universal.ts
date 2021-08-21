@@ -2,7 +2,7 @@ import { AtomicInt } from 'src/buffer/atomic'
 import { UNIVERSALS } from 'src/config'
 
 export class Universal extends AtomicInt {
-  static COUNT = 7
+  static COUNT = 8
 
   constructor(shared = new SharedArrayBuffer(4 * Universal.COUNT)) {
     super(shared)
@@ -30,6 +30,12 @@ export class Universal extends AtomicInt {
 
   time(t?: number) {
     return t === undefined ? Atomics.load(this, 6) : Atomics.store(this, 6, t)
+  }
+
+  playerSize(size?: number) {
+    return size === undefined
+      ? Atomics.load(this, 7)
+      : Atomics.store(this, 7, size)
   }
 
   reset() {

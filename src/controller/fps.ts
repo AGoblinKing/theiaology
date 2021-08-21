@@ -1,5 +1,11 @@
+import { universal } from 'src/buffer'
 import { key_down, key_up } from 'src/input/keyboard'
-import { mouse_left, mouse_pos, mouse_right } from 'src/input/mouse'
+import {
+  mouse_left,
+  mouse_pos,
+  mouse_right,
+  mouse_wheel,
+} from 'src/input/mouse'
 import { delta } from 'src/uniform/time'
 import { Value } from 'src/value/value'
 import { MathUtils, Vector2, Vector3 } from 'three'
@@ -8,33 +14,35 @@ import { velocity } from './smooth'
 
 export const move_inputs = new Value(new Vector3(0, 0, 0))
 
-const SLOW_SPEED = 0.075
+const CAPS_SPEED = 1
+const SPEED = 0.075
+
 key_down.on(($k) => {
   switch ($k) {
     case 'A':
-      move_inputs.$.x = -SLOW_SPEED
+      move_inputs.$.x = -CAPS_SPEED
       break
 
     case 'D':
-      move_inputs.$.x = SLOW_SPEED
+      move_inputs.$.x = CAPS_SPEED
       break
     case 'W':
-      move_inputs.$.z = -SLOW_SPEED
+      move_inputs.$.z = -CAPS_SPEED
       break
     case 'S':
-      move_inputs.$.z = SLOW_SPEED
+      move_inputs.$.z = CAPS_SPEED
       break
     case 'a':
-      move_inputs.$.x = -1
+      move_inputs.$.x = -SPEED
       break
     case 'd':
-      move_inputs.$.x = 1
+      move_inputs.$.x = SPEED
       break
     case 'w':
-      move_inputs.$.z = -1
+      move_inputs.$.z = -SPEED
       break
     case 's':
-      move_inputs.$.z = 1
+      move_inputs.$.z = SPEED
       break
   }
 })
@@ -101,3 +109,7 @@ function UpdateCamera($dt: number) {
 
   body.$.lookAt(targetPosition)
 }
+
+mouse_wheel.on(($wheel) => {
+  universal.playerSize(Math.max(1, universal.playerSize() + Math.sign($wheel)))
+})
