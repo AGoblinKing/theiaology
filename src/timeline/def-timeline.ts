@@ -155,6 +155,7 @@ export enum ETimeline {
   USERSIZE,
   IDLE,
   TEXT,
+  CLEARCOLOR,
 }
 
 export const Commands: { [key: number]: any } = {
@@ -224,4 +225,5 @@ export const Commands: { [key: number]: any } = {
   [ETimeline.USERROT]: { x: EVar.NUMBER, y: EVar.NUMBER, z: EVar.NUMBER },
   [ETimeline.USERSIZE]: { size: EVar.POSITIVE },
   [ETimeline.TEXT]: { text: EVar.STRING },
+  [ETimeline.CLEARCOLOR]: { rgb: EVar.COLOR },
 }

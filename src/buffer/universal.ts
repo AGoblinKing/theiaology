@@ -3,7 +3,7 @@ import { UNIVERSALS } from 'src/config'
 import { EIdle } from 'src/timeline/def-timeline'
 
 export class Universal extends AtomicInt {
-  static COUNT = 9
+  static COUNT = 10
 
   constructor(shared = new SharedArrayBuffer(4 * Universal.COUNT)) {
     super(shared)
@@ -43,6 +43,12 @@ export class Universal extends AtomicInt {
     return idle === undefined
       ? Atomics.load(this, 8)
       : Atomics.store(this, 8, idle)
+  }
+
+  clearColor(color?: number) {
+    return color === undefined
+      ? Atomics.load(this, 9)
+      : Atomics.store(this, 9, color)
   }
 
   reset() {

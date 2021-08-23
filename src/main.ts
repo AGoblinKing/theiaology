@@ -14,6 +14,7 @@ import {
 } from './buffer'
 import { voxes } from './buffer/vox'
 import './controller/player'
+import { renderer } from './render/render'
 import { RezHands } from './rez/hand-joints'
 import './shader/atoms'
 import './sound/audio'
@@ -35,6 +36,13 @@ const cardinal = sys
     timeline.$,
     universal
   )
+  .on((e) => {
+    switch (e) {
+      case EMessage.CLEAR_COLOR_UPDATE:
+        renderer.setClearColor(universal.clearColor())
+        break
+    }
+  })
 
 const physics = sys
   .start('physics')

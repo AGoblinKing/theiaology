@@ -396,10 +396,9 @@ class Cardinal extends System {
     // clear it
     this.defines = []
 
-    // TODO: Reset bounds
-    // this.universal.reset()
-    // this.post(EMessage.CAGE_UPDATE)
-    // could have just passed the object instead of buffer nonsense, but useful for saves
+    this.universal.reset()
+    this.post(EMessage.CAGE_UPDATE)
+    this.post(EMessage.CLEAR_COLOR_UPDATE)
 
     const toRez = []
     // run through timeline and execute rezes
@@ -413,6 +412,10 @@ class Cardinal extends System {
       this.defines[who].push(i)
 
       switch (this.timeline.command(i)) {
+        case ETimeline.CLEARCOLOR:
+          this.universal.clearColor(this.timeline.data0(i))
+          this.post(EMessage.CLEAR_COLOR_UPDATE)
+          break
         case ETimeline.IDLE:
           this.universal.idle(this.timeline.data0(i))
           break

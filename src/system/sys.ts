@@ -60,6 +60,12 @@ export class SystemWorker extends Worker {
     })
     return this
   }
+
+  on(e: (data: any) => void) {
+    this.msg.on(e)
+
+    return this
+  }
 }
 
 // How to spin up and communicate with systems
