@@ -20,7 +20,7 @@ export function RezHands(cardinal: SystemWorker) {
   // vr_keys is an enum and therefore 2x the length, which is what we want
   // for two hands anyhow
   for (let i = 0; i < Object.keys(vr_keys).length; i++) {
-    cardinal.send(EMessage.REQUEST_ID)
+    cardinal.send(EMessage.REZ)
     cardinal.waitForEntity((id) => {
       hand_joints.push(id)
     })

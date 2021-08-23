@@ -28,7 +28,7 @@
   }
   key_down.on((k) => {
     if (!timeline_shown.$) return
-      // vimish contro
+    // vimish contro
     switch (k) {
       case 'e':
       case 'Enter':
@@ -151,7 +151,7 @@
 
 <style>
   .span {
-    grid-column: span 3;
+    grid-column: span 4;
   }
   .upper {
     text-transform: uppercase;

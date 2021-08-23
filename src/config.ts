@@ -21,6 +21,9 @@ export const UNIVERSALS = [
   10, // player size
   0, // idle
   0x0055ff, //clear color
+  0, // user startx
+  0, // user starty
+  0, // user startz
 ]
 
 export const CACHE = 'v1'

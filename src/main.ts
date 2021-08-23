@@ -14,7 +14,7 @@ import {
 } from './buffer'
 import { voxes } from './buffer/vox'
 import './controller/player'
-import { renderer } from './render/render'
+import { body, renderer } from './render/render'
 import { RezHands } from './rez/hand-joints'
 import './shader/atoms'
 import './sound/audio'
@@ -38,6 +38,13 @@ const cardinal = sys
   )
   .on((e) => {
     switch (e) {
+      case EMessage.USER_POS_UPDATE:
+        body.$.position.set(
+          universal.userX(),
+          universal.userY(),
+          universal.userZ()
+        )
+        break
       case EMessage.CLEAR_COLOR_UPDATE:
         renderer.setClearColor(universal.clearColor())
         break
@@ -64,7 +71,7 @@ voxes.on(($voxes) => {
 })
 
 // @ts-ignore
-window.b = {
+window.theia = {
   past,
   future,
   matter,
@@ -75,8 +82,9 @@ window.b = {
   status,
   timeline,
   universal,
-  // voxes goes last as a normal message
   voxes,
+  cardinal,
+  physics,
 }
 
 // startup editor

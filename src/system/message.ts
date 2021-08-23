@@ -2,9 +2,10 @@
 // Negatives for messages
 
 export enum EMessage {
-  REQUEST_ID = -1,
+  REZ = -1,
   FREE_ALL = -404,
   TIMELINE_UPDATE = -2000,
   CAGE_UPDATE = -2001,
   CLEAR_COLOR_UPDATE = -2002,
+  USER_POS_UPDATE = -2003,
 }

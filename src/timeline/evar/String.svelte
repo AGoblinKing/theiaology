@@ -50,6 +50,6 @@
     width: 18.5rem;
     padding: 1rem;
 
-    grid-column: span 3;
+    grid-column: span 4;
   }
 </style>

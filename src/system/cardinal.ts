@@ -99,7 +99,7 @@ class Cardinal extends System {
             return
           case 'number':
             switch (e.data) {
-              case EMessage.REQUEST_ID:
+              case EMessage.REZ:
                 this.post(this.reserve())
                 break
 
@@ -412,6 +412,12 @@ class Cardinal extends System {
       this.defines[who].push(i)
 
       switch (this.timeline.command(i)) {
+        case ETimeline.USERPOS:
+          this.universal.userX(this.timeline.data0(i))
+          this.universal.userY(this.timeline.data1(i))
+          this.universal.userZ(this.timeline.data2(i))
+          this.post(EMessage.USER_POS_UPDATE)
+          break
         case ETimeline.CLEARCOLOR:
           this.universal.clearColor(this.timeline.data0(i))
           this.post(EMessage.CLEAR_COLOR_UPDATE)
@@ -516,7 +522,14 @@ class Cardinal extends System {
           this.randomize()
           break
       }
+
+      this.timingCheck()
     }
+  }
+
+  timingCheck() {
+    // check to see if we need to execute timeline based on the
+    // mp3 timeline
   }
 
   randomize() {

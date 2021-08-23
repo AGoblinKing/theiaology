@@ -222,7 +222,7 @@ export const Commands: { [key: number]: any } = {
 
   [ETimeline.IDLE]: { idle: EIdle },
   [ETimeline.USERPOS]: { x: EVar.NUMBER, y: EVar.NUMBER, z: EVar.NUMBER },
-  [ETimeline.USERROT]: { x: EVar.NUMBER, y: EVar.NUMBER, z: EVar.NUMBER },
+  // [ETimeline.USERROT]: { x: EVar.NUMBER, y: EVar.NUMBER, z: EVar.NUMBER },
   [ETimeline.USERSIZE]: { size: EVar.POSITIVE },
   [ETimeline.TEXT]: { text: EVar.STRING },
   [ETimeline.CLEARCOLOR]: { rgb: EVar.COLOR },

@@ -3,7 +3,7 @@ import { UNIVERSALS } from 'src/config'
 import { EIdle } from 'src/timeline/def-timeline'
 
 export class Universal extends AtomicInt {
-  static COUNT = 10
+  static COUNT = 13
 
   constructor(shared = new SharedArrayBuffer(4 * Universal.COUNT)) {
     super(shared)
@@ -49,6 +49,16 @@ export class Universal extends AtomicInt {
     return color === undefined
       ? Atomics.load(this, 9)
       : Atomics.store(this, 9, color)
+  }
+
+  userX(x?: number) {
+    return x === undefined ? Atomics.load(this, 10) : Atomics.store(this, 10, x)
+  }
+  userY(y?: number) {
+    return y === undefined ? Atomics.load(this, 11) : Atomics.store(this, 11, y)
+  }
+  userZ(z?: number) {
+    return z === undefined ? Atomics.load(this, 12) : Atomics.store(this, 12, z)
   }
 
   reset() {
