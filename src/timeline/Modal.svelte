@@ -11,6 +11,7 @@
   import { key_down } from 'src/input/keyboard'
   import { EVar } from './def-timeline'
   import Box from 'src/timeline/Box.svelte'
+  import { hashcode } from './color'
 
   // modal is a singleton so Aok, but weird
   mouse_left.on(() => {
@@ -42,7 +43,7 @@
       </Box>
     {:else if Array.isArray($modal_options)}
       {#each $modal_options as content}
-        <Box>
+        <Box tilt={hashcode(content) % 360}>
           <div
             class="item"
             on:click={() => {
@@ -77,7 +78,7 @@
 
   .modal {
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
     pointer-events: all;
     position: absolute;
     z-index: 10001;
