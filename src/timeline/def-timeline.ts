@@ -108,6 +108,11 @@ export enum EVar {
   TIME,
 }
 
+export enum EIdle {
+  Randomize,
+  None,
+}
+
 // ETimeline events are reversable transactions that allow for time travel
 // WARNING: Safe to add new events to end but not remove/reorder existing ones
 export enum ETimeline {
@@ -145,6 +150,11 @@ export enum ETimeline {
   ROTVAR,
   IMPACT,
   VOXVAR,
+  USERPOS,
+  USERROT,
+  USERSIZE,
+  IDLE,
+  TEXT,
 }
 
 export const Commands: { [key: number]: any } = {
@@ -208,4 +218,10 @@ export const Commands: { [key: number]: any } = {
   [ETimeline.VOX]: { 'Vox Model': EVar.VOX },
   [ETimeline.IMPACT]: { reaction: EImpactReaction },
   [ETimeline.CAGE]: { axis: EAxis, min: EVar.NUMBER, max: EVar.NUMBER },
+
+  [ETimeline.IDLE]: { idle: EIdle },
+  [ETimeline.USERPOS]: { x: EVar.NUMBER, y: EVar.NUMBER, z: EVar.NUMBER },
+  [ETimeline.USERROT]: { x: EVar.NUMBER, y: EVar.NUMBER, z: EVar.NUMBER },
+  [ETimeline.USERSIZE]: { size: EVar.POSITIVE },
+  [ETimeline.TEXT]: { text: EVar.STRING },
 }

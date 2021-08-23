@@ -34,7 +34,7 @@ const rMeta = /metacarpal$|proximal$/
 timestamp.on(() => {
   // no hands, nothing to do
   if (hands.$.length === 0) return
-  const smod = universal.playerSize() / 10
+  const smod = universal.userSize() / 10
 
   for (let i = 0; i < hand_joints.length; i++) {
     const ix = i % 25

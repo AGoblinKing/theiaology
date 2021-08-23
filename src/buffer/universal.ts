@@ -1,8 +1,9 @@
 import { AtomicInt } from 'src/buffer/atomic'
 import { UNIVERSALS } from 'src/config'
+import { EIdle } from 'src/timeline/def-timeline'
 
 export class Universal extends AtomicInt {
-  static COUNT = 8
+  static COUNT = 9
 
   constructor(shared = new SharedArrayBuffer(4 * Universal.COUNT)) {
     super(shared)
@@ -32,10 +33,16 @@ export class Universal extends AtomicInt {
     return t === undefined ? Atomics.load(this, 6) : Atomics.store(this, 6, t)
   }
 
-  playerSize(size?: number) {
+  userSize(size?: number) {
     return size === undefined
       ? Atomics.load(this, 7)
       : Atomics.store(this, 7, size)
+  }
+
+  idle(idle?: EIdle) {
+    return idle === undefined
+      ? Atomics.load(this, 8)
+      : Atomics.store(this, 8, idle)
   }
 
   reset() {

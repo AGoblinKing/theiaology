@@ -10,7 +10,7 @@ import { Velocity } from 'src/buffer/velocity'
 import { voxes } from 'src/buffer/vox'
 import { ENTITY_COUNT, NORMALIZER } from 'src/config'
 import { ShapeMap } from 'src/shape'
-import { EAxis, ETimeline, Rez } from 'src/timeline/def-timeline'
+import { EAxis, EIdle, ETimeline, Rez } from 'src/timeline/def-timeline'
 import { Color, Euler, Object3D, Vector3 } from 'three'
 import { EMessage } from './message'
 import { System } from './system'
@@ -413,6 +413,9 @@ class Cardinal extends System {
       this.defines[who].push(i)
 
       switch (this.timeline.command(i)) {
+        case ETimeline.IDLE:
+          this.universal.idle(this.timeline.data0(i))
+          break
         case ETimeline.CAGE:
           const min = this.timeline.data1(i)
           const max = this.timeline.data2(i)
@@ -504,14 +507,21 @@ class Cardinal extends System {
   }
 
   tick() {
-    if (this.ready) this.randomize()
+    if (this.ready) {
+      switch (this.universal.idle()) {
+        case EIdle.Randomize:
+          this.randomize()
+          break
+      }
+    }
   }
 
   randomize() {
+    // TODO: Use cage bounds
     const scale = 18000
     const t = this.universal.time()
 
-    const chunk = 20
+    const chunk = 30
     // lets prove out thhese even render
     for (let ix = last; ix < last + chunk; ix++) {
       // only use left overs
@@ -522,7 +532,7 @@ class Cardinal extends System {
       this.past.time(i, t)
 
       this.future.x(i, Math.floor(Math.random() * scale - scale / 2))
-      this.future.y(i, Math.floor((Math.random() * scale) / 2))
+      this.future.y(i, Math.floor(Math.random() * scale - scale / 2))
       this.future.z(i, Math.floor(Math.random() * scale - scale / 2))
       this.future.time(i, t + 30000 + 100)
 

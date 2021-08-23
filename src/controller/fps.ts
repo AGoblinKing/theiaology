@@ -111,5 +111,5 @@ function UpdateCamera($dt: number) {
 }
 
 mouse_wheel.on(($wheel) => {
-  universal.playerSize(Math.max(1, universal.playerSize() + Math.sign($wheel)))
+  universal.userSize(Math.max(1, universal.userSize() + Math.sign($wheel)))
 })
