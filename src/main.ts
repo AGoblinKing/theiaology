@@ -18,6 +18,7 @@ import { body, renderer } from './render/render'
 import { RezHands } from './rez/hand-joints'
 import './shader/atoms'
 import './sound/audio'
+import { audio } from './sound/audio'
 import { EMessage } from './system/message'
 import { sys } from './system/sys'
 
@@ -58,7 +59,7 @@ const physics = sys
 
 timeline.on(($t) => {
   if ($t === undefined) return
-
+  audio.currentTime = 0
   cardinal.send(EMessage.TIMELINE_UPDATE)
   cardinal._queue = []
 

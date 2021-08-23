@@ -1,3 +1,4 @@
+import { universal } from 'src/buffer'
 import { Uniform } from 'three'
 import { tick } from '../uniform/time'
 import { Value } from '../value/value'
@@ -44,9 +45,14 @@ audio.onplay = function () {
 
     lowerAvg.set(sum(lowerHalfArray) / lowerHalfArray.length)
     upperAvg.set(sum(upperHalfArray) / upperHalfArray.length)
+
+    if (seconds.$ !== audio.currentTime) {
+      seconds.set(audio.currentTime)
+    }
   })
 }
 
+export const seconds = new Value(0)
 export const upperUniform = new Uniform(0)
 export const lowerUniform = new Uniform(0)
 
@@ -55,3 +61,8 @@ upperAvg.on(($ua) => (upperUniform.value = $ua))
 
 export const lowerAvg = new Value(0)
 lowerAvg.on(($la) => (lowerUniform.value = $la))
+
+// update universal
+seconds.on(($s) => {
+  universal.musicTime($s)
+})

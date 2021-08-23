@@ -27,7 +27,7 @@ const $vec3_o = new Vector3()
 // Deal out entity IDs, execute timeline events
 class Cardinal extends System {
   _available: number[] = [...new Array(ENTITY_COUNT)].map((_, i) => i)
-  ticks = 0
+
   // entity components
   past: SpaceTime
   future: SpaceTime
@@ -45,8 +45,11 @@ class Cardinal extends System {
 
   ready = false
 
+  lastTime = 0
+
   constructor() {
-    super(20)
+    // Music Timing works off seconds
+    super(500)
   }
 
   // receives buffers then IDs to free
@@ -391,18 +394,14 @@ class Cardinal extends System {
     this.impact.reaction(id, $rez.impact)
   }
 
-  timelineUpdated() {
-    this.freeAll()
-    // clear it
-    this.defines = []
-
-    this.universal.reset()
-    this.post(EMessage.CAGE_UPDATE)
-    this.post(EMessage.CLEAR_COLOR_UPDATE)
-
+  process() {
     const toRez = []
+    const timing = this.universal.musicTime()
+    this.lastTime = timing
     // run through timeline and execute rezes
     for (let i = 0; i < this.timeline.length / Timeline.COUNT; i++) {
+      if (this.timeline.when(i) !== timing) continue
+
       const who = this.timeline.who(i)
 
       if (!this.defines[who]) {
@@ -480,6 +479,18 @@ class Cardinal extends System {
         this.entity(this.timeline.who(rez), c)
       }
     }
+  }
+
+  timelineUpdated() {
+    this.freeAll()
+    // clear it
+    this.defines = []
+
+    this.universal.reset()
+    this.post(EMessage.CAGE_UPDATE)
+    this.post(EMessage.CLEAR_COLOR_UPDATE)
+
+    this.process()
 
     this.post(EMessage.TIMELINE_UPDATE)
   }
@@ -517,19 +528,16 @@ class Cardinal extends System {
 
   tick() {
     if (this.ready) {
+      if (this.universal.musicTime() !== this.lastTime) {
+        this.process()
+      }
+
       switch (this.universal.idle()) {
         case EIdle.Randomize:
           this.randomize()
           break
       }
-
-      this.timingCheck()
     }
-  }
-
-  timingCheck() {
-    // check to see if we need to execute timeline based on the
-    // mp3 timeline
   }
 
   randomize() {
@@ -537,7 +545,7 @@ class Cardinal extends System {
     const scale = 18000
     const t = this.universal.time()
 
-    const chunk = 30
+    const chunk = 1000
     // lets prove out thhese even render
     for (let ix = last; ix < last + chunk; ix++) {
       // only use left overs

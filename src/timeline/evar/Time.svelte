@@ -27,6 +27,6 @@
 
 <style>
   .time {
-    grid-column: span 2;
+    grid-column: span 3;
   }
 </style>
