@@ -1,6 +1,6 @@
 @font-face {
-  font-family: 'pixel';
-  src: url('/font/MajorMonoDisplay-Regular.ttf') format('truetype');
+  font-family: "pixel";
+  src: url("/font/MajorMonoDisplay-Regular.ttf") format("truetype");
 }
 
 html,
@@ -57,10 +57,10 @@ audio::-webkit-media-controls-time-remaining-display {
   font-size: 0.75rem;
 }
 
-input[type='file']::-webkit-file-upload-button {
+input[type="file"]::-webkit-file-upload-button {
   display: none;
 }
-input[type='file' i] {
+input[type="file" i] {
   display: none;
   padding: 0;
 }
@@ -111,6 +111,6 @@ input {
   font-family: pixel;
 }
 
-input[type='color'] {
+input[type="color"] {
   padding: 0;
 }
