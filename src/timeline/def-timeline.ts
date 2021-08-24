@@ -37,6 +37,13 @@ export class Rez {
 
   doLook = false
 
+  // do not reset to let rezes linger
+  rezes = []
+
+  constructor() {
+    this.reset()
+  }
+
   reset() {
     this.phase = EPhase.VOID
     this.impact = EImpactReaction.None
@@ -56,7 +63,7 @@ export class Rez {
     this.look.set(0, 0, 0)
 
     this.posvar.set(0, 0, 0)
-    this.flock = { shape: EShape.Box, size: 1, step: 0 }
+    this.flock = { shape: EShape.Plane, size: 1, step: 0 }
     this.doLook = false
   }
 }

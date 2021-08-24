@@ -15,7 +15,6 @@ import { Color, Euler, Object3D, Vector3 } from 'three'
 import { EMessage } from './message'
 import { System } from './system'
 
-const $rez = new Rez()
 const $hsl = { h: 0, s: 0, l: 0 }
 const $col = new Color()
 const $col2 = new Color()
@@ -42,7 +41,10 @@ class Cardinal extends System {
   universal: Universal
   // world components
   defines: { [key: number]: number[] } = []
+  rezes: { [def: number]: Rez } = {}
 
+  // do a command at timing
+  timing: { [time: number]: number[] } = {}
   ready = false
 
   lastTime = 0
@@ -120,7 +122,7 @@ class Cardinal extends System {
   }
 
   // Entity ID number to init
-  entity(def: number, offset: number) {
+  entity(def: number) {
     // navigate up the tree to root
     // build for loops to apply
     const define = this.defines[def]
@@ -128,16 +130,16 @@ class Cardinal extends System {
       throw new Error('invalid define number for flat timelinemap')
     }
 
-    // fill out the Rez then execute it
-    // not cached because timeline has a time dependency
-    // so could be differnet every second
-    // also allows editor to not request a rebuild
-    // if the structure doesn't change
+    this.rezes[def] = this.rezes[def] || new Rez()
 
-    $rez.reset()
+    const $rez = this.rezes[def]
 
-    // TODO: check time when applying
+    const timing = this.universal.musicTime()
+
     for (let child of define) {
+      // Check the timing to only apply the right stuff
+      if (this.timeline.when(child) > timing) continue
+
       switch (this.timeline.command(child)) {
         case ETimeline.SIZEVAR:
           $rez.sizevar.set(
@@ -306,7 +308,7 @@ class Cardinal extends System {
         const rtz = Math.random() * $rez.velvar.z
         for (let i = 0; i < voxDef.xyzi.length / 4; i++) {
           const id = this.reserve()
-
+          $rez.rezes.push(id)
           const ix = i * 4
 
           $vec3
@@ -354,12 +356,13 @@ class Cardinal extends System {
           this.velocity.x(id, $rez.vel.x + rtx)
           this.velocity.y(id, $rez.vel.y + rty)
           this.velocity.z(id, $rez.vel.z + rtz)
-          this.basics(id, $col2)
+          this.basics(id, $col2, $rez)
         }
         continue
       }
 
       const id = this.reserve()
+      $rez.rezes.push(id)
 
       this.future.time(id, t + 1000 * Math.random() + 500)
       this.future.x(id, x)
@@ -381,11 +384,11 @@ class Cardinal extends System {
         id,
         $rez.vel.z + Math.floor(Math.random() * $rez.velvar.z)
       )
-      this.basics(id, $col)
+      this.basics(id, $col, $rez)
     }
   }
 
-  basics(id: number, color: Color) {
+  basics(id: number, color: Color, $rez: Rez) {
     this.matter.red(id, Math.floor(color.r * NORMALIZER))
     this.matter.green(id, Math.floor(color.g * NORMALIZER))
     this.matter.blue(id, Math.floor(color.b * NORMALIZER))
@@ -400,8 +403,12 @@ class Cardinal extends System {
     this.lastTime = timing
     // run through timeline and execute rezes
     for (let i = 0; i < this.timeline.length / Timeline.COUNT; i++) {
-      if (this.timeline.when(i) !== timing) continue
-
+      const t = this.timeline.when(i)
+      if (t > timing) {
+        this.timing[t] = this.timing[t] || []
+        this.timing[t].push(t)
+        continue
+      }
       const who = this.timeline.who(i)
 
       if (!this.defines[who]) {
@@ -476,7 +483,7 @@ class Cardinal extends System {
 
     for (let rez of toRez) {
       for (let c = 0; c < this.timeline.data0(rez); c++) {
-        this.entity(this.timeline.who(rez), c)
+        this.entity(this.timeline.who(rez))
       }
     }
   }
@@ -485,6 +492,7 @@ class Cardinal extends System {
     this.freeAll()
     // clear it
     this.defines = []
+    this.timing = {}
 
     this.universal.reset()
     this.post(EMessage.CAGE_UPDATE)
@@ -518,6 +526,16 @@ class Cardinal extends System {
     this._available.push(i)
   }
 
+  // execute a command from the timeline
+  execute(i: number) {
+    switch (this.timeline.command(i)) {
+      case ETimeline.REZ:
+      case ETimeline.THRUST:
+        // run through rezes and update their thrust
+        console.log('hit')
+    }
+  }
+
   reserve() {
     const i = this._available.pop()
     this.free(i)
@@ -528,8 +546,14 @@ class Cardinal extends System {
 
   tick() {
     if (this.ready) {
-      if (this.universal.musicTime() !== this.lastTime) {
-        this.process()
+      const t = this.universal.musicTime()
+      if (t !== this.lastTime) {
+        this.lastTime = t
+        if (this.timing[t]) {
+          for (let comm of this.timing[t]) {
+            this.execute(comm)
+          }
+        }
       }
 
       switch (this.universal.idle()) {

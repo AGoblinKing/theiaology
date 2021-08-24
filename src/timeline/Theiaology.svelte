@@ -42,6 +42,8 @@
       modal_visible.set(false)
     })
   }
+
+  const down = 'music-name|vox-name|root-name'
 </script>
 
 <a
@@ -57,15 +59,20 @@
     nav={{
       tag: 'theiaology',
 
-      right: 'load',
-      left: 'save',
-      down: 'root',
+      right: 'workspace',
+      down: 'music|vox|root',
     }}>> THEIAOLOGY</Box
   >
 
   <Box
     tilt={220}
     hover="The workspace, click to change"
+    nav={{
+      tag: 'workspace',
+      right: 'load',
+      left: 'theiaology',
+      down,
+    }}
     click={() => {
       modal_location.$.set(mouse_page.$.x - 5, mouse_page.$.y - 5)
       modal_default.set($url + window.location.hash)
@@ -79,7 +86,7 @@
   </Box>
   <Box
     hover="Load files into theia "
-    nav={{ tag: 'load', left: 'theiaology', right: 'save', down: 'root' }}
+    nav={{ tag: 'load', left: 'workspace', right: 'save', down }}
     ><input
       id="load"
       type="file"
@@ -91,13 +98,13 @@
   >
   <Box
     hover="Download .theia file.  Drag + Drop or load!"
-    nav={{ tag: 'save', right: '.theian', left: 'load', down: 'root' }}
+    nav={{ tag: 'save', right: '.theia', left: 'load', down }}
     click={Save}>SAVE</Box
   >
   <Box
     tilt={290}
-    hover="Browse a collection of .theia files"
-    nav={{ tag: '.theia', right: 'theiaology', left: 'load', down: 'root' }}
+    hover="Browse .theia files"
+    nav={{ tag: '.theia', left: 'save', down }}
     click={Browse}>.THEIA</Box
   >
 </div>

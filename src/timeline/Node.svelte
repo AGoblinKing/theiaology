@@ -194,19 +194,21 @@
     return str.join('|')
   }
   // show line number and data
+  const up = 'voxlast|music|theiaology'
 </script>
 
 <div class="node" class:root={i === 0 || item.$[2] === 0}>
   <div class="items">
     <Box
-      hover="Remove"
+      hover={i === 0 ? 'BOOT ROOT' : 'REMOVE'}
       click={() => remove(i)}
       nav={{
-        tag: nremove,
-        left: `${nadd}|${NavData(3, 0, true)}|${ncomm}`,
+        tag: `${nremove}`,
         right: `${ncomm}`,
-        up: `${i + 1}-remove|${i + 1}-command|theiaology`,
-        down: `${i - 1}-remove|${i - 1}-command|theiaology`,
+        up: `${i - 1}-remove|${
+          i - 1
+        }-command|vox-del-last|music-del|theiaology`,
+        down: `${i + 1}-remove|${i + 1}-command`,
       }}
     >
       {i === 0 ? '>' : 'x'}
@@ -219,10 +221,10 @@
         : 'Command'}
       tilt={hashcode(label) % 360}
       nav={{
-        tag: `${i}-command`,
+        tag: `${i}-command|${i === 0 ? 'root' : ''}|last`,
         left: `${nremove}|${nadd}|${NavData(3, 0, true)}`,
-        right: `${i}-data-0|${nadd}|${nremove}`,
-        up: `${i - 1}-command|theiaology`,
+        right: `${i}-data-0|${i}-time|${nadd}|${nremove}`,
+        up: `${i - 1}-command|${up}`,
       }}
     >
       {label}
@@ -236,13 +238,14 @@
             hover={key}
             click={inputString}
             nav={{
-              tag: `${ndata}-${index}`,
+              tag: `${ndata}-${index}|${i === 0 ? 'root-name' : ''}`,
               left: ncomm,
               // todo check these
               right: `${ndata}-${index - 1}|${nadd}`,
-              up: `${i}-command|${i}-data-${index - 1}`,
+              up: `${i}-command|${i}-data-${index - 1}|${up}`,
               down: `${i}-command|${i}-data-${index + 1}`,
             }}
+            
           >
             "{$timeline.text(i)}"
           </Box>
@@ -320,7 +323,7 @@
 
           left: `${NavData(3, 0, true)}|${ncomm}`,
           right: `${nremove}|${ncomm}`,
-          up: `${i + 1}-add`,
+          up: `${i + 1}-add|${up}`,
           down: ``,
         }}>+</Box
       >

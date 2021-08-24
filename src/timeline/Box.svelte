@@ -1,5 +1,5 @@
 <script lang="ts" context="module">
-  import { key_down } from 'src/input/keyboard'
+  import { key_down, key_map } from 'src/input/keyboard'
   import { Value } from 'src/value/value'
   interface INav {
     left?: string
@@ -9,10 +9,8 @@
     tag: string
   }
   const cursor = new Value<INav>({
-    left: 'save',
-    right: 'load',
-    up: 'root',
-    down: 'tags',
+    right: 'workspace',
+    down: 'music|vox|root',
     tag: 'theiaology',
   })
   const navs = {}
@@ -26,9 +24,11 @@
       return
     }
   }
+   // @ts-ignore
+  window.navs = navs
   key_down.on((k) => {
     if (!timeline_shown.$) return
-    // vimish contro
+     // v
     switch (k) {
       case 'e':
       case 'Enter':
@@ -50,10 +50,12 @@
       case 'l':
         AttemptNav('left')
         break
-      case 'Tab':
       case 'ArrowRight':
       case ';':
         AttemptNav('right')
+        break
+      case 'Tab':
+        AttemptNav(key_map.$['Shift'] ? 'left' : 'right')
         break
     }
   })
@@ -90,7 +92,14 @@
 
   export let click = () => {}
 
-  if (nav.tag) navs[nav.tag] = nav
+  let tags = []
+  if (nav.tag) {
+    tags = nav.tag.split('|')
+  }
+
+  tags.forEach((tag) => {
+    navs[tag] = nav
+  })
 
   let box: HTMLElement
 
@@ -104,7 +113,9 @@
       cursor.set(navs['theiaology'])
     }
 
-    delete navs[nav.tag]
+    tags.forEach((tag) => {
+      delete navs[tag]
+    })
   })
 
   $: {
@@ -132,6 +143,7 @@
   class:span
   class:flex
   class:upper
+  class:selected
   class:bold
   bind:this={box}
   on:click={doClick}
@@ -182,5 +194,21 @@
   }
   .box:hover {
     filter: sepia(0.5) hue-rotate(-90deg) !important;
+  }
+
+  .selected {
+    animation: bleep 1s ease-in-out infinite alternate;
+  }
+
+  @keyframes bleep {
+    0% {
+      opacity: 0.55;
+    }
+    50% {
+      opacity: 1;
+    }
+    100% {
+      opacity: 0.55;
+    }
   }
 </style>

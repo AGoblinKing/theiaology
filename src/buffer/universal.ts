@@ -54,9 +54,11 @@ export class Universal extends AtomicInt {
   userX(x?: number) {
     return x === undefined ? Atomics.load(this, 10) : Atomics.store(this, 10, x)
   }
+
   userY(y?: number) {
     return y === undefined ? Atomics.load(this, 11) : Atomics.store(this, 11, y)
   }
+
   userZ(z?: number) {
     return z === undefined ? Atomics.load(this, 12) : Atomics.store(this, 12, z)
   }

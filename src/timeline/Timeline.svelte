@@ -16,6 +16,12 @@
         <Box
           tilt={180}
           hover="Remove Music"
+          nav={{
+            tag: 'music-del',
+            up: 'theiaology',
+            down: 'vox-del|root',
+            right: 'music',
+          }}
           click={() => {
             audio_buffer.set(undefined)
             audio.src = ''
@@ -24,6 +30,13 @@
         >
         <Box
           tilt={180}
+          nav={{
+            tag: 'music',
+            up: 'theiaology',
+            down: 'vox|root',
+            left: 'music-del',
+            right: 'music-name',
+          }}
           hover="Download Audio File"
           click={() => {
             fs.saveAs(
@@ -33,12 +46,27 @@
             // download audio file
           }}>MUSIC</Box
         >
-        <Box tilt={180} hover="Audio File">{$audio_name}</Box>
+        <Box
+          tilt={180}
+          hover="Audio File"
+          nav={{
+            tag: 'music-name',
+            left: 'music',
+            up: 'workspace',
+            down: 'vox-name|root-name',
+          }}>{$audio_name}</Box
+        >
       </div>
     {/if}
-    {#each Object.keys($voxes) as key}
+    {#each Object.keys($voxes) as key, i}
       <div class="vox">
         <Box
+          nav={{
+            tag: `${i === 0 ? 'vox-del' : ''}|vox-del-${i}|vox-del-last`,
+            right: `vox-${i}`,
+            up: `vox-del-${i - 1}|music-del|theiaology`,
+            down: `vox-del-${i + 1}|root`,
+          }}
           tilt={-90}
           hover="Remove VOX"
           click={() => {
@@ -48,9 +76,15 @@
         >
         <Box
           tilt={-90}
+          nav={{
+            tag: `${i === 0 ? 'vox' : ''}|vox-${i}|voxlast`,
+            up: `vox-${i - 1}|music|theiaology`,
+            left: `vox-del-${i}`,
+            down: `vox-${i + 1}|root`,
+            right: `vox-name-${i}`,
+          }}
           click={() => {
             // download vox file
-
             fs.saveAs(
               new Blob([$voxes[key].view], { type: 'vox' }),
               `${key}.vox`
@@ -58,7 +92,16 @@
           }}
           hover="Download VOX Model File">VOX</Box
         >
-        <Box tilt={-90} hover="Name of the VOX">{key}</Box>
+        <Box
+          tilt={-90}
+          hover="Name of the VOX"
+          nav={{
+            tag: `vox-name-${i}|${i === 0 ? 'vox-name' : ''}`,
+            up: `vox-name-${i - 1}|music-name|workspace`,
+            down: `vox-name-${i + 1}|root-name`,
+            left: `vox-${i}`,
+          }}>{key}</Box
+        >
       </div>
     {/each}
 
