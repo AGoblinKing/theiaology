@@ -121,7 +121,7 @@ const config = (input, dst = "", importThree = false) => {
       {
         renderChunk(code) {
           return {
-            code: `${importThree ? `import "/three.js"\r\n`: ''}${code}`,
+            code: `${importThree ? `if(typeof importScripts === "function") { importScripts("/three.js") }\r\n`: ''}${code}`,
             map: null
           }
         }
