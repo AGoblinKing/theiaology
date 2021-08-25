@@ -14,6 +14,7 @@
   type="range"
   min="0"
   name="range"
+  autofocus
   step="0.1"
   bind:value={val}
   max={audio.duration}

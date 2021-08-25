@@ -1,3 +1,10 @@
+<script lang="ts" context="module">
+  let order_count = 0
+  timeline.on(() => {
+    order_count = 0
+  })
+</script>
+
 <script lang="ts">
   // organize-imports-ignore
 
@@ -29,6 +36,8 @@
     timeline.$.add(0, ETimeline.TAG, index, 0, 0, 0)
     timeline.poke()
   }
+
+  $: order = $timeline && order_count++
 
   function remove(index: number) {
     modal_visible.set(false)
@@ -176,39 +185,36 @@
 
   $: label = ETimeline[item.$[1]] || 'boot'
 
-  $: nadd = `${i}-add`
-  $: ncomm = `${i}-command`
-  $: ndata = `${i}-data`
-  $: nremove = `${i}-remove`
-
-  function NavData(count: number, start = 0, reverse = false) {
-    let str = []
-    for (let x = start; x < start + count; x++) {
-      str.push(`${ndata}-${x}`)
+  function NavData(index: number) {
+    return {
+      tag: `${order}-data-${index}|${i === 0 ? 'root-name' : ''}`,
+      left: `${order}-data-${index - 1}|${order}-command`,
+      // todo check these
+      right: `${order}-data-${index + 1}|${order}-add`,
+      up: `${order - 1}-data-${index}|${order - 1}-data-${index - 1}|${
+        order - 1
+      }-data-${index - 2}|${order - 1}-command|${up}`,
+      down: `${order + 1}-data-${index}|${order + 1}-data-${index - 1}|${
+        order + 1
+      }-data-${index - 2}||${order + 1}-command`,
     }
-
-    if (reverse) {
-      str = str.reverse()
-    }
-
-    return str.join('|')
   }
   // show line number and data
   const up = 'voxlast|music|theiaology'
 </script>
 
-<div class="node" class:root={i === 0 || item.$[2] === 0}>
+<div data-order={order} class="node" class:root={i === 0 || item.$[2] === 0}>
   <div class="items">
     <Box
       hover={i === 0 ? 'BOOT ROOT' : 'REMOVE'}
       click={() => remove(i)}
       nav={{
-        tag: `${nremove}`,
-        right: `${ncomm}`,
-        up: `${i - 1}-remove|${
-          i - 1
+        tag: `${order}-remove`,
+        right: `${order}-command`,
+        up: `${order - 1}-remove|${
+          order - 1
         }-command|vox-del-last|music-del|theiaology`,
-        down: `${i + 1}-remove|${i + 1}-command`,
+        down: `${order + 1}-remove|${order + 1}-command`,
       }}
     >
       {i === 0 ? '>' : 'x'}
@@ -221,10 +227,11 @@
         : 'Command'}
       tilt={hashcode(label) % 360}
       nav={{
-        tag: `${i}-command|${i === 0 ? 'root' : ''}|last`,
-        left: `${nremove}|${nadd}|${NavData(3, 0, true)}`,
-        right: `${i}-data-0|${i}-time|${nadd}|${nremove}`,
-        up: `${i - 1}-command|${up}`,
+        tag: `${order}-command|${i === 0 ? 'root' : ''}|last`,
+        left: `${order}-remove|${order}-add}`,
+        right: `${order}-data-0|${order}-time|${order}-add|${order}-remove`,
+        up: `${order - 1}-command|${up}`,
+        down: `${order + 1}-command`,
       }}
     >
       {label}
@@ -237,15 +244,7 @@
             flex
             hover={key}
             click={inputString}
-            nav={{
-              tag: `${ndata}-${index}|${i === 0 ? 'root-name' : ''}`,
-              left: ncomm,
-              // todo check these
-              right: `${ndata}-${index - 1}|${nadd}`,
-              up: `${i}-command|${i}-data-${index - 1}|${up}`,
-              down: `${i}-command|${i}-data-${index + 1}`,
-            }}
-            
+            nav={NavData(index)}
           >
             "{$timeline.text(i)}"
           </Box>
@@ -254,7 +253,7 @@
             flex
             hover={key}
             click={() => inputNumber(index)}
-            nav={{ tag: `${i}-data-${index}` }}
+            nav={NavData(index)}
           >
             {$timeline[`data${index}`](i)}
           </Box>
@@ -264,12 +263,12 @@
             flex
             tilt={-90}
             click={inputVox}
-            nav={{ tag: `${i}-data-${index}` }}
+            nav={NavData(index)}
           >
             {$timeline.text(i) === '' ? 'None' : $timeline.text(i)}
           </Box>
         {:else if value === EVar.COLOR}
-          <Box hover={key} notilt flex nav={{ tag: `${i}-data-${index}` }}>
+          <Box hover={key} notilt flex nav={NavData(index)}>
             <input
               type="color"
               value="#{`000000${$timeline[`data${index}`](i).toString(
@@ -287,18 +286,18 @@
             flex
             tilt={-90}
             click={() => inputEnum(index, value)}
-            nav={{ tag: `${i}-data-${index}` }}
+            nav={NavData(index)}
           >
             {value[$timeline[`data${index}`](i)]}
           </Box>
         {:else if value === EVar.NORMAL}
-          <Box flex hover={key} click={() => inputNormal(index)}>
+          <Box flex nav={NavData(index)} hover={key} click={() => inputNormal(index)}>
             {Math.abs(
               ($timeline[`data${index}`](i) / NORMALIZER) * 100
             ).toFixed(0)}%
           </Box>
         {:else}
-          <Box flex hover="{key} - Not Implemented" />
+          <Box flex nav={NavData(index)} hover="{key} - Not Implemented" />
         {/if}
       {/each}
     {:else if i === 0}
@@ -306,7 +305,7 @@
         hover="Theia File Name"
         flex
         click={inputString}
-        nav={{ tag: `${i}-data` }}
+        nav={NavData(0)}
         bold
       >
         "{$timeline.text(i)}"
@@ -319,16 +318,21 @@
         click={() => addTo(i)}
         hover="Add"
         nav={{
-          tag: `${i}-add`,
+          tag: `${order}-add`,
+          left: `${order}-data-2|${order}-data-1|${order}-data-0|${order}-command`,
 
-          left: `${NavData(3, 0, true)}|${ncomm}`,
-          right: `${nremove}|${ncomm}`,
-          up: `${i + 1}-add|${up}`,
+          up: `${order + 1}-add|${up}`,
           down: ``,
         }}>+</Box
       >
     {:else if item.$[1] !== ETimeline.TAG && item.$[1] !== undefined}
-      <Box hover="When to Apply" click={inputTime} tilt={-45}>
+      <Box  nav={{
+        tag: `${order}-add`,
+        left: `${order}-data-2|${order}-data-1|${order}-data-0|${order}-command`,
+        up: `${order - 1}-add|${order - 1}-data-2|${order -1 }-data-1|${order -1 }-data-0|${up}`,
+        down: `${order + 1}-add|${order + 1}-data-2|${order + 1}-data-1|${order + 1}-data-0|${order + 1}-command`,
+      }}
+      hover="When to Apply" click={inputTime} tilt={-45}>
         {d0(item.$[0] / 60)}:{d0(item.$[0] % 60)}
       </Box>
     {/if}
@@ -339,8 +343,9 @@
     {/each}
   </div>
 </div>
+
 {#if i === 0}
-  {#each Object.keys($timeline_json._).sort() as key}
+  {#each Object.keys($timeline_json._).sort() as key, idx}
     <svelte:self i={key} />
   {/each}
 {/if}

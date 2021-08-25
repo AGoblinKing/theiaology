@@ -28,7 +28,7 @@
   window.navs = navs
   key_down.on((k) => {
     if (!timeline_shown.$) return
-     // v
+ 
     switch (k) {
       case 'e':
       case 'Enter':
@@ -139,7 +139,7 @@
 </script>
 
 <div
-  class="box "
+  class="box"
   class:span
   class:flex
   class:upper

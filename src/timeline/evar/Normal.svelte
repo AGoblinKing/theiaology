@@ -12,6 +12,7 @@
   type="range"
   name="range"
   min="0"
+  autofocus
   bind:value={val}
   max={NORMALIZER}
   class="range"

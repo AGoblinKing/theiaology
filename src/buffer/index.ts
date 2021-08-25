@@ -26,12 +26,18 @@ export const universal = new Universal()
 // Used to alert when timeline changes and to notify the cardinal
 export const timeline = new Value(new Timeline())
 
-export const timeline_json = new Value<ITimeline>({
+class TimelineJSONValue extends Value<ITimeline> {
+  constructor(json: ITimeline) {
+    super(json)
+
+    timeline.on(() => {
+      this.set(timeline.$.toObject())
+    })
+  }
+}
+
+export const timeline_json = new TimelineJSONValue({
   markers: {},
   _: {},
   flat: {},
-})
-
-timeline.on(() => {
-  timeline_json.set(timeline.$.toObject())
 })
