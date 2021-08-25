@@ -233,4 +233,5 @@ export const Commands: { [key: number]: any } = {
   [ETimeline.USERSIZE]: { size: EVar.POSITIVE },
   [ETimeline.TEXT]: { text: EVar.STRING },
   [ETimeline.CLEARCOLOR]: { rgb: EVar.COLOR },
+  [ETimeline.USERROT]: { x: EVar.NORMAL, y: EVar.NORMAL, z: EVar.NORMAL },
 }

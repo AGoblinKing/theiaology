@@ -418,6 +418,12 @@ class Cardinal extends System {
       this.defines[who].push(i)
 
       switch (this.timeline.command(i)) {
+        case ETimeline.USERROT:
+          this.universal.userRX(this.timeline.data0(i))
+          this.universal.userRY(this.timeline.data1(i))
+          this.universal.userRZ(this.timeline.data2(i))
+          this.post(EMessage.USER_ROT_UPDATE)
+          break
         case ETimeline.USERPOS:
           this.universal.userX(this.timeline.data0(i))
           this.universal.userY(this.timeline.data1(i))

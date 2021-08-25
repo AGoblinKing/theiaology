@@ -338,14 +338,14 @@
     {/if}
   </div>
   <div class="children">
-    {#each Object.keys(item._).reverse() as key (key)}
+    {#each Object.keys(item._).reverse() as key}
       <svelte:self i={key} />
     {/each}
   </div>
 </div>
 
 {#if i === 0}
-  {#each Object.keys($timeline_json._).sort() as key, idx}
+  {#each Object.keys($timeline_json._).sort() as key, idx }
     <svelte:self i={key} />
   {/each}
 {/if}

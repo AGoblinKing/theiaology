@@ -1,4 +1,5 @@
 import 'src/file/file'
+// @ts-ignore - tots is a module
 import Theiaology from 'src/timeline/Theiaology.svelte'
 import {
   animation,
@@ -13,6 +14,7 @@ import {
   velocity,
 } from './buffer'
 import { voxes } from './buffer/vox'
+import { NORMALIZER } from './config'
 import './controller/player'
 import { body, renderer } from './render/render'
 import { RezHands } from './rez/hand-joints'
@@ -39,6 +41,14 @@ const cardinal = sys
   )
   .on((e) => {
     switch (e) {
+      case EMessage.USER_ROT_UPDATE:
+        body.$.rotation.set(
+          (universal.userRX() / NORMALIZER) * Math.PI * 2,
+          (universal.userRY() / NORMALIZER) * Math.PI * 2,
+          (universal.userRZ() / NORMALIZER) * Math.PI * 2
+        )
+
+        break
       case EMessage.USER_POS_UPDATE:
         body.$.position.set(
           universal.userX(),

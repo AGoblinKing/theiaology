@@ -8,4 +8,5 @@ export enum EMessage {
   CAGE_UPDATE = -2001,
   CLEAR_COLOR_UPDATE = -2002,
   USER_POS_UPDATE = -2003,
+  USER_ROT_UPDATE = -2004,
 }

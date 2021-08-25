@@ -25,6 +25,9 @@ export const UNIVERSALS = [
   0, // user starty
   0, // user startz
   0, // music start time
+  0, // rot x
+  0, // rot y
+  0, // rot z
 ]
 
 export const CACHE = 'v1'
