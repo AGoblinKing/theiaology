@@ -104,9 +104,17 @@
   <Box
     tilt={290}
     hover="Browse .theia files"
-    nav={{ tag: '.theia', left: 'save', down }}
+    nav={{ tag: '.theia', left: 'save', right: 'sponsor', down }}
     click={Browse}>.THEIA</Box
   >
+  <Box
+    tilt={110}
+    hover="A Goblin King Demands Tribute"
+    nav={{ tag: 'sponsor', left: '.theia', down }}
+    click={() => window.open('https://github.com/sponsors/AGoblinKing', '_new')}
+  >
+    SPONSOR
+  </Box>
 </div>
 <Modal />
 {#if $timeline_shown}
