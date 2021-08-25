@@ -31,3 +31,5 @@ export const CACHE = 'v1'
 
 export const dotTheia = ['forest', 'tread', 'rain']
 export const rootTheia = 'forest'
+
+export const PAD_SPEED = 0.5

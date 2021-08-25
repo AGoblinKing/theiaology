@@ -1,4 +1,5 @@
 import { universal } from 'src/buffer'
+import { AXIS, pad_axes } from 'src/input/gamepad'
 import { key_down, key_up } from 'src/input/keyboard'
 import {
   mouse_left,
@@ -60,24 +61,29 @@ key_up.on(($k) => {
   }
 })
 
+let timer
+
+function ClearMouse() {
+  mouse_left.set(false)
+}
+// emulate mouse_pos updates
+pad_axes.on(($axis) => {
+  if (timer) {
+    clearTimeout(timer)
+    timer = undefined
+  }
+  mouse_left.set(true)
+  timer = setTimeout(ClearMouse, 1000)
+  mouse_pos.$.x = $axis[AXIS[2]]
+  mouse_pos.$.y = -$axis[AXIS[3]]
+
+  move_inputs.$.x = $axis[AXIS[0]]
+
+  move_inputs.$.z = $axis[AXIS[1]]
+})
+
 const $vec3 = new Vector3()
 let camera_mucked = false
-delta.on(($dt) => {
-  // only run not in VR
-  if (renderer.xr.isPresenting) {
-    if (camera_mucked) {
-      camera_mucked = false
-      body.$.quaternion.identity()
-    }
-    return
-  }
-
-  if (move_inputs.$.length() !== 0 || mouse_right.$) {
-    velocity.$.add($vec3.copy(move_inputs.$).multiplyScalar($dt * 3))
-  }
-
-  if (mouse_right.$ || mouse_left.$) UpdateCamera($dt)
-})
 
 const LOOK_SPEED = 100
 const targetPosition = new Vector3()
@@ -112,4 +118,20 @@ function UpdateCamera($dt: number) {
 
 mouse_wheel.on(($wheel) => {
   universal.userSize(Math.max(1, universal.userSize() + Math.sign($wheel)))
+})
+delta.on(($dt) => {
+  // only run not in VR
+  if (renderer.xr.isPresenting) {
+    if (camera_mucked) {
+      camera_mucked = false
+      body.$.quaternion.identity()
+    }
+    return
+  }
+
+  if (move_inputs.$.length() !== 0 || mouse_right.$) {
+    velocity.$.add($vec3.copy(move_inputs.$).multiplyScalar($dt * 3))
+  }
+
+  if (mouse_right.$ || mouse_left.$) UpdateCamera($dt)
 })
