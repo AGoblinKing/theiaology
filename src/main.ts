@@ -24,6 +24,10 @@ import { audio } from './sound/audio'
 import { sys } from './system/sys'
 import { EMessage } from './system/sys-enum'
 
+let ready = false
+
+setTimeout(() => (ready = true), 500)
+
 // setup systems
 const cardinal = sys
   .start('cardinal')
@@ -42,6 +46,7 @@ const cardinal = sys
   .on((e) => {
     switch (e) {
       case EMessage.USER_ROT_UPDATE:
+        if (!ready) return
         body.$.rotation.set(
           (universal.userRX() / NORMALIZER) * Math.PI * 2,
           (universal.userRY() / NORMALIZER) * Math.PI * 2,
