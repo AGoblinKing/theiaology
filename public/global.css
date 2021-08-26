@@ -57,6 +57,9 @@ audio::-webkit-media-controls-time-remaining-display {
   font-size: 0.75rem;
 }
 
+input[type="file"] {
+  display: none;
+}
 input[type="file"]::-webkit-file-upload-button {
   display: none;
 }

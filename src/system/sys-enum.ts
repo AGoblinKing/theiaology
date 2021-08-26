@@ -10,3 +10,5 @@ export enum EMessage {
   USER_POS_UPDATE = -2003,
   USER_ROT_UPDATE = -2004,
 }
+
+export type FRez = () => number

@@ -7,7 +7,7 @@ import { Universal } from 'src/buffer/universal'
 import { Velocity } from 'src/buffer/velocity'
 import { ENTITY_COUNT, NORMALIZER } from 'src/config'
 import { Box3, Vector3 } from 'three'
-import { EMessage } from './message'
+import { EMessage } from './sys-enum'
 import { System } from './system'
 
 const $box = new Box3()

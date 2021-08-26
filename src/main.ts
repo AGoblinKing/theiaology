@@ -21,8 +21,8 @@ import { RezHands } from './rez/hand-joints'
 import './shader/atoms'
 import './sound/audio'
 import { audio } from './sound/audio'
-import { EMessage } from './system/message'
 import { sys } from './system/sys'
+import { EMessage } from './system/sys-enum'
 
 // setup systems
 const cardinal = sys

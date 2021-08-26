@@ -25,6 +25,8 @@
   import { SaveScript } from 'src/file/save'
   import { NORMALIZER } from 'src/config'
   import { hashcode } from './color'
+import { seconds } from 'src/sound/audio';
+
 
   export let i = 0
 
@@ -203,7 +205,7 @@
   const up = 'voxlast|music|theiaology'
 </script>
 
-<div data-order={order} class="node" class:root={i === 0 || item.$[2] === 0}>
+<div data-order={order} class="node" class:root={i === 0 || item.$[2] === 0} class:time={$seconds === $timeline.when(i)}>
   <div class="items">
     <Box
       hover={i === 0 ? 'BOOT ROOT' : 'REMOVE'}
@@ -352,14 +354,26 @@
 
 <style>
   .children {
-    background-color: rgba(213, 2, 255, 0.419);
+    transition: background-color 1s ease-in-out;
+    background-color: rgba(2, 6, 255, 0.419);
     /*border: solid 0.25rem rgba(151, 2, 151, 0.555);*/
+  }
+
+  .time .children {
+ 
+    background-color: rgba(213, 2, 255, 0.419);
+
+  }
+
+  .time {
+    background-color: rgba(213, 2, 255, 0.419);
   }
 
   .node.root {
     margin: 0;
   }
   .node {
+    transition: background-color 1s ease-in-out;
     cursor: pointer;
     margin-left: 1.75rem;
   }

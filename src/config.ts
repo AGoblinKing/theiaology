@@ -36,3 +36,5 @@ export const dotTheia = ['forest', 'tread', 'rain']
 export const rootTheia = 'forest'
 
 export const PAD_SPEED = 0.5
+
+export const SPONSOR = ['ETHEREUM', 'ETH-QR-CODE', 'GITHUB']

@@ -18,7 +18,7 @@
   import { url } from 'src/input/browser'
   import { EVar } from './def-timeline'
   import { mouse_page } from 'src/input/mouse'
-  import { dotTheia } from 'src/config'
+  import { dotTheia, SPONSOR } from 'src/config'
 
   async function loadFile(event) {
     const reader = new FileReader()
@@ -40,6 +40,30 @@
     modal_visible.set((res) => {
       window.open(res, '_self')
       modal_visible.set(false)
+    })
+  }
+
+  function Sponsor() {
+    modal_location.set(
+      modal_location.$.set($mouse_page.x - 5, $mouse_page.y - 5)
+    )
+
+    modal_options.set(SPONSOR)
+    modal_visible.set((res) => {
+      switch (res) {
+        case 'GITHUB':
+          window.open('https://github.com/sponsors/AGoblinKing', '_new')
+          break
+        case 'ETHEREUM':
+          window.open(
+            'https://etherscan.io/address/0x407007B0796D2FC1E33664466c1d64325C6aF215',
+            '_new'
+          )
+          break
+        case 'ETH-QR-CODE':
+          window.open('/image/eth.png', '_new')
+          break
+      }
     })
   }
 
@@ -111,7 +135,7 @@
     tilt={110}
     hover="A Goblin King Demands Tribute"
     nav={{ tag: 'sponsor', left: '.theia', down }}
-    click={() => window.open('https://github.com/sponsors/AGoblinKing', '_new')}
+    click={Sponsor}
   >
     SPONSOR
   </Box>

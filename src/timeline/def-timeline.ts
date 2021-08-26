@@ -34,6 +34,7 @@ export class Rez {
   phase = EPhase.VOID
   vel = new Vector3()
   velvar = new Vector3()
+  text: string
 
   doLook = false
 
@@ -65,6 +66,7 @@ export class Rez {
     this.posvar.set(0, 0, 0)
     this.flock = { shape: EShape.Plane, size: 1, step: 0 }
     this.doLook = false
+    this.text = undefined
   }
 }
 

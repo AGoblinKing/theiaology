@@ -7,6 +7,7 @@
   import Node from './Node.svelte'
   import fs from 'file-saver'
   import { voxes } from 'src/buffer/vox'
+import { timeline } from 'src/buffer'
 </script>
 
 <div class="timeline">
@@ -105,7 +106,7 @@
       </div>
     {/each}
 
-    <Node />
+    <Node i={$timeline ? 0 : 0}/>
   </div>
 </div>
 
