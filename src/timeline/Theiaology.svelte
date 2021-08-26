@@ -72,7 +72,7 @@
 
 <a
   class="ribbon github"
-  href="https://github.com/agoblinking/Theia.games"
+  href="https://github.com/agoblinking/theiaology"
   target="_new">GITHUB</a
 >
 

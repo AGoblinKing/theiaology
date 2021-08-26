@@ -1,6 +1,6 @@
-# Theia.Games
+# Theiaology.com
 
-[![Itch](https://github.com/AGoblinKing/theia.games/actions/workflows/itch.yml/badge.svg)](https://corporate-entity.itch.io/theiagames)
+[![Itch](https://github.com/AGoblinKing/theiaology/actions/workflows/itch.yml/badge.svg)](https://corporate-entity.itch.io/theiagames)
 | [Discord](https://discord.gg/bPq8U3zhvy)
 
 _Undock your imagination._
@@ -39,7 +39,7 @@ npm run dev
 http://localhost:10001
 ```
 
-or https://theia.games
+or https://theiaology.com
 
 ## But I want to host it
 
