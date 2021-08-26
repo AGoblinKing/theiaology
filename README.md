@@ -1,4 +1,4 @@
-# Theiaology.com
+# `THEIAOLOGY`
 
 [![Itch](https://github.com/AGoblinKing/theiaology/actions/workflows/itch.yml/badge.svg)](https://corporate-entity.itch.io/theiagames)
 | [Discord](https://discord.gg/bPq8U3zhvy)
@@ -40,6 +40,8 @@ http://localhost:10001
 ```
 
 or https://theiaology.com
+
+![Voxel Text](./public/image/ANYTHING.gif)
 
 ## But I want to host it
 
