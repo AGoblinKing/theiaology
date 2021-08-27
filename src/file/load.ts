@@ -53,6 +53,7 @@ export function Load(bytes: ArrayBuffer) {
     const timeEnd = HEADER_END + timeLength
 
     timeline.$.freeAll()
+    timeline.poke()
     for (let i = 0; i < timeLength / 4; i++) {
       const val = view.getInt32(HEADER_END + i * 4)
       timeline.$.store(i, val)

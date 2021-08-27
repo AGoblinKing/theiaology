@@ -9,7 +9,7 @@ mat4 scale(float x, float y, float z){
     );
 }
 
-const float HAND_DST = 0.25;
+const float HAND_DST = 0.1;
 float modulator(float x, float y) {
   return x - y * floor(x/y);
 }
@@ -53,11 +53,13 @@ mat4 AnimationMatrix(in mat4 mvMatrix) {
 
 	float lav = 1.;
 
+	
+
 	if(animation != ANIM_NO_EFFECT) {
     	lav += audioLow * 0.00125;
 	}
 
-    mvMatrix = mvMatrix * scale(lav * float(size.x), lav * float(size.y), float(size.z) * lav);
+    mvMatrix = mvMatrix * (scale(lav * float(size.x), lav * float(size.y), float(size.z) * lav));
 	return mvMatrix;
 }
 

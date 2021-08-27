@@ -401,9 +401,9 @@ class Cardinal extends System {
 
       $vec3
         .set(
-          voxDef.xyzi[ix] * sx * 10,
-          voxDef.xyzi[ix + 2] * sy * 10,
-          voxDef.xyzi[ix + 1] * sz * 10
+          voxDef.xyzi[ix] * sx,
+          voxDef.xyzi[ix + 2] * sy,
+          voxDef.xyzi[ix + 1] * sz
         )
 
         .applyEuler($eule)
@@ -559,6 +559,7 @@ class Cardinal extends System {
     // clear it
     this.defines = []
     this.timing = {}
+    this.rezes = {}
 
     this.universal.reset()
     this.post(EMessage.CAGE_UPDATE)
@@ -650,7 +651,7 @@ class Cardinal extends System {
       this.future.z(i, Math.floor(Math.random() * scale - scale / 2))
       this.future.time(i, t + 30000 + 100)
 
-      const s = 1
+      const s = 5
 
       this.size.x(i, s)
       this.size.y(i, s)
