@@ -89,7 +89,7 @@
   export let flex = false
   export let bold = false
   export let upper = false
-
+  export let style = ""
   export let click = () => {}
 
   let tags = []
@@ -156,7 +156,7 @@
     modal_visible.set(() => {})
     modal_options.set(hover)
   }}
-  style="filter: hue-rotate({selected ? 90 : tilt}deg);"
+  style="filter: hue-rotate({selected ? 90 : tilt}deg);{style}"
 >
   <slot />
 </div>

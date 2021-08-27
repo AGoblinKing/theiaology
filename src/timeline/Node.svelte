@@ -7,7 +7,6 @@
 
 <script lang="ts">
   // organize-imports-ignore
-
   import Box from './Box.svelte'
   import { timeline, timeline_json } from 'src/buffer'
 
@@ -18,6 +17,7 @@
     modal_options,
     modal_visible,
   } from './editor'
+
   import { mouse_page } from 'src/input/mouse'
 
   import { Commands, ETimeline, EVar } from './def-timeline'
@@ -25,8 +25,7 @@
   import { SaveScript } from 'src/file/save'
   import { NORMALIZER, UserUnits } from 'src/config'
   import { hashcode } from './color'
-import { seconds } from 'src/sound/audio';
-
+  import { seconds } from 'src/sound/audio';
 
   export let i = 0
 
@@ -168,7 +167,7 @@ import { seconds } from 'src/sound/audio';
       modal_visible.set(false)
     })
   }
-  
+
   function inputNormal(cursor: number) {
     updateModal()
     modal_options.set(EVar.NORMAL)
@@ -221,19 +220,21 @@ import { seconds } from 'src/sound/audio';
 
 <div data-order={order} class="node" class:root={i === 0 || item.$[2] === 0} class:time={$seconds === $timeline.when(i)}>
   <div class="items">
-    <Box
-      hover={i === 0 ? 'BOOT ROOT' : 'REMOVE'}
-      click={() => remove(i)}
-      nav={{
-        tag: `${order}-remove`,
-        right: `${order}-command`,
-        up: `${order - 1}-remove|${
-          order - 1
-        }-command|vox-del-last|music-del|theiaology`,
-        down: `${order + 1}-remove|${order + 1}-command`,
-      }}
-    >
-      {i === 0 ? '>' : 'x'}
+      <Box
+        style="opacity: 0.85; font-weight: bold;"
+        tilt={220}
+        hover={i === 0 ? 'BOOT ROOT' : 'REMOVE'}
+        click={() => remove(i)}
+        nav={{
+          tag: `${order}-remove`,
+          right: `${order}-command`,
+          up: `${order - 1}-remove|${
+            order - 1
+          }-command|vox-del-last|music-del|theiaology`,
+          down: `${order + 1}-remove|${order + 1}-command`,
+        }}
+      >
+      {i === 0 ? '>' : '-'}
     </Box>
     <Box
       click={chooseCommand}
@@ -258,6 +259,7 @@ import { seconds } from 'src/sound/audio';
         {#if value === EVar.STRING}
           <Box
             flex
+            tilt={hashcode($timeline.text(i)) % 360}
             hover={key}
             click={inputString}
             nav={NavData(index)}

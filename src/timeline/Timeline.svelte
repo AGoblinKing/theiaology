@@ -27,7 +27,7 @@ import { timeline } from 'src/buffer'
             audio_buffer.set(undefined)
             audio.src = ''
             audio.load()
-          }}>x</Box
+          }}>-</Box
         >
         <Box
           tilt={180}
@@ -73,7 +73,7 @@ import { timeline } from 'src/buffer'
           click={() => {
             delete $voxes[key]
             voxes.poke()
-          }}>x</Box
+          }}>-</Box
         >
         <Box
           tilt={-90}

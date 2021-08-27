@@ -12,7 +12,7 @@
   import { EVar } from './def-timeline'
   import Box from 'src/timeline/Box.svelte'
   import { hashcode } from './color'
-import { USER_SCALE } from 'src/config';
+  import { USER_SCALE } from 'src/config';
 
   // modal is a singleton so Aok, but weird
   mouse_left.on(() => {
