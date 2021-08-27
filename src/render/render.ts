@@ -46,8 +46,9 @@ tick.on(() => {
   }
 })
 
-const sun = new DirectionalLight(0xffffff, 0.5)
-sun.position.set(0, 1, 0)
-scene.$.add(sun, new AmbientLight(0xffffff, 0.55))
+scene.$.add(
+  new DirectionalLight(0xffffff, 0.5),
+  new AmbientLight(0xffffff, 0.7)
+)
 
 renderer.setAnimationLoop(Loop)
