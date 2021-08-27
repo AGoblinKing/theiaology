@@ -1,5 +1,5 @@
 import { left_hand_uniforms, right_hand_uniforms } from 'src/input/xr'
-import { MeshBasicMaterial } from 'three'
+import { MeshToonMaterial } from 'three'
 import { lowerUniform, upperUniform } from '../sound/audio'
 import { timeUniform } from '../uniform/time'
 import AnimationFrag from './animation.frag'
@@ -10,7 +10,7 @@ import MainVert from './main.vert'
 import MatterFrag from './matter.frag'
 import SpaceTime from './spacetime.vert'
 
-export const material = new MeshBasicMaterial()
+export const material = new MeshToonMaterial()
 
 const commonVertChunk = [
   '#include <common>',
