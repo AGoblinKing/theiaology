@@ -351,7 +351,9 @@
         }}>+</Box
       >
     {:else if item.$[1] !== ETimeline.TAG && item.$[1] !== undefined}
+    
       <Box  
+        style="margin-right: 0.75rem;"
         nav={{
           tag: `${order}-add`,
           left: `${order}-data-2|${order}-data-1|${order}-data-0|${order}-command`,
@@ -380,28 +382,13 @@
 {/if}
 
 <style>
-  .children {
-    transition: background-color 1s ease-in-out;
-    background-color: rgba(2, 6, 255, 0.419);
-    /*border: solid 0.25rem rgba(151, 2, 151, 0.555);*/
-  }
-
-  .time .children {
-    background-color: rgba(213, 2, 255, 0.419);
-  }
-
-  .time {
-    background-color: rgba(213, 2, 255, 0.419);
-  }
-
   .node.root {
     margin: 0;
   }
 
   .node {
-    transition: background-color 1s ease-in-out;
     cursor: pointer;
-    margin-left: 1.75rem;
+    margin-left: 0.75rem;
   }
 
   .items {
