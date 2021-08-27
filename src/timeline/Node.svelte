@@ -74,7 +74,7 @@ import { seconds } from 'src/sound/audio';
         if (window.Number.isNaN(v)) {
           return true
         }
-      })
+      }).sort()
     )
     updateModal()
     modal_visible.set((res: string) => {
