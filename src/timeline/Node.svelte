@@ -240,7 +240,7 @@
       hover={label === 'boot'
         ? 'Download a .json of the BOOT script'
         : 'Command'}
-      tilt={hashcode(label) % 360}
+      tilt={hashcode(label.slice(0, 3)) % 360}
       nav={{
         tag: `${order}-command|${i === 0 ? 'root' : ''}|last`,
         left: `${order}-remove|${order}-add}`,

@@ -44,7 +44,7 @@
       </Box>
     {:else if Array.isArray($modal_options)}
       {#each $modal_options as content}
-        <Box tilt={hashcode(content) % 360}>
+        <Box tilt={hashcode(content.slice(0, 3)) % 360}>
           <div
             class="item"
             on:click={() => {
