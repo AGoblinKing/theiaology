@@ -172,7 +172,7 @@
     flex: 1;
   }
   .box {
-    background: rgb(72, 2, 75, 0.8);
+    background: rgb(72, 2, 75, 0.9);
     border: solid 0.1rem rgba(255, 255, 255, 0.25);
     color: rgb(250, 194, 9);
     font-size: 0.75rem;
