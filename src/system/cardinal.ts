@@ -322,8 +322,8 @@ class Cardinal extends System {
         const smy = v[3] - v[1]
 
         this.future.time(id, t + 1000 * Math.random() + 500)
-        this.future.x(id, x + v[0] * sx * 10 + sx * smx * 5)
-        this.future.y(id, y + v[1] * sy * 10 + sy * smy * 5)
+        this.future.x(id, x + v[0] * sx + (sx * smx) / 2)
+        this.future.y(id, y + v[1] * sy + (sy * smy) / 2)
         this.future.z(id, z)
 
         this.size.x(id, sx + sx * smx)
@@ -343,7 +343,7 @@ class Cardinal extends System {
         this.velocity.z(id, $rez.vel.z)
       }
 
-      x += sx * 5 * 10
+      x += sx * 5
     }
   }
 
