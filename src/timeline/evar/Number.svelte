@@ -1,15 +1,15 @@
 <script lang="ts">
-  import { onDestroy } from 'svelte'
 
   import { modal_default, modal_visible } from '../editor'
 
+  export let scale = 1
   // organize-imports-ignore
 
   function submit() {
     if (typeof modal_visible.$ !== 'function') {
       return
     }
-    modal_visible.$(val)
+    modal_visible.$(val * scale)
   }
 
   let escape = false
@@ -25,7 +25,7 @@
     }
   }
 
-  let val = $modal_default
+  let val = $modal_default/scale
 
   let ele
 

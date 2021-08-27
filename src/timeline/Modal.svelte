@@ -12,6 +12,7 @@
   import { EVar } from './def-timeline'
   import Box from 'src/timeline/Box.svelte'
   import { hashcode } from './color'
+import { USER_SCALE } from 'src/config';
 
   // modal is a singleton so Aok, but weird
   mouse_left.on(() => {
@@ -61,6 +62,8 @@
       <Normal />
     {:else if $modal_options === EVar.STRING}
       <String />
+    {:else if $modal_options === EVar.USERNUMBER}
+      <Number scale={USER_SCALE} />
     {:else if $modal_options === EVar.NUMBER}
       <Number />
     {/if}

@@ -23,7 +23,7 @@
   import { Commands, ETimeline, EVar } from './def-timeline'
   import { voxes } from 'src/buffer/vox'
   import { SaveScript } from 'src/file/save'
-  import { NORMALIZER } from 'src/config'
+  import { NORMALIZER, UserUnits } from 'src/config'
   import { hashcode } from './color'
 import { seconds } from 'src/sound/audio';
 
@@ -32,6 +32,8 @@ import { seconds } from 'src/sound/audio';
 
   $: item = $timeline_json.flat[i] || { $: [0], _: {} }
   $: command = $timeline.command(i)
+  
+
 
   function addTo(index: number) {
     modal_visible.set(false)
@@ -155,6 +157,18 @@ import { seconds } from 'src/sound/audio';
     })
   }
 
+  function inputUserNumber(cursor: number) {
+    updateModal()
+    modal_options.set(EVar.USERNUMBER)
+    modal_cursor.set(cursor)
+    modal_default.set(timeline.$[`data${cursor}`](i))
+    modal_visible.set((res) => {
+      timeline.$[`data${cursor}`](i, res)
+      timeline.poke()
+      modal_visible.set(false)
+    })
+  }
+  
   function inputNormal(cursor: number) {
     updateModal()
     modal_options.set(EVar.NORMAL)
@@ -258,6 +272,15 @@ import { seconds } from 'src/sound/audio';
             nav={NavData(index)}
           >
             {$timeline[`data${index}`](i)}
+          </Box>
+        {:else if value === EVar.USERNUMBER || value === EVar.USERPOSITIVE}
+          <Box
+            flex
+            hover={key}
+            click={() => inputUserNumber(index)}
+            nav={NavData(index)}
+          >
+            {UserUnits($timeline[`data${index}`](i))}
           </Box>
         {:else if value == EVar.VOX}
           <Box

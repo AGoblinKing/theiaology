@@ -115,6 +115,8 @@ export enum EVar {
   // -1 0 1
   SIGN,
   TIME,
+  USERNUMBER,
+  USERPOSITIVE,
 }
 
 export enum EIdle {
@@ -172,7 +174,7 @@ export const Commands: { [key: number]: any } = {
   [ETimeline.FLOCK]: {
     shape: EShape,
     size: EVar.POSITIVE,
-    step: EVar.POSITIVE,
+    step: EVar.USERPOSITIVE,
   },
   [ETimeline.PHASE]: { phase: EPhase },
   [ETimeline.COLOR]: {
@@ -185,12 +187,16 @@ export const Commands: { [key: number]: any } = {
     tilt: EVar.NORMAL,
     variance: EVar.NORMAL,
   },
-  [ETimeline.SIZE]: { x: EVar.POSITIVE, y: EVar.POSITIVE, z: EVar.POSITIVE },
+  [ETimeline.SIZE]: {
+    x: EVar.USERPOSITIVE,
+    y: EVar.USERPOSITIVE,
+    z: EVar.USERPOSITIVE,
+  },
   //   [ETimeline.MUSIC]: { audio: EVar.AUDIO },
   [ETimeline.SIZEVAR]: {
-    x: EVar.POSITIVE,
-    y: EVar.POSITIVE,
-    z: EVar.POSITIVE,
+    x: EVar.USERPOSITIVE,
+    y: EVar.USERPOSITIVE,
+    z: EVar.USERPOSITIVE,
   },
   [ETimeline.ROT]: { x: EVar.NORMAL, y: EVar.NORMAL, z: EVar.NORMAL },
   [ETimeline.ROTVAR]: { x: EVar.NORMAL, y: EVar.NORMAL, z: EVar.NORMAL },
@@ -200,25 +206,33 @@ export const Commands: { [key: number]: any } = {
   },
   [ETimeline.DEREZ]: {},
 
-  [ETimeline.POS]: { x: EVar.NUMBER, y: EVar.NUMBER, z: EVar.NUMBER },
+  [ETimeline.POS]: {
+    x: EVar.USERNUMBER,
+    y: EVar.USERNUMBER,
+    z: EVar.USERNUMBER,
+  },
   [ETimeline.POSVAR]: {
-    x: EVar.NUMBER,
-    y: EVar.NUMBER,
-    z: EVar.NUMBER,
+    x: EVar.USERNUMBER,
+    y: EVar.USERNUMBER,
+    z: EVar.USERNUMBER,
   },
   [ETimeline.THRUST]: {
-    x: EVar.NUMBER,
-    y: EVar.NUMBER,
-    z: EVar.NUMBER,
+    x: EVar.USERNUMBER,
+    y: EVar.USERNUMBER,
+    z: EVar.USERNUMBER,
   },
 
   [ETimeline.THRUSTVAR]: {
     axis: EAxis,
-    thrust: EVar.POSITIVE,
+    thrust: EVar.USERPOSITIVE,
     constraint: EVar.SIGN,
   },
 
-  [ETimeline.LOOK]: { x: EVar.NUMBER, y: EVar.NUMBER, z: EVar.NUMBER },
+  [ETimeline.LOOK]: {
+    x: EVar.USERNUMBER,
+    y: EVar.USERNUMBER,
+    z: EVar.USERNUMBER,
+  },
   // [ETimeline.POSTO]: { tag: EVar.TAGID },
   // [ETimeline.LOOKTO]: { tag: EVar.TAGID },
   // [ETimeline.THRUSTTO]: {
@@ -227,12 +241,16 @@ export const Commands: { [key: number]: any } = {
   [ETimeline.EFFECTS]: { animation: EAnimation },
   [ETimeline.VOX]: { 'Vox Model': EVar.VOX },
   [ETimeline.IMPACT]: { reaction: EImpactReaction },
-  [ETimeline.CAGE]: { axis: EAxis, min: EVar.NUMBER, max: EVar.NUMBER },
+  [ETimeline.CAGE]: { axis: EAxis, min: EVar.USERNUMBER, max: EVar.USERNUMBER },
 
   [ETimeline.IDLE]: { idle: EIdle },
-  [ETimeline.USERPOS]: { x: EVar.NUMBER, y: EVar.NUMBER, z: EVar.NUMBER },
+  [ETimeline.USERPOS]: {
+    x: EVar.USERNUMBER,
+    y: EVar.USERNUMBER,
+    z: EVar.USERNUMBER,
+  },
   // [ETimeline.USERROT]: { x: EVar.NUMBER, y: EVar.NUMBER, z: EVar.NUMBER },
-  [ETimeline.USERSIZE]: { size: EVar.POSITIVE },
+  [ETimeline.USERSIZE]: { size: EVar.USERPOSITIVE },
   [ETimeline.TEXT]: { text: EVar.STRING },
   [ETimeline.CLEARCOLOR]: { rgb: EVar.COLOR },
   [ETimeline.USERROT]: { x: EVar.NORMAL, y: EVar.NORMAL, z: EVar.NORMAL },
