@@ -69,17 +69,17 @@ mat4 AnimationMatrix(in mat4 mvMatrix) {
 	float lav = 1.;
 
 	if(animation != ANIM_NO_EFFECT) {
-    	lav += audioLow * 0.00125;
+    	lav += audioLow * 0.125;
 	}
 
 	float timescale = time * 0.000001 + v_pos.x * v_pos.y * v_pos.z * 1000.; 
-	float s = 0.001;
+	float s = 0.001 * lav;
 
     mvMatrix = mvMatrix 
 		* rotationX(sin(timescale) * s) 
 		* rotationZ(cos(timescale) * s)
 		* rotationY(sin(timescale) * s) 
-		* scale(lav * float(size.x), lav * float(size.y), float(size.z) * lav);
+		* scale(float(size.x), float(size.y), float(size.z) );
 
 	return mvMatrix;
 }
