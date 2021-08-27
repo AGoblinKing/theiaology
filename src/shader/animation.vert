@@ -8,7 +8,26 @@ mat4 scale(float x, float y, float z){
         vec4(0.0, 0.0, 0.0, 1.0)
     );
 }
+mat4 rotationX( in float angle ) {
+	return mat4(	1.0,		0,			0,			0,
+			 		0, 	cos(angle),	-sin(angle),		0,
+					0, 	sin(angle),	 cos(angle),		0,
+					0, 			0,			  0, 		1);
+}
 
+mat4 rotationY( in float angle ) {
+	return mat4(	cos(angle),		0,		sin(angle),	0,
+			 				0,		1.0,			 0,	0,
+					-sin(angle),	0,		cos(angle),	0,
+							0, 		0,				0,	1);
+}
+
+mat4 rotationZ( in float angle ) {
+	return mat4(	cos(angle),		-sin(angle),	0,	0,
+			 		sin(angle),		cos(angle),		0,	0,
+							0,				0,		1,	0,
+							0,				0,		0,	1);
+}
 const float HAND_DST = 0.1;
 float modulator(float x, float y) {
   return x - y * floor(x/y);
@@ -53,7 +72,15 @@ mat4 AnimationMatrix(in mat4 mvMatrix) {
     	lav += audioLow * 0.00125;
 	}
 
-    mvMatrix = mvMatrix * (scale(lav * float(size.x), lav * float(size.y), float(size.z) * lav));
+	float timescale = time * 0.000001 + v_pos.x * v_pos.y * v_pos.z * 1000.; 
+	float s = 0.001;
+
+    mvMatrix = mvMatrix 
+		* rotationX(sin(timescale) * s) 
+		* rotationZ(cos(timescale) * s)
+		* rotationY(sin(timescale) * s) 
+		* scale(lav * float(size.x), lav * float(size.y), float(size.z) * lav);
+
 	return mvMatrix;
 }
 
