@@ -52,7 +52,11 @@ audio.onplay = function () {
   })
 }
 
+audio.addEventListener('canplaythrough', () => {
+  end.set(audio.duration)
+})
 export const seconds = new Value(0)
+export const end = new Value(1)
 export const upperUniform = new Uniform(0)
 export const lowerUniform = new Uniform(0)
 

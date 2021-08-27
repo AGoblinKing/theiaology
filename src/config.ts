@@ -40,7 +40,7 @@ export const PAD_SPEED = 0.5
 
 export const SPONSOR = ['ETHEREUM', 'ETH-QR-CODE', 'GITHUB']
 
-export const USER_SCALE = 10
+export const USER_SCALE = 100
 
 export function UserUnits(x: number) {
   return x / USER_SCALE

@@ -7,7 +7,7 @@ import { Vector3 } from 'three'
 
 export const MIN_VELOCITY = 0.1
 
-export const velocity = new Value(new Vector3(0, 0, -1))
+export const velocity = new Value(new Vector3(0, 0, 0))
 export const angular = new Value(0)
 
 export const walk = new Value()

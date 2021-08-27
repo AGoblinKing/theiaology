@@ -25,15 +25,13 @@
   import { SaveScript } from 'src/file/save'
   import { NORMALIZER, UserUnits } from 'src/config'
   import { hashcode } from './color'
-  import { seconds } from 'src/sound/audio';
+  import { audio, end, seconds } from 'src/sound/audio';
 
   export let i = 0
 
   $: item = $timeline_json.flat[i] || { $: [0], _: {} }
   $: command = $timeline.command(i)
   
-
-
   function addTo(index: number) {
     modal_visible.set(false)
     timeline.$.add(0, ETimeline.TAG, index, 0, 0, 0)
@@ -353,13 +351,17 @@
         }}>+</Box
       >
     {:else if item.$[1] !== ETimeline.TAG && item.$[1] !== undefined}
-      <Box  nav={{
-        tag: `${order}-add`,
-        left: `${order}-data-2|${order}-data-1|${order}-data-0|${order}-command`,
-        up: `${order - 1}-add|${order - 1}-data-2|${order -1 }-data-1|${order -1 }-data-0|${up}`,
-        down: `${order + 1}-add|${order + 1}-data-2|${order + 1}-data-1|${order + 1}-data-0|${order + 1}-command`,
-      }}
-      hover="When to Apply" click={inputTime} tilt={-45}>
+      <Box  
+        nav={{
+          tag: `${order}-add`,
+          left: `${order}-data-2|${order}-data-1|${order}-data-0|${order}-command`,
+          up: `${order - 1}-add|${order - 1}-data-2|${order -1 }-data-1|${order -1 }-data-0|${up}`,
+          down: `${order + 1}-add|${order + 1}-data-2|${order + 1}-data-1|${order + 1}-data-0|${order + 1}-command`,
+        }}
+        hover="When to Apply" 
+        click={inputTime}
+        tilt={-45 }
+      >
         {d0(item.$[0] / 60)}:{d0(item.$[0] % 60)}
       </Box>
     {/if}
@@ -385,9 +387,7 @@
   }
 
   .time .children {
- 
     background-color: rgba(213, 2, 255, 0.419);
-
   }
 
   .time {
@@ -397,11 +397,13 @@
   .node.root {
     margin: 0;
   }
+
   .node {
     transition: background-color 1s ease-in-out;
     cursor: pointer;
     margin-left: 1.75rem;
   }
+
   .items {
     display: flex;
   }
