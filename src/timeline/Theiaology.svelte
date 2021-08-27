@@ -136,6 +136,7 @@
     hover="A Goblin King Demands Tribute"
     nav={{ tag: 'sponsor', left: '.theia', down }}
     click={Sponsor}
+    style="border-radius: 0 0 0.5rem 0;"
   >
     SPONSOR
   </Box>

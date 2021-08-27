@@ -219,8 +219,8 @@
 <div data-order={order} class="node" class:root={i === 0 || item.$[2] === 0} class:time={$seconds === $timeline.when(i)}>
   <div class="items">
       <Box
-        style="opacity: 0.85; font-weight: bold;"
-        tilt={220}
+        style="opacity: 0.85; font-weight: bold; border-radius: 0.5rem 0 0 0.5rem"
+        tilt={40}
         hover={i === 0 ? 'BOOT ROOT' : 'REMOVE'}
         click={() => remove(i)}
         nav={{
@@ -342,6 +342,7 @@
         tilt={180}
         click={() => addTo(i)}
         hover="Add"
+        style=" border-radius: 0 0.5rem 0.5rem 0rem;"
         nav={{
           tag: `${order}-add`,
           left: `${order}-data-2|${order}-data-1|${order}-data-0|${order}-command`,
@@ -353,7 +354,7 @@
     {:else if item.$[1] !== ETimeline.TAG && item.$[1] !== undefined}
     
       <Box  
-        style="margin-right: 0.75rem;"
+        style="margin-right: 1.5rem;"
         nav={{
           tag: `${order}-add`,
           left: `${order}-data-2|${order}-data-1|${order}-data-0|${order}-command`,
@@ -388,7 +389,7 @@
 
   .node {
     cursor: pointer;
-    margin-left: 0.75rem;
+    margin-left: 1.5rem;
   }
 
   .items {

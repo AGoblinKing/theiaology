@@ -86,6 +86,7 @@
     position: absolute;
     z-index: 10001;
     background-color: rgba(72, 2, 75, 0.75);
+    border-radius: 0.5rem;
     border: solid 0.1rem rgba(255, 255, 255, 0.418);
   }
 </style>

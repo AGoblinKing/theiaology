@@ -17,6 +17,7 @@ import { timeline } from 'src/buffer'
         <Box
           tilt={180}
           hover="Remove Music"
+          style="border-radius: 0.5rem 0 0 0.5rem;"
           nav={{
             tag: 'music-del',
             up: 'theiaology',
@@ -50,6 +51,7 @@ import { timeline } from 'src/buffer'
         <Box
           tilt={180}
           hover="Audio File"
+          flex
           nav={{
             tag: 'music-name',
             left: 'music',
@@ -68,6 +70,7 @@ import { timeline } from 'src/buffer'
             up: `vox-del-${i - 1}|music-del|theiaology`,
             down: `vox-del-${i + 1}|root`,
           }}
+          style="border-radius: 0.5rem 0 0 0.5rem;"
           tilt={-90}
           hover="Remove VOX"
           click={() => {
@@ -91,10 +94,12 @@ import { timeline } from 'src/buffer'
               `${key}.vox`
             )
           }}
+         
           hover="Download VOX Model File">VOX</Box
         >
         <Box
           tilt={-90}
+          flex 
           hover="Name of the VOX"
           nav={{
             tag: `vox-name-${i}|${i === 0 ? 'vox-name' : ''}`,
@@ -113,6 +118,8 @@ import { timeline } from 'src/buffer'
 <style>
   .vox {
     display: flex;
+    justify-content: center;
+    margin-right: 1.5rem;
   }
 
   .nodes {
@@ -124,6 +131,7 @@ import { timeline } from 'src/buffer'
     flex-direction: column;
 
     flex: 1;
+
     overflow-y: scroll;
     pointer-events: all;
     direction: rtl;
@@ -133,12 +141,13 @@ import { timeline } from 'src/buffer'
 
   .timeline::-webkit-scrollbar {
     width: 1rem;
-    background-color: rgba(2, 91, 255, 0.288);
+    background-color: rgb(72, 2, 75, 0.9);
   }
 
   .timeline::-webkit-scrollbar-thumb {
-    background: rgba(0, 28, 189, 0.842);
-    outline: 1px solid slategrey;
+    background: rgba(153, 4, 158, 0.9);
+   ;
+    border-radius: 1rem;
     max-height: 5rem;
   }
 </style>
