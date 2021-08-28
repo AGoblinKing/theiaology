@@ -1,6 +1,4 @@
 import { timeline } from 'src/buffer'
-import { key_down, key_map } from 'src/input/keyboard'
-import { timeline_shown } from 'src/timeline/editor'
 
 const past = []
 const future = []
@@ -34,17 +32,3 @@ export function Redo() {
   timeline.$.fromArray(p)
   timeline.poke()
 }
-
-key_down.on(($k) => {
-  if (!timeline_shown.$) return
-
-  switch ($k) {
-    case 'z':
-      if (key_map.$['Control']) {
-        Redo()
-      } else {
-        Undo()
-      }
-      break
-  }
-})

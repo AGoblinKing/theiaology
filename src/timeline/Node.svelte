@@ -25,9 +25,13 @@
   import { SaveScript } from 'src/file/save'
   import { NORMALIZER, UserUnits } from 'src/config'
   import { hashcode } from './color'
-  import { audio, end, seconds } from 'src/sound/audio';
+  import { seconds } from 'src/sound/audio';
+
 
   export let i = 0
+
+  $: rootChildren = $timeline && i === 0 ?  Object.keys($timeline_json._).sort((i) => $timeline.when(parseInt(i, 10))) : []
+  $: myChildren = $timeline && Object.keys(item._).sort((i) => $timeline.when(parseInt(i, 10)))
 
   $: item = $timeline_json.flat[i] || { $: [0], _: {} }
   $: command = $timeline.command(i)
@@ -200,6 +204,7 @@
 
   function NavData(index: number) {
     return {
+      i,
       tag: `${order}-data-${index}|${i === 0 ? 'root-name' : ''}`,
       left: `${order}-data-${index - 1}|${order}-command`,
       // todo check these
@@ -224,6 +229,7 @@
         hover={i === 0 ? 'BOOT ROOT' : 'REMOVE'}
         click={() => remove(i)}
         nav={{
+          i,
           tag: `${order}-remove`,
           right: `${order}-command`,
           up: `${order - 1}-remove|${
@@ -242,6 +248,7 @@
         : 'Command'}
       tilt={hashcode(label.slice(0, 3)) % 360}
       nav={{
+        i,
         tag: `${order}-command|${i === 0 ? 'root' : ''}|last`,
         left: `${order}-remove|${order}-add}`,
         right: `${order}-data-0|${order}-time|${order}-add|${order}-remove`,
@@ -344,6 +351,7 @@
         hover="Add"
         style=" border-radius: 0 0.5rem 0.5rem 0rem;"
         nav={{
+          i,
           tag: `${order}-add`,
           left: `${order}-data-2|${order}-data-1|${order}-data-0|${order}-command`,
 
@@ -356,6 +364,7 @@
       <Box  
         style="margin-right: 1.5rem;"
         nav={{
+          i,
           tag: `${order}-add`,
           left: `${order}-data-2|${order}-data-1|${order}-data-0|${order}-command`,
           up: `${order - 1}-add|${order - 1}-data-2|${order -1 }-data-1|${order -1 }-data-0|${up}`,
@@ -370,14 +379,14 @@
     {/if}
   </div>
   <div class="children">
-    {#each Object.keys(item._).reverse() as key}
+    {#each myChildren as key}
       <svelte:self i={key} />
     {/each}
   </div>
 </div>
 
 {#if i === 0}
-  {#each Object.keys($timeline_json._).sort() as key, idx }
+  {#each rootChildren as key, idx }
     <svelte:self i={key} />
   {/each}
 {/if}

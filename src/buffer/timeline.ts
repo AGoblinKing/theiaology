@@ -191,7 +191,7 @@ export class Timeline extends AtomicInt {
 
   add(
     when: number,
-    e: ETimeline,
+    command: ETimeline,
     // identification number, whether timeline ID or
     who: number,
     d1: number = 0,
@@ -205,7 +205,7 @@ export class Timeline extends AtomicInt {
     const i = this.available.shift()
 
     Atomics.store(this, i * Timeline.COUNT, when)
-    Atomics.store(this, i * Timeline.COUNT + 1, e)
+    Atomics.store(this, i * Timeline.COUNT + 1, command)
     Atomics.store(this, i * Timeline.COUNT + 2, who)
     Atomics.store(this, i * Timeline.COUNT + 3, d1)
     Atomics.store(this, i * Timeline.COUNT + 4, d2)

@@ -19,6 +19,9 @@
   import { EVar } from './def-timeline'
   import { mouse_page } from 'src/input/mouse'
   import { dotTheia, SPONSOR } from 'src/config'
+  import { Redo, Undo } from 'src/controller/undoredo'
+  import { key_down, key_map } from 'src/input/keyboard'
+  import { Copy, Cut, Paste } from 'src/controller/copypaste'
 
   async function loadFile(event) {
     const reader = new FileReader()
@@ -68,6 +71,29 @@
   }
 
   const down = 'music-name|vox-name|root-name'
+
+  key_down.on((c) => {
+    if (!$timeline_shown) return
+
+    switch (c.toLowerCase()) {
+      case 'x':
+        Cut()
+        break
+      case 'c':
+        Copy()
+        break
+      case 'v':
+        Paste()
+        break
+      case 'z':
+        if (key_map.$['Control']) {
+          Redo()
+        } else {
+          Undo()
+        }
+        break
+    }
+  })
 </script>
 
 <a

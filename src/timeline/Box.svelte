@@ -1,65 +1,4 @@
-<script lang="ts" context="module">
-  import { key_down, key_map } from 'src/input/keyboard'
-  import { Value } from 'src/value/value'
-  interface INav {
-    left?: string
-    up?: string
-    right?: string
-    down?: string
-    tag: string
-  }
-  const cursor = new Value<INav>({
-    right: 'workspace',
-    down: 'music|vox|root',
-    tag: 'theiaology',
-  })
-  const navs = {}
-  const doclick = new Value(false)
-  function AttemptNav(dir: 'up' | 'down' | 'left' | 'right') {
-    if (!cursor.$[dir]) return
-    const attempts = cursor.$[dir].split('|')
-    for (let attempt of attempts) {
-      if (!navs[attempt]) continue
-      cursor.set(navs[attempt])
-      return
-    }
-  }
-   // @ts-ignore
-  window.navs = navs
-  key_down.on((k) => {
-    if (!timeline_shown.$) return
- 
-    switch (k) {
-      case 'e':
-      case 'Enter':
-      case 'i':
-        doclick.set(true)
-        break
-      case 'r':
-      case 'ArrowUp':
-      case 'j':
-        AttemptNav('up')
-        break
-      case 'f':
-      case 'ArrowDown':
-      case 'k':
-        AttemptNav('down')
-        break
-      case 'q':
-      case 'ArrowLeft':
-      case 'l':
-        AttemptNav('left')
-        break
-      case 'ArrowRight':
-      case ';':
-        AttemptNav('right')
-        break
-      case 'Tab':
-        AttemptNav(key_map.$['Shift'] ? 'left' : 'right')
-        break
-    }
-  })
-</script>
+
 
 <script lang="ts">
   import { onDestroy } from 'svelte'
@@ -68,8 +7,11 @@
     modal_location,
     modal_options,
     modal_visible,
-    timeline_shown,
   } from './editor'
+  
+  import { cursor, doclick, navs } from './nav';
+
+  import type { INav } from './nav';
 
   export let nav: INav = {
     left: '',
@@ -77,6 +19,7 @@
     up: '',
     down: '',
     tag: '',
+    i: 0
   }
 
   $: selected = $cursor.tag !== '' && $cursor.tag === nav.tag
@@ -145,6 +88,10 @@
   class:upper
   class:selected
   class:bold
+  on:contextmenu={(e) => {
+    e.preventDefault()
+    if(nav.tag !== '') cursor.set(nav)
+  }}
   bind:this={box}
   on:click={doClick}
   class:notilt
