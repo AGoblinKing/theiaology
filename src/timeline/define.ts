@@ -54,6 +54,13 @@ export class Define {
     this.reset()
   }
 
+  all() {
+    return [
+      ...this.atoms,
+      ...this._.reduce((a, i) => [...a, ...this.atoms], []),
+    ]
+  }
+
   reset() {
     this.phase = EPhase.VOID
     this.impact = EImpactReaction.None

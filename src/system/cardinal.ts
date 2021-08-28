@@ -220,7 +220,7 @@ class Cardinal extends System {
           $rez.pos.y = this.timeline.data1(i)
           $rez.pos.z = this.timeline.data2(i)
 
-          for (let atom of $rez.atoms) {
+          for (let atom of $rez.all()) {
             this.future.x(atom, $rez.pos.x)
             this.future.y(atom, $rez.pos.y)
             this.future.z(atom, $rez.pos.z)
@@ -236,7 +236,7 @@ class Cardinal extends System {
             this.timeline.data2(i)
           )
 
-          for (let atom of $rez.atoms) {
+          for (let atom of $rez.all()) {
             this.velocity.x(atom, $rez.vel.x)
             this.velocity.y(atom, $rez.vel.y)
             this.velocity.z(atom, $rez.vel.z)
@@ -250,7 +250,7 @@ class Cardinal extends System {
             this.timeline.data1(i),
             this.timeline.data2(i)
           )
-          for (let atom of $rez.atoms) {
+          for (let atom of $rez.all()) {
             this.velocity.x(atom, $rez.vel.x + $rez.velvar.x * Math.random())
             this.velocity.y(atom, $rez.vel.y + $rez.velvar.y * Math.random())
             this.velocity.z(atom, $rez.vel.z + $rez.velvar.z * Math.random())
