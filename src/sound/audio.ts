@@ -45,10 +45,6 @@ audio.onplay = function () {
 
     lowerAvg.set(sum(lowerHalfArray) / lowerHalfArray.length)
     upperAvg.set(sum(upperHalfArray) / upperHalfArray.length)
-
-    if (seconds.$ !== audio.currentTime) {
-      seconds.set(audio.currentTime)
-    }
   })
 }
 
@@ -69,4 +65,10 @@ lowerAvg.on(($la) => (lowerUniform.value = $la))
 // update universal
 seconds.on(($s) => {
   universal.musicTime($s)
+})
+
+tick.on(() => {
+  if (seconds.$ !== audio.currentTime) {
+    seconds.set(audio.currentTime)
+  }
 })

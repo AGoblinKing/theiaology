@@ -11,7 +11,7 @@ import { voxes } from 'src/buffer/vox'
 import { ENTITY_COUNT, NORMALIZER } from 'src/config'
 import { ShapeMap } from 'src/shape'
 import { ALPHABET } from 'src/shape/text'
-import { EAxis, EIdle, ETimeline, Rez } from 'src/timeline/def-timeline'
+import { Define, EAxis, EIdle, ETimeline } from 'src/timeline/def-timeline'
 import { Color, Euler, Object3D, Vector3 } from 'three'
 import { EMessage, FRez } from './sys-enum'
 import { System } from './system'
@@ -40,9 +40,8 @@ class Cardinal extends System {
 
   timeline: Timeline
   universal: Universal
-  // world components
-  defines: { [key: number]: number[] } = []
-  rezes: { [def: number]: Rez } = {}
+
+  defines: { [def: number]: Define } = {}
 
   // do a command at timing
   timing: { [time: number]: number[] } = {}
@@ -124,360 +123,127 @@ class Cardinal extends System {
     }
   }
 
-  define(def: number) {
-    this.rezes[def] = this.rezes[def] || new Rez()
+  doTurn(sec?: number) {
+    if (sec === undefined) sec = this.universal.musicTime()
+    if (!this.timing[sec]) return
 
-    const $rez = this.rezes[def]
+    const toRez = []
 
-    const timing = this.universal.musicTime()
+    for (let i of this.timing[sec]) {
+      const def = this.timeline.who(i)
 
-    const define = this.defines[def]
-    if (define === undefined) {
-      throw new Error('invalid define number for flat timelinemap')
-    }
-    for (let child of define) {
+      this.defines[def] = this.defines[def] || new Define()
+
+      const $rez = this.defines[def]
+
       // Check the timing to only apply the right stuff
-      if (this.timeline.when(child) > timing) continue
+      if (this.timeline.when(i) > sec) continue
 
-      switch (this.timeline.command(child)) {
+      switch (this.timeline.command(i)) {
         case ETimeline.TEXT:
-          $rez.text = this.timeline.text(child)
+          $rez.text = this.timeline.text(i)
+
           break
         case ETimeline.SIZEVAR:
           $rez.sizevar.set(
-            this.timeline.data0(child),
-            this.timeline.data1(child),
-            this.timeline.data2(child)
+            this.timeline.data0(i),
+            this.timeline.data1(i),
+            this.timeline.data2(i)
           )
           break
         case ETimeline.ROTVAR:
           $rez.rotvar.set(
-            this.timeline.data0(child),
-            this.timeline.data1(child),
-            this.timeline.data2(child)
+            this.timeline.data0(i),
+            this.timeline.data1(i),
+            this.timeline.data2(i)
           )
           break
         case ETimeline.ROT:
           $rez.rot.set(
-            this.timeline.data0(child),
-            this.timeline.data1(child),
-            this.timeline.data2(child)
+            this.timeline.data0(i),
+            this.timeline.data1(i),
+            this.timeline.data2(i)
           )
           break
         case ETimeline.LOOK:
           $rez.doLook = true
           $rez.look.set(
-            this.timeline.data0(child),
-            this.timeline.data1(child),
-            this.timeline.data2(child)
+            this.timeline.data0(i),
+            this.timeline.data1(i),
+            this.timeline.data2(i)
           )
 
           break
         case ETimeline.VOXVAR:
           $rez.voxvar.set(
-            this.timeline.data0(child),
-            this.timeline.data1(child),
-            this.timeline.data2(child)
+            this.timeline.data0(i),
+            this.timeline.data1(i),
+            this.timeline.data2(i)
           )
           break
         case ETimeline.VOX:
-          $rez.vox = this.timeline.text(child)
+          $rez.vox = this.timeline.text(i)
           break
         case ETimeline.FLOCK:
-          $rez.flock.shape = this.timeline.data0(child)
-          $rez.flock.size = this.timeline.data1(child)
-          $rez.flock.step = this.timeline.data2(child)
+          $rez.flock.shape = this.timeline.data0(i)
+          $rez.flock.size = this.timeline.data1(i)
+          $rez.flock.step = this.timeline.data2(i)
           break
         case ETimeline.SIZE:
-          $rez.size.x = this.timeline.data0(child)
-          $rez.size.y = this.timeline.data1(child)
-          $rez.size.z = this.timeline.data2(child)
+          $rez.size.x = this.timeline.data0(i)
+          $rez.size.y = this.timeline.data1(i)
+          $rez.size.z = this.timeline.data2(i)
           break
         case ETimeline.COLOR:
-          const rgb = this.timeline.data0(child)
+          const rgb = this.timeline.data0(i)
           $rez.color.setHex(rgb)
-          $rez.col.tilt = this.timeline.data1(child)
-          $rez.col.variance = this.timeline.data2(child)
+          $rez.col.tilt = this.timeline.data1(i)
+          $rez.col.variance = this.timeline.data2(i)
 
           break
         case ETimeline.POSVAR:
-          $rez.posvar.x = this.timeline.data0(child)
-          $rez.posvar.y = this.timeline.data1(child)
-          $rez.posvar.z = this.timeline.data2(child)
+          $rez.posvar.x = this.timeline.data0(i)
+          $rez.posvar.y = this.timeline.data1(i)
+          $rez.posvar.z = this.timeline.data2(i)
           break
         case ETimeline.POS:
-          $rez.pos.x = this.timeline.data0(child)
-          $rez.pos.y = this.timeline.data1(child)
-          $rez.pos.z = this.timeline.data2(child)
+          $rez.pos.x = this.timeline.data0(i)
+          $rez.pos.y = this.timeline.data1(i)
+          $rez.pos.z = this.timeline.data2(i)
+
+          for (let atom of $rez.atoms) {
+            this.future.x(atom, $rez.pos.x)
+            this.future.y(atom, $rez.pos.y)
+            this.future.z(atom, $rez.pos.z)
+            this.future.time(atom, sec)
+          }
+
           break
         case ETimeline.THRUST:
           $rez.vel.set(
-            this.timeline.data0(child),
-            this.timeline.data1(child),
-            this.timeline.data2(child)
+            this.timeline.data0(i),
+            this.timeline.data1(i),
+            this.timeline.data2(i)
           )
+
+          for (let atom of $rez.atoms) {
+            this.velocity.x(atom, $rez.vel.x)
+            this.velocity.y(atom, $rez.vel.y)
+            this.velocity.z(atom, $rez.vel.z)
+          }
           break
         case ETimeline.THRUSTVAR:
           $rez.velvar.set(
-            this.timeline.data0(child),
-            this.timeline.data1(child),
-            this.timeline.data2(child)
+            this.timeline.data0(i),
+            this.timeline.data1(i),
+            this.timeline.data2(i)
           )
+          for (let atom of $rez.atoms) {
+            this.velocity.x(atom, $rez.vel.x + $rez.velvar.x * Math.random())
+            this.velocity.y(atom, $rez.vel.y + $rez.velvar.y * Math.random())
+            this.velocity.z(atom, $rez.vel.z + $rez.velvar.z * Math.random())
+          }
           break
-
-        // TODO: useful for bullets and such
-        case ETimeline.THRUSTTO:
-          break
-        case ETimeline.PHASE:
-          $rez.phase = this.timeline.data0(child)
-          break
-        case ETimeline.IMPACT:
-          $rez.impact = this.timeline.data0(child)
-          break
-      }
-    }
-    return $rez
-  }
-
-  // Entity ID number to init
-  entity(def: number) {
-    // navigate up the tree to root
-    // build for loops to apply
-
-    const t = this.universal.time()
-    const $rez = this.define(def)
-
-    // now we rez
-    // determine voxel count, for loop over them
-    const shape = ShapeMap[$rez.flock.shape]
-    if (!shape) {
-      throw new Error("couldn't find shape on shapemap" + $rez.flock.shape)
-    }
-
-    const atoms = shape.AtomCount($rez.flock.size, $rez.flock.step)
-    for (let i = 0; i < atoms; i++) {
-      const $shape = shape(i, $rez.flock.size, $rez.flock.step)
-
-      // apply $rez data
-
-      const x =
-        $rez.pos.x +
-        $shape.x +
-        Math.round($rez.posvar.x * Math.random() * 2 - $rez.posvar.x)
-      const y =
-        $rez.pos.y +
-        $shape.y +
-        Math.round($rez.posvar.y * Math.random() * 2 - $rez.posvar.y)
-
-      const z =
-        $rez.pos.z +
-        $shape.z +
-        Math.round($rez.posvar.z * Math.random() * 2 - $rez.posvar.z)
-
-      $col
-        .setRGB(Math.random(), Math.random(), Math.random())
-        .lerp($rez.color, (NORMALIZER - $rez.col.variance) / NORMALIZER)
-
-      // tilt
-      $col.getHSL($hsl)
-
-      $col.setHSL($hsl.h + $rez.col.tilt / NORMALIZER, $hsl.s, $hsl.l)
-
-      const sx = $rez.size.x + Math.round(Math.random() * $rez.sizevar.x)
-      const sy = $rez.size.y + Math.round(Math.random() * $rez.sizevar.y)
-      const sz = $rez.size.z + Math.round(Math.random() * $rez.sizevar.z)
-
-      switch (true) {
-        // is voxel rez
-        case $rez.vox !== '' && voxes.$[$rez.vox] !== undefined:
-          // Need to clean this part up
-          this.vox($rez, $hsl, t, x, y, z, sx, sy, sz)
-          continue
-        // is text rez
-        case $rez.text !== undefined:
-          this.text($rez, $hsl, t, x, y, z, sx, sy, sz, $col)
-          continue
-        default:
-          this.basic($rez, $hsl, t, x, y, z, sx, sy, sz)
-      }
-    }
-  }
-
-  text($rez, $hsl, t, x, y, z, sx, sy, sz, color) {
-    for (let i = 0; i < $rez.text.length; i++) {
-      const map = ALPHABET[$rez.text.charAt(i).toLowerCase()]
-      if (!map) continue
-
-      for (let v of map) {
-        const id = this.reserve()
-        $rez.rezes.push(id)
-
-        if (v[2] === undefined) {
-          v[2] = v[0]
-        }
-        if (v[3] === undefined) {
-          v[3] = v[1]
-        }
-        const smx = v[2] - v[0]
-        const smy = v[3] - v[1]
-
-        this.future.time(id, t + 1000 * Math.random() + 500)
-        this.future.x(id, x + v[0] * sx + (sx * smx) / 2)
-        this.future.y(id, y + v[1] * sy + (sy * smy) / 2)
-        this.future.z(id, z)
-
-        this.size.x(id, sx + sx * smx)
-        this.size.y(id, sy + sy * smy)
-        this.size.z(id, sz + Math.random() * 0.5)
-        color
-          .setRGB(Math.random(), Math.random(), Math.random())
-          .lerp($rez.color, (NORMALIZER - $rez.col.variance) / NORMALIZER)
-        this.matter.red(id, Math.floor(color.r * NORMALIZER))
-        this.matter.green(id, Math.floor(color.g * NORMALIZER))
-        this.matter.blue(id, Math.floor(color.b * NORMALIZER))
-
-        this.matter.phase(id, $rez.phase)
-        this.impact.reaction(id, $rez.impact)
-        this.velocity.x(id, $rez.vel.x)
-        this.velocity.y(id, $rez.vel.y)
-        this.velocity.z(id, $rez.vel.z)
-      }
-
-      x += sx * 5
-    }
-  }
-
-  basic($rez, $hsl, t, x, y, z, sx, sy, sz) {
-    const id = this.reserve()
-    $rez.rezes.push(id)
-
-    this.future.time(id, t + 1000 * Math.random() + 500)
-    this.future.x(id, x)
-    this.future.y(id, y)
-    this.future.z(id, z)
-
-    this.size.x(id, sx)
-    this.size.y(id, sy)
-    this.size.z(id, sz)
-    this.velocity.x(id, $rez.vel.x + Math.floor(Math.random() * $rez.velvar.x))
-    this.velocity.y(id, $rez.vel.y + Math.floor(Math.random() * $rez.velvar.y))
-    this.velocity.z(id, $rez.vel.z + Math.floor(Math.random() * $rez.velvar.z))
-    this.core(id, $col, $rez)
-  }
-
-  vox($rez, $hsl, t, x, y, z, sx, sy, sz) {
-    // vox miss, but could be because we haven't loaded $voxes yet
-    const voxDef = voxes.$[$rez.vox]
-    const ts = $hsl.s
-    const tl = $hsl.l
-
-    const variance = ($rez.col.variance / NORMALIZER) * Math.random()
-    let rx = ($rez.rotvar.x / NORMALIZER) * Math.random() * Math.PI * 2
-    let ry = ($rez.rotvar.y / NORMALIZER) * Math.random() * Math.PI * 2
-    let rz = ($rez.rotvar.z / NORMALIZER) * Math.random() * Math.PI * 2
-
-    if ($rez.doLook) {
-      $o3d.position.set(x, $rez.look.y, z)
-      $o3d.lookAt($rez.look)
-      $eule.setFromQuaternion($o3d.quaternion)
-
-      $eule.y += ($rez.rot.y / NORMALIZER) * Math.PI * 2
-      $eule.z += ($rez.rot.z / NORMALIZER) * Math.PI * 2
-      $eule.x += ($rez.rot.x / NORMALIZER) * Math.PI * 2
-    } else {
-      $eule.set(
-        rx + ($rez.rot.x / NORMALIZER) * Math.PI * 2,
-        ry + ($rez.rot.y / NORMALIZER) * Math.PI * 2,
-        rz + ($rez.rot.z / NORMALIZER) * Math.PI * 2
-      )
-    }
-    const rtx = Math.random() * $rez.velvar.x
-    const rty = Math.random() * $rez.velvar.y
-    const rtz = Math.random() * $rez.velvar.z
-    for (let i = 0; i < voxDef.xyzi.length / 4; i++) {
-      const id = this.reserve()
-      $rez.rezes.push(id)
-      const ix = i * 4
-
-      $vec3
-        .set(
-          voxDef.xyzi[ix] * sx,
-          voxDef.xyzi[ix + 2] * sy,
-          voxDef.xyzi[ix + 1] * sz
-        )
-
-        .applyEuler($eule)
-        .add($vec3_o.set(x, y, z))
-
-      this.future.time(id, t + 1000 * Math.random() + 500)
-      this.future.x(id, $vec3.x + Math.round(Math.random() * 2 - 1))
-      this.future.y(id, $vec3.y + Math.round(Math.random() * 2 - 1))
-      this.future.z(id, $vec3.z + Math.round(Math.random() * 2 - 1))
-
-      // -1 because magica?
-      const c = (voxDef.xyzi[ix + 3] - 1) * 4
-
-      const r = voxDef.rgba[c]
-      const g = voxDef.rgba[c + 1]
-      const b = voxDef.rgba[c + 2]
-      $col2.setRGB(r / 255, g / 255, b / 255).getHSL($hsl)
-
-      let addTilt = 0
-      if ($rez.voxvar.x === r * 256 * 256 + g * 256 + b) {
-        addTilt = Math.random() * $rez.voxvar.z + $rez.voxvar.y
-      }
-
-      $col2.setHSL(
-        ($hsl.h +
-          $rez.col.tilt / NORMALIZER +
-          addTilt +
-          variance +
-          Math.random() * 0.05) %
-          1,
-        ($hsl.s + ts) / 2,
-        ($hsl.l + tl) / 2
-      )
-
-      this.size.x(id, sx)
-      this.size.y(id, sy)
-      this.size.z(id, sz)
-      this.velocity.x(id, $rez.vel.x + rtx)
-      this.velocity.y(id, $rez.vel.y + rty)
-      this.velocity.z(id, $rez.vel.z + rtz)
-      this.core(id, $col2, $rez)
-    }
-  }
-
-  core(id: number, color: Color, $rez: Rez) {
-    this.matter.red(id, Math.floor(color.r * NORMALIZER))
-    this.matter.green(id, Math.floor(color.g * NORMALIZER))
-    this.matter.blue(id, Math.floor(color.b * NORMALIZER))
-
-    this.matter.phase(id, $rez.phase)
-    this.impact.reaction(id, $rez.impact)
-  }
-
-  process() {
-    const toRez = []
-    const timing = this.universal.musicTime()
-    this.lastTime = timing
-    // run through timeline and execute rezes
-    for (let i = 0; i < this.timeline.length / Timeline.COUNT; i++) {
-      const t = this.timeline.when(i)
-      if (t > timing) {
-        this.timing[t] = this.timing[t] || []
-        this.timing[t].push(t)
-        continue
-      }
-      const who = this.timeline.who(i)
-
-      if (!this.defines[who]) {
-        this.defines[who] = []
-      }
-
-      this.defines[who].push(i)
-
-      switch (this.timeline.command(i)) {
         case ETimeline.USERROT:
           this.universal.userRX(this.timeline.data0(i))
           this.universal.userRY(this.timeline.data1(i))
@@ -540,9 +306,24 @@ class Cardinal extends System {
           this.post(EMessage.CAGE_UPDATE)
 
           break
+        case ETimeline.DEREZ:
+          for (let atom of $rez.atoms) {
+            this.free(atom)
+          }
+          $rez.atoms = []
+          break
         // rez time
         case ETimeline.REZ:
           toRez.push(i)
+          break
+        // TODO: useful for bullets and such
+        case ETimeline.THRUSTTO:
+          break
+        case ETimeline.PHASE:
+          $rez.phase = this.timeline.data0(i)
+          break
+        case ETimeline.IMPACT:
+          $rez.impact = this.timeline.data0(i)
           break
       }
     }
@@ -554,14 +335,246 @@ class Cardinal extends System {
     }
   }
 
+  // Entity ID number to init
+  entity(def: number) {
+    // navigate up the tree to root
+    // build for loops to apply
+
+    const t = this.universal.time()
+    const $rez = (this.defines[def] = this.defines[def] || new Define())
+
+    // now we rez
+    // determine voxel count, for loop over them
+    const shape = ShapeMap[$rez.flock.shape]
+    if (!shape) {
+      throw new Error("couldn't find shape on shapemap" + $rez.flock.shape)
+    }
+
+    const atoms = shape.AtomCount($rez.flock.size, $rez.flock.step)
+    for (let i = 0; i < atoms; i++) {
+      const $shape = shape(i, $rez.flock.size, $rez.flock.step)
+
+      // apply $rez data
+
+      const x =
+        $rez.pos.x +
+        $shape.x +
+        Math.round($rez.posvar.x * Math.random() * 2 - $rez.posvar.x)
+      const y =
+        $rez.pos.y +
+        $shape.y +
+        Math.round($rez.posvar.y * Math.random() * 2 - $rez.posvar.y)
+
+      const z =
+        $rez.pos.z +
+        $shape.z +
+        Math.round($rez.posvar.z * Math.random() * 2 - $rez.posvar.z)
+
+      $col
+        .setRGB(Math.random(), Math.random(), Math.random())
+        .lerp($rez.color, (NORMALIZER - $rez.col.variance) / NORMALIZER)
+
+      // tilt
+      $col.getHSL($hsl)
+
+      $col.setHSL($hsl.h + $rez.col.tilt / NORMALIZER, $hsl.s, $hsl.l)
+
+      const sx = $rez.size.x + Math.round(Math.random() * $rez.sizevar.x)
+      const sy = $rez.size.y + Math.round(Math.random() * $rez.sizevar.y)
+      const sz = $rez.size.z + Math.round(Math.random() * $rez.sizevar.z)
+
+      switch (true) {
+        // is voxel rez
+        case $rez.vox !== '' && voxes.$[$rez.vox] !== undefined:
+          // Need to clean this part up
+          this.vox($rez, $hsl, t, x, y, z, sx, sy, sz)
+          continue
+        // is text rez
+        case $rez.text !== undefined:
+          this.text($rez, $hsl, t, x, y, z, sx, sy, sz, $col)
+          continue
+        default:
+          this.basic($rez, $hsl, t, x, y, z, sx, sy, sz)
+      }
+    }
+  }
+
+  text($rez: Define, $hsl, t, x, y, z, sx, sy, sz, color) {
+    for (let i = 0; i < $rez.text.length; i++) {
+      const map = ALPHABET[$rez.text.charAt(i).toLowerCase()]
+      if (!map) continue
+
+      for (let v of map) {
+        const id = this.reserve()
+        $rez.atoms.push(id)
+
+        if (v[2] === undefined) {
+          v[2] = v[0]
+        }
+        if (v[3] === undefined) {
+          v[3] = v[1]
+        }
+        const smx = v[2] - v[0]
+        const smy = v[3] - v[1]
+
+        this.future.time(id, t + 1000 * Math.random() + 500)
+        this.future.x(id, x + v[0] * sx + (sx * smx) / 2)
+        this.future.y(id, y + v[1] * sy + (sy * smy) / 2)
+        this.future.z(id, z)
+
+        this.size.x(id, sx + sx * smx)
+        this.size.y(id, sy + sy * smy)
+        this.size.z(id, sz + Math.random() * 0.5)
+        color
+          .setRGB(Math.random(), Math.random(), Math.random())
+          .lerp($rez.color, (NORMALIZER - $rez.col.variance) / NORMALIZER)
+        this.matter.red(id, Math.floor(color.r * NORMALIZER))
+        this.matter.green(id, Math.floor(color.g * NORMALIZER))
+        this.matter.blue(id, Math.floor(color.b * NORMALIZER))
+
+        this.matter.phase(id, $rez.phase)
+        this.impact.reaction(id, $rez.impact)
+        this.velocity.x(id, $rez.vel.x)
+        this.velocity.y(id, $rez.vel.y)
+        this.velocity.z(id, $rez.vel.z)
+      }
+
+      x += sx * 5
+    }
+  }
+
+  basic($rez: Define, $hsl, t, x, y, z, sx, sy, sz) {
+    const id = this.reserve()
+    $rez.atoms.push(id)
+
+    this.future.time(id, t + 1000 * Math.random() + 500)
+    this.future.x(id, x)
+    this.future.y(id, y)
+    this.future.z(id, z)
+
+    this.size.x(id, sx)
+    this.size.y(id, sy)
+    this.size.z(id, sz)
+    this.velocity.x(id, $rez.vel.x + Math.floor(Math.random() * $rez.velvar.x))
+    this.velocity.y(id, $rez.vel.y + Math.floor(Math.random() * $rez.velvar.y))
+    this.velocity.z(id, $rez.vel.z + Math.floor(Math.random() * $rez.velvar.z))
+    this.core(id, $col, $rez)
+  }
+
+  vox($rez: Define, $hsl, t, x, y, z, sx, sy, sz) {
+    // vox miss, but could be because we haven't loaded $voxes yet
+    const voxDef = voxes.$[$rez.vox]
+    const ts = $hsl.s
+    const tl = $hsl.l
+
+    const variance = ($rez.col.variance / NORMALIZER) * Math.random()
+    let rx = ($rez.rotvar.x / NORMALIZER) * Math.random() * Math.PI * 2
+    let ry = ($rez.rotvar.y / NORMALIZER) * Math.random() * Math.PI * 2
+    let rz = ($rez.rotvar.z / NORMALIZER) * Math.random() * Math.PI * 2
+
+    if ($rez.doLook) {
+      $o3d.position.set(x, $rez.look.y, z)
+      $o3d.lookAt($rez.look)
+      $eule.setFromQuaternion($o3d.quaternion)
+
+      $eule.y += ($rez.rot.y / NORMALIZER) * Math.PI * 2
+      $eule.z += ($rez.rot.z / NORMALIZER) * Math.PI * 2
+      $eule.x += ($rez.rot.x / NORMALIZER) * Math.PI * 2
+    } else {
+      $eule.set(
+        rx + ($rez.rot.x / NORMALIZER) * Math.PI * 2,
+        ry + ($rez.rot.y / NORMALIZER) * Math.PI * 2,
+        rz + ($rez.rot.z / NORMALIZER) * Math.PI * 2
+      )
+    }
+    const rtx = Math.random() * $rez.velvar.x
+    const rty = Math.random() * $rez.velvar.y
+    const rtz = Math.random() * $rez.velvar.z
+    for (let i = 0; i < voxDef.xyzi.length / 4; i++) {
+      const id = this.reserve()
+      $rez.atoms.push(id)
+      const ix = i * 4
+
+      $vec3
+        .set(
+          voxDef.xyzi[ix] * sx,
+          voxDef.xyzi[ix + 2] * sy,
+          voxDef.xyzi[ix + 1] * sz
+        )
+
+        .applyEuler($eule)
+        .add($vec3_o.set(x, y, z))
+
+      this.future.time(id, t + 1000 * Math.random() + 500)
+      this.future.x(id, $vec3.x + Math.round(Math.random() * 2 - 1))
+      this.future.y(id, $vec3.y + Math.round(Math.random() * 2 - 1))
+      this.future.z(id, $vec3.z + Math.round(Math.random() * 2 - 1))
+
+      // -1 because magica?
+      const c = (voxDef.xyzi[ix + 3] - 1) * 4
+
+      const r = voxDef.rgba[c]
+      const g = voxDef.rgba[c + 1]
+      const b = voxDef.rgba[c + 2]
+      $col2.setRGB(r / 255, g / 255, b / 255).getHSL($hsl)
+
+      let addTilt = 0
+      if ($rez.voxvar.x === r * 256 * 256 + g * 256 + b) {
+        addTilt = Math.random() * $rez.voxvar.z + $rez.voxvar.y
+      }
+
+      $col2.setHSL(
+        ($hsl.h +
+          $rez.col.tilt / NORMALIZER +
+          addTilt +
+          variance +
+          Math.random() * 0.05) %
+          1,
+        ($hsl.s + ts) / 2,
+        ($hsl.l + tl) / 2
+      )
+
+      this.size.x(id, sx)
+      this.size.y(id, sy)
+      this.size.z(id, sz)
+      this.velocity.x(id, $rez.vel.x + rtx)
+      this.velocity.y(id, $rez.vel.y + rty)
+      this.velocity.z(id, $rez.vel.z + rtz)
+      this.core(id, $col2, $rez)
+    }
+  }
+
+  core(id: number, color: Color, $rez: Define) {
+    this.matter.red(id, Math.floor(color.r * NORMALIZER))
+    this.matter.green(id, Math.floor(color.g * NORMALIZER))
+    this.matter.blue(id, Math.floor(color.b * NORMALIZER))
+
+    this.matter.phase(id, $rez.phase)
+    this.impact.reaction(id, $rez.impact)
+  }
+
+  process() {
+    const timing = this.universal.musicTime()
+    this.lastTime = timing
+    // run through timeline and execute rezes
+    for (let i = 0; i < this.timeline.length / Timeline.COUNT; i++) {
+      const t = this.timeline.when(i)
+      this.timing[t] = this.timing[t] || []
+      this.timing[t].push(i)
+    }
+
+    let t = 0
+    while (t <= timing) {
+      this.doTurn(t++)
+    }
+  }
+
   timelineUpdated() {
     this.freeAll()
     // clear it
-    this.defines = []
     this.timing = {}
-    this.rezes = {}
+    this.defines = {}
 
-    this.universal.reset()
     this.post(EMessage.CAGE_UPDATE)
     this.post(EMessage.CLEAR_COLOR_UPDATE)
 
@@ -593,16 +606,6 @@ class Cardinal extends System {
     this._available.push(i)
   }
 
-  // execute a command from the timeline
-  execute(i: number) {
-    switch (this.timeline.command(i)) {
-      case ETimeline.REZ:
-      case ETimeline.THRUST:
-        // run through rezes and update their thrust
-        console.log('hit')
-    }
-  }
-
   reserve: FRez = () => {
     const i = this._available.pop()
     this.free(i)
@@ -614,13 +617,18 @@ class Cardinal extends System {
   tick() {
     if (this.ready) {
       const t = this.universal.musicTime()
-      if (t !== this.lastTime) {
-        this.lastTime = t
-        if (this.timing[t]) {
-          for (let comm of this.timing[t]) {
-            this.execute(comm)
-          }
+      if (t > this.lastTime) {
+        let lt = this.lastTime
+        while (lt < t) {
+          lt++
+          this.doTurn(lt)
         }
+
+        this.lastTime = t
+
+        // back in time
+      } else if (t < this.lastTime) {
+        this.timelineUpdated()
       }
 
       switch (this.universal.idle()) {

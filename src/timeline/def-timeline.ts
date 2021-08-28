@@ -17,7 +17,7 @@ export interface ITimeline extends INode {
   flat: { [key: number]: INode }
 }
 
-export class Rez {
+export class Define {
   color = new Color()
   pos = new Vector3()
   rot = new Euler()
@@ -39,7 +39,7 @@ export class Rez {
   doLook = false
 
   // do not reset to let rezes linger
-  rezes = []
+  atoms = []
 
   constructor() {
     this.reset()
