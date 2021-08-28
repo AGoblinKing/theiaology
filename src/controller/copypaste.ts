@@ -1,4 +1,5 @@
 import { timeline, timeline_json } from 'src/buffer'
+import { ETimeline } from 'src/timeline/def-timeline'
 import { cursor } from 'src/timeline/nav'
 import { Value } from 'src/value/value'
 
@@ -38,7 +39,10 @@ function SubItem(i: number, parent: number) {
 export function Paste() {
   if (cursor.$.i === undefined) return
   // get data from cursor
-  clip.$[2] = timeline.$.who(cursor.$.i)
+  clip.$[2] =
+    timeline.$.command(cursor.$.i) === ETimeline.TAG
+      ? cursor.$.i
+      : timeline.$.who(cursor.$.i)
   // @ts-ignore
   const id = timeline.$.add(...clip.$)
 
