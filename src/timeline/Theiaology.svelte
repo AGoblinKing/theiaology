@@ -76,6 +76,9 @@
     if (!$timeline_shown) return
 
     switch (c.toLowerCase()) {
+      case 'y':
+        Redo()
+        break
       case 'x':
         Cut()
         break
