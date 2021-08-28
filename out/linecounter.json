@@ -1,0 +1,3314 @@
+{
+    "extension": "linecounter",
+    "version": "0.2.7",
+    "workspace": "c:\\Users\\games dean\\Projects\\SharedArrayBuffers",
+    "linecount": [
+        {
+            "version": "0.2.7",
+            "counttime": "2021-08-28 03:41:19",
+            "filesum": 533,
+            "codesum": 60402,
+            "commentsum": 4742,
+            "blanksum": 21896,
+            "statistics": {
+                ".json": {
+                    "code": 4690,
+                    "comment": 0,
+                    "blank": 6
+                },
+                ".md": {
+                    "code": 68,
+                    "comment": 10,
+                    "blank": 41
+                },
+                ".ts": {
+                    "code": 3867,
+                    "comment": 224,
+                    "blank": 665
+                },
+                ".svelte": {
+                    "code": 1061,
+                    "comment": 16,
+                    "blank": 136
+                },
+                ".txt": {
+                    "code": 76,
+                    "comment": 2,
+                    "blank": 18
+                },
+                ".map": {
+                    "code": 205,
+                    "comment": 0,
+                    "blank": 0
+                },
+                ".js": {
+                    "code": 49640,
+                    "comment": 4191,
+                    "blank": 20844
+                },
+                ".mjs": {
+                    "code": 343,
+                    "comment": 291,
+                    "blank": 99
+                },
+                ".html": {
+                    "code": 42,
+                    "comment": 0,
+                    "blank": 9
+                },
+                ".vert": {
+                    "code": 108,
+                    "comment": 3,
+                    "blank": 30
+                },
+                ".frag": {
+                    "code": 44,
+                    "comment": 3,
+                    "blank": 13
+                },
+                ".css": {
+                    "code": 110,
+                    "comment": 0,
+                    "blank": 10
+                },
+                "": {
+                    "code": 44,
+                    "comment": 0,
+                    "blank": 8
+                },
+                ".yml": {
+                    "code": 88,
+                    "comment": 2,
+                    "blank": 15
+                },
+                ".tsbuildinfo": {
+                    "code": 1,
+                    "comment": 0,
+                    "blank": 0
+                },
+                ".toml": {
+                    "code": 15,
+                    "comment": 0,
+                    "blank": 2
+                }
+            },
+            "filelist": [
+                {
+                    "blank": 1,
+                    "code": 2,
+                    "comment": 0,
+                    "filename": ".github\\FUNDING.yml"
+                },
+                {
+                    "blank": 10,
+                    "code": 61,
+                    "comment": 2,
+                    "filename": ".github\\workflows\\codeql-analysis.yml"
+                },
+                {
+                    "blank": 4,
+                    "code": 25,
+                    "comment": 0,
+                    "filename": ".github\\workflows\\itch.yml"
+                },
+                {
+                    "blank": 0,
+                    "code": 12,
+                    "comment": 0,
+                    "filename": ".gitignore"
+                },
+                {
+                    "blank": 0,
+                    "code": 1,
+                    "comment": 0,
+                    "filename": ".prettierignore"
+                },
+                {
+                    "blank": 0,
+                    "code": 1,
+                    "comment": 0,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\public\\build\\.tsbuildinfo"
+                },
+                {
+                    "blank": 0,
+                    "code": 34,
+                    "comment": 1,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\src\\atomic.js"
+                },
+                {
+                    "blank": 0,
+                    "code": 1,
+                    "comment": 0,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\src\\atomic.js.map"
+                },
+                {
+                    "blank": 0,
+                    "code": 19,
+                    "comment": 32,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\src\\atomic\\atomic.js"
+                },
+                {
+                    "blank": 0,
+                    "code": 1,
+                    "comment": 0,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\src\\atomic\\atomic.js.map"
+                },
+                {
+                    "blank": 0,
+                    "code": 37,
+                    "comment": 9,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\src\\atomics.js"
+                },
+                {
+                    "blank": 0,
+                    "code": 1,
+                    "comment": 0,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\src\\atomics.js.map"
+                },
+                {
+                    "blank": 0,
+                    "code": 30,
+                    "comment": 4,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\src\\atoms.js"
+                },
+                {
+                    "blank": 0,
+                    "code": 1,
+                    "comment": 0,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\src\\atoms.js.map"
+                },
+                {
+                    "blank": 0,
+                    "code": 41,
+                    "comment": 1,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\src\\audio.js"
+                },
+                {
+                    "blank": 0,
+                    "code": 1,
+                    "comment": 0,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\src\\audio.js.map"
+                },
+                {
+                    "blank": 0,
+                    "code": 47,
+                    "comment": 2,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\src\\audio\\audio.js"
+                },
+                {
+                    "blank": 0,
+                    "code": 1,
+                    "comment": 0,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\src\\audio\\audio.js.map"
+                },
+                {
+                    "blank": 0,
+                    "code": 13,
+                    "comment": 1,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\src\\buffer\\animation.js"
+                },
+                {
+                    "blank": 0,
+                    "code": 1,
+                    "comment": 0,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\src\\buffer\\animation.js.map"
+                },
+                {
+                    "blank": 0,
+                    "code": 34,
+                    "comment": 1,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\src\\buffer\\atomic.js"
+                },
+                {
+                    "blank": 0,
+                    "code": 1,
+                    "comment": 0,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\src\\buffer\\atomic.js.map"
+                },
+                {
+                    "blank": 0,
+                    "code": 9,
+                    "comment": 3,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\src\\buffer\\grid.js"
+                },
+                {
+                    "blank": 0,
+                    "code": 1,
+                    "comment": 0,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\src\\buffer\\grid.js.map"
+                },
+                {
+                    "blank": 0,
+                    "code": 18,
+                    "comment": 2,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\src\\buffer\\impact.js"
+                },
+                {
+                    "blank": 0,
+                    "code": 1,
+                    "comment": 0,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\src\\buffer\\impact.js.map"
+                },
+                {
+                    "blank": 0,
+                    "code": 33,
+                    "comment": 3,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\src\\buffer\\index.js"
+                },
+                {
+                    "blank": 0,
+                    "code": 1,
+                    "comment": 0,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\src\\buffer\\index.js.map"
+                },
+                {
+                    "blank": 0,
+                    "code": 8,
+                    "comment": 2,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\src\\buffer\\material.js"
+                },
+                {
+                    "blank": 0,
+                    "code": 1,
+                    "comment": 0,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\src\\buffer\\material.js.map"
+                },
+                {
+                    "blank": 0,
+                    "code": 38,
+                    "comment": 7,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\src\\buffer\\matter.js"
+                },
+                {
+                    "blank": 0,
+                    "code": 1,
+                    "comment": 0,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\src\\buffer\\matter.js.map"
+                },
+                {
+                    "blank": 0,
+                    "code": 3,
+                    "comment": 1,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\src\\buffer\\scale.js"
+                },
+                {
+                    "blank": 0,
+                    "code": 1,
+                    "comment": 0,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\src\\buffer\\scale.js.map"
+                },
+                {
+                    "blank": 0,
+                    "code": 3,
+                    "comment": 1,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\src\\buffer\\size.js"
+                },
+                {
+                    "blank": 0,
+                    "code": 1,
+                    "comment": 0,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\src\\buffer\\size.js.map"
+                },
+                {
+                    "blank": 0,
+                    "code": 37,
+                    "comment": 1,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\src\\buffer\\spacetime.js"
+                },
+                {
+                    "blank": 0,
+                    "code": 1,
+                    "comment": 0,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\src\\buffer\\spacetime.js.map"
+                },
+                {
+                    "blank": 0,
+                    "code": 12,
+                    "comment": 1,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\src\\buffer\\status.js"
+                },
+                {
+                    "blank": 0,
+                    "code": 1,
+                    "comment": 0,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\src\\buffer\\status.js.map"
+                },
+                {
+                    "blank": 0,
+                    "code": 209,
+                    "comment": 26,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\src\\buffer\\timeline.js"
+                },
+                {
+                    "blank": 0,
+                    "code": 1,
+                    "comment": 0,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\src\\buffer\\timeline.js.map"
+                },
+                {
+                    "blank": 0,
+                    "code": 78,
+                    "comment": 1,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\src\\buffer\\universal.js"
+                },
+                {
+                    "blank": 0,
+                    "code": 1,
+                    "comment": 0,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\src\\buffer\\universal.js.map"
+                },
+                {
+                    "blank": 0,
+                    "code": 32,
+                    "comment": 1,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\src\\buffer\\velocity.js"
+                },
+                {
+                    "blank": 0,
+                    "code": 1,
+                    "comment": 0,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\src\\buffer\\velocity.js.map"
+                },
+                {
+                    "blank": 0,
+                    "code": 2,
+                    "comment": 3,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\src\\buffer\\vox.js"
+                },
+                {
+                    "blank": 0,
+                    "code": 1,
+                    "comment": 0,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\src\\buffer\\vox.js.map"
+                },
+                {
+                    "blank": 0,
+                    "code": 3,
+                    "comment": 2,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\src\\channel\\audiowave.js"
+                },
+                {
+                    "blank": 0,
+                    "code": 1,
+                    "comment": 0,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\src\\channel\\audiowave.js.map"
+                },
+                {
+                    "blank": 0,
+                    "code": 18,
+                    "comment": 2,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\src\\channel\\timeline.js"
+                },
+                {
+                    "blank": 0,
+                    "code": 1,
+                    "comment": 0,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\src\\channel\\timeline.js.map"
+                },
+                {
+                    "blank": 0,
+                    "code": 0,
+                    "comment": 1,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\src\\channel\\voxcache.js"
+                },
+                {
+                    "blank": 0,
+                    "code": 1,
+                    "comment": 0,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\src\\channel\\voxcache.js.map"
+                },
+                {
+                    "blank": 0,
+                    "code": 12,
+                    "comment": 1,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\src\\component\\active.js"
+                },
+                {
+                    "blank": 0,
+                    "code": 1,
+                    "comment": 0,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\src\\component\\active.js.map"
+                },
+                {
+                    "blank": 0,
+                    "code": 13,
+                    "comment": 1,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\src\\component\\animation.js"
+                },
+                {
+                    "blank": 0,
+                    "code": 1,
+                    "comment": 0,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\src\\component\\animation.js.map"
+                },
+                {
+                    "blank": 0,
+                    "code": 8,
+                    "comment": 2,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\src\\component\\impact.js"
+                },
+                {
+                    "blank": 0,
+                    "code": 1,
+                    "comment": 0,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\src\\component\\impact.js.map"
+                },
+                {
+                    "blank": 0,
+                    "code": 18,
+                    "comment": 3,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\src\\component\\index.js"
+                },
+                {
+                    "blank": 0,
+                    "code": 1,
+                    "comment": 0,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\src\\component\\index.js.map"
+                },
+                {
+                    "blank": 0,
+                    "code": 45,
+                    "comment": 3,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\src\\component\\matter.js"
+                },
+                {
+                    "blank": 0,
+                    "code": 1,
+                    "comment": 0,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\src\\component\\matter.js.map"
+                },
+                {
+                    "blank": 0,
+                    "code": 3,
+                    "comment": 1,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\src\\component\\scale.js"
+                },
+                {
+                    "blank": 0,
+                    "code": 1,
+                    "comment": 0,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\src\\component\\scale.js.map"
+                },
+                {
+                    "blank": 0,
+                    "code": 37,
+                    "comment": 6,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\src\\component\\sector.js"
+                },
+                {
+                    "blank": 0,
+                    "code": 1,
+                    "comment": 0,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\src\\component\\sector.js.map"
+                },
+                {
+                    "blank": 0,
+                    "code": 37,
+                    "comment": 1,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\src\\component\\spacetime.js"
+                },
+                {
+                    "blank": 0,
+                    "code": 1,
+                    "comment": 0,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\src\\component\\spacetime.js.map"
+                },
+                {
+                    "blank": 0,
+                    "code": 12,
+                    "comment": 1,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\src\\component\\status.js"
+                },
+                {
+                    "blank": 0,
+                    "code": 1,
+                    "comment": 0,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\src\\component\\status.js.map"
+                },
+                {
+                    "blank": 0,
+                    "code": 93,
+                    "comment": 13,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\src\\component\\timeline.js"
+                },
+                {
+                    "blank": 0,
+                    "code": 1,
+                    "comment": 0,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\src\\component\\timeline.js.map"
+                },
+                {
+                    "blank": 0,
+                    "code": 32,
+                    "comment": 1,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\src\\component\\velocity.js"
+                },
+                {
+                    "blank": 0,
+                    "code": 1,
+                    "comment": 0,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\src\\component\\velocity.js.map"
+                },
+                {
+                    "blank": 0,
+                    "code": 37,
+                    "comment": 4,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\src\\config.js"
+                },
+                {
+                    "blank": 0,
+                    "code": 1,
+                    "comment": 0,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\src\\config.js.map"
+                },
+                {
+                    "blank": 0,
+                    "code": 67,
+                    "comment": 2,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\src\\control\\fps.js"
+                },
+                {
+                    "blank": 0,
+                    "code": 1,
+                    "comment": 0,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\src\\control\\fps.js.map"
+                },
+                {
+                    "blank": 0,
+                    "code": 87,
+                    "comment": 4,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\src\\control\\hand.js"
+                },
+                {
+                    "blank": 0,
+                    "code": 1,
+                    "comment": 0,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\src\\control\\hand.js.map"
+                },
+                {
+                    "blank": 0,
+                    "code": 26,
+                    "comment": 3,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\src\\control\\physical.js"
+                },
+                {
+                    "blank": 0,
+                    "code": 1,
+                    "comment": 0,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\src\\control\\physical.js.map"
+                },
+                {
+                    "blank": 0,
+                    "code": 22,
+                    "comment": 2,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\src\\control\\smooth.js"
+                },
+                {
+                    "blank": 0,
+                    "code": 1,
+                    "comment": 0,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\src\\control\\smooth.js.map"
+                },
+                {
+                    "blank": 0,
+                    "code": 18,
+                    "comment": 3,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\src\\control\\vr.js"
+                },
+                {
+                    "blank": 0,
+                    "code": 1,
+                    "comment": 0,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\src\\control\\vr.js.map"
+                },
+                {
+                    "blank": 0,
+                    "code": 76,
+                    "comment": 13,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\src\\control\\xr.js"
+                },
+                {
+                    "blank": 0,
+                    "code": 1,
+                    "comment": 0,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\src\\control\\xr.js.map"
+                },
+                {
+                    "blank": 0,
+                    "code": 46,
+                    "comment": 3,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\src\\controller\\copypaste.js"
+                },
+                {
+                    "blank": 0,
+                    "code": 1,
+                    "comment": 0,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\src\\controller\\copypaste.js.map"
+                },
+                {
+                    "blank": 0,
+                    "code": 102,
+                    "comment": 3,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\src\\controller\\fps.js"
+                },
+                {
+                    "blank": 0,
+                    "code": 1,
+                    "comment": 0,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\src\\controller\\fps.js.map"
+                },
+                {
+                    "blank": 0,
+                    "code": 76,
+                    "comment": 3,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\src\\controller\\hands.js"
+                },
+                {
+                    "blank": 0,
+                    "code": 1,
+                    "comment": 0,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\src\\controller\\hands.js.map"
+                },
+                {
+                    "blank": 0,
+                    "code": 4,
+                    "comment": 1,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\src\\controller\\player.js"
+                },
+                {
+                    "blank": 0,
+                    "code": 1,
+                    "comment": 0,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\src\\controller\\player.js.map"
+                },
+                {
+                    "blank": 0,
+                    "code": 21,
+                    "comment": 2,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\src\\controller\\smooth.js"
+                },
+                {
+                    "blank": 0,
+                    "code": 1,
+                    "comment": 0,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\src\\controller\\smooth.js.map"
+                },
+                {
+                    "blank": 0,
+                    "code": 30,
+                    "comment": 1,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\src\\controller\\undoredo.js"
+                },
+                {
+                    "blank": 0,
+                    "code": 1,
+                    "comment": 0,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\src\\controller\\undoredo.js.map"
+                },
+                {
+                    "blank": 0,
+                    "code": 13,
+                    "comment": 1,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\src\\controls.js"
+                },
+                {
+                    "blank": 0,
+                    "code": 1,
+                    "comment": 0,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\src\\controls.js.map"
+                },
+                {
+                    "blank": 0,
+                    "code": 2,
+                    "comment": 1,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\src\\controls\\browser.js"
+                },
+                {
+                    "blank": 0,
+                    "code": 1,
+                    "comment": 0,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\src\\controls\\browser.js.map"
+                },
+                {
+                    "blank": 0,
+                    "code": 13,
+                    "comment": 1,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\src\\controls\\controls.js"
+                },
+                {
+                    "blank": 0,
+                    "code": 1,
+                    "comment": 0,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\src\\controls\\controls.js.map"
+                },
+                {
+                    "blank": 0,
+                    "code": 39,
+                    "comment": 1,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\src\\controls\\desktop.js"
+                },
+                {
+                    "blank": 0,
+                    "code": 1,
+                    "comment": 0,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\src\\controls\\desktop.js.map"
+                },
+                {
+                    "blank": 0,
+                    "code": 13,
+                    "comment": 1,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\src\\controls\\fps.js"
+                },
+                {
+                    "blank": 0,
+                    "code": 1,
+                    "comment": 0,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\src\\controls\\fps.js.map"
+                },
+                {
+                    "blank": 0,
+                    "code": 16,
+                    "comment": 1,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\src\\controls\\keyboard.js"
+                },
+                {
+                    "blank": 0,
+                    "code": 1,
+                    "comment": 0,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\src\\controls\\keyboard.js.map"
+                },
+                {
+                    "blank": 0,
+                    "code": 42,
+                    "comment": 2,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\src\\controls\\mouse.js"
+                },
+                {
+                    "blank": 0,
+                    "code": 1,
+                    "comment": 0,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\src\\controls\\mouse.js.map"
+                },
+                {
+                    "blank": 0,
+                    "code": 15,
+                    "comment": 2,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\src\\controls\\vr.js"
+                },
+                {
+                    "blank": 0,
+                    "code": 1,
+                    "comment": 0,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\src\\controls\\vr.js.map"
+                },
+                {
+                    "blank": 0,
+                    "code": 35,
+                    "comment": 1,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\src\\controls\\vr\\interface.js"
+                },
+                {
+                    "blank": 0,
+                    "code": 1,
+                    "comment": 0,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\src\\controls\\vr\\interface.js.map"
+                },
+                {
+                    "blank": 0,
+                    "code": 101,
+                    "comment": 1,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\src\\controls\\vr\\poses.js"
+                },
+                {
+                    "blank": 0,
+                    "code": 1,
+                    "comment": 0,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\src\\controls\\vr\\poses.js.map"
+                },
+                {
+                    "blank": 0,
+                    "code": 15,
+                    "comment": 3,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\src\\controls\\vr\\spells.js"
+                },
+                {
+                    "blank": 0,
+                    "code": 1,
+                    "comment": 0,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\src\\controls\\vr\\spells.js.map"
+                },
+                {
+                    "blank": 0,
+                    "code": 12,
+                    "comment": 1,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\src\\controls\\vr\\store.js"
+                },
+                {
+                    "blank": 0,
+                    "code": 1,
+                    "comment": 0,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\src\\controls\\vr\\store.js.map"
+                },
+                {
+                    "blank": 0,
+                    "code": 88,
+                    "comment": 4,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\src\\controls\\vr\\vr.js"
+                },
+                {
+                    "blank": 0,
+                    "code": 1,
+                    "comment": 0,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\src\\controls\\vr\\vr.js.map"
+                },
+                {
+                    "blank": 0,
+                    "code": 39,
+                    "comment": 1,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\src\\desktop.js"
+                },
+                {
+                    "blank": 0,
+                    "code": 1,
+                    "comment": 0,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\src\\desktop.js.map"
+                },
+                {
+                    "blank": 0,
+                    "code": 2,
+                    "comment": 1,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\src\\editor\\editor.js"
+                },
+                {
+                    "blank": 0,
+                    "code": 1,
+                    "comment": 0,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\src\\editor\\editor.js.map"
+                },
+                {
+                    "blank": 0,
+                    "code": 73,
+                    "comment": 6,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\src\\file.js"
+                },
+                {
+                    "blank": 0,
+                    "code": 1,
+                    "comment": 0,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\src\\file.js.map"
+                },
+                {
+                    "blank": 0,
+                    "code": 64,
+                    "comment": 2,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\src\\file\\fbs\\asset.js"
+                },
+                {
+                    "blank": 0,
+                    "code": 1,
+                    "comment": 0,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\src\\file\\fbs\\asset.js.map"
+                },
+                {
+                    "blank": 0,
+                    "code": 71,
+                    "comment": 2,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\src\\file\\fbs\\theia.js"
+                },
+                {
+                    "blank": 0,
+                    "code": 1,
+                    "comment": 0,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\src\\file\\fbs\\theia.js.map"
+                },
+                {
+                    "blank": 0,
+                    "code": 75,
+                    "comment": 6,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\src\\file\\file.js"
+                },
+                {
+                    "blank": 0,
+                    "code": 1,
+                    "comment": 0,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\src\\file\\file.js.map"
+                },
+                {
+                    "blank": 0,
+                    "code": 99,
+                    "comment": 18,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\src\\file\\load.js"
+                },
+                {
+                    "blank": 0,
+                    "code": 1,
+                    "comment": 0,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\src\\file\\load.js.map"
+                },
+                {
+                    "blank": 0,
+                    "code": 78,
+                    "comment": 11,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\src\\file\\save.js"
+                },
+                {
+                    "blank": 0,
+                    "code": 1,
+                    "comment": 0,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\src\\file\\save.js.map"
+                },
+                {
+                    "blank": 0,
+                    "code": 4,
+                    "comment": 2,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\src\\hand.js"
+                },
+                {
+                    "blank": 0,
+                    "code": 1,
+                    "comment": 0,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\src\\hand.js.map"
+                },
+                {
+                    "blank": 0,
+                    "code": 40,
+                    "comment": 1,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\src\\input.js"
+                },
+                {
+                    "blank": 0,
+                    "code": 1,
+                    "comment": 0,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\src\\input.js.map"
+                },
+                {
+                    "blank": 0,
+                    "code": 6,
+                    "comment": 1,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\src\\input\\browser.js"
+                },
+                {
+                    "blank": 0,
+                    "code": 1,
+                    "comment": 0,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\src\\input\\browser.js.map"
+                },
+                {
+                    "blank": 0,
+                    "code": 137,
+                    "comment": 6,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\src\\input\\gamepad.js"
+                },
+                {
+                    "blank": 0,
+                    "code": 1,
+                    "comment": 0,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\src\\input\\gamepad.js.map"
+                },
+                {
+                    "blank": 0,
+                    "code": 87,
+                    "comment": 4,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\src\\input\\hand.js"
+                },
+                {
+                    "blank": 0,
+                    "code": 1,
+                    "comment": 0,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\src\\input\\hand.js.map"
+                },
+                {
+                    "blank": 0,
+                    "code": 21,
+                    "comment": 3,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\src\\input\\keyboard.js"
+                },
+                {
+                    "blank": 0,
+                    "code": 1,
+                    "comment": 0,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\src\\input\\keyboard.js.map"
+                },
+                {
+                    "blank": 0,
+                    "code": 50,
+                    "comment": 2,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\src\\input\\mouse.js"
+                },
+                {
+                    "blank": 0,
+                    "code": 1,
+                    "comment": 0,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\src\\input\\mouse.js.map"
+                },
+                {
+                    "blank": 0,
+                    "code": 28,
+                    "comment": 1,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\src\\input\\xr.js"
+                },
+                {
+                    "blank": 0,
+                    "code": 1,
+                    "comment": 0,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\src\\input\\xr.js.map"
+                },
+                {
+                    "blank": 0,
+                    "code": 2,
+                    "comment": 1,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\src\\inputs\\browser.js"
+                },
+                {
+                    "blank": 0,
+                    "code": 1,
+                    "comment": 0,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\src\\inputs\\browser.js.map"
+                },
+                {
+                    "blank": 0,
+                    "code": 13,
+                    "comment": 1,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\src\\inputs\\fps.js"
+                },
+                {
+                    "blank": 0,
+                    "code": 1,
+                    "comment": 0,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\src\\inputs\\fps.js.map"
+                },
+                {
+                    "blank": 0,
+                    "code": 16,
+                    "comment": 1,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\src\\inputs\\keyboard.js"
+                },
+                {
+                    "blank": 0,
+                    "code": 1,
+                    "comment": 0,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\src\\inputs\\keyboard.js.map"
+                },
+                {
+                    "blank": 0,
+                    "code": 41,
+                    "comment": 2,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\src\\inputs\\mouse.js"
+                },
+                {
+                    "blank": 0,
+                    "code": 1,
+                    "comment": 0,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\src\\inputs\\mouse.js.map"
+                },
+                {
+                    "blank": 0,
+                    "code": 13,
+                    "comment": 1,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\src\\inputs\\xr.js"
+                },
+                {
+                    "blank": 0,
+                    "code": 1,
+                    "comment": 0,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\src\\inputs\\xr.js.map"
+                },
+                {
+                    "blank": 0,
+                    "code": 6,
+                    "comment": 1,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\src\\intshared.js"
+                },
+                {
+                    "blank": 0,
+                    "code": 1,
+                    "comment": 0,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\src\\intshared.js.map"
+                },
+                {
+                    "blank": 0,
+                    "code": 103,
+                    "comment": 4,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\src\\magica.js"
+                },
+                {
+                    "blank": 0,
+                    "code": 1,
+                    "comment": 0,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\src\\magica.js.map"
+                },
+                {
+                    "blank": 0,
+                    "code": 70,
+                    "comment": 7,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\src\\main.js"
+                },
+                {
+                    "blank": 0,
+                    "code": 1,
+                    "comment": 0,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\src\\main.js.map"
+                },
+                {
+                    "blank": 0,
+                    "code": 51,
+                    "comment": 2,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\src\\octree.js"
+                },
+                {
+                    "blank": 0,
+                    "code": 1,
+                    "comment": 0,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\src\\octree.js.map"
+                },
+                {
+                    "blank": 0,
+                    "code": 3,
+                    "comment": 1,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\src\\player.js"
+                },
+                {
+                    "blank": 0,
+                    "code": 1,
+                    "comment": 0,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\src\\player.js.map"
+                },
+                {
+                    "blank": 0,
+                    "code": 29,
+                    "comment": 1,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\src\\render.js"
+                },
+                {
+                    "blank": 0,
+                    "code": 1,
+                    "comment": 0,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\src\\render.js.map"
+                },
+                {
+                    "blank": 0,
+                    "code": 103,
+                    "comment": 4,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\src\\render\\magica.js"
+                },
+                {
+                    "blank": 0,
+                    "code": 1,
+                    "comment": 0,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\src\\render\\magica.js.map"
+                },
+                {
+                    "blank": 0,
+                    "code": 29,
+                    "comment": 1,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\src\\render\\render.js"
+                },
+                {
+                    "blank": 0,
+                    "code": 1,
+                    "comment": 0,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\src\\render\\render.js.map"
+                },
+                {
+                    "blank": 0,
+                    "code": 106,
+                    "comment": 11,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\src\\render\\VRButton.js"
+                },
+                {
+                    "blank": 0,
+                    "code": 1,
+                    "comment": 0,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\src\\render\\VRButton.js.map"
+                },
+                {
+                    "blank": 0,
+                    "code": 23,
+                    "comment": 6,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\src\\rez.js"
+                },
+                {
+                    "blank": 0,
+                    "code": 1,
+                    "comment": 0,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\src\\rez.js.map"
+                },
+                {
+                    "blank": 0,
+                    "code": 40,
+                    "comment": 3,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\src\\rez\\basic.js"
+                },
+                {
+                    "blank": 0,
+                    "code": 1,
+                    "comment": 0,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\src\\rez\\basic.js.map"
+                },
+                {
+                    "blank": 0,
+                    "code": 8,
+                    "comment": 3,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\src\\rez\\box.js"
+                },
+                {
+                    "blank": 0,
+                    "code": 1,
+                    "comment": 0,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\src\\rez\\box.js.map"
+                },
+                {
+                    "blank": 0,
+                    "code": 3,
+                    "comment": 1,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\src\\rez\\elements.js"
+                },
+                {
+                    "blank": 0,
+                    "code": 1,
+                    "comment": 0,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\src\\rez\\elements.js.map"
+                },
+                {
+                    "blank": 0,
+                    "code": 20,
+                    "comment": 2,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\src\\rez\\fire.js"
+                },
+                {
+                    "blank": 0,
+                    "code": 1,
+                    "comment": 0,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\src\\rez\\fire.js.map"
+                },
+                {
+                    "blank": 0,
+                    "code": 70,
+                    "comment": 8,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\src\\rez\\hand-joints.js"
+                },
+                {
+                    "blank": 0,
+                    "code": 1,
+                    "comment": 0,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\src\\rez\\hand-joints.js.map"
+                },
+                {
+                    "blank": 0,
+                    "code": 17,
+                    "comment": 6,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\src\\rez\\hand.js"
+                },
+                {
+                    "blank": 0,
+                    "code": 1,
+                    "comment": 0,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\src\\rez\\hand.js.map"
+                },
+                {
+                    "blank": 0,
+                    "code": 21,
+                    "comment": 2,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\src\\rez\\music.js"
+                },
+                {
+                    "blank": 0,
+                    "code": 1,
+                    "comment": 0,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\src\\rez\\music.js.map"
+                },
+                {
+                    "blank": 0,
+                    "code": 33,
+                    "comment": 1,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\src\\rez\\plane.js"
+                },
+                {
+                    "blank": 0,
+                    "code": 1,
+                    "comment": 0,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\src\\rez\\plane.js.map"
+                },
+                {
+                    "blank": 0,
+                    "code": 54,
+                    "comment": 6,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\src\\rez\\rez.js"
+                },
+                {
+                    "blank": 0,
+                    "code": 1,
+                    "comment": 0,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\src\\rez\\rez.js.map"
+                },
+                {
+                    "blank": 0,
+                    "code": 87,
+                    "comment": 3,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\src\\rez\\text.js"
+                },
+                {
+                    "blank": 0,
+                    "code": 1,
+                    "comment": 0,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\src\\rez\\text.js.map"
+                },
+                {
+                    "blank": 0,
+                    "code": 48,
+                    "comment": 1,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\src\\rez\\vox.js"
+                },
+                {
+                    "blank": 0,
+                    "code": 1,
+                    "comment": 0,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\src\\rez\\vox.js.map"
+                },
+                {
+                    "blank": 0,
+                    "code": 6,
+                    "comment": 1,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\src\\sab.js"
+                },
+                {
+                    "blank": 0,
+                    "code": 1,
+                    "comment": 0,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\src\\sab.js.map"
+                },
+                {
+                    "blank": 0,
+                    "code": 22,
+                    "comment": 2,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\src\\scene-shared.js"
+                },
+                {
+                    "blank": 0,
+                    "code": 1,
+                    "comment": 0,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\src\\scene-shared.js.map"
+                },
+                {
+                    "blank": 0,
+                    "code": 15,
+                    "comment": 1,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\src\\scene.js"
+                },
+                {
+                    "blank": 0,
+                    "code": 1,
+                    "comment": 0,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\src\\scene.js.map"
+                },
+                {
+                    "blank": 0,
+                    "code": 1,
+                    "comment": 2,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\src\\scene\\blank.js"
+                },
+                {
+                    "blank": 0,
+                    "code": 1,
+                    "comment": 0,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\src\\scene\\blank.js.map"
+                },
+                {
+                    "blank": 0,
+                    "code": 106,
+                    "comment": 4,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\src\\scene\\default.js"
+                },
+                {
+                    "blank": 0,
+                    "code": 1,
+                    "comment": 0,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\src\\scene\\default.js.map"
+                },
+                {
+                    "blank": 0,
+                    "code": 1,
+                    "comment": 1,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\src\\scene\\physics.js"
+                },
+                {
+                    "blank": 0,
+                    "code": 1,
+                    "comment": 0,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\src\\scene\\physics.js.map"
+                },
+                {
+                    "blank": 0,
+                    "code": 54,
+                    "comment": 3,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\src\\scene\\rain.js"
+                },
+                {
+                    "blank": 0,
+                    "code": 1,
+                    "comment": 0,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\src\\scene\\rain.js.map"
+                },
+                {
+                    "blank": 0,
+                    "code": 1,
+                    "comment": 2,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\src\\scene\\timeline.js"
+                },
+                {
+                    "blank": 0,
+                    "code": 1,
+                    "comment": 0,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\src\\scene\\timeline.js.map"
+                },
+                {
+                    "blank": 0,
+                    "code": 33,
+                    "comment": 1,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\src\\service.js"
+                },
+                {
+                    "blank": 0,
+                    "code": 1,
+                    "comment": 0,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\src\\service.js.map"
+                },
+                {
+                    "blank": 0,
+                    "code": 27,
+                    "comment": 1,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\src\\shader.js"
+                },
+                {
+                    "blank": 0,
+                    "code": 1,
+                    "comment": 0,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\src\\shader.js.map"
+                },
+                {
+                    "blank": 0,
+                    "code": 30,
+                    "comment": 6,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\src\\shader\\atoms.js"
+                },
+                {
+                    "blank": 0,
+                    "code": 1,
+                    "comment": 0,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\src\\shader\\atoms.js.map"
+                },
+                {
+                    "blank": 0,
+                    "code": 44,
+                    "comment": 1,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\src\\shader\\material.js"
+                },
+                {
+                    "blank": 0,
+                    "code": 1,
+                    "comment": 0,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\src\\shader\\material.js.map"
+                },
+                {
+                    "blank": 0,
+                    "code": 30,
+                    "comment": 1,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\src\\shader\\shader.js"
+                },
+                {
+                    "blank": 0,
+                    "code": 1,
+                    "comment": 0,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\src\\shader\\shader.js.map"
+                },
+                {
+                    "blank": 0,
+                    "code": 8,
+                    "comment": 3,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\src\\shape\\box.js"
+                },
+                {
+                    "blank": 0,
+                    "code": 1,
+                    "comment": 0,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\src\\shape\\box.js.map"
+                },
+                {
+                    "blank": 0,
+                    "code": 20,
+                    "comment": 2,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\src\\shape\\fire.js"
+                },
+                {
+                    "blank": 0,
+                    "code": 1,
+                    "comment": 0,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\src\\shape\\fire.js.map"
+                },
+                {
+                    "blank": 0,
+                    "code": 22,
+                    "comment": 3,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\src\\shape\\hand.js"
+                },
+                {
+                    "blank": 0,
+                    "code": 1,
+                    "comment": 0,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\src\\shape\\hand.js.map"
+                },
+                {
+                    "blank": 0,
+                    "code": 6,
+                    "comment": 1,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\src\\shape\\index.js"
+                },
+                {
+                    "blank": 0,
+                    "code": 1,
+                    "comment": 0,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\src\\shape\\index.js.map"
+                },
+                {
+                    "blank": 0,
+                    "code": 4,
+                    "comment": 0,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\src\\shape\\music.js"
+                },
+                {
+                    "blank": 0,
+                    "code": 1,
+                    "comment": 0,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\src\\shape\\music.js.map"
+                },
+                {
+                    "blank": 0,
+                    "code": 33,
+                    "comment": 1,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\src\\shape\\plane.js"
+                },
+                {
+                    "blank": 0,
+                    "code": 1,
+                    "comment": 0,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\src\\shape\\plane.js.map"
+                },
+                {
+                    "blank": 0,
+                    "code": 17,
+                    "comment": 3,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\src\\shape\\simple.js"
+                },
+                {
+                    "blank": 0,
+                    "code": 1,
+                    "comment": 0,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\src\\shape\\simple.js.map"
+                },
+                {
+                    "blank": 0,
+                    "code": 217,
+                    "comment": 2,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\src\\shape\\text.js"
+                },
+                {
+                    "blank": 0,
+                    "code": 1,
+                    "comment": 0,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\src\\shape\\text.js.map"
+                },
+                {
+                    "blank": 0,
+                    "code": 49,
+                    "comment": 1,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\src\\shape\\vox.js"
+                },
+                {
+                    "blank": 0,
+                    "code": 1,
+                    "comment": 0,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\src\\shape\\vox.js.map"
+                },
+                {
+                    "blank": 0,
+                    "code": 18,
+                    "comment": 3,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\src\\shared.js"
+                },
+                {
+                    "blank": 0,
+                    "code": 1,
+                    "comment": 0,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\src\\shared.js.map"
+                },
+                {
+                    "blank": 0,
+                    "code": 37,
+                    "comment": 9,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\src\\shared\\atomics.js"
+                },
+                {
+                    "blank": 0,
+                    "code": 1,
+                    "comment": 0,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\src\\shared\\atomics.js.map"
+                },
+                {
+                    "blank": 0,
+                    "code": 18,
+                    "comment": 3,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\src\\shared\\shared.js"
+                },
+                {
+                    "blank": 0,
+                    "code": 1,
+                    "comment": 0,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\src\\shared\\shared.js.map"
+                },
+                {
+                    "blank": 0,
+                    "code": 25,
+                    "comment": 2,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\src\\shared\\worker.js"
+                },
+                {
+                    "blank": 0,
+                    "code": 1,
+                    "comment": 0,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\src\\shared\\worker.js.map"
+                },
+                {
+                    "blank": 0,
+                    "code": 55,
+                    "comment": 2,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\src\\sound\\audio.js"
+                },
+                {
+                    "blank": 0,
+                    "code": 1,
+                    "comment": 0,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\src\\sound\\audio.js.map"
+                },
+                {
+                    "blank": 0,
+                    "code": 3,
+                    "comment": 2,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\src\\spell\\index.js"
+                },
+                {
+                    "blank": 0,
+                    "code": 1,
+                    "comment": 0,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\src\\spell\\index.js.map"
+                },
+                {
+                    "blank": 0,
+                    "code": 12,
+                    "comment": 2,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\src\\spell\\snapshot.js"
+                },
+                {
+                    "blank": 0,
+                    "code": 1,
+                    "comment": 0,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\src\\spell\\snapshot.js.map"
+                },
+                {
+                    "blank": 0,
+                    "code": 22,
+                    "comment": 3,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\src\\spell\\swipe.js"
+                },
+                {
+                    "blank": 0,
+                    "code": 1,
+                    "comment": 0,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\src\\spell\\swipe.js.map"
+                },
+                {
+                    "blank": 0,
+                    "code": 7,
+                    "comment": 1,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\src\\spell\\walk.js"
+                },
+                {
+                    "blank": 0,
+                    "code": 1,
+                    "comment": 0,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\src\\spell\\walk.js.map"
+                },
+                {
+                    "blank": 0,
+                    "code": 2,
+                    "comment": 1,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\src\\spells\\index.js"
+                },
+                {
+                    "blank": 0,
+                    "code": 1,
+                    "comment": 0,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\src\\spells\\index.js.map"
+                },
+                {
+                    "blank": 0,
+                    "code": 12,
+                    "comment": 2,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\src\\spells\\snapshot.js"
+                },
+                {
+                    "blank": 0,
+                    "code": 1,
+                    "comment": 0,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\src\\spells\\snapshot.js.map"
+                },
+                {
+                    "blank": 0,
+                    "code": 0,
+                    "comment": 1,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\src\\spells\\spells.js"
+                },
+                {
+                    "blank": 0,
+                    "code": 1,
+                    "comment": 0,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\src\\spells\\spells.js.map"
+                },
+                {
+                    "blank": 0,
+                    "code": 6,
+                    "comment": 2,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\src\\spells\\walk.js"
+                },
+                {
+                    "blank": 0,
+                    "code": 1,
+                    "comment": 0,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\src\\spells\\walk.js.map"
+                },
+                {
+                    "blank": 0,
+                    "code": 113,
+                    "comment": 1,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\src\\store.js"
+                },
+                {
+                    "blank": 0,
+                    "code": 1,
+                    "comment": 0,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\src\\store.js.map"
+                },
+                {
+                    "blank": 0,
+                    "code": 52,
+                    "comment": 5,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\src\\sys.js"
+                },
+                {
+                    "blank": 0,
+                    "code": 1,
+                    "comment": 0,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\src\\sys.js.map"
+                },
+                {
+                    "blank": 0,
+                    "code": 17,
+                    "comment": 2,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\src\\sys\\fuzz.js"
+                },
+                {
+                    "blank": 0,
+                    "code": 1,
+                    "comment": 0,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\src\\sys\\fuzz.js.map"
+                },
+                {
+                    "blank": 0,
+                    "code": 56,
+                    "comment": 10,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\src\\sys\\physics.js"
+                },
+                {
+                    "blank": 0,
+                    "code": 1,
+                    "comment": 0,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\src\\sys\\physics.js.map"
+                },
+                {
+                    "blank": 0,
+                    "code": 20,
+                    "comment": 2,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\src\\sys\\sys-test.js"
+                },
+                {
+                    "blank": 0,
+                    "code": 1,
+                    "comment": 0,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\src\\sys\\sys-test.js.map"
+                },
+                {
+                    "blank": 0,
+                    "code": 23,
+                    "comment": 2,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\src\\sys\\sys.js"
+                },
+                {
+                    "blank": 0,
+                    "code": 1,
+                    "comment": 0,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\src\\sys\\sys.js.map"
+                },
+                {
+                    "blank": 0,
+                    "code": 8,
+                    "comment": 3,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\src\\sys\\system.js"
+                },
+                {
+                    "blank": 0,
+                    "code": 1,
+                    "comment": 0,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\src\\sys\\system.js.map"
+                },
+                {
+                    "blank": 0,
+                    "code": 21,
+                    "comment": 2,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\src\\sys\\systems.js"
+                },
+                {
+                    "blank": 0,
+                    "code": 1,
+                    "comment": 0,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\src\\sys\\systems.js.map"
+                },
+                {
+                    "blank": 0,
+                    "code": 27,
+                    "comment": 2,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\src\\sys\\test.js"
+                },
+                {
+                    "blank": 0,
+                    "code": 1,
+                    "comment": 0,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\src\\sys\\test.js.map"
+                },
+                {
+                    "blank": 0,
+                    "code": 508,
+                    "comment": 30,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\src\\system\\cardinal.js"
+                },
+                {
+                    "blank": 0,
+                    "code": 1,
+                    "comment": 0,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\src\\system\\cardinal.js.map"
+                },
+                {
+                    "blank": 0,
+                    "code": 17,
+                    "comment": 2,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\src\\system\\fuzz.js"
+                },
+                {
+                    "blank": 0,
+                    "code": 1,
+                    "comment": 0,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\src\\system\\fuzz.js.map"
+                },
+                {
+                    "blank": 0,
+                    "code": 34,
+                    "comment": 3,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\src\\system\\impactor.js"
+                },
+                {
+                    "blank": 0,
+                    "code": 1,
+                    "comment": 0,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\src\\system\\impactor.js.map"
+                },
+                {
+                    "blank": 0,
+                    "code": 11,
+                    "comment": 3,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\src\\system\\message.js"
+                },
+                {
+                    "blank": 0,
+                    "code": 1,
+                    "comment": 0,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\src\\system\\message.js.map"
+                },
+                {
+                    "blank": 0,
+                    "code": 6,
+                    "comment": 4,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\src\\system\\music.js"
+                },
+                {
+                    "blank": 0,
+                    "code": 1,
+                    "comment": 0,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\src\\system\\music.js.map"
+                },
+                {
+                    "blank": 0,
+                    "code": 38,
+                    "comment": 9,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\src\\system\\network.js"
+                },
+                {
+                    "blank": 0,
+                    "code": 1,
+                    "comment": 0,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\src\\system\\network.js.map"
+                },
+                {
+                    "blank": 0,
+                    "code": 189,
+                    "comment": 20,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\src\\system\\physics.js"
+                },
+                {
+                    "blank": 0,
+                    "code": 1,
+                    "comment": 0,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\src\\system\\physics.js.map"
+                },
+                {
+                    "blank": 0,
+                    "code": 10,
+                    "comment": 3,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\src\\system\\sys-enum.js"
+                },
+                {
+                    "blank": 0,
+                    "code": 1,
+                    "comment": 0,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\src\\system\\sys-enum.js.map"
+                },
+                {
+                    "blank": 0,
+                    "code": 64,
+                    "comment": 6,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\src\\system\\sys.js"
+                },
+                {
+                    "blank": 0,
+                    "code": 1,
+                    "comment": 0,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\src\\system\\sys.js.map"
+                },
+                {
+                    "blank": 0,
+                    "code": 14,
+                    "comment": 3,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\src\\system\\system.js"
+                },
+                {
+                    "blank": 0,
+                    "code": 1,
+                    "comment": 0,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\src\\system\\system.js.map"
+                },
+                {
+                    "blank": 0,
+                    "code": 4,
+                    "comment": 2,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\src\\system\\timeline.js"
+                },
+                {
+                    "blank": 0,
+                    "code": 1,
+                    "comment": 0,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\src\\system\\timeline.js.map"
+                },
+                {
+                    "blank": 0,
+                    "code": 29,
+                    "comment": 3,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\src\\system\\timing.js"
+                },
+                {
+                    "blank": 0,
+                    "code": 1,
+                    "comment": 0,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\src\\system\\timing.js.map"
+                },
+                {
+                    "blank": 0,
+                    "code": 6,
+                    "comment": 4,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\src\\system\\weather.js"
+                },
+                {
+                    "blank": 0,
+                    "code": 1,
+                    "comment": 0,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\src\\system\\weather.js.map"
+                },
+                {
+                    "blank": 0,
+                    "code": 3,
+                    "comment": 1,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\src\\test.js"
+                },
+                {
+                    "blank": 0,
+                    "code": 1,
+                    "comment": 0,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\src\\test.js.map"
+                },
+                {
+                    "blank": 0,
+                    "code": 27,
+                    "comment": 1,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\src\\tester.js"
+                },
+                {
+                    "blank": 0,
+                    "code": 1,
+                    "comment": 0,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\src\\tester.js.map"
+                },
+                {
+                    "blank": 0,
+                    "code": 2,
+                    "comment": 1,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\src\\three.js"
+                },
+                {
+                    "blank": 0,
+                    "code": 1,
+                    "comment": 0,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\src\\three.js.map"
+                },
+                {
+                    "blank": 0,
+                    "code": 14,
+                    "comment": 1,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\src\\time.js"
+                },
+                {
+                    "blank": 0,
+                    "code": 1,
+                    "comment": 0,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\src\\time.js.map"
+                },
+                {
+                    "blank": 0,
+                    "code": 16,
+                    "comment": 1,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\src\\timeline\\color.js"
+                },
+                {
+                    "blank": 0,
+                    "code": 1,
+                    "comment": 0,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\src\\timeline\\color.js.map"
+                },
+                {
+                    "blank": 0,
+                    "code": 207,
+                    "comment": 18,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\src\\timeline\\def-timeline.js"
+                },
+                {
+                    "blank": 0,
+                    "code": 1,
+                    "comment": 0,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\src\\timeline\\def-timeline.js.map"
+                },
+                {
+                    "blank": 0,
+                    "code": 20,
+                    "comment": 1,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\src\\timeline\\editor.js"
+                },
+                {
+                    "blank": 0,
+                    "code": 1,
+                    "comment": 0,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\src\\timeline\\editor.js.map"
+                },
+                {
+                    "blank": 0,
+                    "code": 55,
+                    "comment": 2,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\src\\timeline\\nav.js"
+                },
+                {
+                    "blank": 0,
+                    "code": 1,
+                    "comment": 0,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\src\\timeline\\nav.js.map"
+                },
+                {
+                    "blank": 0,
+                    "code": 16,
+                    "comment": 1,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\src\\uniform\\time.js"
+                },
+                {
+                    "blank": 0,
+                    "code": 1,
+                    "comment": 0,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\src\\uniform\\time.js.map"
+                },
+                {
+                    "blank": 0,
+                    "code": 51,
+                    "comment": 2,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\src\\util\\octree.js"
+                },
+                {
+                    "blank": 0,
+                    "code": 1,
+                    "comment": 0,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\src\\util\\octree.js.map"
+                },
+                {
+                    "blank": 0,
+                    "code": 33,
+                    "comment": 1,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\src\\util\\value.js"
+                },
+                {
+                    "blank": 0,
+                    "code": 1,
+                    "comment": 0,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\src\\util\\value.js.map"
+                },
+                {
+                    "blank": 0,
+                    "code": 33,
+                    "comment": 1,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\src\\value.js"
+                },
+                {
+                    "blank": 0,
+                    "code": 1,
+                    "comment": 0,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\src\\value.js.map"
+                },
+                {
+                    "blank": 0,
+                    "code": 33,
+                    "comment": 1,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\src\\value\\value.js"
+                },
+                {
+                    "blank": 0,
+                    "code": 1,
+                    "comment": 0,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\src\\value\\value.js.map"
+                },
+                {
+                    "blank": 0,
+                    "code": 49,
+                    "comment": 1,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\src\\valuechannel.js"
+                },
+                {
+                    "blank": 0,
+                    "code": 1,
+                    "comment": 0,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\src\\valuechannel.js.map"
+                },
+                {
+                    "blank": 0,
+                    "code": 2478,
+                    "comment": 24,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\src\\vendor\\hand-poses-left.js"
+                },
+                {
+                    "blank": 0,
+                    "code": 1,
+                    "comment": 0,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\src\\vendor\\hand-poses-left.js.map"
+                },
+                {
+                    "blank": 0,
+                    "code": 2478,
+                    "comment": 24,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\src\\vendor\\hand-poses-right.js"
+                },
+                {
+                    "blank": 0,
+                    "code": 1,
+                    "comment": 0,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\src\\vendor\\hand-poses-right.js.map"
+                },
+                {
+                    "blank": 0,
+                    "code": 403,
+                    "comment": 388,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\src\\vendor\\handy.js"
+                },
+                {
+                    "blank": 0,
+                    "code": 1,
+                    "comment": 0,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\src\\vendor\\handy.js.map"
+                },
+                {
+                    "blank": 0,
+                    "code": 2,
+                    "comment": 3,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\src\\vox.js"
+                },
+                {
+                    "blank": 0,
+                    "code": 1,
+                    "comment": 0,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\src\\vox.js.map"
+                },
+                {
+                    "blank": 0,
+                    "code": 103,
+                    "comment": 4,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\src\\vox\\magica.js"
+                },
+                {
+                    "blank": 0,
+                    "code": 1,
+                    "comment": 0,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\src\\vox\\magica.js.map"
+                },
+                {
+                    "blank": 0,
+                    "code": 38,
+                    "comment": 2,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\src\\vr.js"
+                },
+                {
+                    "blank": 0,
+                    "code": 1,
+                    "comment": 0,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\src\\vr.js.map"
+                },
+                {
+                    "blank": 0,
+                    "code": 27,
+                    "comment": 1,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\src\\vr\\enum.js"
+                },
+                {
+                    "blank": 0,
+                    "code": 1,
+                    "comment": 0,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\src\\vr\\enum.js.map"
+                },
+                {
+                    "blank": 0,
+                    "code": 35,
+                    "comment": 1,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\src\\vr\\interface.js"
+                },
+                {
+                    "blank": 0,
+                    "code": 1,
+                    "comment": 0,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\src\\vr\\interface.js.map"
+                },
+                {
+                    "blank": 0,
+                    "code": 35,
+                    "comment": 1,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\src\\vr\\joints.js"
+                },
+                {
+                    "blank": 0,
+                    "code": 1,
+                    "comment": 0,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\src\\vr\\joints.js.map"
+                },
+                {
+                    "blank": 0,
+                    "code": 101,
+                    "comment": 1,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\src\\vr\\poses.js"
+                },
+                {
+                    "blank": 0,
+                    "code": 1,
+                    "comment": 0,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\src\\vr\\poses.js.map"
+                },
+                {
+                    "blank": 0,
+                    "code": 28,
+                    "comment": 1,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\src\\vr\\shared.js"
+                },
+                {
+                    "blank": 0,
+                    "code": 1,
+                    "comment": 0,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\src\\vr\\shared.js.map"
+                },
+                {
+                    "blank": 0,
+                    "code": 12,
+                    "comment": 1,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\src\\vr\\store.js"
+                },
+                {
+                    "blank": 0,
+                    "code": 1,
+                    "comment": 0,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\src\\vr\\store.js.map"
+                },
+                {
+                    "blank": 0,
+                    "code": 88,
+                    "comment": 4,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\src\\vr\\vr.js"
+                },
+                {
+                    "blank": 0,
+                    "code": 1,
+                    "comment": 0,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\src\\vr\\vr.js.map"
+                },
+                {
+                    "blank": 0,
+                    "code": 106,
+                    "comment": 11,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\src\\VRButton.js"
+                },
+                {
+                    "blank": 0,
+                    "code": 1,
+                    "comment": 0,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\src\\VRButton.js.map"
+                },
+                {
+                    "blank": 0,
+                    "code": 0,
+                    "comment": 1,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\src\\worker.js"
+                },
+                {
+                    "blank": 0,
+                    "code": 1,
+                    "comment": 0,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\src\\worker.js.map"
+                },
+                {
+                    "blank": 0,
+                    "code": 87,
+                    "comment": 4,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\src\\xr\\engage.js"
+                },
+                {
+                    "blank": 0,
+                    "code": 1,
+                    "comment": 0,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\src\\xr\\engage.js.map"
+                },
+                {
+                    "blank": 0,
+                    "code": 1,
+                    "comment": 1,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\src\\xr\\init.js"
+                },
+                {
+                    "blank": 0,
+                    "code": 1,
+                    "comment": 0,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\src\\xr\\init.js.map"
+                },
+                {
+                    "blank": 0,
+                    "code": 35,
+                    "comment": 1,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\src\\xr\\joints.js"
+                },
+                {
+                    "blank": 0,
+                    "code": 1,
+                    "comment": 0,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\src\\xr\\joints.js.map"
+                },
+                {
+                    "blank": 0,
+                    "code": 233,
+                    "comment": 1,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\src\\xr\\poses.js"
+                },
+                {
+                    "blank": 0,
+                    "code": 1,
+                    "comment": 0,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\src\\xr\\poses.js.map"
+                },
+                {
+                    "blank": 0,
+                    "code": 12,
+                    "comment": 1,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\src\\xr\\store.js"
+                },
+                {
+                    "blank": 0,
+                    "code": 1,
+                    "comment": 0,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\src\\xr\\store.js.map"
+                },
+                {
+                    "blank": 0,
+                    "code": 88,
+                    "comment": 4,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\src\\xr\\xr.js"
+                },
+                {
+                    "blank": 0,
+                    "code": 1,
+                    "comment": 0,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\src\\xr\\xr.js.map"
+                },
+                {
+                    "blank": 0,
+                    "code": 1,
+                    "comment": 0,
+                    "filename": ".rollup.cache\\C\\Users\\games dean\\Projects\\SharedArrayBuffers\\tsconfig.tsbuildinfo"
+                },
+                {
+                    "blank": 0,
+                    "code": 1,
+                    "comment": 0,
+                    "filename": ".rollup.cache\\workspaces\\games dean\\Projects\\SharedArrayBuffers\\public\\build\\.tsbuildinfo"
+                },
+                {
+                    "blank": 0,
+                    "code": 76,
+                    "comment": 3,
+                    "filename": ".rollup.cache\\workspaces\\games dean\\Projects\\SharedArrayBuffers\\src\\controller\\hands.js"
+                },
+                {
+                    "blank": 0,
+                    "code": 1,
+                    "comment": 0,
+                    "filename": ".rollup.cache\\workspaces\\games dean\\Projects\\SharedArrayBuffers\\src\\controller\\hands.js.map"
+                },
+                {
+                    "blank": 0,
+                    "code": 106,
+                    "comment": 11,
+                    "filename": ".rollup.cache\\workspaces\\games dean\\Projects\\SharedArrayBuffers\\src\\render\\VRButton.js"
+                },
+                {
+                    "blank": 0,
+                    "code": 1,
+                    "comment": 0,
+                    "filename": ".rollup.cache\\workspaces\\games dean\\Projects\\SharedArrayBuffers\\src\\render\\VRButton.js.map"
+                },
+                {
+                    "blank": 0,
+                    "code": 2,
+                    "comment": 0,
+                    "filename": "c:\\Users\\games dean\\Projects\\bifrost\\.gitignore"
+                },
+                {
+                    "blank": 5,
+                    "code": 21,
+                    "comment": 0,
+                    "filename": "c:\\Users\\games dean\\Projects\\bifrost\\LICENSE"
+                },
+                {
+                    "blank": 0,
+                    "code": 7,
+                    "comment": 0,
+                    "filename": "c:\\Users\\games dean\\Projects\\bifrost\\package.json"
+                },
+                {
+                    "blank": 17,
+                    "code": 19,
+                    "comment": 4,
+                    "filename": "c:\\Users\\games dean\\Projects\\bifrost\\README.md"
+                },
+                {
+                    "blank": 67,
+                    "code": 228,
+                    "comment": 237,
+                    "filename": "c:\\Users\\games dean\\Projects\\bifrost\\src\\chat.mjs"
+                },
+                {
+                    "blank": 2,
+                    "code": 15,
+                    "comment": 0,
+                    "filename": "c:\\Users\\games dean\\Projects\\bifrost\\wrangler.toml"
+                },
+                {
+                    "blank": 3,
+                    "code": 5,
+                    "comment": 0,
+                    "filename": "LICENSE"
+                },
+                {
+                    "blank": 2,
+                    "code": 4477,
+                    "comment": 0,
+                    "filename": "package-lock.json"
+                },
+                {
+                    "blank": 0,
+                    "code": 45,
+                    "comment": 0,
+                    "filename": "package.json"
+                },
+                {
+                    "blank": 0,
+                    "code": 1,
+                    "comment": 0,
+                    "filename": "public\\build\\.tsbuildinfo"
+                },
+                {
+                    "blank": 1,
+                    "code": 0,
+                    "comment": 1,
+                    "filename": "public\\build\\build\\three.js"
+                },
+                {
+                    "blank": 0,
+                    "code": 1,
+                    "comment": 0,
+                    "filename": "public\\build\\build\\three.js.map"
+                },
+                {
+                    "blank": 0,
+                    "code": 1,
+                    "comment": 0,
+                    "filename": "public\\build\\bundle.css"
+                },
+                {
+                    "blank": 21,
+                    "code": 1474,
+                    "comment": 91,
+                    "filename": "public\\build\\cardinal.js"
+                },
+                {
+                    "blank": 0,
+                    "code": 1,
+                    "comment": 0,
+                    "filename": "public\\build\\cardinal.js.map"
+                },
+                {
+                    "blank": 4,
+                    "code": 50,
+                    "comment": 4,
+                    "filename": "public\\build\\fuzz.js"
+                },
+                {
+                    "blank": 0,
+                    "code": 1,
+                    "comment": 0,
+                    "filename": "public\\build\\fuzz.js.map"
+                },
+                {
+                    "blank": 619,
+                    "code": 6661,
+                    "comment": 274,
+                    "filename": "public\\build\\main.js"
+                },
+                {
+                    "blank": 0,
+                    "code": 1,
+                    "comment": 0,
+                    "filename": "public\\build\\main.js.map"
+                },
+                {
+                    "blank": 12,
+                    "code": 442,
+                    "comment": 34,
+                    "filename": "public\\build\\physics.js"
+                },
+                {
+                    "blank": 0,
+                    "code": 1,
+                    "comment": 0,
+                    "filename": "public\\build\\physics.js.map"
+                },
+                {
+                    "blank": 20158,
+                    "code": 27507,
+                    "comment": 2700,
+                    "filename": "public\\build\\three.js"
+                },
+                {
+                    "blank": 0,
+                    "code": 1,
+                    "comment": 0,
+                    "filename": "public\\build\\three.js.map"
+                },
+                {
+                    "blank": 3,
+                    "code": 23,
+                    "comment": 6,
+                    "filename": "public\\build\\weather.js"
+                },
+                {
+                    "blank": 0,
+                    "code": 1,
+                    "comment": 0,
+                    "filename": "public\\build\\weather.js.map"
+                },
+                {
+                    "filename": "public\\favicon.png",
+                    "isbinaryfile": true,
+                    "blank": 0,
+                    "code": 0,
+                    "comment": 0
+                },
+                {
+                    "filename": "public\\favicon_smol.png",
+                    "isbinaryfile": true,
+                    "blank": 0,
+                    "code": 0,
+                    "comment": 0
+                },
+                {
+                    "filename": "public\\font\\MajorMonoDisplay-Regular.ttf",
+                    "isbinaryfile": true,
+                    "blank": 0,
+                    "code": 0,
+                    "comment": 0
+                },
+                {
+                    "blank": 18,
+                    "code": 75,
+                    "comment": 2,
+                    "filename": "public\\font\\OFL.txt"
+                },
+                {
+                    "blank": 10,
+                    "code": 109,
+                    "comment": 0,
+                    "filename": "public\\global.css"
+                },
+                {
+                    "filename": "public\\image\\ANYTHING.gif",
+                    "isbinaryfile": true,
+                    "blank": 0,
+                    "code": 0,
+                    "comment": 0
+                },
+                {
+                    "filename": "public\\image\\eth.png",
+                    "isbinaryfile": true,
+                    "blank": 0,
+                    "code": 0,
+                    "comment": 0
+                },
+                {
+                    "filename": "public\\image\\interaction.gif",
+                    "isbinaryfile": true,
+                    "blank": 0,
+                    "code": 0,
+                    "comment": 0
+                },
+                {
+                    "filename": "public\\image\\promo.gif",
+                    "isbinaryfile": true,
+                    "blank": 0,
+                    "code": 0,
+                    "comment": 0
+                },
+                {
+                    "filename": "public\\image\\screenshot.png",
+                    "isbinaryfile": true,
+                    "blank": 0,
+                    "code": 0,
+                    "comment": 0
+                },
+                {
+                    "filename": "public\\image\\vr.gif",
+                    "isbinaryfile": true,
+                    "blank": 0,
+                    "code": 0,
+                    "comment": 0
+                },
+                {
+                    "blank": 9,
+                    "code": 42,
+                    "comment": 0,
+                    "filename": "public\\index.html"
+                },
+                {
+                    "blank": 0,
+                    "code": 23,
+                    "comment": 0,
+                    "filename": "public\\manifest.json"
+                },
+                {
+                    "blank": 0,
+                    "code": 1,
+                    "comment": 0,
+                    "filename": "public\\robots.txt"
+                },
+                {
+                    "filename": "public\\saves\\beautiful.theia",
+                    "isbinaryfile": true,
+                    "blank": 0,
+                    "code": 0,
+                    "comment": 0
+                },
+                {
+                    "blank": 32,
+                    "code": 115,
+                    "comment": 54,
+                    "filename": "public\\saves\\cloudflare_worker.mjs"
+                },
+                {
+                    "filename": "public\\saves\\default.theia",
+                    "isbinaryfile": true,
+                    "blank": 0,
+                    "code": 0,
+                    "comment": 0
+                },
+                {
+                    "blank": 0,
+                    "code": 113,
+                    "comment": 0,
+                    "filename": "public\\saves\\landing (1).json"
+                },
+                {
+                    "filename": "public\\saves\\landing (13).theia",
+                    "isbinaryfile": true,
+                    "blank": 0,
+                    "code": 0,
+                    "comment": 0
+                },
+                {
+                    "filename": "public\\saves\\landing (15).theia",
+                    "isbinaryfile": true,
+                    "blank": 0,
+                    "code": 0,
+                    "comment": 0
+                },
+                {
+                    "filename": "public\\saves\\landing.theia",
+                    "isbinaryfile": true,
+                    "blank": 0,
+                    "code": 0,
+                    "comment": 0
+                },
+                {
+                    "blank": 3,
+                    "code": 37,
+                    "comment": 1,
+                    "filename": "public\\service.js"
+                },
+                {
+                    "blank": 0,
+                    "code": 1,
+                    "comment": 0,
+                    "filename": "public\\service.js.map"
+                },
+                {
+                    "filename": "public\\theia\\forest.theia",
+                    "isbinaryfile": true,
+                    "blank": 0,
+                    "code": 0,
+                    "comment": 0
+                },
+                {
+                    "filename": "public\\theia\\text.theia",
+                    "isbinaryfile": true,
+                    "blank": 0,
+                    "code": 0,
+                    "comment": 0
+                },
+                {
+                    "filename": "public\\theia\\tread.theia",
+                    "isbinaryfile": true,
+                    "blank": 0,
+                    "code": 0,
+                    "comment": 0
+                },
+                {
+                    "blank": 0,
+                    "code": 1,
+                    "comment": 6,
+                    "filename": "public\\three.js"
+                },
+                {
+                    "blank": 24,
+                    "code": 49,
+                    "comment": 6,
+                    "filename": "README.md"
+                },
+                {
+                    "blank": 23,
+                    "code": 117,
+                    "comment": 0,
+                    "filename": "rollup.config.js"
+                },
+                {
+                    "blank": 2,
+                    "code": 12,
+                    "comment": 0,
+                    "filename": "src\\buffer\\animation.ts"
+                },
+                {
+                    "blank": 9,
+                    "code": 42,
+                    "comment": 0,
+                    "filename": "src\\buffer\\atomic.ts"
+                },
+                {
+                    "blank": 4,
+                    "code": 19,
+                    "comment": 1,
+                    "filename": "src\\buffer\\impact.ts"
+                },
+                {
+                    "blank": 7,
+                    "code": 34,
+                    "comment": 2,
+                    "filename": "src\\buffer\\index.ts"
+                },
+                {
+                    "blank": 8,
+                    "code": 37,
+                    "comment": 6,
+                    "filename": "src\\buffer\\matter.ts"
+                },
+                {
+                    "blank": 1,
+                    "code": 2,
+                    "comment": 0,
+                    "filename": "src\\buffer\\size.ts"
+                },
+                {
+                    "blank": 4,
+                    "code": 39,
+                    "comment": 0,
+                    "filename": "src\\buffer\\spacetime.ts"
+                },
+                {
+                    "blank": 2,
+                    "code": 11,
+                    "comment": 0,
+                    "filename": "src\\buffer\\status.ts"
+                },
+                {
+                    "blank": 48,
+                    "code": 225,
+                    "comment": 25,
+                    "filename": "src\\buffer\\timeline.ts"
+                },
+                {
+                    "blank": 15,
+                    "code": 79,
+                    "comment": 0,
+                    "filename": "src\\buffer\\universal.ts"
+                },
+                {
+                    "blank": 5,
+                    "code": 34,
+                    "comment": 0,
+                    "filename": "src\\buffer\\velocity.ts"
+                },
+                {
+                    "blank": 2,
+                    "code": 3,
+                    "comment": 2,
+                    "filename": "src\\buffer\\vox.ts"
+                },
+                {
+                    "blank": 8,
+                    "code": 37,
+                    "comment": 13,
+                    "filename": "src\\config.ts"
+                },
+                {
+                    "blank": 10,
+                    "code": 50,
+                    "comment": 2,
+                    "filename": "src\\controller\\copypaste.ts"
+                },
+                {
+                    "blank": 19,
+                    "code": 116,
+                    "comment": 2,
+                    "filename": "src\\controller\\fps.ts"
+                },
+                {
+                    "blank": 23,
+                    "code": 86,
+                    "comment": 2,
+                    "filename": "src\\controller\\hands.ts"
+                },
+                {
+                    "blank": 0,
+                    "code": 4,
+                    "comment": 0,
+                    "filename": "src\\controller\\player.ts"
+                },
+                {
+                    "blank": 10,
+                    "code": 25,
+                    "comment": 1,
+                    "filename": "src\\controller\\smooth.ts"
+                },
+                {
+                    "blank": 7,
+                    "code": 27,
+                    "comment": 0,
+                    "filename": "src\\controller\\undoredo.ts"
+                },
+                {
+                    "blank": 2,
+                    "code": 9,
+                    "comment": 0,
+                    "filename": "src\\defines.d.ts"
+                },
+                {
+                    "blank": 10,
+                    "code": 77,
+                    "comment": 5,
+                    "filename": "src\\file\\file.ts"
+                },
+                {
+                    "blank": 24,
+                    "code": 102,
+                    "comment": 17,
+                    "filename": "src\\file\\load.ts"
+                },
+                {
+                    "blank": 23,
+                    "code": 81,
+                    "comment": 10,
+                    "filename": "src\\file\\save.ts"
+                },
+                {
+                    "blank": 2,
+                    "code": 6,
+                    "comment": 0,
+                    "filename": "src\\input\\browser.ts"
+                },
+                {
+                    "blank": 31,
+                    "code": 129,
+                    "comment": 5,
+                    "filename": "src\\input\\gamepad.ts"
+                },
+                {
+                    "blank": 3,
+                    "code": 21,
+                    "comment": 2,
+                    "filename": "src\\input\\keyboard.ts"
+                },
+                {
+                    "blank": 12,
+                    "code": 59,
+                    "comment": 1,
+                    "filename": "src\\input\\mouse.ts"
+                },
+                {
+                    "blank": 5,
+                    "code": 29,
+                    "comment": 0,
+                    "filename": "src\\input\\xr.ts"
+                },
+                {
+                    "blank": 11,
+                    "code": 98,
+                    "comment": 6,
+                    "filename": "src\\main.ts"
+                },
+                {
+                    "blank": 21,
+                    "code": 105,
+                    "comment": 3,
+                    "filename": "src\\render\\magica.ts"
+                },
+                {
+                    "blank": 12,
+                    "code": 41,
+                    "comment": 0,
+                    "filename": "src\\render\\render.ts"
+                },
+                {
+                    "blank": 34,
+                    "code": 104,
+                    "comment": 10,
+                    "filename": "src\\render\\VRButton.ts"
+                },
+                {
+                    "blank": 14,
+                    "code": 69,
+                    "comment": 7,
+                    "filename": "src\\rez\\hand-joints.ts"
+                },
+                {
+                    "blank": 3,
+                    "code": 38,
+                    "comment": 0,
+                    "filename": "src\\service.ts"
+                },
+                {
+                    "blank": 10,
+                    "code": 37,
+                    "comment": 2,
+                    "filename": "src\\shader\\animation.frag"
+                },
+                {
+                    "blank": 18,
+                    "code": 66,
+                    "comment": 2,
+                    "filename": "src\\shader\\animation.vert"
+                },
+                {
+                    "blank": 5,
+                    "code": 57,
+                    "comment": 5,
+                    "filename": "src\\shader\\atoms.ts"
+                },
+                {
+                    "blank": 2,
+                    "code": 2,
+                    "comment": 1,
+                    "filename": "src\\shader\\enum.vert"
+                },
+                {
+                    "blank": 4,
+                    "code": 24,
+                    "comment": 0,
+                    "filename": "src\\shader\\header.vert"
+                },
+                {
+                    "blank": 4,
+                    "code": 6,
+                    "comment": 0,
+                    "filename": "src\\shader\\main.vert"
+                },
+                {
+                    "blank": 8,
+                    "code": 46,
+                    "comment": 0,
+                    "filename": "src\\shader\\material.ts"
+                },
+                {
+                    "blank": 3,
+                    "code": 7,
+                    "comment": 1,
+                    "filename": "src\\shader\\matter.frag"
+                },
+                {
+                    "blank": 2,
+                    "code": 10,
+                    "comment": 0,
+                    "filename": "src\\shader\\spacetime.vert"
+                },
+                {
+                    "blank": 1,
+                    "code": 6,
+                    "comment": 0,
+                    "filename": "src\\shape\\index.ts"
+                },
+                {
+                    "blank": 4,
+                    "code": 17,
+                    "comment": 2,
+                    "filename": "src\\shape\\simple.ts"
+                },
+                {
+                    "blank": 1,
+                    "code": 217,
+                    "comment": 1,
+                    "filename": "src\\shape\\text.ts"
+                },
+                {
+                    "blank": 16,
+                    "code": 57,
+                    "comment": 1,
+                    "filename": "src\\sound\\audio.ts"
+                },
+                {
+                    "blank": 1,
+                    "code": 3,
+                    "comment": 1,
+                    "filename": "src\\spell\\index.ts"
+                },
+                {
+                    "blank": 1,
+                    "code": 13,
+                    "comment": 1,
+                    "filename": "src\\spell\\snapshot.ts"
+                },
+                {
+                    "blank": 2,
+                    "code": 23,
+                    "comment": 2,
+                    "filename": "src\\spell\\swipe.ts"
+                },
+                {
+                    "blank": 3,
+                    "code": 7,
+                    "comment": 0,
+                    "filename": "src\\spell\\walk.ts"
+                },
+                {
+                    "blank": 94,
+                    "code": 555,
+                    "comment": 30,
+                    "filename": "src\\system\\cardinal.ts"
+                },
+                {
+                    "blank": 5,
+                    "code": 22,
+                    "comment": 1,
+                    "filename": "src\\system\\fuzz.ts"
+                },
+                {
+                    "blank": 8,
+                    "code": 44,
+                    "comment": 8,
+                    "filename": "src\\system\\network.ts"
+                },
+                {
+                    "blank": 34,
+                    "code": 207,
+                    "comment": 19,
+                    "filename": "src\\system\\physics.ts"
+                },
+                {
+                    "blank": 2,
+                    "code": 10,
+                    "comment": 2,
+                    "filename": "src\\system\\sys-enum.ts"
+                },
+                {
+                    "blank": 18,
+                    "code": 66,
+                    "comment": 5,
+                    "filename": "src\\system\\sys.ts"
+                },
+                {
+                    "blank": 4,
+                    "code": 14,
+                    "comment": 2,
+                    "filename": "src\\system\\system.ts"
+                },
+                {
+                    "blank": 4,
+                    "code": 9,
+                    "comment": 3,
+                    "filename": "src\\system\\weather.ts"
+                },
+                {
+                    "blank": 24,
+                    "code": 136,
+                    "comment": 1,
+                    "filename": "src\\timeline\\Box.svelte"
+                },
+                {
+                    "blank": 5,
+                    "code": 18,
+                    "comment": 0,
+                    "filename": "src\\timeline\\color.ts"
+                },
+                {
+                    "blank": 25,
+                    "code": 214,
+                    "comment": 18,
+                    "filename": "src\\timeline\\def-timeline.ts"
+                },
+                {
+                    "blank": 5,
+                    "code": 23,
+                    "comment": 0,
+                    "filename": "src\\timeline\\editor.ts"
+                },
+                {
+                    "blank": 4,
+                    "code": 27,
+                    "comment": 1,
+                    "filename": "src\\timeline\\evar\\Normal.svelte"
+                },
+                {
+                    "blank": 9,
+                    "code": 46,
+                    "comment": 1,
+                    "filename": "src\\timeline\\evar\\Number.svelte"
+                },
+                {
+                    "blank": 8,
+                    "code": 46,
+                    "comment": 1,
+                    "filename": "src\\timeline\\evar\\String.svelte"
+                },
+                {
+                    "blank": 4,
+                    "code": 28,
+                    "comment": 1,
+                    "filename": "src\\timeline\\evar\\Time.svelte"
+                },
+                {
+                    "blank": 9,
+                    "code": 78,
+                    "comment": 2,
+                    "filename": "src\\timeline\\Modal.svelte"
+                },
+                {
+                    "blank": 5,
+                    "code": 60,
+                    "comment": 1,
+                    "filename": "src\\timeline\\nav.ts"
+                },
+                {
+                    "blank": 44,
+                    "code": 356,
+                    "comment": 5,
+                    "filename": "src\\timeline\\Node.svelte"
+                },
+                {
+                    "blank": 23,
+                    "code": 205,
+                    "comment": 1,
+                    "filename": "src\\timeline\\Theiaology.svelte"
+                },
+                {
+                    "blank": 11,
+                    "code": 139,
+                    "comment": 3,
+                    "filename": "src\\timeline\\Timeline.svelte"
+                },
+                {
+                    "blank": 6,
+                    "code": 16,
+                    "comment": 0,
+                    "filename": "src\\uniform\\time.ts"
+                },
+                {
+                    "blank": 12,
+                    "code": 37,
+                    "comment": 0,
+                    "filename": "src\\value\\value.ts"
+                },
+                {
+                    "blank": 3,
+                    "code": 39,
+                    "comment": 0,
+                    "filename": "src\\xr\\joints.ts"
+                },
+                {
+                    "blank": 2,
+                    "code": 237,
+                    "comment": 0,
+                    "filename": "src\\xr\\poses.ts"
+                },
+                {
+                    "blank": 4,
+                    "code": 25,
+                    "comment": 0,
+                    "filename": "tsconfig.json"
+                }
+            ]
+        }
+    ]
+}

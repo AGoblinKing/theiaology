@@ -1,6 +1,5 @@
 import { EAnimation } from 'src/buffer/animation'
 import { EPhase } from 'src/buffer/matter'
-import { Color, Euler, Vector3 } from 'three'
 
 export interface IMarkers {
   [markerID: number]: string
@@ -15,59 +14,6 @@ export interface INode {
 export interface ITimeline extends INode {
   markers: IMarkers
   flat: { [key: number]: INode }
-}
-
-export class Define {
-  color = new Color()
-  pos = new Vector3()
-  rot = new Euler()
-  rotvar = new Euler()
-  size = new Vector3()
-  col = { tilt: 0, variance: 0 }
-  vox = ''
-  voxvar = new Vector3()
-  sizevar = new Vector3()
-  posvar = new Vector3()
-  flock: { shape: EShape; size: number; step: number }
-  look = new Vector3()
-  impact = EImpactReaction.None
-  phase = EPhase.VOID
-  vel = new Vector3()
-  velvar = new Vector3()
-  text: string
-
-  doLook = false
-
-  // do not reset to let rezes linger
-  atoms = []
-
-  constructor() {
-    this.reset()
-  }
-
-  reset() {
-    this.phase = EPhase.VOID
-    this.impact = EImpactReaction.None
-    this.vel.set(0, 0, 0)
-    this.velvar.set(0, 0, 0)
-    this.color.setRGB(1, 1, 1)
-    this.pos.set(0, 0, 0)
-    this.rot.set(0, 0, 0)
-    this.rotvar.set(0, 0, 0)
-    this.voxvar.set(0, 0, 0)
-    this.size.set(1, 1, 1)
-    this.vox = ''
-    this.col.tilt = 0
-    this.col.variance = 0
-
-    this.sizevar.set(0, 0, 0)
-    this.look.set(0, 0, 0)
-
-    this.posvar.set(0, 0, 0)
-    this.flock = { shape: EShape.Plane, size: 1, step: 0 }
-    this.doLook = false
-    this.text = undefined
-  }
 }
 
 export enum EImpactReaction {

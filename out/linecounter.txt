@@ -1,0 +1,565 @@
+===============================================================================
+EXTENSION NAME : linecounter
+EXTENSION VERSION : 0.2.7
+-------------------------------------------------------------------------------
+count time : 2021-08-28 03:41:19
+count workspace : c:\Users\games dean\Projects\SharedArrayBuffers
+total files : 533
+total code lines : 60402
+total comment lines : 4742
+total blank lines : 21896
+
+    statistics
+   |      extension|     total code|  total comment|    total blank|percent|
+   -------------------------------------------------------------------------
+   |          .json|           4690|              0|              6|    7.8|
+   |            .md|             68|             10|             41|   0.11|
+   |            .ts|           3867|            224|            665|    6.4|
+   |        .svelte|           1061|             16|            136|    1.8|
+   |           .txt|             76|              2|             18|   0.13|
+   |           .map|            205|              0|              0|   0.34|
+   |            .js|          49640|           4191|          20844|     82|
+   |           .mjs|            343|            291|             99|   0.57|
+   |          .html|             42|              0|              9|  0.070|
+   |          .vert|            108|              3|             30|   0.18|
+   |          .frag|             44|              3|             13|  0.073|
+   |           .css|            110|              0|             10|   0.18|
+   |               |             44|              0|              8|  0.073|
+   |           .yml|             88|              2|             15|   0.15|
+   |   .tsbuildinfo|              1|              0|              0| 0.0017|
+   |          .toml|             15|              0|              2|  0.025|
+   -------------------------------------------------------------------------
+.github\FUNDING.yml, code is 2, comment is 0, blank is 1.
+.github\workflows\codeql-analysis.yml, code is 61, comment is 2, blank is 10.
+.github\workflows\itch.yml, code is 25, comment is 0, blank is 4.
+.gitignore, code is 12, comment is 0, blank is 0.
+.prettierignore, code is 1, comment is 0, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\public\build\.tsbuildinfo, code is 1, comment is 0, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\src\atomic.js, code is 34, comment is 1, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\src\atomic.js.map, code is 1, comment is 0, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\src\atomic\atomic.js, code is 19, comment is 32, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\src\atomic\atomic.js.map, code is 1, comment is 0, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\src\atomics.js, code is 37, comment is 9, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\src\atomics.js.map, code is 1, comment is 0, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\src\atoms.js, code is 30, comment is 4, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\src\atoms.js.map, code is 1, comment is 0, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\src\audio.js, code is 41, comment is 1, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\src\audio.js.map, code is 1, comment is 0, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\src\audio\audio.js, code is 47, comment is 2, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\src\audio\audio.js.map, code is 1, comment is 0, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\src\buffer\animation.js, code is 13, comment is 1, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\src\buffer\animation.js.map, code is 1, comment is 0, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\src\buffer\atomic.js, code is 34, comment is 1, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\src\buffer\atomic.js.map, code is 1, comment is 0, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\src\buffer\grid.js, code is 9, comment is 3, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\src\buffer\grid.js.map, code is 1, comment is 0, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\src\buffer\impact.js, code is 18, comment is 2, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\src\buffer\impact.js.map, code is 1, comment is 0, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\src\buffer\index.js, code is 33, comment is 3, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\src\buffer\index.js.map, code is 1, comment is 0, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\src\buffer\material.js, code is 8, comment is 2, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\src\buffer\material.js.map, code is 1, comment is 0, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\src\buffer\matter.js, code is 38, comment is 7, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\src\buffer\matter.js.map, code is 1, comment is 0, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\src\buffer\scale.js, code is 3, comment is 1, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\src\buffer\scale.js.map, code is 1, comment is 0, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\src\buffer\size.js, code is 3, comment is 1, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\src\buffer\size.js.map, code is 1, comment is 0, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\src\buffer\spacetime.js, code is 37, comment is 1, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\src\buffer\spacetime.js.map, code is 1, comment is 0, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\src\buffer\status.js, code is 12, comment is 1, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\src\buffer\status.js.map, code is 1, comment is 0, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\src\buffer\timeline.js, code is 209, comment is 26, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\src\buffer\timeline.js.map, code is 1, comment is 0, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\src\buffer\universal.js, code is 78, comment is 1, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\src\buffer\universal.js.map, code is 1, comment is 0, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\src\buffer\velocity.js, code is 32, comment is 1, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\src\buffer\velocity.js.map, code is 1, comment is 0, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\src\buffer\vox.js, code is 2, comment is 3, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\src\buffer\vox.js.map, code is 1, comment is 0, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\src\channel\audiowave.js, code is 3, comment is 2, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\src\channel\audiowave.js.map, code is 1, comment is 0, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\src\channel\timeline.js, code is 18, comment is 2, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\src\channel\timeline.js.map, code is 1, comment is 0, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\src\channel\voxcache.js, code is 0, comment is 1, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\src\channel\voxcache.js.map, code is 1, comment is 0, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\src\component\active.js, code is 12, comment is 1, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\src\component\active.js.map, code is 1, comment is 0, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\src\component\animation.js, code is 13, comment is 1, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\src\component\animation.js.map, code is 1, comment is 0, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\src\component\impact.js, code is 8, comment is 2, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\src\component\impact.js.map, code is 1, comment is 0, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\src\component\index.js, code is 18, comment is 3, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\src\component\index.js.map, code is 1, comment is 0, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\src\component\matter.js, code is 45, comment is 3, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\src\component\matter.js.map, code is 1, comment is 0, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\src\component\scale.js, code is 3, comment is 1, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\src\component\scale.js.map, code is 1, comment is 0, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\src\component\sector.js, code is 37, comment is 6, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\src\component\sector.js.map, code is 1, comment is 0, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\src\component\spacetime.js, code is 37, comment is 1, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\src\component\spacetime.js.map, code is 1, comment is 0, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\src\component\status.js, code is 12, comment is 1, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\src\component\status.js.map, code is 1, comment is 0, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\src\component\timeline.js, code is 93, comment is 13, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\src\component\timeline.js.map, code is 1, comment is 0, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\src\component\velocity.js, code is 32, comment is 1, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\src\component\velocity.js.map, code is 1, comment is 0, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\src\config.js, code is 37, comment is 4, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\src\config.js.map, code is 1, comment is 0, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\src\control\fps.js, code is 67, comment is 2, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\src\control\fps.js.map, code is 1, comment is 0, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\src\control\hand.js, code is 87, comment is 4, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\src\control\hand.js.map, code is 1, comment is 0, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\src\control\physical.js, code is 26, comment is 3, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\src\control\physical.js.map, code is 1, comment is 0, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\src\control\smooth.js, code is 22, comment is 2, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\src\control\smooth.js.map, code is 1, comment is 0, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\src\control\vr.js, code is 18, comment is 3, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\src\control\vr.js.map, code is 1, comment is 0, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\src\control\xr.js, code is 76, comment is 13, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\src\control\xr.js.map, code is 1, comment is 0, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\src\controller\copypaste.js, code is 46, comment is 3, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\src\controller\copypaste.js.map, code is 1, comment is 0, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\src\controller\fps.js, code is 102, comment is 3, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\src\controller\fps.js.map, code is 1, comment is 0, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\src\controller\hands.js, code is 76, comment is 3, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\src\controller\hands.js.map, code is 1, comment is 0, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\src\controller\player.js, code is 4, comment is 1, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\src\controller\player.js.map, code is 1, comment is 0, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\src\controller\smooth.js, code is 21, comment is 2, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\src\controller\smooth.js.map, code is 1, comment is 0, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\src\controller\undoredo.js, code is 30, comment is 1, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\src\controller\undoredo.js.map, code is 1, comment is 0, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\src\controls.js, code is 13, comment is 1, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\src\controls.js.map, code is 1, comment is 0, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\src\controls\browser.js, code is 2, comment is 1, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\src\controls\browser.js.map, code is 1, comment is 0, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\src\controls\controls.js, code is 13, comment is 1, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\src\controls\controls.js.map, code is 1, comment is 0, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\src\controls\desktop.js, code is 39, comment is 1, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\src\controls\desktop.js.map, code is 1, comment is 0, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\src\controls\fps.js, code is 13, comment is 1, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\src\controls\fps.js.map, code is 1, comment is 0, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\src\controls\keyboard.js, code is 16, comment is 1, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\src\controls\keyboard.js.map, code is 1, comment is 0, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\src\controls\mouse.js, code is 42, comment is 2, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\src\controls\mouse.js.map, code is 1, comment is 0, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\src\controls\vr.js, code is 15, comment is 2, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\src\controls\vr.js.map, code is 1, comment is 0, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\src\controls\vr\interface.js, code is 35, comment is 1, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\src\controls\vr\interface.js.map, code is 1, comment is 0, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\src\controls\vr\poses.js, code is 101, comment is 1, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\src\controls\vr\poses.js.map, code is 1, comment is 0, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\src\controls\vr\spells.js, code is 15, comment is 3, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\src\controls\vr\spells.js.map, code is 1, comment is 0, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\src\controls\vr\store.js, code is 12, comment is 1, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\src\controls\vr\store.js.map, code is 1, comment is 0, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\src\controls\vr\vr.js, code is 88, comment is 4, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\src\controls\vr\vr.js.map, code is 1, comment is 0, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\src\desktop.js, code is 39, comment is 1, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\src\desktop.js.map, code is 1, comment is 0, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\src\editor\editor.js, code is 2, comment is 1, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\src\editor\editor.js.map, code is 1, comment is 0, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\src\file.js, code is 73, comment is 6, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\src\file.js.map, code is 1, comment is 0, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\src\file\fbs\asset.js, code is 64, comment is 2, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\src\file\fbs\asset.js.map, code is 1, comment is 0, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\src\file\fbs\theia.js, code is 71, comment is 2, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\src\file\fbs\theia.js.map, code is 1, comment is 0, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\src\file\file.js, code is 75, comment is 6, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\src\file\file.js.map, code is 1, comment is 0, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\src\file\load.js, code is 99, comment is 18, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\src\file\load.js.map, code is 1, comment is 0, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\src\file\save.js, code is 78, comment is 11, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\src\file\save.js.map, code is 1, comment is 0, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\src\hand.js, code is 4, comment is 2, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\src\hand.js.map, code is 1, comment is 0, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\src\input.js, code is 40, comment is 1, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\src\input.js.map, code is 1, comment is 0, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\src\input\browser.js, code is 6, comment is 1, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\src\input\browser.js.map, code is 1, comment is 0, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\src\input\gamepad.js, code is 137, comment is 6, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\src\input\gamepad.js.map, code is 1, comment is 0, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\src\input\hand.js, code is 87, comment is 4, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\src\input\hand.js.map, code is 1, comment is 0, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\src\input\keyboard.js, code is 21, comment is 3, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\src\input\keyboard.js.map, code is 1, comment is 0, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\src\input\mouse.js, code is 50, comment is 2, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\src\input\mouse.js.map, code is 1, comment is 0, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\src\input\xr.js, code is 28, comment is 1, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\src\input\xr.js.map, code is 1, comment is 0, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\src\inputs\browser.js, code is 2, comment is 1, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\src\inputs\browser.js.map, code is 1, comment is 0, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\src\inputs\fps.js, code is 13, comment is 1, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\src\inputs\fps.js.map, code is 1, comment is 0, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\src\inputs\keyboard.js, code is 16, comment is 1, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\src\inputs\keyboard.js.map, code is 1, comment is 0, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\src\inputs\mouse.js, code is 41, comment is 2, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\src\inputs\mouse.js.map, code is 1, comment is 0, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\src\inputs\xr.js, code is 13, comment is 1, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\src\inputs\xr.js.map, code is 1, comment is 0, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\src\intshared.js, code is 6, comment is 1, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\src\intshared.js.map, code is 1, comment is 0, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\src\magica.js, code is 103, comment is 4, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\src\magica.js.map, code is 1, comment is 0, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\src\main.js, code is 70, comment is 7, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\src\main.js.map, code is 1, comment is 0, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\src\octree.js, code is 51, comment is 2, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\src\octree.js.map, code is 1, comment is 0, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\src\player.js, code is 3, comment is 1, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\src\player.js.map, code is 1, comment is 0, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\src\render.js, code is 29, comment is 1, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\src\render.js.map, code is 1, comment is 0, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\src\render\magica.js, code is 103, comment is 4, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\src\render\magica.js.map, code is 1, comment is 0, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\src\render\render.js, code is 29, comment is 1, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\src\render\render.js.map, code is 1, comment is 0, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\src\render\VRButton.js, code is 106, comment is 11, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\src\render\VRButton.js.map, code is 1, comment is 0, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\src\rez.js, code is 23, comment is 6, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\src\rez.js.map, code is 1, comment is 0, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\src\rez\basic.js, code is 40, comment is 3, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\src\rez\basic.js.map, code is 1, comment is 0, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\src\rez\box.js, code is 8, comment is 3, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\src\rez\box.js.map, code is 1, comment is 0, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\src\rez\elements.js, code is 3, comment is 1, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\src\rez\elements.js.map, code is 1, comment is 0, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\src\rez\fire.js, code is 20, comment is 2, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\src\rez\fire.js.map, code is 1, comment is 0, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\src\rez\hand-joints.js, code is 70, comment is 8, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\src\rez\hand-joints.js.map, code is 1, comment is 0, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\src\rez\hand.js, code is 17, comment is 6, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\src\rez\hand.js.map, code is 1, comment is 0, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\src\rez\music.js, code is 21, comment is 2, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\src\rez\music.js.map, code is 1, comment is 0, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\src\rez\plane.js, code is 33, comment is 1, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\src\rez\plane.js.map, code is 1, comment is 0, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\src\rez\rez.js, code is 54, comment is 6, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\src\rez\rez.js.map, code is 1, comment is 0, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\src\rez\text.js, code is 87, comment is 3, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\src\rez\text.js.map, code is 1, comment is 0, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\src\rez\vox.js, code is 48, comment is 1, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\src\rez\vox.js.map, code is 1, comment is 0, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\src\sab.js, code is 6, comment is 1, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\src\sab.js.map, code is 1, comment is 0, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\src\scene-shared.js, code is 22, comment is 2, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\src\scene-shared.js.map, code is 1, comment is 0, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\src\scene.js, code is 15, comment is 1, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\src\scene.js.map, code is 1, comment is 0, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\src\scene\blank.js, code is 1, comment is 2, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\src\scene\blank.js.map, code is 1, comment is 0, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\src\scene\default.js, code is 106, comment is 4, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\src\scene\default.js.map, code is 1, comment is 0, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\src\scene\physics.js, code is 1, comment is 1, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\src\scene\physics.js.map, code is 1, comment is 0, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\src\scene\rain.js, code is 54, comment is 3, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\src\scene\rain.js.map, code is 1, comment is 0, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\src\scene\timeline.js, code is 1, comment is 2, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\src\scene\timeline.js.map, code is 1, comment is 0, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\src\service.js, code is 33, comment is 1, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\src\service.js.map, code is 1, comment is 0, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\src\shader.js, code is 27, comment is 1, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\src\shader.js.map, code is 1, comment is 0, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\src\shader\atoms.js, code is 30, comment is 6, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\src\shader\atoms.js.map, code is 1, comment is 0, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\src\shader\material.js, code is 44, comment is 1, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\src\shader\material.js.map, code is 1, comment is 0, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\src\shader\shader.js, code is 30, comment is 1, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\src\shader\shader.js.map, code is 1, comment is 0, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\src\shape\box.js, code is 8, comment is 3, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\src\shape\box.js.map, code is 1, comment is 0, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\src\shape\fire.js, code is 20, comment is 2, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\src\shape\fire.js.map, code is 1, comment is 0, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\src\shape\hand.js, code is 22, comment is 3, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\src\shape\hand.js.map, code is 1, comment is 0, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\src\shape\index.js, code is 6, comment is 1, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\src\shape\index.js.map, code is 1, comment is 0, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\src\shape\music.js, code is 4, comment is 0, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\src\shape\music.js.map, code is 1, comment is 0, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\src\shape\plane.js, code is 33, comment is 1, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\src\shape\plane.js.map, code is 1, comment is 0, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\src\shape\simple.js, code is 17, comment is 3, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\src\shape\simple.js.map, code is 1, comment is 0, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\src\shape\text.js, code is 217, comment is 2, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\src\shape\text.js.map, code is 1, comment is 0, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\src\shape\vox.js, code is 49, comment is 1, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\src\shape\vox.js.map, code is 1, comment is 0, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\src\shared.js, code is 18, comment is 3, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\src\shared.js.map, code is 1, comment is 0, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\src\shared\atomics.js, code is 37, comment is 9, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\src\shared\atomics.js.map, code is 1, comment is 0, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\src\shared\shared.js, code is 18, comment is 3, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\src\shared\shared.js.map, code is 1, comment is 0, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\src\shared\worker.js, code is 25, comment is 2, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\src\shared\worker.js.map, code is 1, comment is 0, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\src\sound\audio.js, code is 55, comment is 2, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\src\sound\audio.js.map, code is 1, comment is 0, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\src\spell\index.js, code is 3, comment is 2, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\src\spell\index.js.map, code is 1, comment is 0, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\src\spell\snapshot.js, code is 12, comment is 2, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\src\spell\snapshot.js.map, code is 1, comment is 0, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\src\spell\swipe.js, code is 22, comment is 3, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\src\spell\swipe.js.map, code is 1, comment is 0, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\src\spell\walk.js, code is 7, comment is 1, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\src\spell\walk.js.map, code is 1, comment is 0, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\src\spells\index.js, code is 2, comment is 1, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\src\spells\index.js.map, code is 1, comment is 0, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\src\spells\snapshot.js, code is 12, comment is 2, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\src\spells\snapshot.js.map, code is 1, comment is 0, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\src\spells\spells.js, code is 0, comment is 1, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\src\spells\spells.js.map, code is 1, comment is 0, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\src\spells\walk.js, code is 6, comment is 2, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\src\spells\walk.js.map, code is 1, comment is 0, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\src\store.js, code is 113, comment is 1, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\src\store.js.map, code is 1, comment is 0, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\src\sys.js, code is 52, comment is 5, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\src\sys.js.map, code is 1, comment is 0, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\src\sys\fuzz.js, code is 17, comment is 2, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\src\sys\fuzz.js.map, code is 1, comment is 0, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\src\sys\physics.js, code is 56, comment is 10, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\src\sys\physics.js.map, code is 1, comment is 0, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\src\sys\sys-test.js, code is 20, comment is 2, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\src\sys\sys-test.js.map, code is 1, comment is 0, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\src\sys\sys.js, code is 23, comment is 2, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\src\sys\sys.js.map, code is 1, comment is 0, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\src\sys\system.js, code is 8, comment is 3, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\src\sys\system.js.map, code is 1, comment is 0, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\src\sys\systems.js, code is 21, comment is 2, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\src\sys\systems.js.map, code is 1, comment is 0, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\src\sys\test.js, code is 27, comment is 2, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\src\sys\test.js.map, code is 1, comment is 0, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\src\system\cardinal.js, code is 508, comment is 30, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\src\system\cardinal.js.map, code is 1, comment is 0, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\src\system\fuzz.js, code is 17, comment is 2, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\src\system\fuzz.js.map, code is 1, comment is 0, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\src\system\impactor.js, code is 34, comment is 3, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\src\system\impactor.js.map, code is 1, comment is 0, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\src\system\message.js, code is 11, comment is 3, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\src\system\message.js.map, code is 1, comment is 0, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\src\system\music.js, code is 6, comment is 4, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\src\system\music.js.map, code is 1, comment is 0, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\src\system\network.js, code is 38, comment is 9, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\src\system\network.js.map, code is 1, comment is 0, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\src\system\physics.js, code is 189, comment is 20, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\src\system\physics.js.map, code is 1, comment is 0, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\src\system\sys-enum.js, code is 10, comment is 3, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\src\system\sys-enum.js.map, code is 1, comment is 0, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\src\system\sys.js, code is 64, comment is 6, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\src\system\sys.js.map, code is 1, comment is 0, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\src\system\system.js, code is 14, comment is 3, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\src\system\system.js.map, code is 1, comment is 0, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\src\system\timeline.js, code is 4, comment is 2, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\src\system\timeline.js.map, code is 1, comment is 0, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\src\system\timing.js, code is 29, comment is 3, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\src\system\timing.js.map, code is 1, comment is 0, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\src\system\weather.js, code is 6, comment is 4, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\src\system\weather.js.map, code is 1, comment is 0, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\src\test.js, code is 3, comment is 1, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\src\test.js.map, code is 1, comment is 0, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\src\tester.js, code is 27, comment is 1, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\src\tester.js.map, code is 1, comment is 0, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\src\three.js, code is 2, comment is 1, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\src\three.js.map, code is 1, comment is 0, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\src\time.js, code is 14, comment is 1, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\src\time.js.map, code is 1, comment is 0, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\src\timeline\color.js, code is 16, comment is 1, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\src\timeline\color.js.map, code is 1, comment is 0, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\src\timeline\def-timeline.js, code is 207, comment is 18, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\src\timeline\def-timeline.js.map, code is 1, comment is 0, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\src\timeline\editor.js, code is 20, comment is 1, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\src\timeline\editor.js.map, code is 1, comment is 0, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\src\timeline\nav.js, code is 55, comment is 2, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\src\timeline\nav.js.map, code is 1, comment is 0, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\src\uniform\time.js, code is 16, comment is 1, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\src\uniform\time.js.map, code is 1, comment is 0, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\src\util\octree.js, code is 51, comment is 2, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\src\util\octree.js.map, code is 1, comment is 0, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\src\util\value.js, code is 33, comment is 1, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\src\util\value.js.map, code is 1, comment is 0, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\src\value.js, code is 33, comment is 1, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\src\value.js.map, code is 1, comment is 0, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\src\value\value.js, code is 33, comment is 1, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\src\value\value.js.map, code is 1, comment is 0, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\src\valuechannel.js, code is 49, comment is 1, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\src\valuechannel.js.map, code is 1, comment is 0, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\src\vendor\hand-poses-left.js, code is 2478, comment is 24, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\src\vendor\hand-poses-left.js.map, code is 1, comment is 0, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\src\vendor\hand-poses-right.js, code is 2478, comment is 24, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\src\vendor\hand-poses-right.js.map, code is 1, comment is 0, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\src\vendor\handy.js, code is 403, comment is 388, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\src\vendor\handy.js.map, code is 1, comment is 0, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\src\vox.js, code is 2, comment is 3, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\src\vox.js.map, code is 1, comment is 0, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\src\vox\magica.js, code is 103, comment is 4, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\src\vox\magica.js.map, code is 1, comment is 0, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\src\vr.js, code is 38, comment is 2, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\src\vr.js.map, code is 1, comment is 0, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\src\vr\enum.js, code is 27, comment is 1, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\src\vr\enum.js.map, code is 1, comment is 0, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\src\vr\interface.js, code is 35, comment is 1, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\src\vr\interface.js.map, code is 1, comment is 0, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\src\vr\joints.js, code is 35, comment is 1, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\src\vr\joints.js.map, code is 1, comment is 0, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\src\vr\poses.js, code is 101, comment is 1, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\src\vr\poses.js.map, code is 1, comment is 0, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\src\vr\shared.js, code is 28, comment is 1, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\src\vr\shared.js.map, code is 1, comment is 0, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\src\vr\store.js, code is 12, comment is 1, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\src\vr\store.js.map, code is 1, comment is 0, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\src\vr\vr.js, code is 88, comment is 4, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\src\vr\vr.js.map, code is 1, comment is 0, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\src\VRButton.js, code is 106, comment is 11, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\src\VRButton.js.map, code is 1, comment is 0, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\src\worker.js, code is 0, comment is 1, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\src\worker.js.map, code is 1, comment is 0, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\src\xr\engage.js, code is 87, comment is 4, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\src\xr\engage.js.map, code is 1, comment is 0, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\src\xr\init.js, code is 1, comment is 1, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\src\xr\init.js.map, code is 1, comment is 0, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\src\xr\joints.js, code is 35, comment is 1, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\src\xr\joints.js.map, code is 1, comment is 0, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\src\xr\poses.js, code is 233, comment is 1, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\src\xr\poses.js.map, code is 1, comment is 0, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\src\xr\store.js, code is 12, comment is 1, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\src\xr\store.js.map, code is 1, comment is 0, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\src\xr\xr.js, code is 88, comment is 4, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\src\xr\xr.js.map, code is 1, comment is 0, blank is 0.
+.rollup.cache\C\Users\games dean\Projects\SharedArrayBuffers\tsconfig.tsbuildinfo, code is 1, comment is 0, blank is 0.
+.rollup.cache\workspaces\games dean\Projects\SharedArrayBuffers\public\build\.tsbuildinfo, code is 1, comment is 0, blank is 0.
+.rollup.cache\workspaces\games dean\Projects\SharedArrayBuffers\src\controller\hands.js, code is 76, comment is 3, blank is 0.
+.rollup.cache\workspaces\games dean\Projects\SharedArrayBuffers\src\controller\hands.js.map, code is 1, comment is 0, blank is 0.
+.rollup.cache\workspaces\games dean\Projects\SharedArrayBuffers\src\render\VRButton.js, code is 106, comment is 11, blank is 0.
+.rollup.cache\workspaces\games dean\Projects\SharedArrayBuffers\src\render\VRButton.js.map, code is 1, comment is 0, blank is 0.
+c:\Users\games dean\Projects\bifrost\.gitignore, code is 2, comment is 0, blank is 0.
+c:\Users\games dean\Projects\bifrost\LICENSE, code is 21, comment is 0, blank is 5.
+c:\Users\games dean\Projects\bifrost\package.json, code is 7, comment is 0, blank is 0.
+c:\Users\games dean\Projects\bifrost\README.md, code is 19, comment is 4, blank is 17.
+c:\Users\games dean\Projects\bifrost\src\chat.mjs, code is 228, comment is 237, blank is 67.
+c:\Users\games dean\Projects\bifrost\wrangler.toml, code is 15, comment is 0, blank is 2.
+LICENSE, code is 5, comment is 0, blank is 3.
+package-lock.json, code is 4477, comment is 0, blank is 2.
+package.json, code is 45, comment is 0, blank is 0.
+public\build\.tsbuildinfo, code is 1, comment is 0, blank is 0.
+public\build\build\three.js, code is 0, comment is 1, blank is 1.
+public\build\build\three.js.map, code is 1, comment is 0, blank is 0.
+public\build\bundle.css, code is 1, comment is 0, blank is 0.
+public\build\cardinal.js, code is 1474, comment is 91, blank is 21.
+public\build\cardinal.js.map, code is 1, comment is 0, blank is 0.
+public\build\fuzz.js, code is 50, comment is 4, blank is 4.
+public\build\fuzz.js.map, code is 1, comment is 0, blank is 0.
+public\build\main.js, code is 6661, comment is 274, blank is 619.
+public\build\main.js.map, code is 1, comment is 0, blank is 0.
+public\build\physics.js, code is 442, comment is 34, blank is 12.
+public\build\physics.js.map, code is 1, comment is 0, blank is 0.
+public\build\three.js, code is 27507, comment is 2700, blank is 20158.
+public\build\three.js.map, code is 1, comment is 0, blank is 0.
+public\build\weather.js, code is 23, comment is 6, blank is 3.
+public\build\weather.js.map, code is 1, comment is 0, blank is 0.
+public\favicon.png, it is a binary file.
+public\favicon_smol.png, it is a binary file.
+public\font\MajorMonoDisplay-Regular.ttf, it is a binary file.
+public\font\OFL.txt, code is 75, comment is 2, blank is 18.
+public\global.css, code is 109, comment is 0, blank is 10.
+public\image\ANYTHING.gif, it is a binary file.
+public\image\eth.png, it is a binary file.
+public\image\interaction.gif, it is a binary file.
+public\image\promo.gif, it is a binary file.
+public\image\screenshot.png, it is a binary file.
+public\image\vr.gif, it is a binary file.
+public\index.html, code is 42, comment is 0, blank is 9.
+public\manifest.json, code is 23, comment is 0, blank is 0.
+public\robots.txt, code is 1, comment is 0, blank is 0.
+public\saves\beautiful.theia, it is a binary file.
+public\saves\cloudflare_worker.mjs, code is 115, comment is 54, blank is 32.
+public\saves\default.theia, it is a binary file.
+public\saves\landing (1).json, code is 113, comment is 0, blank is 0.
+public\saves\landing (13).theia, it is a binary file.
+public\saves\landing (15).theia, it is a binary file.
+public\saves\landing.theia, it is a binary file.
+public\service.js, code is 37, comment is 1, blank is 3.
+public\service.js.map, code is 1, comment is 0, blank is 0.
+public\theia\forest.theia, it is a binary file.
+public\theia\text.theia, it is a binary file.
+public\theia\tread.theia, it is a binary file.
+public\three.js, code is 1, comment is 6, blank is 0.
+README.md, code is 49, comment is 6, blank is 24.
+rollup.config.js, code is 117, comment is 0, blank is 23.
+src\buffer\animation.ts, code is 12, comment is 0, blank is 2.
+src\buffer\atomic.ts, code is 42, comment is 0, blank is 9.
+src\buffer\impact.ts, code is 19, comment is 1, blank is 4.
+src\buffer\index.ts, code is 34, comment is 2, blank is 7.
+src\buffer\matter.ts, code is 37, comment is 6, blank is 8.
+src\buffer\size.ts, code is 2, comment is 0, blank is 1.
+src\buffer\spacetime.ts, code is 39, comment is 0, blank is 4.
+src\buffer\status.ts, code is 11, comment is 0, blank is 2.
+src\buffer\timeline.ts, code is 225, comment is 25, blank is 48.
+src\buffer\universal.ts, code is 79, comment is 0, blank is 15.
+src\buffer\velocity.ts, code is 34, comment is 0, blank is 5.
+src\buffer\vox.ts, code is 3, comment is 2, blank is 2.
+src\config.ts, code is 37, comment is 13, blank is 8.
+src\controller\copypaste.ts, code is 50, comment is 2, blank is 10.
+src\controller\fps.ts, code is 116, comment is 2, blank is 19.
+src\controller\hands.ts, code is 86, comment is 2, blank is 23.
+src\controller\player.ts, code is 4, comment is 0, blank is 0.
+src\controller\smooth.ts, code is 25, comment is 1, blank is 10.
+src\controller\undoredo.ts, code is 27, comment is 0, blank is 7.
+src\defines.d.ts, code is 9, comment is 0, blank is 2.
+src\file\file.ts, code is 77, comment is 5, blank is 10.
+src\file\load.ts, code is 102, comment is 17, blank is 24.
+src\file\save.ts, code is 81, comment is 10, blank is 23.
+src\input\browser.ts, code is 6, comment is 0, blank is 2.
+src\input\gamepad.ts, code is 129, comment is 5, blank is 31.
+src\input\keyboard.ts, code is 21, comment is 2, blank is 3.
+src\input\mouse.ts, code is 59, comment is 1, blank is 12.
+src\input\xr.ts, code is 29, comment is 0, blank is 5.
+src\main.ts, code is 98, comment is 6, blank is 11.
+src\render\magica.ts, code is 105, comment is 3, blank is 21.
+src\render\render.ts, code is 41, comment is 0, blank is 12.
+src\render\VRButton.ts, code is 104, comment is 10, blank is 34.
+src\rez\hand-joints.ts, code is 69, comment is 7, blank is 14.
+src\service.ts, code is 38, comment is 0, blank is 3.
+src\shader\animation.frag, code is 37, comment is 2, blank is 10.
+src\shader\animation.vert, code is 66, comment is 2, blank is 18.
+src\shader\atoms.ts, code is 57, comment is 5, blank is 5.
+src\shader\enum.vert, code is 2, comment is 1, blank is 2.
+src\shader\header.vert, code is 24, comment is 0, blank is 4.
+src\shader\main.vert, code is 6, comment is 0, blank is 4.
+src\shader\material.ts, code is 46, comment is 0, blank is 8.
+src\shader\matter.frag, code is 7, comment is 1, blank is 3.
+src\shader\spacetime.vert, code is 10, comment is 0, blank is 2.
+src\shape\index.ts, code is 6, comment is 0, blank is 1.
+src\shape\simple.ts, code is 17, comment is 2, blank is 4.
+src\shape\text.ts, code is 217, comment is 1, blank is 1.
+src\sound\audio.ts, code is 57, comment is 1, blank is 16.
+src\spell\index.ts, code is 3, comment is 1, blank is 1.
+src\spell\snapshot.ts, code is 13, comment is 1, blank is 1.
+src\spell\swipe.ts, code is 23, comment is 2, blank is 2.
+src\spell\walk.ts, code is 7, comment is 0, blank is 3.
+src\system\cardinal.ts, code is 555, comment is 30, blank is 94.
+src\system\fuzz.ts, code is 22, comment is 1, blank is 5.
+src\system\network.ts, code is 44, comment is 8, blank is 8.
+src\system\physics.ts, code is 207, comment is 19, blank is 34.
+src\system\sys-enum.ts, code is 10, comment is 2, blank is 2.
+src\system\sys.ts, code is 66, comment is 5, blank is 18.
+src\system\system.ts, code is 14, comment is 2, blank is 4.
+src\system\weather.ts, code is 9, comment is 3, blank is 4.
+src\timeline\Box.svelte, code is 136, comment is 1, blank is 24.
+src\timeline\color.ts, code is 18, comment is 0, blank is 5.
+src\timeline\def-timeline.ts, code is 214, comment is 18, blank is 25.
+src\timeline\editor.ts, code is 23, comment is 0, blank is 5.
+src\timeline\evar\Normal.svelte, code is 27, comment is 1, blank is 4.
+src\timeline\evar\Number.svelte, code is 46, comment is 1, blank is 9.
+src\timeline\evar\String.svelte, code is 46, comment is 1, blank is 8.
+src\timeline\evar\Time.svelte, code is 28, comment is 1, blank is 4.
+src\timeline\Modal.svelte, code is 78, comment is 2, blank is 9.
+src\timeline\nav.ts, code is 60, comment is 1, blank is 5.
+src\timeline\Node.svelte, code is 356, comment is 5, blank is 44.
+src\timeline\Theiaology.svelte, code is 205, comment is 1, blank is 23.
+src\timeline\Timeline.svelte, code is 139, comment is 3, blank is 11.
+src\uniform\time.ts, code is 16, comment is 0, blank is 6.
+src\value\value.ts, code is 37, comment is 0, blank is 12.
+src\xr\joints.ts, code is 39, comment is 0, blank is 3.
+src\xr\poses.ts, code is 237, comment is 0, blank is 2.
+tsconfig.json, code is 25, comment is 0, blank is 4.
+===============================================================================
