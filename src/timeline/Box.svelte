@@ -92,6 +92,7 @@
     e.preventDefault()
     if(nav.tag !== '') cursor.set(nav)
   }}
+  
   bind:this={box}
   on:click={doClick}
   class:notilt
