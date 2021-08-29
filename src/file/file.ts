@@ -51,6 +51,7 @@ export function ReadFile(file: File | string, buffer: ArrayBufferLike) {
       voxes.$[name.split('.')[0].slice(0, 12).trim()] = new MagickaVoxel(buffer)
       voxes.poke()
       break
+    case name.indexOf('github') !== -1:
     case name.indexOf('.theia') !== -1:
       Load(buffer)
       break
