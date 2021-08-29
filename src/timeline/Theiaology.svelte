@@ -157,9 +157,9 @@
   >
   <Box
     tilt={290}
-    hover="Browse .theia files"
+    hover="Play .theia demos"
     nav={{ tag: '.theia', left: 'save', right: 'sponsor', down }}
-    click={Browse}>.THEIA</Box
+    click={Browse}>DEMOS</Box
   >
   <Box
     tilt={110}
