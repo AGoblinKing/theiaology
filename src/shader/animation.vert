@@ -46,7 +46,8 @@ vec4 Animation(in vec4 pos) {
 	}
 
 	float xyz = pos.x * pos.y *pos.z;
-	float tes = sin(xyz  + time  ) * 0.0002 + sin(xyz ) * 0.03 + sin(xyz + time * 0.0001  ) * 0.001 + cos(xyz * 10000.) * 0.0025;
+	// vibrate sin(xyz  + time  ) * 0.0002 +
+	float tes =  sin(xyz ) * 0.03 + sin(xyz + time * 0.0001  ) * 0.001 + cos(xyz * 10000.) * 0.0025;
 
 	pos.x += tes;
 	pos.y += tes +  0.05 * (-audioHigh/2000.);
