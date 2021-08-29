@@ -1,6 +1,7 @@
 import { ITimeline } from 'src/timeline/def-timeline'
 import { Value } from 'src/value/value'
 import { Animation } from './animation'
+import { Cage } from './cage'
 import { Impact } from './impact'
 import { Matter } from './matter'
 import { Size } from './size'
@@ -22,6 +23,7 @@ export const impact = new Impact()
 export const size = new Size()
 export const status = new Status()
 export const universal = new Universal()
+export const cage = new Cage()
 
 // Used to alert when timeline changes and to notify the cardinal
 export const timeline = new Value(new Timeline())

@@ -338,7 +338,7 @@
         flex
         click={inputString}
         nav={NavData(0)}
-        bold
+
       >
         "{$timeline.text(i)}"
       </Box>

@@ -27,12 +27,12 @@ export enum EImpactReaction {
 
 export enum EShape {
   Plane,
-  Sphere,
-  Circle,
-
-  Wall,
-  Box,
   Ring,
+  // Sphere,
+  // Circle,
+
+  // Wall,
+  // Box,
 }
 
 export enum EAxis {
@@ -113,6 +113,8 @@ export enum ETimeline {
   IDLE,
   TEXT,
   CLEARCOLOR,
+  POSADD,
+  THRUSTADD,
 }
 
 export const Commands: { [key: number]: any } = {
@@ -186,7 +188,7 @@ export const Commands: { [key: number]: any } = {
   // },
   [ETimeline.EFFECTS]: { animation: EAnimation },
   [ETimeline.VOX]: { 'Vox Model': EVar.VOX },
-  [ETimeline.IMPACT]: { reaction: EImpactReaction },
+  // [ETimeline.IMPACT]: { reaction: EImpactReaction },
   [ETimeline.CAGE]: { axis: EAxis, min: EVar.USERNUMBER, max: EVar.USERNUMBER },
 
   [ETimeline.IDLE]: { idle: EIdle },
@@ -200,4 +202,14 @@ export const Commands: { [key: number]: any } = {
   [ETimeline.TEXT]: { text: EVar.STRING },
   [ETimeline.CLEARCOLOR]: { rgb: EVar.COLOR },
   [ETimeline.USERROT]: { x: EVar.NORMAL, y: EVar.NORMAL, z: EVar.NORMAL },
+  [ETimeline.POSADD]: {
+    x: EVar.USERNUMBER,
+    y: EVar.USERNUMBER,
+    z: EVar.USERNUMBER,
+  },
+  [ETimeline.THRUSTADD]: {
+    x: EVar.USERNUMBER,
+    y: EVar.USERNUMBER,
+    z: EVar.USERNUMBER,
+  },
 }

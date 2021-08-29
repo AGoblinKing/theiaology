@@ -30,7 +30,7 @@
   export let span = false
   // organize-imports-ignore
   export let flex = false
-  export let bold = false
+
   export let upper = false
   export let style = ""
   export let click = () => {}
@@ -87,7 +87,7 @@
   class:flex
   class:upper
   class:selected
-  class:bold
+
   on:contextmenu={(e) => {
     e.preventDefault()
     if(nav.tag !== '') cursor.set(nav)
@@ -133,9 +133,7 @@
     justify-content: center;
     align-items: center;
   }
-  .bold {
-    font-weight: bold;
-  }
+
   .box.notilt {
     filter: none !important;
   }

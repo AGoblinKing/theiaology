@@ -12,12 +12,6 @@ export const INFRINGEMENT = 1
 // max int 32, which are used in the SharedArrayBuffer
 export const NORMALIZER = 0x7fffffff
 export const UNIVERSALS = [
-  (-20 * 1000) / 2,
-  (-20 * 1000) / 2,
-  (-20 * 1000) / 2,
-  20 * 1000,
-  20 * 1000,
-  20 * 1000,
   0, // time
   10, // player size
   0, // idle
@@ -33,7 +27,7 @@ export const UNIVERSALS = [
 
 export const CACHE = 'v1'
 
-export const dotTheia = ['forest', 'tread', 'rain']
+export const dotTheia = ['forest', 'tread', 'birthday']
 export const rootTheia = 'forest'
 
 export const PAD_SPEED = 0.5

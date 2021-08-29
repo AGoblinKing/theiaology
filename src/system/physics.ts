@@ -1,11 +1,12 @@
 // performs grid traversal and collision detection
+import { Cage } from 'src/buffer/cage'
 import { Impact } from 'src/buffer/impact'
 import { EPhase, Matter } from 'src/buffer/matter'
 import { Size } from 'src/buffer/size'
 import { SpaceTime } from 'src/buffer/spacetime'
 import { Universal } from 'src/buffer/universal'
 import { Velocity } from 'src/buffer/velocity'
-import { ENTITY_COUNT, NORMALIZER } from 'src/config'
+import { ENTITY_COUNT } from 'src/config'
 import { Box3, Vector3 } from 'three'
 import { EMessage } from './sys-enum'
 import { System } from './system'
@@ -33,12 +34,6 @@ let sectors: { [sectorId: number]: Set<number> } = {}
 // ids 2 sector
 let ids: { [id: number]: number[] } = {}
 
-// physics bounds, really big bounding box to start
-const $sector = new Box3(
-  new Vector3(-NORMALIZER / 2, -NORMALIZER / 2, -NORMALIZER / 2),
-  new Vector3(NORMALIZER, NORMALIZER, NORMALIZER)
-)
-
 class Physics extends System {
   past: SpaceTime
   future: SpaceTime
@@ -47,6 +42,7 @@ class Physics extends System {
   size: Size
   impact: Impact
   universal: Universal
+  cage: Cage
 
   ready = false
   // 50 frames a second, idealy get this to 5
@@ -76,14 +72,14 @@ class Physics extends System {
         break
       case this.universal:
         this.universal = new Universal(e.data)
+        break
+      case this.cage:
+        this.cage = new Cage(e.data)
         this.init()
         break
 
       default:
         switch (e.data) {
-          case EMessage.CAGE_UPDATE:
-            this.resetBounds()
-            break
           case EMessage.TIMELINE_UPDATE:
             sectors = {}
             ids = {}
@@ -94,20 +90,6 @@ class Physics extends System {
 
   init() {
     this.ready = true
-    this.resetBounds()
-  }
-
-  resetBounds() {
-    $sector.min.set(
-      this.universal.minX(),
-      this.universal.minY(),
-      this.universal.minZ()
-    )
-    $sector.max.set(
-      this.universal.maxX(),
-      this.universal.maxY(),
-      this.universal.maxZ()
-    )
   }
 
   collide(id1: number, id2: number) {
@@ -189,11 +171,10 @@ class Physics extends System {
 
     // rip through matter, update their grid_past/futures
     for (let i = 0; i < ENTITY_COUNT; i++) {
-      switch (this.matter.phase(i)) {
-        case EPhase.VOID:
-          continue
+      const phase = this.matter.phase(i)
+      switch (phase) {
         case EPhase.STUCK:
-          this.matter.phase(i, EPhase.VOID)
+          // this.matter.phase(i, EPhase.VOID)
           // add to sectors
           this.sectorize(i)
           continue
@@ -209,45 +190,67 @@ class Physics extends System {
         let z = this.past.z(i, this.future.z(i))
         this.past.time(i, t)
 
+        // physics
         let collisions = 0
-        for (let sid of this.sectorize(i)) {
-          // go through your sectors and check for collision
-          if (!sectors[sid]) continue
-
-          for (let oids of sectors[sid]) {
-            if (oids !== i && this.collide(oids, i)) {
-              collisions++
-              break
-            }
-          }
-          if (collisions > 0) {
+        switch (phase) {
+          case EPhase.VOID:
+          case EPhase.GHOST:
             break
+          default:
+            for (let sid of this.sectorize(i)) {
+              // go through your sectors and check for collision
+              if (!sectors[sid]) continue
+
+              for (let oids of sectors[sid]) {
+                if (oids !== i && this.collide(oids, i)) {
+                  collisions++
+                  break
+                }
+              }
+              if (collisions > 0) {
+                break
+              }
+            }
+        }
+
+        x = this.future.x(i, x + vx)
+        y = this.future.y(i, y + vy)
+        z = this.future.z(i, z + vz)
+
+        this.future.time(i, t + this.tickrate + 500)
+
+        const cX = this.cage.x(i),
+          cY = this.cage.y(i),
+          cZ = this.cage.z(i),
+          cMX = this.cage.mX(i),
+          cMY = this.cage.mY(i),
+          cMZ = this.cage.mZ(i)
+
+        const cageX = !(cX === 0 && cMX === 0),
+          cageY = !(cY === 0 && cMY === 0),
+          cageZ = !(cZ === 0 && cMZ === 0)
+
+        if (cageX) {
+          if (x > cMX) {
+            this.future.x(i, cX)
+          } else if (x < cX) {
+            this.future.x(i, cMX)
           }
         }
 
-        if (collisions === 0) {
-          x = this.future.x(i, x + vx)
-          y = this.future.y(i, y + vy)
-          z = this.future.z(i, z + vz)
-
-          this.future.time(i, t + this.tickrate + 500)
-
-          if (x > $sector.max.x) {
-            this.future.x(i, $sector.min.x)
-          } else if (x < $sector.min.x) {
-            this.future.x(i, $sector.max.x)
+        if (cageY) {
+          if (y > cMY) {
+            this.future.y(i, cY)
+          } else if (y < cY) {
+            this.future.y(i, cMY)
           }
+        }
 
-          if (y > $sector.max.y) {
-            this.future.y(i, $sector.min.y)
-          } else if (y < $sector.min.y) {
-            this.future.y(i, $sector.max.y)
-          }
-
-          if (z > $sector.max.z) {
-            this.future.z(i, $sector.min.z)
-          } else if (z < $sector.min.z) {
-            this.future.z(i, $sector.max.z)
+        if (cageZ) {
+          if (z > cMZ) {
+            this.future.z(i, cZ)
+          } else if (z < cZ) {
+            this.future.z(i, cMZ)
           }
         }
 

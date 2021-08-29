@@ -1,4 +1,5 @@
 import { Animation } from 'src/buffer/animation'
+import { Cage } from 'src/buffer/cage'
 import { Impact } from 'src/buffer/impact'
 import { Matter } from 'src/buffer/matter'
 import { Size } from 'src/buffer/size'
@@ -41,6 +42,7 @@ class Cardinal extends System {
 
   timeline: Timeline
   universal: Universal
+  cage: Cage
 
   defines: { [def: number]: Define } = {}
 
@@ -90,6 +92,10 @@ class Cardinal extends System {
 
       case this.universal:
         this.universal = new Universal(e.data)
+        break
+
+      case this.cage:
+        this.cage = new Cage(e.data)
         this.ready = true
         break
 
@@ -138,6 +144,42 @@ class Cardinal extends System {
       if (this.timeline.when(i) > sec) continue
 
       switch (this.timeline.command(i)) {
+        case ETimeline.POSADD:
+          $rez.pos.add(
+            $vec3.set(
+              this.timeline.data0(i),
+              this.timeline.data1(i),
+              this.timeline.data2(i)
+            )
+          )
+
+          $rez.ripple(ERipple.POSADD, $vec3)
+
+          for (let atom of $rez.all()) {
+            this.future.addX(atom, $vec3.x)
+            this.future.addY(atom, $vec3.y)
+            this.future.addZ(atom, $vec3.z)
+            this.future.time(sec)
+          }
+
+          break
+        case ETimeline.THRUSTADD:
+          $rez.vel.add(
+            $vec3.set(
+              this.timeline.data0(i),
+              this.timeline.data1(i),
+              this.timeline.data2(i)
+            )
+          )
+
+          $rez.ripple(ERipple.VELADD, $vec3)
+
+          for (let atom of $rez.all()) {
+            this.velocity.addX(atom, $vec3.x)
+            this.velocity.addY(atom, $vec3.y)
+            this.velocity.addZ(atom, $vec3.z)
+          }
+          break
         case ETimeline.TEXT:
           $rez.text = this.timeline.text(i)
           $rez.ripple(ERipple.TEXT)
@@ -281,43 +323,81 @@ class Cardinal extends System {
           const max = this.timeline.data2(i)
           switch (this.timeline.data0(i)) {
             case EAxis.XYZ:
-              this.universal.minZ(min)
-              this.universal.maxZ(max)
+              $rez.cage.min.z = min
+              $rez.cage.max.z = max
             // fallthrough
             case EAxis.XY:
-              this.universal.minY(min)
-              this.universal.maxY(max)
-              this.universal.minX(min)
-              this.universal.maxX(max)
+              $rez.cage.min.y = min
+              $rez.cage.max.y = max
+              $rez.cage.min.x = min
+              $rez.cage.max.x = max
               break
             case EAxis.XZ:
-              this.universal.minX(min)
-              this.universal.maxX(max)
-              this.universal.minZ(min)
-              this.universal.maxZ(max)
+              $rez.cage.min.x = min
+              $rez.cage.max.x = max
+              $rez.cage.min.z = min
+              $rez.cage.max.z = max
               break
             case EAxis.YZ:
-              this.universal.minY(min)
-              this.universal.maxY(max)
-              this.universal.minZ(min)
-              this.universal.maxZ(max)
+              $rez.cage.min.y = min
+              $rez.cage.max.y = max
+              $rez.cage.min.z = min
+              $rez.cage.max.z = max
               break
             case EAxis.X:
-              this.universal.minX(min)
-              this.universal.maxX(max)
+              $rez.cage.min.x = min
+              $rez.cage.max.x = max
               break
             case EAxis.Y:
-              this.universal.minY(min)
-              this.universal.maxY(max)
+              $rez.cage.min.y = min
+              $rez.cage.max.y = max
               break
             case EAxis.Z:
-              this.universal.minZ(min)
-              this.universal.maxZ(max)
+              $rez.cage.min.z = min
+              $rez.cage.max.z = max
               break
           }
 
-          this.post(EMessage.CAGE_UPDATE)
+          $rez.ripple(ERipple.CAGE)
 
+          for (let atom of $rez.all()) {
+            switch (this.timeline.data0(atom)) {
+              case EAxis.XYZ:
+                this.cage.z(atom, min)
+                this.cage.mZ(atom, max)
+              // fallthrough
+              case EAxis.XY:
+                this.cage.y(atom, min)
+                this.cage.mY(atom, max)
+                this.cage.x(atom, min)
+                this.cage.mX(atom, max)
+                break
+              case EAxis.XZ:
+                this.cage.x(atom, min)
+                this.cage.mX(atom, max)
+                this.cage.z(atom, min)
+                this.cage.mZ(atom, max)
+                break
+              case EAxis.YZ:
+                this.cage.y(atom, min)
+                this.cage.mY(atom, max)
+                this.cage.z(atom, min)
+                this.cage.mZ(atom, max)
+                break
+              case EAxis.X:
+                this.cage.x(atom, min)
+                this.cage.mX(atom, max)
+                break
+              case EAxis.Y:
+                this.cage.y(atom, min)
+                this.cage.mY(atom, max)
+                break
+              case EAxis.Z:
+                this.cage.z(atom, min)
+                this.cage.mZ(atom, max)
+                break
+            }
+          }
           break
         case ETimeline.DEREZ:
           for (let atom of $rez.atoms) {
@@ -443,15 +523,12 @@ class Cardinal extends System {
         color
           .setRGB(Math.random(), Math.random(), Math.random())
           .lerp($rez.color, (NORMALIZER - $rez.col.variance) / NORMALIZER)
-        this.matter.red(id, Math.floor(color.r * NORMALIZER))
-        this.matter.green(id, Math.floor(color.g * NORMALIZER))
-        this.matter.blue(id, Math.floor(color.b * NORMALIZER))
 
-        this.matter.phase(id, $rez.phase)
-        this.impact.reaction(id, $rez.impact)
         this.velocity.x(id, $rez.vel.x)
         this.velocity.y(id, $rez.vel.y)
         this.velocity.z(id, $rez.vel.z)
+
+        this.core(id, color, $rez)
       }
 
       x += sx * 5
@@ -566,6 +643,7 @@ class Cardinal extends System {
 
     this.matter.phase(id, $rez.phase)
     this.impact.reaction(id, $rez.impact)
+    this.cage.box(id, $rez.cage)
   }
 
   process() {
@@ -583,8 +661,12 @@ class Cardinal extends System {
         this.defines[def] = new Define()
         const parent = this.timeline.who(def)
 
-        const p = (this.defines[parent] = this.defines[parent] || new Define())
-        p._.push(this.defines[def])
+        // avoid loop 0 => 0
+        if (parent !== def) {
+          const p = (this.defines[parent] =
+            this.defines[parent] || new Define())
+          p._.push(this.defines[def])
+        }
       }
     }
 
@@ -600,7 +682,6 @@ class Cardinal extends System {
     this.timing = {}
     this.defines = {}
 
-    this.post(EMessage.CAGE_UPDATE)
     this.post(EMessage.CLEAR_COLOR_UPDATE)
 
     this.process()
@@ -623,6 +704,7 @@ class Cardinal extends System {
     this.matter.free(i, Matter.COUNT)
     this.impact.free(i, Impact.COUNT)
     this.size.free(i, Velocity.COUNT)
+    this.cage.free(i, Cage.COUNT)
     this.status.free(i)
   }
 

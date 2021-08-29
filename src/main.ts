@@ -3,6 +3,7 @@ import 'src/file/file'
 import Theiaology from 'src/timeline/Theiaology.svelte'
 import {
   animation,
+  cage,
   future,
   impact,
   matter,
@@ -20,13 +21,8 @@ import { body, renderer } from './render/render'
 import { RezHands } from './rez/hand-joints'
 import './shader/atoms'
 import './sound/audio'
-import { audio } from './sound/audio'
 import { sys } from './system/sys'
 import { EMessage } from './system/sys-enum'
-
-let ready = false
-
-setTimeout(() => (ready = true), 500)
 
 // setup systems
 const cardinal = sys
@@ -41,12 +37,12 @@ const cardinal = sys
     impact,
     status,
     timeline.$,
-    universal
+    universal,
+    cage
   )
   .on((e) => {
     switch (e) {
       case EMessage.USER_ROT_UPDATE:
-        if (!ready) return
         body.$.rotation.set(
           (universal.userRX() / NORMALIZER) * Math.PI * 2,
           (universal.userRY() / NORMALIZER) * Math.PI * 2,
@@ -69,12 +65,12 @@ const cardinal = sys
 
 const physics = sys
   .start('physics')
-  .send(past, future, matter, velocity, size, impact, universal)
+  .send(past, future, matter, velocity, size, impact, universal, cage)
   .bind(cardinal)
 
 timeline.on(($t) => {
   if ($t === undefined) return
-  audio.currentTime = 0
+
   cardinal.send(EMessage.TIMELINE_UPDATE)
   cardinal._queue = []
 

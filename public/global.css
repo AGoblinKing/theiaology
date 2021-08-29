@@ -9,8 +9,9 @@ body {
   margin: 0;
   user-select: none;
   font-family: pixel;
-  font-weight: 1000;
+  font-size: 16px;
   width: 100%;
+  font-weight: bold;
   height: 100%;
   overflow: hidden;
   -webkit-user-select: none;
@@ -21,7 +22,7 @@ body {
   top: 1rem;
   bottom: auto !important;
   opacity: 1 !important;
-  background: rgba(0, 28, 189, 0.849) !important;
+background: rgba(0, 28, 189, 0.849) !important;
   border: solid 0.25rem white !important;
   font-family: pixel !important;
 }

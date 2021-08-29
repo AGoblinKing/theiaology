@@ -1,5 +1,5 @@
 import { EPhase } from 'src/buffer/matter'
-import { Color, Euler, Vector3 } from 'three'
+import { Box3, Color, Euler, Vector3 } from 'three'
 import { EImpactReaction, EShape } from './def-timeline'
 
 export enum ERipple {
@@ -21,6 +21,9 @@ export enum ERipple {
   POS,
   ROT,
   ROTVAR,
+  POSADD,
+  VELADD,
+  CAGE,
 }
 
 export class Define {
@@ -41,6 +44,7 @@ export class Define {
   vel = new Vector3()
   velvar = new Vector3()
   text: string
+  cage = new Box3()
 
   doLook = false
 
@@ -62,7 +66,7 @@ export class Define {
   }
 
   reset() {
-    this.phase = EPhase.VOID
+    this.phase = EPhase.GHOST
     this.impact = EImpactReaction.None
     this.vel.set(0, 0, 0)
     this.velvar.set(0, 0, 0)
@@ -87,7 +91,7 @@ export class Define {
     this._ = []
   }
 
-  ripple(what: ERipple) {
+  ripple(what: ERipple, data?: any) {
     for (let c of this._) {
       switch (what) {
         case ERipple.PHASE:
@@ -149,8 +153,17 @@ export class Define {
         case ERipple.COLOR:
           c.color.copy(this.color)
           break
+        case ERipple.CAGE:
+          c.cage.copy(this.cage)
+          break
+        case ERipple.POSADD:
+          c.pos.add(data)
+          break
+        case ERipple.VELADD:
+          c.vel.add(data)
+          break
       }
-      c.ripple(what)
+      c.ripple(what, data)
     }
   }
 }

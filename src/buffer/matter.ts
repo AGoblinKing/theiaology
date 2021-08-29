@@ -3,17 +3,12 @@ import { ENTITY_COUNT } from 'src/config'
 
 // how together something is
 export enum EPhase {
-  // doesn't exist according to physics
-  VOID,
   // doesn't get added to any collision
   GHOST,
-
-  // no reaction to collision but has velocity
-  UNBOOPABLE,
+  // doesn't exist according to physics
+  VOID,
   // levels of reactivity
-  SOLID,
-  LIQUID,
-  GAS,
+  NORMAL,
   // Doesn't move, but exists
   STUCK,
 }
