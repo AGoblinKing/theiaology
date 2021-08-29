@@ -80,7 +80,7 @@ export async function ReadURL(url: string) {
 
 switch (url.$.length) {
   case 2:
-    ReadURL(`https://github.theiaology.com/${url.$[0]}/${url.$[1]}`)
+    ReadURL(`https://theiaology.com/github/${url.$[0]}/${url.$[1]}`)
     break
   default:
     // try reading static file and if it misses load DB
