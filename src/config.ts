@@ -27,7 +27,7 @@ export const UNIVERSALS = [
 
 export const CACHE = 'v1'
 
-export const dotTheia = ['starvoyage', 'forest', 'tread', 'birthday']
+export const dotTheia = ['starvoyage', 'forest', 'flood', 'birthday']
 export const rootTheia = 'starvoyage'
 
 export const PAD_SPEED = 0.5

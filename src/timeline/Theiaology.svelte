@@ -139,7 +139,7 @@
     {$url}{window.location.hash}
   </Box>
   <Box
-    hover="Load files into theia "
+    hover="Load files into Theiaology "
     nav={{ tag: 'load', left: 'workspace', right: 'save', down }}
     ><input
       id="load"
@@ -151,13 +151,13 @@
     <label for="load">LOAD</label></Box
   >
   <Box
-    hover="Download .theia file.  Drag + Drop or load!"
+    hover="Download Theiaologian files.  Drag + Drop or load!"
     nav={{ tag: 'save', right: '.theia', left: 'load', down }}
     click={Save}>SAVE</Box
   >
   <Box
     tilt={290}
-    hover="Play .theia demos"
+    hover="Play theiaologian demos"
     nav={{ tag: '.theia', left: 'save', right: 'sponsor', down }}
     click={Browse}>DEMOS</Box
   >
