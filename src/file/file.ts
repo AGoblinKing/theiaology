@@ -78,15 +78,21 @@ export async function ReadURL(url: string) {
   return ReadFile(url, await cache[url])
 }
 
-// try reading static file and if it misses load DB
-const u = url.$.join('/')
+switch (url.$.length) {
+  case 2:
+    ReadURL(`https://github.theiaology.com/${url.$[0]}/${url.$[1]}`)
+    break
+  default:
+    // try reading static file and if it misses load DB
+    const u = url.$.join('/')
 
-ReadURL(`/theia/${u || rootTheia}.theia`).catch(() => {
-  get(window.location.pathname).then((v) => {
-    if (v) {
-      Load(v)
-    }
+    ReadURL(`/theia/${u || rootTheia}.theia`).catch(() => {
+      get(window.location.pathname).then((v) => {
+        if (v) {
+          Load(v)
+        }
 
-    dbLoaded.set(true)
-  })
-})
+        dbLoaded.set(true)
+      })
+    })
+}

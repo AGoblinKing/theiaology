@@ -25,9 +25,13 @@ _Undock your imagination._
 
 ![Promotional Gif](./public/image/interaction.gif)
 
-## Quicker Start
+## Quickest Start
 
-Use GitHub CodeSpaces and slam that F5. You can make the URL public, it defaults to only you.
+https://theiaology.com/sandbox#dev
+
+Share your .theia files in a public GitHub repository called theiaology.com and you can load .theia files from it.
+
+ie: https://theiaology.com/username/a_city would resolve to github.com/username/theiaology.com/blob/main/a_city.theia
 
 ## Quick Start
 
@@ -38,8 +42,6 @@ npm ci
 npm run dev
 http://localhost:10001
 ```
-
-or https://theiaology.com
 
 ![Voxel Text](./public/image/ANYTHING.gif)
 
