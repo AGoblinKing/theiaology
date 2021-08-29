@@ -70,7 +70,7 @@ timestamp.on(() => {
     }
     animation.store(id, EAnimation.NoEffects)
 
-    const s = Math.floor(rMeta.test(vr_keys[ix]) ? 8 : 6 * smod)
+    const s = Math.floor(rMeta.test(vr_keys[ix]) ? 8 : 6 * smod) * 10
     size.x(id, s)
     size.y(id, s)
     size.z(id, s)
