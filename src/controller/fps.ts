@@ -15,8 +15,8 @@ import { velocity } from './smooth'
 
 export const move_inputs = new Value(new Vector3(0, 0, 0))
 
-const CAPS_SPEED = 1
-const SPEED = 0.075
+const CAPS_SPEED = 2
+const SPEED = 1
 
 key_down.on(($k) => {
   switch ($k) {
