@@ -24,6 +24,7 @@ export enum ERipple {
   POSADD,
   VELADD,
   CAGE,
+  DEREZ,
 }
 
 export class Define {
@@ -53,6 +54,7 @@ export class Define {
 
   // subdefines
   _: Define[] = []
+  dirty: Set<ERipple>
 
   constructor() {
     this.reset()
@@ -89,72 +91,78 @@ export class Define {
     this.text = undefined
     this.atoms = []
     this._ = []
+    this.dirty = new Set()
   }
 
-  ripple(what: ERipple, data?: any) {
+  ripple(what: ERipple, data: any) {
+    this.dirty.add(what)
+
     for (let c of this._) {
+      c.ripple(what, data)
+      if (c.dirty.has(what)) continue
+
       switch (what) {
         case ERipple.PHASE:
-          c.phase = this.phase
+          c.phase = data
           break
         case ERipple.IMPACT:
-          c.impact = this.impact
+          c.impact = data
           break
         case ERipple.VOX:
-          c.vox = this.vox
+          c.vox = data
           break
         case ERipple.TEXT:
-          c.text = this.text
+          c.text = data
           break
         case ERipple.DOLOOK:
-          c.doLook = this.doLook
+          c.doLook = data
           break
         case ERipple.VEL:
-          c.vel.copy(this.vel)
+          c.vel.copy(data)
           break
         case ERipple.VELVAR:
-          c.velvar.copy(this.velvar)
+          c.velvar.copy(data)
           break
         case ERipple.POS:
-          c.pos.copy(this.pos)
+          c.pos.copy(data)
           break
         case ERipple.POSVAR:
-          c.posvar.copy(this.posvar)
+          c.posvar.copy(data)
           break
 
         case ERipple.VOXVAR:
-          c.voxvar.copy(this.voxvar)
+          c.voxvar.copy(data)
           break
         case ERipple.COL:
-          c.col.tilt = this.col.tilt
-          c.col.variance = this.col.variance
+          c.col.tilt = data.tilt
+          c.col.variance = data.variance
           break
         case ERipple.FLOCK:
-          c.flock.shape = this.flock.shape
-          c.flock.size = this.flock.size
-          c.flock.step = this.flock.step
+          c.flock.shape = data.shape
+          c.flock.size = data.size
+          c.flock.step = data.step
           break
 
         case ERipple.SIZE:
-          c.size.copy(this.size)
+          c.size.copy(data)
           break
 
         case ERipple.SIZEVAR:
-          c.sizevar.copy(this.sizevar)
+          c.sizevar.copy(data)
           break
 
         case ERipple.ROT:
-          c.rot.copy(this.rot)
+          c.rot.copy(data)
           break
 
         case ERipple.ROTVAR:
-          c.rotvar.copy(this.rotvar)
+          c.rotvar.copy(data)
           break
         case ERipple.COLOR:
-          c.color.copy(this.color)
+          c.color.copy(data)
           break
         case ERipple.CAGE:
-          c.cage.copy(this.cage)
+          c.cage.copy(data)
           break
         case ERipple.POSADD:
           c.pos.add(data)
@@ -162,8 +170,13 @@ export class Define {
         case ERipple.VELADD:
           c.vel.add(data)
           break
+        case ERipple.DEREZ:
+          for (let atom of this.atoms) {
+            data.free(atom)
+          }
+          this.atoms = []
+          break
       }
-      c.ripple(what, data)
     }
   }
 }

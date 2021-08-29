@@ -182,7 +182,7 @@ class Cardinal extends System {
           break
         case ETimeline.TEXT:
           $rez.text = this.timeline.text(i)
-          $rez.ripple(ERipple.TEXT)
+          $rez.ripple(ERipple.TEXT, $rez.text)
           break
         case ETimeline.SIZEVAR:
           $rez.sizevar.set(
@@ -190,7 +190,7 @@ class Cardinal extends System {
             this.timeline.data1(i),
             this.timeline.data2(i)
           )
-          $rez.ripple(ERipple.SIZEVAR)
+          $rez.ripple(ERipple.SIZEVAR, $rez.sizevar)
           break
         case ETimeline.ROTVAR:
           $rez.rotvar.set(
@@ -198,7 +198,7 @@ class Cardinal extends System {
             this.timeline.data1(i),
             this.timeline.data2(i)
           )
-          $rez.ripple(ERipple.ROTVAR)
+          $rez.ripple(ERipple.ROTVAR, $rez.rotvar)
           break
         case ETimeline.ROT:
           $rez.rot.set(
@@ -206,7 +206,7 @@ class Cardinal extends System {
             this.timeline.data1(i),
             this.timeline.data2(i)
           )
-          $rez.ripple(ERipple.ROT)
+          $rez.ripple(ERipple.ROT, $rez.rot)
           break
         case ETimeline.LOOK:
           $rez.doLook = true
@@ -215,8 +215,8 @@ class Cardinal extends System {
             this.timeline.data1(i),
             this.timeline.data2(i)
           )
-          $rez.ripple(ERipple.DOLOOK)
-          $rez.ripple(ERipple.LOOK)
+          $rez.ripple(ERipple.DOLOOK, $rez.doLook)
+          $rez.ripple(ERipple.LOOK, $rez.look)
           break
         case ETimeline.VOXVAR:
           $rez.voxvar.set(
@@ -225,37 +225,37 @@ class Cardinal extends System {
             this.timeline.data2(i)
           )
 
-          $rez.ripple(ERipple.VOXVAR)
+          $rez.ripple(ERipple.VOXVAR, $rez.voxvar)
           break
         case ETimeline.VOX:
           $rez.vox = this.timeline.text(i)
-          $rez.ripple(ERipple.VOX)
+          $rez.ripple(ERipple.VOX, $rez.vox)
           break
         case ETimeline.FLOCK:
           $rez.flock.shape = this.timeline.data0(i)
           $rez.flock.size = this.timeline.data1(i)
           $rez.flock.step = this.timeline.data2(i)
-          $rez.ripple(ERipple.FLOCK)
+          $rez.ripple(ERipple.FLOCK, $rez.flock)
           break
         case ETimeline.SIZE:
           $rez.size.x = this.timeline.data0(i)
           $rez.size.y = this.timeline.data1(i)
           $rez.size.z = this.timeline.data2(i)
-          $rez.ripple(ERipple.SIZE)
+          $rez.ripple(ERipple.SIZE, $rez.size)
           break
         case ETimeline.COLOR:
           const rgb = this.timeline.data0(i)
           $rez.color.setHex(rgb)
           $rez.col.tilt = this.timeline.data1(i)
           $rez.col.variance = this.timeline.data2(i)
-          $rez.ripple(ERipple.COL)
-          $rez.ripple(ERipple.COLOR)
+          $rez.ripple(ERipple.COL, $rez.col)
+          $rez.ripple(ERipple.COLOR, $rez.color)
           break
         case ETimeline.POSVAR:
           $rez.posvar.x = this.timeline.data0(i)
           $rez.posvar.y = this.timeline.data1(i)
           $rez.posvar.z = this.timeline.data2(i)
-          $rez.ripple(ERipple.POSVAR)
+          $rez.ripple(ERipple.POSVAR, $rez.posvar)
           break
         case ETimeline.POS:
           $rez.pos.x = this.timeline.data0(i)
@@ -269,7 +269,7 @@ class Cardinal extends System {
             this.future.time(atom, sec)
           }
 
-          $rez.ripple(ERipple.POS)
+          $rez.ripple(ERipple.POS, $rez.pos)
           break
         case ETimeline.THRUST:
           $rez.vel.set(
@@ -284,7 +284,7 @@ class Cardinal extends System {
             this.velocity.z(atom, $rez.vel.z)
           }
 
-          $rez.ripple(ERipple.VEL)
+          $rez.ripple(ERipple.VEL, $rez.vel)
           break
         case ETimeline.THRUSTVAR:
           $rez.velvar.set(
@@ -297,7 +297,7 @@ class Cardinal extends System {
             this.velocity.y(atom, $rez.vel.y + $rez.velvar.y * Math.random())
             this.velocity.z(atom, $rez.vel.z + $rez.velvar.z * Math.random())
           }
-          $rez.ripple(ERipple.VELVAR)
+          $rez.ripple(ERipple.VELVAR, $rez.velvar)
           break
         case ETimeline.USERROT:
           this.universal.userRX(this.timeline.data0(i))
@@ -358,7 +358,7 @@ class Cardinal extends System {
               break
           }
 
-          $rez.ripple(ERipple.CAGE)
+          $rez.ripple(ERipple.CAGE, $rez.cage)
 
           for (let atom of $rez.all()) {
             switch (this.timeline.data0(atom)) {
@@ -404,6 +404,8 @@ class Cardinal extends System {
             this.free(atom)
           }
           $rez.atoms = []
+
+          // TODO: bool for rez/derez to ripple $rez.ripple(ERipple.DEREZ, this)
           break
         // rez time
         case ETimeline.REZ:
@@ -414,11 +416,11 @@ class Cardinal extends System {
           break
         case ETimeline.PHASE:
           $rez.phase = this.timeline.data0(i)
-          $rez.ripple(ERipple.PHASE)
+          $rez.ripple(ERipple.PHASE, $rez.phase)
           break
         case ETimeline.IMPACT:
           $rez.impact = this.timeline.data0(i)
-          $rez.ripple(ERipple.IMPACT)
+          $rez.ripple(ERipple.IMPACT, $rez.impact)
           break
       }
     }
@@ -427,6 +429,11 @@ class Cardinal extends System {
       for (let c = 0; c < this.timeline.data0(rez); c++) {
         this.entity(this.timeline.who(rez))
       }
+    }
+
+    // clean up from turn
+    for (let def of Object.values(this.defines)) {
+      def.dirty.clear()
     }
   }
 

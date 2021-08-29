@@ -41,6 +41,7 @@
   on:mouseout={submit}
   type="number"
   bind:value={val}
+  step={0.01}
   autofocus
   bind:this={ele}
   on:keydown={keydown}
