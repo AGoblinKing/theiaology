@@ -94,12 +94,12 @@ export class Define {
     this.dirty = new Set()
   }
 
-  ripple(what: ERipple, data: any) {
-    this.dirty.add(what)
+  ripple(what: ERipple, data: any, mark = true) {
+    if (mark) this.dirty.add(what)
 
     for (let c of this._) {
-      c.ripple(what, data)
       if (c.dirty.has(what)) continue
+      c.ripple(what, data, false)
 
       switch (what) {
         case ERipple.PHASE:
