@@ -39,7 +39,7 @@ export const UNIVERSALS = [
 export const CACHE = 'v1'
 
 export const dotTheia = [
-  'overworld',
+  'agoblinking/overworld',
   'starvoyage',
   'forest',
   'flood',
