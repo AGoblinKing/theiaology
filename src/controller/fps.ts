@@ -66,11 +66,16 @@ let timer
 function ClearMouse() {
   mouse_left.set(false)
 }
+let first = true
 // emulate mouse_pos updates
 pad_axes.on(($axis) => {
   if (timer) {
     clearTimeout(timer)
     timer = undefined
+  }
+  if (first) {
+    first = false
+    return
   }
   mouse_left.set(true)
   timer = setTimeout(ClearMouse, 1000)
