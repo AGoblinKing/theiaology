@@ -1,4 +1,3 @@
-import { universal } from 'src/buffer'
 import { Value } from 'src/value/value'
 import { Uniform } from 'three'
 
@@ -14,9 +13,6 @@ export function Loop($t) {
 }
 
 export const timeUniform = new Uniform(0.0)
-
 timestamp.on(($t) => {
   timeUniform.value = Math.floor(performance.now())
-
-  universal.time(timeUniform.value)
 })

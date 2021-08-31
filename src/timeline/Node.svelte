@@ -1,14 +1,18 @@
 <script lang="ts" context="module">
   let order_count = 0
-  timeline.on(() => {
-    order_count = 0
+  let cancel
+  fantasy.on(($r) => {
+    if(cancel) cancel()
+    cancel = $r.timeline.on(() => {
+      order_count = 0
+    })
   })
 </script>
 
 <script lang="ts">
   // organize-imports-ignore
   import Box from './Box.svelte'
-  import { timeline, timeline_json } from 'src/buffer'
+  import { fantasy } from 'src/land/land'
 
   import {
     modal_cursor,
@@ -28,12 +32,15 @@
   import { seconds } from 'src/sound/audio';
 
 
+  $: timeline = $fantasy.timeline
+  $: timelineJSON = $fantasy.timelineJSON
+
   export let i = 0
 
-  $: rootChildren = $timeline && i === 0 ?  Object.keys($timeline_json._).sort((i) => $timeline.when(parseInt(i, 10))) : []
+  $: rootChildren = $timeline && i === 0 ?  Object.keys($timelineJSON._).sort((i) => $timeline.when(parseInt(i, 10))) : []
   $: myChildren = $timeline && Object.keys(item._).sort((i) => $timeline.when(parseInt(i, 10)))
 
-  $: item = $timeline_json.flat[i] || { $: [0], _: {} }
+  $: item = $timelineJSON.flat[i] || { $: [0], _: {} }
   $: command = $timeline.command(i)
   
   function addTo(index: number) {
@@ -49,7 +56,7 @@
 
     if (index === 0) return
 
-    for (let child of Object.keys($timeline_json.flat[index]._)) {
+    for (let child of Object.keys($timelineJSON.flat[index]._)) {
       remove(parseInt(child, 10))
     }
     timeline.$.free(index)

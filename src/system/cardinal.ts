@@ -13,7 +13,7 @@ import { ENTITY_COUNT, NORMALIZER } from 'src/config'
 import { ShapeMap } from 'src/shape'
 import { ALPHABET } from 'src/shape/text'
 import { EAxis, EIdle, ETimeline } from 'src/timeline/def-timeline'
-import { Define, ERipple } from 'src/timeline/define'
+import { ERipple, Form } from 'src/timeline/form'
 import { Color, Euler, Object3D, Vector3 } from 'three'
 import { EMessage, FRez } from './sys-enum'
 import { System } from './system'
@@ -44,7 +44,7 @@ class Cardinal extends System {
   universal: Universal
   cage: Cage
 
-  defines: { [def: number]: Define } = {}
+  forms: { [def: number]: Form } = {}
 
   // do a command at timing
   timing: { [time: number]: number[] } = {}
@@ -138,7 +138,7 @@ class Cardinal extends System {
 
     for (let i of this.timing[sec]) {
       const def = this.timeline.who(i)
-      const $rez = this.defines[def]
+      const $rez = this.forms[def]
 
       // Check the timing to only apply the right stuff
       if (this.timeline.when(i) > sec) continue
@@ -405,6 +405,15 @@ class Cardinal extends System {
           }
           $rez.atoms = []
 
+          if ($rez.lands > 0) {
+            this.post({
+              message: EMessage.LAND_REMOVE,
+              form: $rez.id,
+            })
+
+            $rez.lands = 0
+          }
+
           // TODO: bool for rez/derez to ripple $rez.ripple(ERipple.DEREZ, this)
           break
         // rez time
@@ -422,6 +431,16 @@ class Cardinal extends System {
           $rez.impact = this.timeline.data0(i)
           $rez.ripple(ERipple.IMPACT, $rez.impact)
           break
+        case ETimeline.LAND:
+          $rez.land = this.timeline.text(i)
+          break
+        case ETimeline.GATE:
+          $rez.gate = this.timeline.text(i)
+          break
+        case ETimeline.RULER:
+          $rez.ruler = this.timeline.text(i)
+          $rez.ripple(ERipple.RULER, $rez.ruler)
+          break
       }
     }
 
@@ -432,7 +451,7 @@ class Cardinal extends System {
     }
 
     // clean up from turn
-    for (let def of Object.values(this.defines)) {
+    for (let def of Object.values(this.forms)) {
       def.dirty.clear()
     }
   }
@@ -443,7 +462,7 @@ class Cardinal extends System {
     // build for loops to apply
 
     const t = this.universal.time()
-    const $rez = this.defines[def]
+    const $rez = this.forms[def]
 
     // now we rez
     // determine voxel count, for loop over them
@@ -486,6 +505,26 @@ class Cardinal extends System {
       const sz = $rez.size.z + Math.round(Math.random() * $rez.sizevar.z)
 
       switch (true) {
+        // gate
+        case $rez.gate !== undefined:
+          // swirl some voxels and add to gate list
+          // physics system will check to see if they are in the gate
+          continue
+        // land
+        case $rez.land !== undefined:
+          this.post({
+            message: EMessage.LAND_ADD,
+            x,
+            y,
+            z,
+            form: $rez.id,
+            ruler: $rez.ruler,
+            land: $rez.land,
+            cage: $rez.cage,
+          })
+
+          $rez.lands++
+          continue
         // is voxel rez
         case $rez.vox !== '' && voxes.$[$rez.vox] !== undefined:
           // Need to clean this part up
@@ -501,7 +540,7 @@ class Cardinal extends System {
     }
   }
 
-  text($rez: Define, $hsl, t, x, y, z, sx, sy, sz, color) {
+  text($rez: Form, $hsl, t, x, y, z, sx, sy, sz, color) {
     for (let i = 0; i < $rez.text.length; i++) {
       const map = ALPHABET[$rez.text.charAt(i).toLowerCase()]
       if (!map) continue
@@ -542,7 +581,7 @@ class Cardinal extends System {
     }
   }
 
-  basic($rez: Define, $hsl, t, x, y, z, sx, sy, sz) {
+  basic($rez: Form, $hsl, t, x, y, z, sx, sy, sz) {
     const id = this.reserve()
     $rez.atoms.push(id)
 
@@ -560,7 +599,7 @@ class Cardinal extends System {
     this.core(id, $col, $rez)
   }
 
-  vox($rez: Define, $hsl, t, x, y, z, sx, sy, sz) {
+  vox($rez: Form, $hsl, t, x, y, z, sx, sy, sz) {
     // vox miss, but could be because we haven't loaded $voxes yet
     const voxDef = voxes.$[$rez.vox]
     const ts = $hsl.s
@@ -643,7 +682,7 @@ class Cardinal extends System {
     }
   }
 
-  core(id: number, color: Color, $rez: Define) {
+  core(id: number, color: Color, $rez: Form) {
     this.matter.red(id, Math.floor(color.r * NORMALIZER))
     this.matter.green(id, Math.floor(color.g * NORMALIZER))
     this.matter.blue(id, Math.floor(color.b * NORMALIZER))
@@ -664,15 +703,15 @@ class Cardinal extends System {
 
       const def = this.timeline.who(i)
 
-      if (!this.defines[def]) {
-        this.defines[def] = new Define()
+      if (!this.forms[def]) {
+        this.forms[def] = new Form(def)
         const parent = this.timeline.who(def)
 
         // avoid loop 0 => 0
         if (parent !== def) {
-          const p = (this.defines[parent] =
-            this.defines[parent] || new Define())
-          p._.push(this.defines[def])
+          const p = (this.forms[parent] =
+            this.forms[parent] || new Form(parent))
+          p._.push(this.forms[def])
         }
       }
     }
@@ -687,7 +726,7 @@ class Cardinal extends System {
     this.freeAll()
     // clear it
     this.timing = {}
-    this.defines = {}
+    this.forms = {}
 
     this.post(EMessage.CLEAR_COLOR_UPDATE)
 

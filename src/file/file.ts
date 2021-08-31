@@ -1,11 +1,12 @@
 import { get } from 'idb-keyval'
-import { timeline } from 'src/buffer'
 import { voxes } from 'src/buffer/vox'
 import { rootTheia } from 'src/config'
 import { url } from 'src/input/browser'
+import { first } from 'src/land/land'
 import { MagickaVoxel } from 'src/render/magica'
 import { audio, audio_buffer, audio_name } from 'src/sound/audio'
-import { dbLoaded, Load, LoadJSON } from './load'
+import { INode } from 'src/timeline/def-timeline'
+import { dbLoaded, Load } from './load'
 
 window.addEventListener('dragover', (e) => {
   e.dataTransfer.dropEffect = `copy`
@@ -33,9 +34,35 @@ window.addEventListener('drop', async (e) => {
   }
 })
 
+export function LoadJSON(json: INode, key = '0', map = {}) {
+  const { timeline } = first.$
+  if (map[key] === undefined) {
+    map[key] = timeline.$.reserve()
+  }
+
+  // oh hi
+  const id = map[key]
+  timeline.$.when(id, json.$[0])
+  timeline.$.command(id, json.$[1])
+  // who is special!
+  if (map[json.$[2]] === undefined) {
+    map[json.$[2]] = json.$[2] === timeline.$.reserve()
+  }
+  timeline.$.who(id, id === 0 ? 0 : map[json.$[2]])
+  timeline.$.data0(id, json.$[3])
+  timeline.$.data1(id, json.$[4])
+  timeline.$.data2(id, json.$[5])
+
+  for (let entry of Object.entries(json._)) {
+    LoadJSON(entry[1], entry[0], map)
+  }
+}
+
 // ReadFile
 export function ReadFile(file: File | string, buffer: ArrayBufferLike) {
   const { name } = typeof file === 'string' ? { name: file } : file
+  const { timeline } = first.$
+
   switch (true) {
     case name.indexOf('.json') !== -1:
       try {
@@ -53,7 +80,7 @@ export function ReadFile(file: File | string, buffer: ArrayBufferLike) {
       break
     case name.indexOf('github') !== -1:
     case name.indexOf('.theia') !== -1:
-      Load(buffer)
+      Load(buffer, first.$)
       break
     case name.indexOf('.mp3') != -1:
     case name.indexOf('.wav') != -1:
@@ -81,7 +108,7 @@ export async function ReadURL(url: string) {
 
 switch (url.$.length) {
   case 2:
-    ReadURL(`https://theiaology.com/github/${url.$[0]}/${url.$[1]}`)
+    ReadURL(`/github/${url.$[0]}/${url.$[1]}`)
     break
   default:
     // try reading static file and if it misses load DB
@@ -90,7 +117,7 @@ switch (url.$.length) {
     ReadURL(`/theia/${u || rootTheia}.theia`).catch(() => {
       get(window.location.pathname).then((v) => {
         if (v) {
-          Load(v)
+          Load(v, first.$)
         }
 
         dbLoaded.set(true)

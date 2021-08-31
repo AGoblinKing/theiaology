@@ -23,6 +23,17 @@ export const UNIVERSALS = [
   0, // rot x
   0, // rot y
   0, // rot z
+  // default universal cage
+  -NORMALIZER / 2,
+  -NORMALIZER / 2,
+  -NORMALIZER / 2,
+  NORMALIZER,
+  NORMALIZER,
+  NORMALIZER,
+  // offset
+  0,
+  0,
+  0,
 ]
 
 export const CACHE = 'v1'

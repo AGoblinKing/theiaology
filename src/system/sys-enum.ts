@@ -8,6 +8,8 @@ export enum EMessage {
   CLEAR_COLOR_UPDATE = -2002,
   USER_POS_UPDATE = -2003,
   USER_ROT_UPDATE = -2004,
+  LAND_ADD = -5001,
+  LAND_REMOVE = -5002,
 }
 
 export type FRez = () => number

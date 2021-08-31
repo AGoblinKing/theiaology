@@ -47,27 +47,9 @@
   }
 
   function Sponsor() {
-    modal_location.set(
-      modal_location.$.set($mouse_page.x - 5, $mouse_page.y - 5)
-    )
+    window.open('https://github.com/sponsors/AGoblinKing', '_new')
+    return
 
-    modal_options.set(SPONSOR)
-    modal_visible.set((res) => {
-      switch (res) {
-        case 'GITHUB':
-          window.open('https://github.com/sponsors/AGoblinKing', '_new')
-          break
-        case 'ETHEREUM':
-          window.open(
-            'https://etherscan.io/address/0x407007B0796D2FC1E33664466c1d64325C6aF215',
-            '_new'
-          )
-          break
-        case 'ETH-QR-CODE':
-          window.open('/image/eth.png', '_new')
-          break
-      }
-    })
   }
 
   const down = 'music-name|vox-name|root-name'

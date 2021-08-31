@@ -13,9 +13,8 @@ import path from 'path'
 import ts from '@rollup/plugin-typescript'
 import fs from 'fs'
 
-import serve from 'rollup-plugin-serve'
-
 const production = !process.env.ROLLUP_WATCH
+
 
 const trydep = (rootPath) => {
   const absPath = path.resolve(__dirname, rootPath)
@@ -107,17 +106,7 @@ const config = (input, dst = "", importThree = false) => {
       commonjs({
      
       }),
-      !production && once && serve({
-        historyApiFallback: true,
-        contentBase: 'public',
-        headers: {
-            "Cross-Origin-Opener-Policy": "same-origin",
-            "Cross-Origin-Embedder-Policy": "require-corp"
-        }
-      }), 
-
       production && terser(),
-
       {
         renderChunk(code) {
           return {

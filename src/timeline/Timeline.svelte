@@ -7,7 +7,10 @@
   import Node from './Node.svelte'
   import fs from 'file-saver'
   import { voxes } from 'src/buffer/vox'
-  import { timeline } from 'src/buffer'
+  import { fantasy } from 'src/land/land'
+
+  $: timeline = $fantasy.timeline
+
 </script>
 
 <div class="timeline">

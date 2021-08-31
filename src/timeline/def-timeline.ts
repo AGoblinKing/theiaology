@@ -115,6 +115,9 @@ export enum ETimeline {
   CLEARCOLOR,
   POSADD,
   THRUSTADD,
+  LAND,
+  GATE,
+  RULER,
 }
 
 export const Commands: { [key: number]: any } = {
@@ -212,4 +215,8 @@ export const Commands: { [key: number]: any } = {
     y: EVar.USERNUMBER,
     z: EVar.USERNUMBER,
   },
+
+  [ETimeline.RULER]: { githubUser: EVar.STRING },
+  [ETimeline.LAND]: { theia: EVar.STRING },
+  [ETimeline.GATE]: { theia: EVar.STRING },
 }

@@ -1,9 +1,8 @@
-import { timeline } from 'src/buffer'
 import { Timeline } from 'src/buffer/timeline'
 import { voxes } from 'src/buffer/vox'
+import type { Land } from 'src/land/land'
 import { MagickaVoxel } from 'src/render/magica'
 import { audio, audio_buffer, audio_name } from 'src/sound/audio'
-import { INode } from 'src/timeline/def-timeline'
 import { Value } from 'src/value/value'
 
 // Load .theia file into the timePline
@@ -14,30 +13,9 @@ export const HEADER_END = HEADER_START + 4 * 4
 
 // map json ID to timeline ID
 
-export function LoadJSON(json: INode, key = '0', map = {}) {
-  if (map[key] === undefined) {
-    map[key] = timeline.$.reserve()
-  }
+export function Load(bytes: ArrayBuffer, land: Land) {
+  const { timeline } = land
 
-  // oh hi
-  const id = map[key]
-  timeline.$.when(id, json.$[0])
-  timeline.$.command(id, json.$[1])
-  // who is special!
-  if (map[json.$[2]] === undefined) {
-    map[json.$[2]] = json.$[2] === timeline.$.reserve()
-  }
-  timeline.$.who(id, id === 0 ? 0 : map[json.$[2]])
-  timeline.$.data0(id, json.$[3])
-  timeline.$.data1(id, json.$[4])
-  timeline.$.data2(id, json.$[5])
-
-  for (let entry of Object.entries(json._)) {
-    LoadJSON(entry[1], entry[0], map)
-  }
-}
-
-export function Load(bytes: ArrayBuffer) {
   try {
     const view = new DataView(bytes)
 
@@ -71,7 +49,8 @@ export function Load(bytes: ArrayBuffer) {
     const musicLength = view.getInt32(HEADER_START + 4)
     const musicEnd = HEADER_END + musicLength + timeLength
 
-    if (musicLength > 0) {
+    // skip music if they're not the current reality
+    if (musicLength > 0 && land.fantasy) {
       // 16 for string name
       const mab = new ArrayBuffer(musicLength - 12)
       const music = new DataView(mab)

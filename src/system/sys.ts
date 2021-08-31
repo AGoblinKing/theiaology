@@ -1,5 +1,5 @@
 import { IAtomic } from 'src/buffer/atomic'
-import { Value } from 'src/value/value'
+import { ICancel, Value } from 'src/value/value'
 
 export type IMessage = IAtomic | number | object
 
@@ -8,10 +8,17 @@ export class SystemWorker extends Worker {
   _queue = []
   msg = new Value<any>()
 
+  cancels: ICancel[] = []
+
   constructor(url: string) {
     super(url)
 
     this.onmessage = this.message.bind(this)
+  }
+
+  terminate() {
+    super.terminate()
+    this.cancels.forEach((c) => c())
   }
 
   // delay in ms before sending buffers
@@ -34,7 +41,7 @@ export class SystemWorker extends Worker {
 
   message(e: MessageEvent) {
     // >= 0 are eids while - are commands
-    if (e.data >= 0) {
+    if (typeof e.data === 'number' && e.data >= 0) {
       const i = this._queue.pop()
       if (i) {
         i(e.data)
@@ -46,21 +53,34 @@ export class SystemWorker extends Worker {
 
   // pipe received messages to other worker
   pump(w: SystemWorker) {
-    this.msg.on((data) => {
-      w.postMessage(data)
-    })
+    this.cancels.push(
+      this.msg.on((data) => {
+        switch (typeof data) {
+          case 'number':
+            w.postMessage(data)
+            break
+        }
+      })
+    )
     return this
   }
 
+  // only relay numerical messages
   bind(w: SystemWorker) {
-    w.msg.on((data) => {
-      this.postMessage(data)
-    })
+    this.cancels.push(
+      w.msg.on((data) => {
+        switch (typeof data) {
+          case 'number':
+            this.postMessage(data)
+            break
+        }
+      })
+    )
     return this
   }
 
   on(e: (data: any) => void) {
-    this.msg.on(e)
+    this.cancels.push(this.msg.on(e))
 
     return this
   }

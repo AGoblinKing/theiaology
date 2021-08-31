@@ -25,9 +25,10 @@ export enum ERipple {
   VELADD,
   CAGE,
   DEREZ,
+  RULER,
 }
 
-export class Define {
+export class Form {
   color = new Color()
   pos = new Vector3()
   rot = new Euler()
@@ -48,23 +49,25 @@ export class Define {
   cage = new Box3()
 
   doLook = false
-
+  gate: string
+  land: string
+  ruler: string
   // do not reset to let rezes linger
   atoms: number[] = []
+  lands: number = 0
 
   // subdefines
-  _: Define[] = []
+  _: Form[] = []
   dirty: Set<ERipple>
+  id: number
 
-  constructor() {
+  constructor(id) {
+    this.id = id
     this.reset()
   }
 
   all() {
-    return [
-      ...this.atoms,
-      ...this._.reduce((a, i) => [...a, ...this.atoms], []),
-    ]
+    return [...this.atoms, ...this._.reduce((a) => [...a, ...this.atoms], [])]
   }
 
   reset() {
@@ -92,6 +95,11 @@ export class Define {
     this.atoms = []
     this._ = []
     this.dirty = new Set()
+    this.lands = 0
+
+    delete this.gate
+    delete this.land
+    delete this.ruler
   }
 
   ripple(what: ERipple, data: any, mark = true) {
@@ -175,6 +183,9 @@ export class Define {
             data.free(atom)
           }
           this.atoms = []
+          break
+        case ERipple.RULER:
+          c.ruler = data
           break
       }
     }

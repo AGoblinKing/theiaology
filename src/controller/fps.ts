@@ -1,4 +1,3 @@
-import { universal } from 'src/buffer'
 import { AXIS, pad_axes } from 'src/input/gamepad'
 import { key_down, key_up } from 'src/input/keyboard'
 import {
@@ -7,6 +6,7 @@ import {
   mouse_right,
   mouse_wheel,
 } from 'src/input/mouse'
+import { fantasy } from 'src/land/land'
 import { delta } from 'src/uniform/time'
 import { Value } from 'src/value/value'
 import { MathUtils, Vector2, Vector3 } from 'three'
@@ -117,6 +117,7 @@ function UpdateCamera($dt: number) {
 }
 
 mouse_wheel.on(($wheel) => {
+  const { universal } = fantasy.$
   universal.userSize(Math.max(1, universal.userSize() + Math.sign($wheel)))
 })
 delta.on(($dt) => {

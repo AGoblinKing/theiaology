@@ -1,8 +1,8 @@
-import { animation, future, matter, past, size, universal } from 'src/buffer'
 import { EAnimation } from 'src/buffer/animation'
 import { NORMALIZER } from 'src/config'
 import { doPose } from 'src/controller/hands'
 import { hands, left_hand_uniforms, right_hand_uniforms } from 'src/input/xr'
+import { fantasy } from 'src/land/land'
 import { body } from 'src/render/render'
 import { SystemWorker } from 'src/system/sys'
 import { EMessage } from 'src/system/sys-enum'
@@ -34,7 +34,7 @@ const rMeta = /metacarpal$|proximal$/
 timestamp.on(() => {
   // no hands, nothing to do
   if (hands.$.length === 0) return
-  const smod = universal.userSize() / 10
+  const smod = fantasy.$.universal.userSize() / 10
 
   for (let i = 0; i < hand_joints.length; i++) {
     const ix = i % 25
@@ -68,9 +68,12 @@ timestamp.on(() => {
 
       target[vr_keys[ix]].value.copy($vec)
     }
-    animation.store(id, EAnimation.NoEffects)
+    fantasy.$.animation.store(id, EAnimation.NoEffects)
 
     const s = Math.floor(rMeta.test(vr_keys[ix]) ? 8 : 6 * smod) * 10
+
+    const { size, future, matter, past } = fantasy.$
+
     size.x(id, s)
     size.y(id, s)
     size.z(id, s)
@@ -87,4 +90,13 @@ timestamp.on(() => {
     past.time(id, Math.floor(timestamp.$))
     future.time(id, Math.floor(timestamp.$))
   }
+})
+
+let cancel
+fantasy.on(($r) => {
+  if (cancel) cancel()
+  cancel = $r.timeline.on(() => {
+    // Rez the player hands
+    RezHands($r.cardinal)
+  })
 })

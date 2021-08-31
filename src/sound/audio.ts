@@ -1,4 +1,3 @@
-import { universal } from 'src/buffer'
 import { Uniform } from 'three'
 import { tick } from '../uniform/time'
 import { Value } from '../value/value'
@@ -61,11 +60,6 @@ upperAvg.on(($ua) => (upperUniform.value = $ua))
 
 export const lowerAvg = new Value(0)
 lowerAvg.on(($la) => (lowerUniform.value = $la))
-
-// update universal
-seconds.on(($s) => {
-  universal.musicTime($s)
-})
 
 tick.on(() => {
   if (seconds.$ !== audio.currentTime) {
