@@ -189,8 +189,6 @@ export class Land {
             if (!this.first) return
             if (!lands[data.id]) {
               lands[data.id] = new Land()
-            } else {
-              lands[data.id].cardinal.postMessage(EMessage.FREE_ALL)
             }
 
             lands[data.id].universalCage(data.cage)

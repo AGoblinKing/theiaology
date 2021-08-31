@@ -37,8 +37,8 @@
 
   export let i = 0
 
-  $: rootChildren = $timeline && i === 0 ?  Object.keys($timelineJSON._).sort((i) => $timeline.when(parseInt(i, 10))) : []
-  $: myChildren = $timeline && Object.keys(item._).sort((i) => $timeline.when(parseInt(i, 10)))
+  $: rootChildren =  i === 0 ?  Object.keys($timelineJSON._).sort((i) => $timeline.when(parseInt(i, 10))) : []
+  $: myChildren =  Object.keys(item._).sort((i) => $timeline.when(parseInt(i, 10)))
 
   $: item = $timelineJSON.flat[i] || { $: [0], _: {} }
   $: command = $timeline.command(i)

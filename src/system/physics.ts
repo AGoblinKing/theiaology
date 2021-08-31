@@ -47,7 +47,7 @@ class Physics extends System {
   ready = false
   // 50 frames a second, idealy get this to 5
   constructor() {
-    super((1 / 30) * 1000)
+    super((1 / 5) * 1000)
   }
 
   onmessage(e: MessageEvent) {
@@ -197,6 +197,7 @@ class Physics extends System {
           case EPhase.GHOST:
             break
           default:
+            break
             for (let sid of this.sectorize(i)) {
               // go through your sectors and check for collision
               if (!sectors[sid]) continue

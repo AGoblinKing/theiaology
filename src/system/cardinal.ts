@@ -411,7 +411,7 @@ class Cardinal extends System {
           if ($rez.lands > 0) {
             this.post({
               message: EMessage.LAND_REMOVE,
-              form: $rez.id,
+              id: $rez.id,
             })
 
             $rez.lands = 0
@@ -520,7 +520,7 @@ class Cardinal extends System {
             x,
             y,
             z,
-            form: $rez.id,
+            id: $rez.id,
             ruler: $rez.ruler,
             land: $rez.land,
             cage: $rez.cage,
