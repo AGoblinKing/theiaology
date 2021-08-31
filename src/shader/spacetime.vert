@@ -16,9 +16,9 @@ vec4 SpaceTime(in vec4 pos) {
     );
 
     // clamp x/y/z to universal bounds
-    space.x = min(cageM.x, max(cage.x, space.x)) + offset.x * 0.001;
-    space.y = min(cageM.y, max(cage.y, space.y)) + offset.y * 0.001;
-    space.z = min(cageM.z, max(cage.z, space.z)) + offset.z * 0.001;
+    space.x = min(cageM.x, max(cage.x, space.x)) + offset.x * 0.01;
+    space.y = min(cageM.y, max(cage.y, space.y)) + offset.y * 0.01;
+    space.z = min(cageM.z, max(cage.z, space.z)) + offset.z * 0.01;
 
     return pos + space; 
 }

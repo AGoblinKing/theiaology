@@ -8,12 +8,13 @@ import { EStatus, Status } from 'src/buffer/status'
 import { Timeline } from 'src/buffer/timeline'
 import { Universal } from 'src/buffer/universal'
 import { Velocity } from 'src/buffer/velocity'
-import { voxes } from 'src/buffer/vox'
 import { ENTITY_COUNT, NORMALIZER } from 'src/config'
+import { MagickaVoxel } from 'src/render/magica'
 import { ShapeMap } from 'src/shape'
 import { ALPHABET } from 'src/shape/text'
 import { EAxis, EIdle, ETimeline } from 'src/timeline/def-timeline'
 import { ERipple, Form } from 'src/timeline/form'
+import { Value } from 'src/value/value'
 import { Color, Euler, Object3D, Vector3 } from 'three'
 import { EMessage, FRez } from './sys-enum'
 import { System } from './system'
@@ -25,6 +26,8 @@ const $eule = new Euler()
 const $o3d = new Object3D()
 const $vec3 = new Vector3()
 const $vec3_o = new Vector3()
+
+const voxes = new Value<{ [name: string]: MagickaVoxel }>({})
 
 // Deal out entity IDs, execute timeline events
 class Cardinal extends System {

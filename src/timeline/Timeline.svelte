@@ -6,11 +6,11 @@
   // organize-imports-ignore
   import Node from './Node.svelte'
   import fs from 'file-saver'
-  import { voxes } from 'src/buffer/vox'
-  import { fantasy } from 'src/land/land'
+
+  import { fantasy, first } from 'src/land/land'
 
   $: timeline = $fantasy.timeline
-
+  $: voxes = $first.voxes
 </script>
 
 <div class="timeline">

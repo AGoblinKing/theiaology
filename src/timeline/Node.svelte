@@ -12,7 +12,7 @@
 <script lang="ts">
   // organize-imports-ignore
   import Box from './Box.svelte'
-  import { fantasy } from 'src/land/land'
+  import { fantasy, first } from 'src/land/land'
 
   import {
     modal_cursor,
@@ -25,15 +25,15 @@
   import { mouse_page } from 'src/input/mouse'
 
   import { Commands, ETimeline, EVar } from './def-timeline'
-  import { voxes } from 'src/buffer/vox'
+
   import { SaveScript } from 'src/file/save'
   import { NORMALIZER, UserUnits } from 'src/config'
   import { hashcode } from './color'
   import { seconds } from 'src/sound/audio';
-
-
-  $: timeline = $fantasy.timeline
-  $: timelineJSON = $fantasy.timelineJSON
+  
+  $: voxes = $first.voxes
+  $: timeline = $first.timeline
+  $: timelineJSON = $first.timelineJSON
 
   export let i = 0
 

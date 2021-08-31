@@ -1,7 +1,6 @@
 import fs from 'file-saver'
 import { set } from 'idb-keyval'
-import { voxes } from 'src/buffer/vox'
-import { fantasy } from 'src/land/land'
+import { fantasy, first } from 'src/land/land'
 import { audio_buffer, audio_name } from 'src/sound/audio'
 import { timeline_shown } from 'src/timeline/editor'
 import { dbLoaded, HEADER_START, SIGNATURE } from './load'
@@ -42,7 +41,7 @@ export function BuildBuffer() {
 
   let voxLength = 0
 
-  Object.entries(voxes.$).forEach(([key, value]) => {
+  Object.entries(first.$.voxes.$).forEach(([key, value]) => {
     // size, string, bytes
     voxLength += 16 + value.view.byteLength
   })
@@ -92,7 +91,7 @@ export function BuildBuffer() {
   buffer.setInt32(HEADER_START + 4 + 4, voxLength)
 
   let cursor = voxStart
-  Object.entries(voxes.$).forEach(([key, value]) => {
+  Object.entries(first.$.voxes.$).forEach(([key, value]) => {
     buffer.setInt32(cursor, value.view.byteLength)
     cursor += 4
 

@@ -1,5 +1,4 @@
 import { get } from 'idb-keyval'
-import { voxes } from 'src/buffer/vox'
 import { rootTheia } from 'src/config'
 import { url } from 'src/input/browser'
 import { first } from 'src/land/land'
@@ -75,8 +74,9 @@ export function ReadFile(file: File | string, buffer: ArrayBufferLike) {
       }
       break
     case name.indexOf('.vox') !== -1:
-      voxes.$[name.split('.')[0].slice(0, 12).trim()] = new MagickaVoxel(buffer)
-      voxes.poke()
+      first.$.voxes.$[name.split('.')[0].slice(0, 12).trim()] =
+        new MagickaVoxel(buffer)
+      first.$.voxes.poke()
       break
     case name.indexOf('github') !== -1:
     case name.indexOf('.theia') !== -1:

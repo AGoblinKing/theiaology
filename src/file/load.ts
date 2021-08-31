@@ -1,5 +1,4 @@
 import { Timeline } from 'src/buffer/timeline'
-import { voxes } from 'src/buffer/vox'
 import type { Land } from 'src/land/land'
 import { MagickaVoxel } from 'src/render/magica'
 import { audio, audio_buffer, audio_name } from 'src/sound/audio'
@@ -50,7 +49,7 @@ export function Load(bytes: ArrayBuffer, land: Land) {
     const musicEnd = HEADER_END + musicLength + timeLength
 
     // skip music if they're not the current reality
-    if (musicLength > 0 && land.fantasy) {
+    if (musicLength > 0 && land.first) {
       // 16 for string name
       const mab = new ArrayBuffer(musicLength - 12)
       const music = new DataView(mab)
@@ -108,7 +107,7 @@ export function Load(bytes: ArrayBuffer, land: Land) {
         size = 0
       }
     }
-    voxes.set(voxUpdate)
+    land.voxes.set(voxUpdate)
     // only poke at the end incase we need to revert
     timeline.poke()
   } catch (ex) {

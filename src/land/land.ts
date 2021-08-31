@@ -8,10 +8,10 @@ import { Status } from 'src/buffer/status'
 import { Timeline } from 'src/buffer/timeline'
 import { Universal } from 'src/buffer/universal'
 import { Velocity } from 'src/buffer/velocity'
-import { voxes } from 'src/buffer/vox'
 import { ENTITY_COUNT, FACES, INFRINGEMENT, NORMALIZER, SIZE } from 'src/config'
 import { Load } from 'src/file/load'
 import { left_hand_uniforms, right_hand_uniforms } from 'src/input/xr'
+import { MagickaVoxel } from 'src/render/magica'
 import { body, renderer, scene } from 'src/render/render'
 import AnimationFrag from 'src/shader/animation.frag'
 import AnimationVert from 'src/shader/animation.vert'
@@ -38,7 +38,8 @@ import {
 
 const IDENTITY = new Matrix4().identity()
 
-const lands: { [key: number]: Land[] } = {}
+let lands: { [key: number]: Land } = {}
+
 export const first = new Value<Land>(undefined)
 export class Land {
   // entity components
@@ -57,7 +58,6 @@ export class Land {
 
   physics: SystemWorker
   cardinal: SystemWorker
-
   atoms: InstancedMesh
 
   timelineJSON = new Value({
@@ -66,6 +66,7 @@ export class Land {
     flat: {},
   })
 
+  voxes = new Value<{ [name: string]: MagickaVoxel }>({})
   material: MeshBasicMaterial
 
   uniCage: Uniform
@@ -178,41 +179,25 @@ export class Land {
         }
 
         switch (e) {
-          case EMessage.TIMELINE_UPDATE:
-            if (!this.first) return
-            // clear out accrued lands
-            for (let def of Object.keys(lands)) {
-              for (let land of lands[def]) {
-                land.destroy()
-              }
-
-              delete lands[def]
-            }
-            break
           case EMessage.LAND_REMOVE:
             if (!this.first || !lands[data.id]) return
 
-            for (let land of lands[data.id]) {
-              land.destroy()
-            }
-
-            delete lands[data.id]
-
+            lands[data.id].cardinal.postMessage(EMessage.FREE_ALL)
             // remove all lands with that id
             break
           case EMessage.LAND_ADD:
             if (!this.first) return
-            if (!lands[data.id]) lands[data.id] = []
+            if (!lands[data.id]) {
+              lands[data.id] = new Land()
+            } else {
+              lands[data.id].cardinal.postMessage(EMessage.FREE_ALL)
+            }
 
-            // a new land!
-            const land = new Land()
-            lands[data.id].push(land)
-
-            land.universalCage(data.cage)
-            land.universalOffset(data)
+            lands[data.id].universalCage(data.cage)
+            lands[data.id].universalOffset(data)
 
             // now to load a timeline
-            land.load(data.ruler, data.land)
+            lands[data.id].load(data.ruler, data.land)
             break
           case EMessage.USER_ROT_UPDATE:
             if (!this.fantasy) return
@@ -261,7 +246,7 @@ export class Land {
 
   universalOffset(offset: Vector3) {
     this.universal.offset(offset)
-    this.uniOffset.value.copy(offset)
+    this.uniOffset.value = this.uniOffset.value.copy(offset)
   }
 
   initListeners() {
@@ -295,7 +280,7 @@ export class Land {
         // update the timelineJSON for UI
         this.timelineJSON.set(this.timeline.$.toObject())
       }),
-      voxes.on(($voxes) => {
+      this.voxes.on(($voxes) => {
         this.cardinal.send($voxes)
       })
     )
@@ -363,13 +348,9 @@ export class Land {
 
   // load a github repo into this land
   async load(ruler: string, realm: string) {
-    console.log('load,', ruler, realm)
     const url = `/github/${ruler}/${realm}`
-
     if (!cache[url]) cache[url] = fetch(url).then((r) => r.arrayBuffer())
     const data = await cache[url]
-
-    if (this.destroyed) return
 
     Load(data, this)
   }
