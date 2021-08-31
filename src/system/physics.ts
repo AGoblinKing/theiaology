@@ -47,7 +47,7 @@ class Physics extends System {
   ready = false
   // 50 frames a second, idealy get this to 5
   constructor() {
-    super((1 / 5) * 1000)
+    super((1 / 30) * 1000)
   }
 
   onmessage(e: MessageEvent) {
