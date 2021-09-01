@@ -1,5 +1,5 @@
 const count = parseInt(location.search.slice(1), 10)
-export const ENTITY_COUNT = Number.isNaN(count) ? 60000 : count
+export const ENTITY_COUNT = 60000
 
 // For GamePlay, max impacts for entity, the impacts still happen for velocity purposes
 export const IMPACTS_MAX_PER = 8
@@ -34,6 +34,8 @@ export const UNIVERSALS = [
   0,
   0,
   0,
+  // ELandState
+  0, // paused
 ]
 
 export const CACHE = 'v1'

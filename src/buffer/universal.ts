@@ -5,9 +5,13 @@ import { Box3, Vector3 } from 'three'
 
 const $cage = new Box3()
 const $offset = new Vector3()
-;('')
+
+export enum ELandState {
+  PAUSED = 0,
+  RUNNING,
+}
 export class Universal extends AtomicInt {
-  static COUNT = 20
+  static COUNT = 21
 
   constructor(shared = new SharedArrayBuffer(4 * Universal.COUNT)) {
     super(shared)
@@ -131,5 +135,11 @@ export class Universal extends AtomicInt {
       this.cageMZ(cage.max.z)
       return cage
     }
+  }
+
+  state(state?: ELandState) {
+    return state === undefined
+      ? Atomics.load(this, 20)
+      : Atomics.store(this, 20, state)
   }
 }

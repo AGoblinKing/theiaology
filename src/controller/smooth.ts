@@ -1,7 +1,7 @@
-// move body smoothly in VR mode
+// move body smoothly
 
 import { body, camera, renderer } from 'src/render/render'
-import { delta, tick } from 'src/uniform/time'
+import { delta, runtime } from 'src/uniform/time'
 import { Value } from 'src/value/value'
 import { Vector3 } from 'three'
 
@@ -14,7 +14,7 @@ export const walk = new Value()
 
 const velta = new Vector3()
 
-tick.on(() => {
+runtime.on(($t) => {
   if (Math.abs(velocity.$.length()) > MIN_VELOCITY) {
     velta.copy(velocity.$).multiplyScalar(delta.$)
 

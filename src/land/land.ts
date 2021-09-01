@@ -6,7 +6,7 @@ import { Size } from 'src/buffer/size'
 import { SpaceTime } from 'src/buffer/spacetime'
 import { Status } from 'src/buffer/status'
 import { Timeline } from 'src/buffer/timeline'
-import { Universal } from 'src/buffer/universal'
+import { ELandState, Universal } from 'src/buffer/universal'
 import { Velocity } from 'src/buffer/velocity'
 import { ENTITY_COUNT, FACES, INFRINGEMENT, NORMALIZER, SIZE } from 'src/config'
 import { Load } from 'src/file/load'
@@ -20,10 +20,17 @@ import HeaderVert from 'src/shader/header.vert'
 import MainVert from 'src/shader/main.vert'
 import MatterFrag from 'src/shader/matter.frag'
 import SpaceTimeVert from 'src/shader/spacetime.vert'
-import { lowerUniform, seconds, upperUniform } from 'src/sound/audio'
+import {
+  audio,
+  audio_buffer,
+  audio_name,
+  lowerUniform,
+  seconds,
+  upperUniform,
+} from 'src/sound/audio'
 import { sys, SystemWorker } from 'src/system/sys'
 import { EMessage } from 'src/system/sys-enum'
-import { tick, timestamp, timeUniform } from 'src/uniform/time'
+import { runtime, tick, timeUniform } from 'src/uniform/time'
 import { ICancel, Value } from 'src/value/value'
 import {
   Box3,
@@ -40,6 +47,8 @@ const IDENTITY = new Matrix4().identity()
 
 let lands: { [key: number]: Land } = {}
 
+let nextLandCheck = 0
+
 export const first = new Value<Land>(undefined)
 export class Land {
   // entity components
@@ -55,6 +64,9 @@ export class Land {
   timeline: Value<Timeline>
   universal: Universal
   cage: Cage
+
+  musicName: string
+  musicBuffer: ArrayBuffer
 
   physics: SystemWorker
   cardinal: SystemWorker
@@ -249,8 +261,15 @@ export class Land {
 
   initListeners() {
     this.cancels.push(
-      timestamp.on(() => {
+      runtime.on(($t) => {
         this.universal.time(timeUniform.value)
+        // only need to check if first
+        if (!this.first) return
+
+        if ($t > nextLandCheck) {
+          first.$.updateFantasy()
+          nextLandCheck += 500
+        }
       }),
       // update universal
       seconds.on(($s) => {
@@ -353,6 +372,21 @@ export class Land {
     Load(data, this)
   }
 
+  updateFantasy() {
+    // check bounding box of all lands and update fantasy if needed
+
+    let land = this
+    for (let l of Object.values(lands)) {
+    }
+
+    if (fantasy.$ === land && land.universal.state() === ELandState.RUNNING)
+      return
+
+    fantasy.$.universal.state(ELandState.PAUSED)
+    fantasy.set(land)
+    land.universal.state(ELandState.RUNNING)
+  }
+
   get fantasy() {
     return fantasy.$ === this
   }
@@ -364,3 +398,16 @@ export class Land {
 const cache = {}
 
 export const fantasy = new Value(new Land())
+
+let cancel
+fantasy.on((l) => {
+  if (cancel) cancel()
+
+  cancel = l.timeline.on(() => {
+    if (!l.musicBuffer) return
+    audio_name.set(l.musicName)
+    audio_buffer.set(new DataView(l.musicBuffer))
+    audio.src = URL.createObjectURL(new File([l.musicBuffer], 'thea'))
+    audio.load()
+  })
+})

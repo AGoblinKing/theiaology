@@ -6,7 +6,7 @@ import { Size } from 'src/buffer/size'
 import { SpaceTime } from 'src/buffer/spacetime'
 import { EStatus, Status } from 'src/buffer/status'
 import { Timeline } from 'src/buffer/timeline'
-import { Universal } from 'src/buffer/universal'
+import { ELandState, Universal } from 'src/buffer/universal'
 import { Velocity } from 'src/buffer/velocity'
 import { ENTITY_COUNT, NORMALIZER } from 'src/config'
 import { MagickaVoxel } from 'src/render/magica'
@@ -771,27 +771,27 @@ class Cardinal extends System {
   }
 
   tick() {
-    if (this.ready) {
-      const t = this.universal.musicTime()
-      if (t > this.lastTime) {
-        let lt = this.lastTime
-        while (lt < t) {
-          lt++
-          this.doTurn(lt)
-        }
+    if (!this.ready || this.universal.state() !== ELandState.RUNNING) return
 
-        this.lastTime = t
-
-        // back in time
-      } else if (t < this.lastTime) {
-        this.timelineUpdated()
+    const t = this.universal.musicTime()
+    if (t > this.lastTime) {
+      let lt = this.lastTime
+      while (lt < t) {
+        lt++
+        this.doTurn(lt)
       }
 
-      switch (this.universal.idle()) {
-        case EIdle.Randomize:
-          this.randomize()
-          break
-      }
+      this.lastTime = t
+
+      // back in time
+    } else if (t < this.lastTime) {
+      this.timelineUpdated()
+    }
+
+    switch (this.universal.idle()) {
+      case EIdle.Randomize:
+        this.randomize()
+        break
     }
   }
 

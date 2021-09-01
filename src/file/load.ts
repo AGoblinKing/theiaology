@@ -1,7 +1,6 @@
 import { Timeline } from 'src/buffer/timeline'
 import type { Land } from 'src/land/land'
 import { MagickaVoxel } from 'src/render/magica'
-import { audio, audio_buffer, audio_name } from 'src/sound/audio'
 import { Value } from 'src/value/value'
 
 // Load .theia file into the timePline
@@ -49,7 +48,7 @@ export function Load(bytes: ArrayBuffer, land: Land) {
     const musicEnd = HEADER_END + musicLength + timeLength
 
     // skip music if they're not the current reality
-    if (musicLength > 0 && land.first) {
+    if (musicLength > 0) {
       // 16 for string name
       const mab = new ArrayBuffer(musicLength - 12)
       const music = new DataView(mab)
@@ -61,14 +60,12 @@ export function Load(bytes: ArrayBuffer, land: Land) {
         str += String.fromCharCode(v)
       }
 
-      audio_name.set(str)
-
       for (let i = 0; i < (musicLength - 12) / 4 - 1; i++) {
         music.setInt32(i * 4, view.getInt32(timeEnd + i * 4 + 12))
       }
-      audio_buffer.set(music)
-      audio.src = URL.createObjectURL(new File([mab], 'thea'))
-      audio.load()
+
+      land.musicBuffer = mab
+      land.musicName = str
     }
 
     // clear existing vox

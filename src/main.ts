@@ -3,8 +3,8 @@ import 'src/file/file'
 import * as render from 'src/render/render'
 import Theiaology from 'src/timeline/Theiaology.svelte'
 import './controller/player'
+import './rez/hand-joints'
 import './sound/audio'
-
 // startup editor
 const theiaology = new Theiaology({
   target: document.getElementById('theiaology'),

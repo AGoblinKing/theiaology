@@ -41,7 +41,7 @@
     modal_options.set(dotTheia)
 
     modal_visible.set((res) => {
-      window.open(res, '_self')
+      window.open(`/${res}`, '_self')
       modal_visible.set(false)
     })
   }

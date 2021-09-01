@@ -6,7 +6,7 @@ import { fantasy } from 'src/land/land'
 import { body } from 'src/render/render'
 import { SystemWorker } from 'src/system/sys'
 import { EMessage } from 'src/system/sys-enum'
-import { timestamp } from 'src/uniform/time'
+import { runtime } from 'src/uniform/time'
 import { vr_keys } from 'src/xr/joints'
 import { Vector3 } from 'three'
 
@@ -31,17 +31,16 @@ const rTip = /tip$/
 const rMeta = /metacarpal$|proximal$/
 
 // update hand rezes if they exist
-timestamp.on(() => {
+runtime.on(() => {
   // no hands, nothing to do
   if (hands.$.length === 0) return
-  const smod = fantasy.$.universal.userSize() / 10
 
   for (let i = 0; i < hand_joints.length; i++) {
     const ix = i % 25
     const iy = Math.floor(i / 25)
     const id = hand_joints[i]
 
-    const j = hands.$[iy].joints[vr_keys[ix]]
+    const j = hands.$[iy]?.joints[vr_keys[ix]]
 
     if (!j) continue
 
@@ -70,7 +69,7 @@ timestamp.on(() => {
     }
     fantasy.$.animation.store(id, EAnimation.NoEffects)
 
-    const s = Math.floor(rMeta.test(vr_keys[ix]) ? 8 : 6 * smod) * 10
+    const s = Math.floor(rMeta.test(vr_keys[ix]) ? 8 : 5) * 10
 
     const { size, future, matter, past } = fantasy.$
 
@@ -87,8 +86,8 @@ timestamp.on(() => {
     past.x(id, future.x(id))
     past.y(id, future.y(id))
     past.z(id, future.z(id))
-    past.time(id, Math.floor(timestamp.$))
-    future.time(id, Math.floor(timestamp.$))
+    past.time(id, Math.floor(runtime.$))
+    future.time(id, Math.floor(runtime.$))
   }
 })
 
@@ -97,6 +96,7 @@ fantasy.on(($r) => {
   if (cancel) cancel()
   cancel = $r.timeline.on(() => {
     // Rez the player hands
-    RezHands($r.cardinal)
+
+    if ($r.cardinal) RezHands($r.cardinal)
   })
 })

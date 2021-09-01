@@ -4,7 +4,7 @@ import { Impact } from 'src/buffer/impact'
 import { EPhase, Matter } from 'src/buffer/matter'
 import { Size } from 'src/buffer/size'
 import { SpaceTime } from 'src/buffer/spacetime'
-import { Universal } from 'src/buffer/universal'
+import { ELandState, Universal } from 'src/buffer/universal'
 import { Velocity } from 'src/buffer/velocity'
 import { ENTITY_COUNT } from 'src/config'
 import { Box3, Vector3 } from 'three'
@@ -165,7 +165,7 @@ class Physics extends System {
   }
 
   tick() {
-    if (!this.ready) return
+    if (!this.ready || this.universal.state() !== ELandState.RUNNING) return
 
     const t = this.universal.time()
 
