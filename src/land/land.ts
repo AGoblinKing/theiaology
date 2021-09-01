@@ -8,8 +8,16 @@ import { Status } from 'src/buffer/status'
 import { Timeline } from 'src/buffer/timeline'
 import { ELandState, Universal } from 'src/buffer/universal'
 import { Velocity } from 'src/buffer/velocity'
-import { ENTITY_COUNT, FACES, INFRINGEMENT, NORMALIZER, SIZE } from 'src/config'
+import {
+  ENTITY_COUNT,
+  FACES,
+  INFRINGEMENT,
+  NORMALIZER,
+  SIZE,
+  TOON_ENABLED,
+} from 'src/config'
 import { Load } from 'src/file/load'
+import { mobile } from 'src/input/browser'
 import { left_hand_uniforms, right_hand_uniforms } from 'src/input/xr'
 import { MagickaVoxel } from 'src/render/magica'
 import { body, renderer, scene } from 'src/render/render'
@@ -37,8 +45,10 @@ import {
   BoxBufferGeometry,
   InstancedBufferAttribute,
   InstancedMesh,
+  Material,
   Matrix4,
   MeshBasicMaterial,
+  MeshToonMaterial,
   Uniform,
   Vector3,
 } from 'three'
@@ -48,6 +58,8 @@ const IDENTITY = new Matrix4().identity()
 let lands: { [key: number]: Land } = {}
 
 let nextLandCheck = 0
+
+const $vec3 = new Vector3()
 
 export const first = new Value<Land>(undefined)
 export class Land {
@@ -66,7 +78,8 @@ export class Land {
   cage: Cage
 
   musicName: string
-  musicBuffer: ArrayBuffer
+  musicBuffer: DataView
+  musicString: string
 
   physics: SystemWorker
   cardinal: SystemWorker
@@ -79,7 +92,7 @@ export class Land {
   })
 
   voxes = new Value<{ [name: string]: MagickaVoxel }>({})
-  material: MeshBasicMaterial
+  material: Material
 
   uniCage: Uniform
   uniCageM: Uniform
@@ -116,7 +129,8 @@ export class Land {
   }
 
   initMaterial() {
-    this.material = new MeshBasicMaterial()
+    this.material =
+      !mobile && TOON_ENABLED ? new MeshToonMaterial() : new MeshBasicMaterial()
 
     const commonVertChunk = [
       '#include <common>',
@@ -220,10 +234,14 @@ export class Land {
             break
           case EMessage.USER_POS_UPDATE:
             if (!this.fantasy) return
-            body.$.position.set(
-              this.universal.userX(),
-              this.universal.userY(),
-              this.universal.userZ()
+            body.$.position.copy(
+              $vec3
+                .set(
+                  this.universal.userX(),
+                  this.universal.userY(),
+                  this.universal.userZ()
+                )
+                .add(this.universal.offset().multiplyScalar(0.005))
             )
             break
           case EMessage.CLEAR_COLOR_UPDATE:
@@ -375,16 +393,27 @@ export class Land {
   updateFantasy() {
     // check bounding box of all lands and update fantasy if needed
 
-    let land = this
+    let land: Land = this
+
     for (let l of Object.values(lands)) {
+      if (
+        !l.universal
+          .cage()
+          .translate(l.universal.offset())
+          .expandByScalar(0.01)
+          .containsPoint(body.$.position)
+      )
+        continue
+      land = l
+      break
     }
 
     if (fantasy.$ === land && land.universal.state() === ELandState.RUNNING)
       return
 
-    fantasy.$.universal.state(ELandState.PAUSED)
+    // fantasy.$.universal.state(ELandState.PAUSED)
     fantasy.set(land)
-    land.universal.state(ELandState.RUNNING)
+    // land.universal.state(ELandState.RUNNING)
   }
 
   get fantasy() {
@@ -406,8 +435,8 @@ fantasy.on((l) => {
   cancel = l.timeline.on(() => {
     if (!l.musicBuffer) return
     audio_name.set(l.musicName)
-    audio_buffer.set(new DataView(l.musicBuffer))
-    audio.src = URL.createObjectURL(new File([l.musicBuffer], 'thea'))
+    audio_buffer.set(l.musicBuffer)
+    audio.src = l.musicString
     audio.load()
   })
 })

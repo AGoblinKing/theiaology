@@ -1,4 +1,11 @@
-import { Group, PerspectiveCamera, Scene, WebGLRenderer } from 'three'
+import {
+  AmbientLight,
+  DirectionalLight,
+  Group,
+  PerspectiveCamera,
+  Scene,
+  WebGLRenderer,
+} from 'three'
 import { Loop, tick } from '../uniform/time'
 import { Value } from '../value/value'
 
@@ -13,7 +20,9 @@ export const camera = new PerspectiveCamera(
 export const body = new Value(new Group())
 
 body.$.position.set(0, 0.15, 2.5)
-scene.$.add(body.$.add(camera))
+const sun = new DirectionalLight(0xffffff, 0.75)
+sun.position.set(1, 1, 1)
+scene.$.add(body.$.add(camera), new AmbientLight(0xffffff, 0.5), sun)
 
 export const renderer = new WebGLRenderer()
 

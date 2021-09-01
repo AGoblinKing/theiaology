@@ -35,7 +35,7 @@ export const UNIVERSALS = [
   0,
   0,
   // ELandState
-  0, // paused
+  1, // RUNNING
 ]
 
 export const CACHE = 'v1'
@@ -47,7 +47,7 @@ export const dotTheia = [
   'flood',
   'birthday',
 ]
-export const rootTheia = 'starvoyage'
+export const rootTheia = 'agoblinking/overworld'
 
 export const PAD_SPEED = 0.5
 
@@ -58,3 +58,5 @@ export const USER_SCALE = 100
 export function UserUnits(x: number) {
   return x / USER_SCALE
 }
+
+export const TOON_ENABLED = false

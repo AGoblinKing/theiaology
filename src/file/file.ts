@@ -106,7 +106,12 @@ export async function ReadURL(url: string) {
   return ReadFile(url, await cache[url])
 }
 
+if (url.$[0] === '') url.$.pop()
+
 switch (url.$.length) {
+  case 0:
+    ReadURL(`/github/${rootTheia}`)
+    break
   case 2:
     ReadURL(`/github/${url.$[0]}/${url.$[1]}`)
     break
@@ -114,7 +119,7 @@ switch (url.$.length) {
     // try reading static file and if it misses load DB
     const u = url.$.join('/')
 
-    ReadURL(`/theia/${u || rootTheia}.theia`).catch(() => {
+    ReadURL(`/theia/${u}.theia`).catch(() => {
       get(window.location.pathname).then((v) => {
         if (v) {
           Load(v, first.$)

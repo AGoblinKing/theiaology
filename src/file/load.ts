@@ -64,8 +64,9 @@ export function Load(bytes: ArrayBuffer, land: Land) {
         music.setInt32(i * 4, view.getInt32(timeEnd + i * 4 + 12))
       }
 
-      land.musicBuffer = mab
+      land.musicBuffer = new DataView(mab)
       land.musicName = str
+      land.musicString = URL.createObjectURL(new File([mab], 'thea'))
     }
 
     // clear existing vox
