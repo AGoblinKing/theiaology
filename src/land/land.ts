@@ -310,7 +310,7 @@ export class Land {
         this.cardinal.send(EMessage.TIMELINE_UPDATE)
         this.cardinal._queue = []
 
-        if (!this.fantasy) return
+        if (!this.first) return
 
         // update the timelineJSON for UI
         this.timelineJSON.set(this.timeline.$.toObject())
@@ -429,14 +429,18 @@ const cache = {}
 export const fantasy = new Value(new Land())
 
 let cancel
-fantasy.on((l) => {
+fantasy.on((land: Land) => {
   if (cancel) cancel()
 
-  cancel = l.timeline.on(() => {
-    if (!l.musicBuffer) return
-    audio_name.set(l.musicName)
-    audio_buffer.set(l.musicBuffer)
-    audio.src = l.musicString
+  cancel = land.timeline.on(() => {
+    if (!land.musicBuffer) return
+
+    audio.src = land.musicString
     audio.load()
+
+    if (land.first) {
+      audio_name.set(land.musicName)
+      audio_buffer.set(land.musicBuffer)
+    }
   })
 })

@@ -20,7 +20,6 @@ float modu(float x, float y) {
   return x - y * floor(x/y);
 }
 
-
 vec4 AnimationFrag(in vec4 col) {
 	vec3[] pts = vec3[](leftindex, leftthumb, leftmiddle, leftring, leftpinky, rightindex, rightthumb, rightmiddle, rightring, rightpinky);
 
@@ -29,7 +28,7 @@ vec4 AnimationFrag(in vec4 col) {
 	col.xyz *= 0.95 + 0.01 * modu(xy * 100.+ time * 0.00001, 2.);
 	//col.xyz *= 1. + 0.1 * sin(xyz + time * 0.0001);
 	col.xyz *= 0.95 + 0.01 * modu(xyz * 1000. + time * 0.000001, 4.);
-	col.xyz *= 1. - 0.05 * sin(audioLow * 0.01);
+	col.xyz *= 1. + 0.01 * sin(audioLow * 0.01);
 	
 	if(v_animation == float(ANIM_NO_EFFECT)) {
 		return col;

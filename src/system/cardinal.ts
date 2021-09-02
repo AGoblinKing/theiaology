@@ -436,6 +436,7 @@ class Cardinal extends System {
           break
         case ETimeline.LAND:
           $rez.land = this.timeline.text(i)
+          $rez.ripple(ERipple.LAND, $rez.land)
           break
         case ETimeline.GATE:
           $rez.gate = this.timeline.text(i)
@@ -797,7 +798,7 @@ class Cardinal extends System {
 
   randomize() {
     // TODO: Use cage bounds
-    const scale = 18000
+    const scale = 100000
     const t = this.universal.time()
 
     const chunk = 1000
@@ -815,7 +816,7 @@ class Cardinal extends System {
       this.future.z(i, Math.floor(Math.random() * scale - scale / 2))
       this.future.time(i, t + 30000 + 100)
 
-      const s = 5
+      const s = 20 + Math.floor(Math.random() * 5)
 
       this.size.x(i, s)
       this.size.y(i, s)

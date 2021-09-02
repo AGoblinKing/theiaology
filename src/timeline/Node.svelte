@@ -226,6 +226,7 @@
   }
   // show line number and data
   const up = 'voxlast|music|theiaology'
+  
 </script>
 
 <div data-order={order} class="node" class:root={i === 0 || item.$[2] === 0} class:time={$seconds === $timeline.when(i)}>
@@ -386,7 +387,7 @@
     {/if}
   </div>
   <div class="children">
-    {#each myChildren as key}
+    {#each myChildren as key }
       <svelte:self i={key} />
     {/each}
   </div>

@@ -47,7 +47,7 @@ export const dotTheia = [
   'flood',
   'birthday',
 ]
-export const rootTheia = 'agoblinking/overworld'
+export const rootTheia = 'agoblinking/starvoyage'
 
 export const PAD_SPEED = 0.5
 

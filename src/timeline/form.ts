@@ -26,6 +26,7 @@ export enum ERipple {
   CAGE,
   DEREZ,
   RULER,
+  LAND,
 }
 
 export class Form {
@@ -186,6 +187,9 @@ export class Form {
           break
         case ERipple.RULER:
           c.ruler = data
+          break
+        case ERipple.LAND:
+          c.land = data
           break
       }
     }

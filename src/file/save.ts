@@ -1,6 +1,6 @@
 import fs from 'file-saver'
 import { set } from 'idb-keyval'
-import { fantasy, first } from 'src/land/land'
+import { first } from 'src/land/land'
 import { audio_buffer, audio_name } from 'src/sound/audio'
 import { timeline_shown } from 'src/timeline/editor'
 import { dbLoaded, HEADER_START, SIGNATURE } from './load'
@@ -8,15 +8,15 @@ import { dbLoaded, HEADER_START, SIGNATURE } from './load'
 export function SaveScript() {
   if (!dbLoaded) return
 
-  const blob = new Blob([fantasy.$.timeline.$.toJSON()], {
+  const blob = new Blob([first.$.timeline.$.toJSON()], {
     type: 'application/json',
   })
-  fs.saveAs(blob, fantasy.$.timeline.$.text(0) + '.json')
+  fs.saveAs(blob, first.$.timeline.$.text(0) + '.json')
 }
 
 // Save .theia file
 export function Save(withFile = true) {
-  const name = fantasy.$.timeline.$.text(0)
+  const name = first.$.timeline.$.text(0)
   const buff = BuildBuffer()
 
   if (withFile) {
@@ -33,7 +33,7 @@ export function Save(withFile = true) {
 }
 
 export function BuildBuffer() {
-  const { timeline } = fantasy.$
+  const { timeline } = first.$
   // [THEA, TIME_SIZE, VOX_SIZE, MUSIC_SIZE, 0, 0, ...
   const header = HEADER_START * 2
   const timelineLength = timeline.$.length * 4
