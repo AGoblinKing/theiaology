@@ -74,7 +74,7 @@ mat4 AnimationMatrix(in mat4 mvMatrix) {
 	}
 
 	float timescale = time * 0.0001 + v_pos.x * v_pos.y * v_pos.z * 1000.; 
-	float s = 0.01 * lav;
+	float s = 0.05 * lav;
 
     mvMatrix = mvMatrix 
 		* rotationX(sin(timescale) * s) 
