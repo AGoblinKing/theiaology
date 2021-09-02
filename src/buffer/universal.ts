@@ -12,6 +12,7 @@ export enum ELandState {
 }
 export class Universal extends AtomicInt {
   static COUNT = 21
+  _init = false
 
   constructor(shared = new SharedArrayBuffer(4 * Universal.COUNT)) {
     super(shared)
@@ -21,6 +22,7 @@ export class Universal extends AtomicInt {
     for (let i = 0; i < UNIVERSALS.length; i++) {
       this.store(i, UNIVERSALS[i])
     }
+    this._init = true
     return this
   }
 

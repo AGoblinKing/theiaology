@@ -6,7 +6,7 @@ import { Size } from 'src/buffer/size'
 import { SpaceTime } from 'src/buffer/spacetime'
 import { Status } from 'src/buffer/status'
 import { Timeline } from 'src/buffer/timeline'
-import { ELandState, Universal } from 'src/buffer/universal'
+import { Universal } from 'src/buffer/universal'
 import { Velocity } from 'src/buffer/velocity'
 import {
   ENTITY_COUNT,
@@ -60,6 +60,8 @@ let lands: { [key: number]: Land } = {}
 let nextLandCheck = 0
 
 const $vec3 = new Vector3()
+
+const $cage = new Box3()
 
 export const first = new Value<Land>(undefined)
 export class Land {
@@ -288,7 +290,7 @@ export class Land {
 
         if ($t > nextLandCheck) {
           first.$.updateFantasy()
-          nextLandCheck += 500
+          nextLandCheck += 1000
         }
       }),
       // update universal
@@ -396,24 +398,24 @@ export class Land {
 
   updateFantasy() {
     // check bounding box of all lands and update fantasy if needed
-
     let land: Land = this
 
     for (let l of Object.values(lands)) {
       if (
-        !l.universal
-          .cage()
-          .translate(l.universal.offset())
-          .expandByScalar(0.01)
-          .containsPoint(body.$.position)
-      )
+        !$cage
+          .set(l.uniCage.value, l.uniCageM.value)
+          .translate(l.uniOffset.value)
+          .containsPoint($vec3.copy(body.$.position).multiplyScalar(200))
+      ) {
         continue
+      }
+
       land = l
+
       break
     }
 
-    if (fantasy.$ === land && land.universal.state() === ELandState.RUNNING)
-      return
+    if (fantasy.$ === land) return
 
     // fantasy.$.universal.state(ELandState.PAUSED)
     fantasy.set(land)

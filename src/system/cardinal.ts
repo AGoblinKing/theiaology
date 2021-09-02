@@ -143,6 +143,8 @@ class Cardinal extends System {
       const def = this.timeline.who(i)
       const $rez = this.forms[def]
 
+      if (!$rez) continue
+
       // Check the timing to only apply the right stuff
       if (this.timeline.when(i) > sec) continue
 
