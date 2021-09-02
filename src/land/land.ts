@@ -242,6 +242,7 @@ export class Land {
                   this.universal.userY(),
                   this.universal.userZ()
                 )
+                .multiplyScalar(0.01)
                 .add(this.universal.offset().multiplyScalar(0.005))
             )
             break
