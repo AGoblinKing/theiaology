@@ -73,7 +73,7 @@ mat4 AnimationMatrix(in mat4 mvMatrix) {
     	lav += audioLow * 0.0125;
 	}
 
-	float timescale = time * 0.000001 + v_pos.x * v_pos.y * v_pos.z * 1000.; 
+	float timescale = time * 0.0001 + v_pos.x * v_pos.y * v_pos.z * 1000.; 
 	float s = 0.01 * lav;
 
     mvMatrix = mvMatrix 
