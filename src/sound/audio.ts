@@ -1,6 +1,8 @@
 import { Uniform } from 'three'
+import WebAudioTinySynth from 'webaudio-tinysynth'
 import { tick } from '../uniform/time'
 import { Value } from '../value/value'
+import { EMidiChannel } from './midi'
 
 export const audio = document.getElementById('bgm') as HTMLAudioElement
 export const audio_buffer = new Value<ArrayBufferLike | DataView>()
@@ -8,6 +10,16 @@ export const audio_name = new Value('')
 
 export const context = new Value<AudioContext>()
 let started = false
+
+export const synth = new Value<WebAudioTinySynth>(undefined)
+
+window.addEventListener(
+  'click',
+  () => {
+    synth.set(new WebAudioTinySynth())
+  },
+  { once: true }
+)
 
 audio.onplay = function () {
   if (started) return
@@ -50,6 +62,7 @@ audio.onplay = function () {
 audio.addEventListener('canplaythrough', () => {
   end.set(audio.duration)
 })
+
 export const seconds = new Value(0)
 export const end = new Value(1)
 export const upperUniform = new Uniform(0)
@@ -66,3 +79,20 @@ tick.on(() => {
     seconds.set(audio.currentTime)
   }
 })
+
+const $midi = [0, 0, 0]
+export const midi = async (
+  channel: EMidiChannel,
+  note: number,
+  velocity: number
+) => {
+  if (!synth.$) return
+
+  midi[0] = channel
+  midi[1] = note
+  midi[2] = velocity
+
+  await synth.$.ready
+
+  synth.$.send($midi)
+}

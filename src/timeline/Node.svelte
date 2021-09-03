@@ -96,8 +96,8 @@
         case ETimeline.TAG:
           break
         case ETimeline.REZ:
-        case ETimeline.FLOCK:
-        case ETimeline.SIZE:
+        case ETimeline.SHAPE_FLOCK:
+        case ETimeline.SHAPE:
           timeline.$.data0(i, 1)
           timeline.$.data1(i, 1)
           timeline.$.data2(i, 1)

@@ -16,3 +16,9 @@ export const timeUniform = new Uniform(0.0)
 runtime.on(($t) => {
   timeUniform.value = Math.floor(performance.now())
 })
+
+export function Timer(timeout: number, fn: () => void) {
+  const intv = setInterval(fn, timeout)
+
+  return () => clearInterval(intv)
+}

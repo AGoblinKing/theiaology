@@ -6,7 +6,6 @@ vec4 SpaceTime(in vec4 pos) {
 
     float tf = (time - float(past.a))/float(future.a - past.a);
 
-    
     vec4 space = vec4(
         mix(  
             vec3(past.xyz) * 0.001, 

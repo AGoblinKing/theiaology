@@ -82,6 +82,7 @@
   .modal {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr 1fr;
+
     pointer-events: all;
     position: absolute;
     z-index: 10001;

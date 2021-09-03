@@ -63,6 +63,8 @@ const $vec3 = new Vector3()
 
 const $cage = new Box3()
 
+let i = 0
+
 export const first = new Value<Land>(undefined)
 export class Land {
   // entity components
@@ -103,7 +105,7 @@ export class Land {
   cancels: ICancel[] = []
 
   destroyed = false
-  slowFantasy = 0
+  slowFantasy = i++
 
   constructor() {
     if (first.$ === undefined) first.set(this)
@@ -299,8 +301,8 @@ export class Land {
       }),
       tick.on(() => {
         const { atoms } = this
-        this.slowFantasy++
-        if (!this.fantasy && this.slowFantasy % 10 !== 0) return
+
+        if (!this.fantasy && this.slowFantasy++ % 10 !== 0) return
         // Update: WebGL isn't binding the buffer! wow not threejs
         // TODO: Figure out why threejs is not leveraging the sharedarray
         atoms.geometry.getAttribute('animation').needsUpdate = true

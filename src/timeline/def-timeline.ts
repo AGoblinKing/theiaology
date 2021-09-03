@@ -1,5 +1,6 @@
 import { EAnimation } from 'src/buffer/animation'
 import { EPhase } from 'src/buffer/matter'
+import { EMidiChannel } from 'src/sound/midi'
 
 export interface IMarkers {
   [markerID: number]: string
@@ -63,6 +64,7 @@ export enum EVar {
   TIME,
   USERNUMBER,
   USERPOSITIVE,
+  FIVEFINGERS,
 }
 
 export enum EIdle {
@@ -76,21 +78,21 @@ export enum ETimeline {
   NONE = 0,
   TAG,
   MUSIC,
-  FLOCK,
-  COLOR,
-  SIZE,
-  SIZEVAR,
+  SHAPE_FLOCK,
+  SHAPE_COLOR,
+  SHAPE,
+  SHAPE_VAR,
   REZ,
-  DEREZ,
+  REZ_FREE,
   POS,
-  POSTO,
-  POSVAR,
+  POS_TO,
+  POS_VAR,
   THRUST,
-  THRUSTTO,
-  THRUSTVAR,
+  THRUST_TO,
+  THRUST_VAR,
   ROT,
-  LOOK,
-  LOOKTO,
+  ROT_LOOK,
+  ROT_LOOK_TO,
 
   // When something interesting happens the who
   EVENT,
@@ -102,67 +104,72 @@ export enum ETimeline {
   CONTROL,
   NET,
   AI,
-  EFFECTS,
-  VOX,
-  ROTVAR,
+  SHAPE_EFFECTS,
+  SHAPE_VOX,
+  ROT_VAR,
   IMPACT,
-  VOXVAR,
-  USERPOS,
-  USERROT,
-  USERSIZE,
+  SHAPE_VOX_VAR,
+  USER_POS,
+  USER_ROT,
+  USER_SIZE,
   IDLE,
-  TEXT,
-  CLEARCOLOR,
-  POSADD,
-  THRUSTADD,
-  LAND,
-  GATE,
-  RULER,
+  SHAPE_TEXT,
+  CLEAR_COLOR,
+  POS_ADD,
+  THRUST_ADD,
+  THEIA_LAND,
+  THEIA_GATE,
+  THEIA_RULER,
+  SOUND_MIDI,
+  SOUND,
+  SOUND_POS,
+  REZ_POSE,
+  TRIGGER,
 }
 
 export const Commands: { [key: number]: any } = {
   [ETimeline.TAG]: { text: EVar.STRING },
-  [ETimeline.FLOCK]: {
+  [ETimeline.SHAPE_FLOCK]: {
     shape: EShape,
     size: EVar.POSITIVE,
     step: EVar.USERPOSITIVE,
   },
   [ETimeline.PHASE]: { phase: EPhase },
-  [ETimeline.COLOR]: {
+  [ETimeline.SHAPE_COLOR]: {
     rgb: EVar.COLOR,
     tilt: EVar.NORMAL,
     variance: EVar.NORMAL,
   },
-  [ETimeline.VOXVAR]: {
+  [ETimeline.SHAPE_VOX_VAR]: {
     rgb: EVar.COLOR,
     tilt: EVar.NORMAL,
     variance: EVar.NORMAL,
   },
-  [ETimeline.SIZE]: {
+  [ETimeline.SHAPE]: {
     x: EVar.USERPOSITIVE,
     y: EVar.USERPOSITIVE,
     z: EVar.USERPOSITIVE,
   },
   //   [ETimeline.MUSIC]: { audio: EVar.AUDIO },
-  [ETimeline.SIZEVAR]: {
+  [ETimeline.SHAPE_VAR]: {
     x: EVar.USERPOSITIVE,
     y: EVar.USERPOSITIVE,
     z: EVar.USERPOSITIVE,
   },
   [ETimeline.ROT]: { x: EVar.NORMAL, y: EVar.NORMAL, z: EVar.NORMAL },
-  [ETimeline.ROTVAR]: { x: EVar.NORMAL, y: EVar.NORMAL, z: EVar.NORMAL },
+  [ETimeline.ROT_VAR]: { x: EVar.NORMAL, y: EVar.NORMAL, z: EVar.NORMAL },
 
   [ETimeline.REZ]: {
     count: EVar.NUMBER,
   },
-  [ETimeline.DEREZ]: {},
+  [ETimeline.REZ_FREE]: {},
 
   [ETimeline.POS]: {
     x: EVar.USERNUMBER,
     y: EVar.USERNUMBER,
     z: EVar.USERNUMBER,
   },
-  [ETimeline.POSVAR]: {
+  [ETimeline.POS_VAR]: {
     x: EVar.USERNUMBER,
     y: EVar.USERNUMBER,
     z: EVar.USERNUMBER,
@@ -173,13 +180,13 @@ export const Commands: { [key: number]: any } = {
     z: EVar.USERNUMBER,
   },
 
-  [ETimeline.THRUSTVAR]: {
+  [ETimeline.THRUST_VAR]: {
     axis: EAxis,
     thrust: EVar.USERPOSITIVE,
     constraint: EVar.SIGN,
   },
 
-  [ETimeline.LOOK]: {
+  [ETimeline.ROT_LOOK]: {
     x: EVar.USERNUMBER,
     y: EVar.USERNUMBER,
     z: EVar.USERNUMBER,
@@ -189,34 +196,58 @@ export const Commands: { [key: number]: any } = {
   // [ETimeline.THRUSTTO]: {
   //     tag: EVar.TAGID,
   // },
-  [ETimeline.EFFECTS]: { animation: EAnimation },
-  [ETimeline.VOX]: { 'Vox Model': EVar.VOX },
+  [ETimeline.SHAPE_EFFECTS]: { animation: EAnimation },
+  [ETimeline.SHAPE_VOX]: { 'Vox Model': EVar.VOX },
   // [ETimeline.IMPACT]: { reaction: EImpactReaction },
-  [ETimeline.CAGE]: { axis: EAxis, min: EVar.USERNUMBER, max: EVar.USERNUMBER },
+  [ETimeline.CAGE]: {
+    axis: EAxis,
+    min: EVar.USERNUMBER,
+    max: EVar.USERNUMBER,
+  },
 
   [ETimeline.IDLE]: { idle: EIdle },
-  [ETimeline.USERPOS]: {
+  [ETimeline.USER_POS]: {
     x: EVar.USERNUMBER,
     y: EVar.USERNUMBER,
     z: EVar.USERNUMBER,
   },
   // [ETimeline.USERROT]: { x: EVar.NUMBER, y: EVar.NUMBER, z: EVar.NUMBER },
-  [ETimeline.USERSIZE]: { size: EVar.USERPOSITIVE },
-  [ETimeline.TEXT]: { text: EVar.STRING },
-  [ETimeline.CLEARCOLOR]: { rgb: EVar.COLOR },
-  [ETimeline.USERROT]: { x: EVar.NORMAL, y: EVar.NORMAL, z: EVar.NORMAL },
-  [ETimeline.POSADD]: {
+  [ETimeline.USER_SIZE]: { size: EVar.USERPOSITIVE },
+  [ETimeline.SHAPE_TEXT]: { text: EVar.STRING },
+  [ETimeline.CLEAR_COLOR]: { rgb: EVar.COLOR },
+  [ETimeline.USER_ROT]: { x: EVar.NORMAL, y: EVar.NORMAL, z: EVar.NORMAL },
+  [ETimeline.POS_ADD]: {
     x: EVar.USERNUMBER,
     y: EVar.USERNUMBER,
     z: EVar.USERNUMBER,
   },
-  [ETimeline.THRUSTADD]: {
+  [ETimeline.THRUST_ADD]: {
     x: EVar.USERNUMBER,
     y: EVar.USERNUMBER,
     z: EVar.USERNUMBER,
   },
 
-  [ETimeline.RULER]: { githubUser: EVar.STRING },
-  [ETimeline.LAND]: { theia: EVar.STRING },
-  [ETimeline.GATE]: { theia: EVar.STRING },
+  [ETimeline.THEIA_RULER]: { githubUser: EVar.STRING },
+  [ETimeline.THEIA_LAND]: { theia: EVar.STRING },
+  [ETimeline.THEIA_GATE]: { theia: EVar.STRING },
+  [ETimeline.SOUND_MIDI]: {
+    instrument: EMidiChannel,
+    note: EVar.POSITIVE,
+    velocity: EVar.NORMAL,
+  },
+  [ETimeline.SOUND]: {
+    duration: EVar.NORMAL,
+    modulo: EVar.POSITIVE,
+    step: EVar.POSITIVE,
+  },
+  [ETimeline.SOUND_POS]: {
+    x: EVar.USERNUMBER,
+    y: EVar.USERNUMBER,
+    z: EVar.USERNUMBER,
+  },
+  // like a triggered rez by hand
+  [ETimeline.REZ_POSE]: {
+    // hand data
+    hand: EVar.FIVEFINGERS,
+  },
 }
