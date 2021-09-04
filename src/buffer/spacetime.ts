@@ -47,4 +47,10 @@ export class SpaceTime extends AtomicInt {
   vec3(i: number, vec3 = $vec3) {
     return vec3.set(this.x(i), this.y(i), this.z(i))
   }
+  setVec3(i: number, vec3: Vector3) {
+    this.x(i, Math.round(vec3.x))
+    this.y(i, Math.round(vec3.y))
+    this.z(i, Math.round(vec3.z))
+    return vec3
+  }
 }

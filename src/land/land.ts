@@ -258,7 +258,7 @@ export class Land {
       })
 
     this.physics = sys
-      .start('cannon')
+      .start('physics')
       .send(
         this.past,
         this.future,

@@ -1,5 +1,7 @@
-
-
+<script lang="ts" context="module">
+  const vec2 = new Vector2()
+ const offset = new Vector2(2,  -1).multiplyScalar(5)
+</script>
 <script lang="ts">
   import { onDestroy } from 'svelte'
 
@@ -13,6 +15,7 @@
 
   import type { INav } from './nav';
 import { mouse_page } from 'src/input/mouse';
+import { Vector2, Vector3 } from 'three';
 
   export let nav: INav = {
     left: '',
@@ -101,7 +104,7 @@ import { mouse_page } from 'src/input/mouse';
   on:mouseover={() => {
     if (hover === '') return
 
-    modal_location.set(mouse_page.$)
+    modal_location.set(vec2.copy(mouse_page.$).add(offset))
     modal_visible.set(() => {})
     modal_options.set(hover)
   }}
