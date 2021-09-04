@@ -1,5 +1,8 @@
 import { AtomicInt } from 'src/buffer/atomic'
 import { ENTITY_COUNT } from 'src/config'
+import { Vector3 } from 'three'
+
+const $vec3 = new Vector3()
 
 export class SpaceTime extends AtomicInt {
   static COUNT = 4
@@ -39,5 +42,9 @@ export class SpaceTime extends AtomicInt {
     return t === undefined
       ? Atomics.load(this, i * SpaceTime.COUNT + 3)
       : Atomics.store(this, i * SpaceTime.COUNT + 3, t)
+  }
+
+  vec3(i: number, vec3 = $vec3) {
+    return vec3.set(this.x(i), this.y(i), this.z(i))
   }
 }

@@ -1,4 +1,5 @@
 // performs grid traversal and collision detection
+import { RBush3D } from 'rbush-3d'
 import { Cage } from 'src/buffer/cage'
 import { Impact } from 'src/buffer/impact'
 import { EPhase, Matter } from 'src/buffer/matter'
@@ -6,33 +7,22 @@ import { Size } from 'src/buffer/size'
 import { SpaceTime } from 'src/buffer/spacetime'
 import { ELandState, Universal } from 'src/buffer/universal'
 import { Velocity } from 'src/buffer/velocity'
-import { ENTITY_COUNT } from 'src/config'
+import { ENTITY_COUNT, NORMALIZER } from 'src/config'
 import { Box3, Vector3 } from 'three'
 import { EMessage } from './sys-enum'
 import { System } from './system'
 
 const $box = new Box3()
 const $box2 = new Box3()
-const $box3 = new Box3()
+const $vec = new Vector3()
+const $vec2 = new Vector3()
 
-const SECTORS = {
-  ALPHA: new Vector3(-1, -1, -1),
-  BETA: new Vector3(-1, -1, 1),
-  GAMMA: new Vector3(-1, 1, 1),
-  DELTA: new Vector3(1, 1, 1),
-  EPSILON: new Vector3(1, -1, 1),
-  ZETA: new Vector3(1, -1, -1),
-  ETA: new Vector3(1, 1, -1),
-  THETA: new Vector3(-1, 1, -1),
-}
-
-const SECTORSA = Object.values(SECTORS)
 const sectorBoxCache = {}
 // put each
 // each sector is indexed here, '442313' is a possible sector
-let sectors: { [sectorId: number]: Set<number> } = {}
+let sectors: { [sectorId: string]: Set<number> } = {}
 // ids 2 sector
-let ids: { [id: number]: number[] } = {}
+let ids: { [id: number]: string[] } = {}
 
 class Physics extends System {
   past: SpaceTime
@@ -44,6 +34,8 @@ class Physics extends System {
   universal: Universal
   cage: Cage
 
+  // @ts-ignore
+  tree = new RBush3D(16, ['[0]', '[1]', '[2]', '[3]', '[4]', '[5]'])
   ready = false
   // 50 frames a second, idealy get this to 5
   constructor() {
@@ -92,18 +84,53 @@ class Physics extends System {
     this.ready = true
   }
 
-  collide(id1: number, id2: number) {
-    // get their x y z and sizes and compare
-    return this.box(id1, $box).intersectsBox(this.box(id2, $box2))
-  }
-
   // these numbers never change so cache them
-  sectorBox(sid: number) {
-    if (sectorBoxCache[sid] === undefined) {
+  sectorBox(base8: string) {
+    if (sectorBoxCache[base8] === undefined) {
+      let distance = NORMALIZER
+
+      $vec.set(-NORMALIZER / 2, -NORMALIZER / 2, -NORMALIZER / 2)
       // calc sector based on sid and $sector container
-      sectorBoxCache[sid] = new Box3(new Vector3(), new Vector3())
+
+      for (let i = 0; i < base8.length; i++) {
+        switch (base8[i]) {
+          case '0':
+            $vec2.set(1, 1, 1)
+            break
+          case '1':
+            $vec2.set(-1, -1, -1)
+            break
+          case '2':
+            $vec2.set(1, -1, 1)
+            break
+          case '3':
+            $vec2.set(1, 1, -1)
+            break
+          case '4':
+            $vec2.set(-1, 1, -1)
+            break
+          case '5':
+            $vec2.set(-1, -1, 1)
+            break
+          case '6':
+            $vec2.set(1, -1, -1)
+            break
+          case '7':
+            $vec2.set(-1, 1, 1)
+            break
+        }
+        $vec.add($vec2.multiplyScalar(distance))
+
+        distance /= 2
+      }
+
+      // move vec$ based on sector and half the size of the container each time
+      sectorBoxCache[base8] = new Box3(
+        $vec.clone().subScalar(distance * 2),
+        $vec.clone().addScalar(distance * 2)
+      )
     }
-    return sectorBoxCache[sid]
+    return sectorBoxCache[base8]
   }
 
   // these numbers change a bunch so better to just assign them to a tmp
@@ -118,6 +145,7 @@ class Physics extends System {
     // update their sector while you have their data
 
     $bb.min.set(x - sx, y - sy, z - sz), $bb.max.set(x + sx, y + sy, z + sz)
+
     return $bb
   }
 
@@ -125,30 +153,24 @@ class Physics extends System {
   sectorize(i: number, $bb?: Box3) {
     if (!$bb) $bb = this.box(i)
     if (ids[i] === undefined) ids[i] = []
-    const eid = ids[i]
-    const elen = eid.length
-    if (
-      eid[elen - 1] !== undefined &&
-      this.sectorBox(eid[elen - 1]).containsBox($bb)
-    ) {
-      // didn't change sectors no need to update
-      // TODO: This could cause a bug if something becomes smaller and doesn't change sectors
-      return
+
+    const id_sectors = ids[i]
+    const id_sectors_count = id_sectors.length
+
+    let id = ``
+    if (id_sectors_count > 0) {
+      sectors[id_sectors.pop()]?.delete(i)
+      id_sectors.splice(0, id_sectors_count)
     }
 
-    let id = 0
-    if (elen > 0) {
-      sectors[eid.pop()]?.delete(i)
-      eid.splice(0, elen)
-    }
-
-    for (let sector_depth = 0; sector_depth < 4; sector_depth++) {
+    for (let sector_depth = 0; sector_depth < 24; sector_depth++) {
       // check each sector if it contains the point
       let match = false
       for (let s = 0; s < 8; s++) {
-        const sid = id + s * Math.pow(8, sector_depth)
+        const sid = id + s
         if (this.sectorBox(sid).containsBox($bb)) {
-          eid.push(id)
+          id_sectors.push(id)
+          id = sid
           match = true
           break
         }
@@ -161,7 +183,7 @@ class Physics extends System {
       }
     }
 
-    return eid
+    return id_sectors
   }
 
   tick() {
@@ -190,25 +212,27 @@ class Physics extends System {
         let z = this.past.z(i, this.future.z(i))
         this.past.time(i, t)
 
-        // physics
-        let collisions = 0
         switch (phase) {
           case EPhase.VOID:
           case EPhase.GHOST:
             break
           default:
+            this.box(i, $box)
+
             for (let sid of this.sectorize(i)) {
               // go through your sectors and check for collision
               if (!sectors[sid]) continue
 
               for (let oids of sectors[sid]) {
-                if (oids !== i && this.collide(oids, i)) {
-                  collisions++
-                  break
+                this.box(oids, $box2).intersect($box)
+                if (oids !== i && !$box2.isEmpty()) {
+                  // @ts-ignore
+                  $box.getCenter($vec).sub($box2.getCenter($vec2))
+
+                  vx += $vec.x
+                  vy += $vec.y
+                  vz += $vec.z
                 }
-              }
-              if (collisions > 0) {
-                break
               }
             }
         }
@@ -217,7 +241,7 @@ class Physics extends System {
         y = this.future.y(i, y + vy)
         z = this.future.z(i, z + vz)
 
-        this.future.time(i, t + this.tickrate + 500)
+        this.future.time(i, t + this.tickrate)
 
         const cX = this.cage.x(i),
           cY = this.cage.y(i),

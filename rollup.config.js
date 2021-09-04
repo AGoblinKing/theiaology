@@ -1,20 +1,16 @@
-
-import resolve from '@rollup/plugin-node-resolve'
 import commonjs from '@rollup/plugin-commonjs'
-import { terser } from 'rollup-plugin-terser'
-import css from 'rollup-plugin-css-only'
-import glslify from 'rollup-plugin-glslify'
-
-import svelte from 'rollup-plugin-svelte'
-import autoPreprocess from 'svelte-preprocess'
 import json from '@rollup/plugin-json'
-
-import path from 'path'
+import resolve from '@rollup/plugin-node-resolve'
 import ts from '@rollup/plugin-typescript'
 import fs from 'fs'
+import path from 'path'
+import css from 'rollup-plugin-css-only'
+import glslify from 'rollup-plugin-glslify'
+import svelte from 'rollup-plugin-svelte'
+import { terser } from 'rollup-plugin-terser'
+import autoPreprocess from 'svelte-preprocess'
 
 const production = !process.env.ROLLUP_WATCH
-
 
 const trydep = (rootPath) => {
   const absPath = path.resolve(__dirname, rootPath)
@@ -40,15 +36,14 @@ const rootImport = (options) => ({
 })
 
 let once = true
-const config = (input, dst = "", importThree = false) => {
-
+const config = (input, dst = '', importThree = false) => {
   const o = {
     input: `src/${input}.ts`,
 
-    external: ["three"],
+    external: ['three'],
     output: {
       globals: {
-        three: "THREE"
+        three: 'THREE',
       },
       format: 'iife',
       chunkFileNames: '[name].js',
@@ -68,7 +63,7 @@ const config = (input, dst = "", importThree = false) => {
       svelte({
         onwarn: (warning, handler) => {
           switch (warning.code) {
-            case "missing-declaration":
+            case 'missing-declaration':
             case 'a11y-mouse-events-have-key-events':
             case 'a11y-autofocus':
             case 'module-script-reactive-declaration':
@@ -94,36 +89,38 @@ const config = (input, dst = "", importThree = false) => {
       glslify({
         compress: false,
       }),
-      ts({
-        
-      }),
+      ts({}),
       rootImport({
         extensions: ['.ts', '.svelte', '', '.json', '.js'],
         root: `${__dirname}/`,
       }),
 
-
-      commonjs({
-     
-      }),
+      commonjs({}),
       production && terser(),
       {
         renderChunk(code) {
           return {
-            code: `${importThree ? `if(typeof importScripts === "function") { importScripts("/three.js") }\r\n`: ''}${code}`,
-            map: null
+            code: `${
+              importThree
+                ? `if(typeof importScripts === "function") { importScripts("/three.js") }\r\n`
+                : ''
+            }${code}`,
+            map: null,
           }
-        }
-
-      }
+        },
+      },
     ],
     watch: {
       clearScreen: false,
     },
-    
   }
   once = false
-  return o 
+  return o
 }
 
-export default [ config('main'), config('service', ".."), config('system/physics', "",  true), config('system/fuzz',"", true), config('system/cardinal',"", true), config('system/weather', "", true)]
+export default [
+  config('main'),
+  config('service', '..'),
+  config('system/physics', '', true),
+  config('system/cardinal', '', true),
+]
