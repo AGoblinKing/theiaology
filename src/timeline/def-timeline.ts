@@ -98,8 +98,8 @@ export enum ETimeline {
   EVENT,
 
   // Cage this physics item to these bounds
-  CAGE,
-  PHASE,
+  PHYS_CAGE,
+  PHYS_PHASE,
   // TODO:
   CONTROL,
   NET,
@@ -112,9 +112,9 @@ export enum ETimeline {
   USER_POS,
   USER_ROT,
   USER_SIZE,
-  IDLE,
+  UNI_IDLE,
   FLOCK_TEXT,
-  CLEAR_COLOR,
+  UNI_CLEAR_COLOR,
   POS_ADD,
   THRUST_ADD,
   THEIA_LAND,
@@ -126,13 +126,13 @@ export enum ETimeline {
   REZ_POSE,
   TRIGGER,
   FLOCK_RING,
-  FLOCK_PLANE,
+  FLOCK_GRID,
 }
 
 export const Commands: { [key: number]: any } = {
   [ETimeline.TAG]: { text: EVar.STRING },
 
-  [ETimeline.PHASE]: { phase: EPhase },
+  [ETimeline.PHYS_PHASE]: { phase: EPhase },
   [ETimeline.SHAPE_COLOR]: {
     rgb: EVar.COLOR,
     tilt: EVar.NORMAL,
@@ -197,13 +197,13 @@ export const Commands: { [key: number]: any } = {
   [ETimeline.SHAPE_EFFECTS]: { animation: EAnimation },
   [ETimeline.SHAPE_VOX]: { 'Vox Model': EVar.VOX },
   // [ETimeline.IMPACT]: { reaction: EImpactReaction },
-  [ETimeline.CAGE]: {
+  [ETimeline.PHYS_CAGE]: {
     axis: EAxis,
     min: EVar.USERNUMBER,
     max: EVar.USERNUMBER,
   },
 
-  [ETimeline.IDLE]: { idle: EIdle },
+  [ETimeline.UNI_IDLE]: { idle: EIdle },
   [ETimeline.USER_POS]: {
     x: EVar.USERNUMBER,
     y: EVar.USERNUMBER,
@@ -212,7 +212,7 @@ export const Commands: { [key: number]: any } = {
   // [ETimeline.USERROT]: { x: EVar.NUMBER, y: EVar.NUMBER, z: EVar.NUMBER },
   [ETimeline.USER_SIZE]: { size: EVar.USERPOSITIVE },
   [ETimeline.FLOCK_TEXT]: { text: EVar.STRING },
-  [ETimeline.CLEAR_COLOR]: { rgb: EVar.COLOR },
+  [ETimeline.UNI_CLEAR_COLOR]: { rgb: EVar.COLOR },
   [ETimeline.USER_ROT]: { x: EVar.NORMAL, y: EVar.NORMAL, z: EVar.NORMAL },
   [ETimeline.POS_ADD]: {
     x: EVar.USERNUMBER,
@@ -252,8 +252,8 @@ export const Commands: { [key: number]: any } = {
     radius: EVar.USERPOSITIVE,
     count: EVar.POSITIVE,
   },
-  [ETimeline.FLOCK_PLANE]: {
-    dimension: EVar.POSITIVE,
-    step: EVar.USERPOSITIVE,
+  [ETimeline.FLOCK_GRID]: {
+    birds_squared: EVar.POSITIVE,
+    margin: EVar.USERPOSITIVE,
   },
 }

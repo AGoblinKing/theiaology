@@ -248,7 +248,7 @@ class Cardinal extends System {
           $rez.flock.step = this.timeline.data1(i)
           $rez.ripple(ERipple.FLOCK, $rez.flock)
           break
-        case ETimeline.FLOCK_PLANE:
+        case ETimeline.FLOCK_GRID:
           $rez.flock.shape = EShape.Plane
           $rez.flock.size = this.timeline.data0(i)
           $rez.flock.step = this.timeline.data1(i)
@@ -328,14 +328,14 @@ class Cardinal extends System {
           this.universal.userZ(this.timeline.data2(i))
           this.post(EMessage.USER_POS_UPDATE)
           break
-        case ETimeline.CLEAR_COLOR:
+        case ETimeline.UNI_CLEAR_COLOR:
           this.universal.clearColor(this.timeline.data0(i))
           this.post(EMessage.CLEAR_COLOR_UPDATE)
           break
-        case ETimeline.IDLE:
+        case ETimeline.UNI_IDLE:
           this.universal.idle(this.timeline.data0(i))
           break
-        case ETimeline.CAGE:
+        case ETimeline.PHYS_CAGE:
           const min = this.timeline.data1(i)
           const max = this.timeline.data2(i)
           switch (this.timeline.data0(i)) {
@@ -440,7 +440,7 @@ class Cardinal extends System {
         // TODO: useful for bullets and such
         case ETimeline.THRUST_TO:
           break
-        case ETimeline.PHASE:
+        case ETimeline.PHYS_PHASE:
           $rez.phase = this.timeline.data0(i)
           $rez.ripple(ERipple.PHASE, $rez.phase)
           break

@@ -43,7 +43,6 @@
       groups[group].push(e)
     }
 
-    console.log(groups)
     return Object.values(groups).sort((a, b) => a[0].localeCompare(b[0]))
   }
 </script>
@@ -53,7 +52,7 @@
     class="modal"
     style="left: {$modal_location.x}px; top: {$modal_location.y >
     window.innerHeight / 2
-      ? $modal_location.y - (len / 5) * 80
+      ? $modal_location.y - (len / 5) * 65
       : $modal_location.y}px"
   >
     {#if typeof $modal_options === 'string'}
