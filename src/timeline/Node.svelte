@@ -69,7 +69,7 @@
     )
   }
 
-  function chooseCommand() {
+  function inputCommand() {
     if (command === 0) {
       SaveScript()
       return
@@ -96,7 +96,7 @@
         case ETimeline.TAG:
           break
         case ETimeline.REZ:
-        case ETimeline.SHAPE_FLOCK:
+        case ETimeline.FLOCK:
         case ETimeline.SHAPE:
           timeline.$.data0(i, 1)
           timeline.$.data1(i, 1)
@@ -249,7 +249,7 @@
       {i === 0 ? '>' : '-'}
     </Box>
     <Box
-      click={chooseCommand}
+      click={inputCommand}
       upper
       hover={label === 'boot'
         ? 'Download a .json of the BOOT script'

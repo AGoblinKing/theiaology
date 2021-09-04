@@ -78,7 +78,7 @@ export enum ETimeline {
   NONE = 0,
   TAG,
   MUSIC,
-  SHAPE_FLOCK,
+  FLOCK,
   SHAPE_COLOR,
   SHAPE,
   SHAPE_VAR,
@@ -113,7 +113,7 @@ export enum ETimeline {
   USER_ROT,
   USER_SIZE,
   IDLE,
-  SHAPE_TEXT,
+  FLOCK_TEXT,
   CLEAR_COLOR,
   POS_ADD,
   THRUST_ADD,
@@ -125,15 +125,13 @@ export enum ETimeline {
   SOUND_POS,
   REZ_POSE,
   TRIGGER,
+  FLOCK_RING,
+  FLOCK_PLANE,
 }
 
 export const Commands: { [key: number]: any } = {
   [ETimeline.TAG]: { text: EVar.STRING },
-  [ETimeline.SHAPE_FLOCK]: {
-    shape: EShape,
-    size: EVar.POSITIVE,
-    step: EVar.USERPOSITIVE,
-  },
+
   [ETimeline.PHASE]: { phase: EPhase },
   [ETimeline.SHAPE_COLOR]: {
     rgb: EVar.COLOR,
@@ -213,7 +211,7 @@ export const Commands: { [key: number]: any } = {
   },
   // [ETimeline.USERROT]: { x: EVar.NUMBER, y: EVar.NUMBER, z: EVar.NUMBER },
   [ETimeline.USER_SIZE]: { size: EVar.USERPOSITIVE },
-  [ETimeline.SHAPE_TEXT]: { text: EVar.STRING },
+  [ETimeline.FLOCK_TEXT]: { text: EVar.STRING },
   [ETimeline.CLEAR_COLOR]: { rgb: EVar.COLOR },
   [ETimeline.USER_ROT]: { x: EVar.NORMAL, y: EVar.NORMAL, z: EVar.NORMAL },
   [ETimeline.POS_ADD]: {
@@ -249,5 +247,13 @@ export const Commands: { [key: number]: any } = {
   [ETimeline.REZ_POSE]: {
     // hand data
     hand: EVar.FIVEFINGERS,
+  },
+  [ETimeline.FLOCK_RING]: {
+    radius: EVar.USERPOSITIVE,
+    count: EVar.POSITIVE,
+  },
+  [ETimeline.FLOCK_PLANE]: {
+    dimension: EVar.POSITIVE,
+    step: EVar.USERPOSITIVE,
   },
 }

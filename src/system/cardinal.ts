@@ -12,7 +12,7 @@ import { ENTITY_COUNT, NORMALIZER } from 'src/config'
 import { MagickaVoxel } from 'src/render/magica'
 import { ShapeMap } from 'src/shape'
 import { ALPHABET } from 'src/shape/text'
-import { EAxis, EIdle, ETimeline } from 'src/timeline/def-timeline'
+import { EAxis, EIdle, EShape, ETimeline } from 'src/timeline/def-timeline'
 import { ERipple, Form } from 'src/timeline/form'
 import { Value } from 'src/value/value'
 import { Color, Euler, Object3D, Vector3 } from 'three'
@@ -185,7 +185,7 @@ class Cardinal extends System {
             this.velocity.addZ(atom, $vec3.z)
           }
           break
-        case ETimeline.SHAPE_TEXT:
+        case ETimeline.FLOCK_TEXT:
           $rez.text = this.timeline.text(i)
           $rez.ripple(ERipple.TEXT, $rez.text)
           break
@@ -236,10 +236,22 @@ class Cardinal extends System {
           $rez.vox = this.timeline.text(i)
           $rez.ripple(ERipple.VOX, $rez.vox)
           break
-        case ETimeline.SHAPE_FLOCK:
+        case ETimeline.FLOCK:
           $rez.flock.shape = this.timeline.data0(i)
           $rez.flock.size = this.timeline.data1(i)
           $rez.flock.step = this.timeline.data2(i)
+          $rez.ripple(ERipple.FLOCK, $rez.flock)
+          break
+        case ETimeline.FLOCK_RING:
+          $rez.flock.shape = EShape.Ring
+          $rez.flock.size = this.timeline.data0(i)
+          $rez.flock.step = this.timeline.data1(i)
+          $rez.ripple(ERipple.FLOCK, $rez.flock)
+          break
+        case ETimeline.FLOCK_PLANE:
+          $rez.flock.shape = EShape.Plane
+          $rez.flock.size = this.timeline.data0(i)
+          $rez.flock.step = this.timeline.data1(i)
           $rez.ripple(ERipple.FLOCK, $rez.flock)
           break
         case ETimeline.SHAPE:

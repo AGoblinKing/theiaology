@@ -28,6 +28,24 @@
   })
 
   $: len = Array.isArray($modal_options) ? $modal_options.length : 1
+
+  function Group(enums: string[]) {
+    const groups:{[key: string]:string[] } = {}
+    for(let e of enums) {
+      if(e.indexOf('_') === -1) {
+        groups[e] = [e] 
+        continue
+      }
+
+      const [group] = e.split('_')
+
+      if(!groups[group]) groups[group] = []
+      groups[group].push(e)
+    }
+
+    console.log(groups)
+    return Object.values(groups).sort((a, b) => a[0].localeCompare(b[0]))
+  }
 </script>
 
 {#if $modal_visible}
@@ -35,7 +53,7 @@
     class="modal"
     style="left: {$modal_location.x}px; top: {$modal_location.y >
     window.innerHeight / 2
-      ? $modal_location.y - (len / 5) * 50
+      ? $modal_location.y - (len / 5) * 75
       : $modal_location.y}px"
   >
     {#if typeof $modal_options === 'string'}
@@ -43,18 +61,24 @@
         {$modal_options}
       </Box>
     {:else if Array.isArray($modal_options)}
-      {#each $modal_options as content}
-        <Box tilt={hashcode(content.slice(0, 3)) % 360}>
-          <div
-            class="item"
-            on:click={() => {
-              if (typeof $modal_visible === 'function') $modal_visible(content)
-              modal_visible.set(false)
-            }}
-          >
-            {content}
+      {#each Group($modal_options) as contentRow}
+      <div class="contentRow"> 
+          {#each contentRow as content}
+           
+            <Box tilt={hashcode(content.slice(0, 3)) % 360} style="flex:1;">
+                <div
+                  class="item"
+                  on:click={() => {
+                    if (typeof $modal_visible === 'function') $modal_visible(content)
+                    modal_visible.set(false)
+                  }}
+                >
+                  {content}
+                </div>
+              </Box>
+          
+            {/each}
           </div>
-        </Box>
       {/each}
     {:else if $modal_options === EVar.TIME}
       <Time />
@@ -80,14 +104,17 @@
   }
 
   .modal {
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr 1fr;
-
+    display: flex;
+    flex-direction: column;
     pointer-events: all;
     position: absolute;
     z-index: 10001;
     background-color: rgba(72, 2, 75, 0.75);
     border-radius: 0.5rem;
     border: solid 0.1rem rgba(255, 255, 255, 0.418);
+  }
+  .contentRow {
+    flex: 1;
+    display: flex;
   }
 </style>
