@@ -46,6 +46,7 @@ export const dotTheia = [
   'forest',
   'flood',
   'birthday',
+  'agoblinking/city',
 ]
 export const rootTheia = 'agoblinking/overworld'
 
