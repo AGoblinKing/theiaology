@@ -53,7 +53,7 @@
     class="modal"
     style="left: {$modal_location.x}px; top: {$modal_location.y >
     window.innerHeight / 2
-      ? $modal_location.y - (len / 5) * 75
+      ? $modal_location.y - (len / 5) * 80
       : $modal_location.y}px"
   >
     {#if typeof $modal_options === 'string'}

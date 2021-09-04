@@ -12,6 +12,7 @@
   import { cursor, doclick, navs } from './nav';
 
   import type { INav } from './nav';
+import { mouse_page } from 'src/input/mouse';
 
   export let nav: INav = {
     left: '',
@@ -100,7 +101,7 @@
   on:mouseover={() => {
     if (hover === '') return
 
-    modal_location.set(modal_location.$.set(350, 20))
+    modal_location.set(mouse_page.$)
     modal_visible.set(() => {})
     modal_options.set(hover)
   }}
