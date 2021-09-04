@@ -45,7 +45,7 @@ vec4 Animation(in vec4 pos) {
 		return pos;
 	}
 
-	float xyz = pos.x * pos.y *pos.z;
+	float xyz = pos.x * pos.y *pos.z * 0.01;
 	// vibrate sin(xyz  + time  ) * 0.0002 +
 	float tes =  sin(xyz) * 0.05 + sin(xyz + time * 0.0001  ) * 0.001 + cos(xyz * 10000.) * 0.0025;
 
@@ -70,11 +70,11 @@ mat4 AnimationMatrix(in mat4 mvMatrix) {
 	float lav = 1.;
 
 	if(animation != ANIM_NO_EFFECT) {
-    	lav += audioLow * 0.0125;
+    	lav += audioLow * 0.000525;
 	}
 
-	float timescale = time * 0.00001 + v_pos.x * v_pos.y * v_pos.z; 
-	float s = 0.05 * lav;
+	float timescale = time * 0.00001 + v_pos.x * v_pos.y * v_pos.z ;
+	float s = 0.05 * lav ;
 
     mvMatrix = mvMatrix 
 		* rotationX(sin(timescale) * s) 

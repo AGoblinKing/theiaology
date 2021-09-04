@@ -197,7 +197,6 @@ class Physics extends System {
           case EPhase.GHOST:
             break
           default:
-            break
             for (let sid of this.sectorize(i)) {
               // go through your sectors and check for collision
               if (!sectors[sid]) continue
