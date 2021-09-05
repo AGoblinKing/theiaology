@@ -84,6 +84,8 @@ export const input_map = {
   right: 'ArrowRight',
   down: 'ArrowDown',
   up: 'ArrowUp',
+  leftshoulder: 'f',
+  rightshoulder: 'r',
   leftrigger: 'Shift',
 }
 let last_dirty = false

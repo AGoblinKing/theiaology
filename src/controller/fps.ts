@@ -45,6 +45,12 @@ key_down.on(($k) => {
     case 's':
       move_inputs.$.z = SPEED
       break
+    case 'f':
+      move_inputs.$.y = -SPEED
+      break
+    case 'r':
+      move_inputs.$.y = SPEED
+      break
   }
 })
 
@@ -57,6 +63,10 @@ key_up.on(($k) => {
     case 'w':
     case 's':
       move_inputs.$.z = 0
+      break
+    case 'r':
+    case 'f':
+      move_inputs.$.y = 0
       break
   }
 })
@@ -73,18 +83,20 @@ pad_axes.on(($axis) => {
     clearTimeout(timer)
     timer = undefined
   }
+
   if (first) {
     first = false
     return
   }
+
   mouse_left.set(true)
   timer = setTimeout(ClearMouse, 1000)
+
   mouse_pos.$.x = $axis[AXIS[2]]
   mouse_pos.$.y = -$axis[AXIS[3]]
 
-  move_inputs.$.x = $axis[AXIS[0]]
-
-  move_inputs.$.z = $axis[AXIS[1]]
+  move_inputs.$.x = $axis[AXIS[0]] * 5
+  move_inputs.$.z = $axis[AXIS[1]] * 5
 })
 
 const $vec3 = new Vector3()

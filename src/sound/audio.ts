@@ -14,7 +14,7 @@ let started = false
 export const synth = new Value<WebAudioTinySynth>(undefined)
 
 window.addEventListener(
-  'click',
+  'mousedown',
   () => {
     synth.set(new WebAudioTinySynth())
   },
