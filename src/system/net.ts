@@ -4,10 +4,19 @@ import { Matter } from 'src/buffer/matter'
 import { Size } from 'src/buffer/size'
 import { SpaceTime } from 'src/buffer/spacetime'
 import { Universal } from 'src/buffer/universal'
+import { Value } from 'src/value/value'
 import { System } from './system'
 
+/*
+# Net
+ - [ ] only go online when needed
+ - [ ] Host rooms, solicit as lobby
+ - [ ] Join rooms from lobby/search
+ - [ ] WSS is one stop shop for all network traffic
+*/
+
 // Network to the Bifrost post physics update
-class Network extends System {
+export class Net extends System {
   past: SpaceTime
   future: SpaceTime
   matter: Matter
@@ -16,11 +25,12 @@ class Network extends System {
   universal: Universal
 
   ready = false
-  connected = false
 
+  connected = new Value(false)
+  ws: WebSocket
   constructor() {
-    super((1 / 5) * 1000)
-    // send
+    super((1 / 15) * 1000)
+    // send updates about as often as the physics updates
   }
 
   onmessage(e: MessageEvent) {
@@ -42,11 +52,36 @@ class Network extends System {
         break
       case this.universal:
         this.universal = new Universal(e.data)
-        this.ready = true
+        this.init()
         break
     }
   }
 
+  init() {
+    this.ready = true
+    this.ws = new WebSocket(`ws://${window.location.hostname}/bifrost`)
+    this.ws.binaryType = 'arraybuffer'
+    this.ws.onopen = this.onopen.bind(this)
+    this.ws.onerror = this.onerror.bind(this)
+    this.ws.onmessage = this.onnet.bind(this)
+    this.ws.onclose = this.onclose.bind(this)
+  }
+
+  onclose(e) {
+    this.connected.set(false)
+  }
+
+  onerror(e) {
+    console.log(e)
+  }
+
+  onnet(e) {
+    console.log(e)
+  }
+
+  onopen() {
+    this.connected.set(true)
+  }
   tick() {
     // send accrued changes
   }
@@ -56,5 +91,3 @@ class Network extends System {
 /* Concept
   Relay either full buffers or buffer maps to the Bifrost which echos it down based on room
 */
-
-new Network()

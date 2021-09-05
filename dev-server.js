@@ -11,14 +11,17 @@ app.use((req, res, next) => {
 
 app.use(express.static('public'))
 
-app.get('/github*', (req, res, next) => {
+const proxy = (req, res, next) => {
   return fetch(`https://theiaology.com${req.originalUrl}`)
     .then((theia) => theia.arrayBuffer())
     .then((data) => {
       res.type('application/octet-stream').send(Buffer.from(data))
       next()
     })
-})
+}
+
+app.get('/github*', proxy)
+app.get('/bifrost*', proxy)
 
 app.get('*', (req, res) => {
   res.sendFile(`${__dirname}/public/index.html`)

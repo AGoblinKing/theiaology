@@ -111,14 +111,14 @@
     }}
     click={() => {
       modal_location.$.set(mouse_page.$.x - 5, mouse_page.$.y - 5)
-      modal_default.set($url + window.location.hash)
+      modal_default.set($url)
       modal_options.set(EVar.STRING)
       modal_visible.set((r) => {
         window.open(r, '_self')
       })
     }}
   >
-    {$url}{window.location.hash}
+    {$url}
   </Box>
   <Box
     hover="Load files into Theiaology "
