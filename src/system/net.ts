@@ -28,6 +28,7 @@ export class Net extends System {
 
   connected = new Value(false)
   ws: WebSocket
+
   constructor() {
     super((1 / 15) * 1000)
     // send updates about as often as the physics updates

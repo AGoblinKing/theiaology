@@ -21,7 +21,7 @@ const proxy = (req, res, next) => {
 }
 
 app.get('/github*', proxy)
-app.get('/bifrost*', proxy)
+app.get('/net*', proxy)
 
 app.get('*', (req, res) => {
   res.sendFile(`${__dirname}/public/index.html`)

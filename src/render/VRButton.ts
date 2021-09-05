@@ -75,7 +75,7 @@ class VRButton {
     }
 
     function disableButton() {
-      button.style.display = ''
+      button.style.display = 'none;'
 
       button.style.cursor = 'auto'
       button.style.left = 'calc(50% - 75px)'
@@ -90,7 +90,7 @@ class VRButton {
     function showWebXRNotFound() {
       disableButton()
 
-      button.textContent = 'VR DEVICE NOT FOUND'
+      button.textContent = 'VR'
     }
 
     function stylizeElement(element) {

@@ -17,7 +17,7 @@ import {
   TOON_ENABLED,
 } from 'src/config'
 import { Load } from 'src/file/load'
-import { mobile } from 'src/input/browser'
+import { mobile, options } from 'src/input/browser'
 import { left_hand_uniforms, right_hand_uniforms } from 'src/input/xr'
 import { MagickaVoxel } from 'src/render/magica'
 import { body, renderer, scene } from 'src/render/render'
@@ -87,6 +87,7 @@ export class Land {
 
   physics: SystemWorker
   cardinal: SystemWorker
+  net: SystemWorker
   atoms: InstancedMesh
 
   timelineJSON = new Value({
@@ -270,6 +271,20 @@ export class Land {
         this.cage
       )
       .bind(this.cardinal)
+
+    if (options.$.has('net')) {
+      this.net = sys
+        .start('net')
+        .send(
+          this.past,
+          this.future,
+          this.matter,
+          this.size,
+          this.animation,
+          this.universal
+        )
+        .bind(this.cardinal)
+    }
   }
 
   universalCage(cage: Box3) {
@@ -419,9 +434,7 @@ export class Land {
 
     if (fantasy.$ === land) return
 
-    // fantasy.$.universal.state(ELandState.PAUSED)
     fantasy.set(land)
-    // land.universal.state(ELandState.RUNNING)
   }
 
   get fantasy() {
