@@ -181,7 +181,6 @@ export const Commands: { [key: number]: any } = {
   [ETimeline.THRUST_VAR]: {
     axis: EAxis,
     thrust: EVar.USERPOSITIVE,
-    constraint: EVar.SIGN,
   },
 
   [ETimeline.ROT_LOOK]: {

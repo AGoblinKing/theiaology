@@ -304,16 +304,41 @@ class Cardinal extends System {
           $rez.ripple(ERipple.VEL, $rez.vel)
           break
         case ETimeline.THRUST_VAR:
-          $rez.velvar.set(
-            this.timeline.data0(i),
-            this.timeline.data1(i),
-            this.timeline.data2(i)
-          )
+          const amount = this.timeline.data1(i)
+
+          switch (this.timeline.data0(i)) {
+            case EAxis.XYZ:
+              $rez.velvar.z += amount
+            // fallthrough
+            case EAxis.XY:
+              $rez.velvar.y += amount
+              $rez.velvar.x += amount
+              break
+            case EAxis.XZ:
+              $rez.velvar.z += amount
+              $rez.velvar.x += amount
+              break
+            case EAxis.YZ:
+              $rez.velvar.y += amount
+              $rez.velvar.z += amount
+              break
+            case EAxis.X:
+              $rez.velvar.x += amount
+              break
+            case EAxis.Y:
+              $rez.velvar.y += amount
+              break
+            case EAxis.Z:
+              $rez.velvar.z += amount
+              break
+          }
+
           for (let atom of $rez.all()) {
             this.velocity.x(atom, $rez.vel.x + $rez.velvar.x * Math.random())
             this.velocity.y(atom, $rez.vel.y + $rez.velvar.y * Math.random())
             this.velocity.z(atom, $rez.vel.z + $rez.velvar.z * Math.random())
           }
+
           $rez.ripple(ERipple.VELVAR, $rez.velvar)
           break
         case ETimeline.USER_ROT:
