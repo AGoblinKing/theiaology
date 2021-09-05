@@ -129,6 +129,12 @@ export enum ETimeline {
   FLOCK_GRID,
 }
 
+export enum EConstraint {
+  FULL = 0,
+  NEGATIVE = -1,
+  POSITIVE = 1,
+}
+
 export const Commands: { [key: number]: any } = {
   [ETimeline.TAG]: { text: EVar.STRING },
 
@@ -181,6 +187,7 @@ export const Commands: { [key: number]: any } = {
   [ETimeline.THRUST_VAR]: {
     axis: EAxis,
     thrust: EVar.USERPOSITIVE,
+    constraint: EConstraint,
   },
 
   [ETimeline.ROT_LOOK]: {

@@ -27,9 +27,10 @@ export enum ERipple {
   DEREZ,
   RULER,
   LAND,
+  VELVARCONSTRAINT,
 }
 
-export class Form {
+export class Spell {
   color = new Color()
   pos = new Vector3()
   rot = new Euler()
@@ -46,6 +47,8 @@ export class Form {
   phase = EPhase.VOID
   vel = new Vector3()
   velvar = new Vector3()
+  velvarconstraint = new Vector3()
+
   text: string
   cage = new Box3()
 
@@ -58,7 +61,7 @@ export class Form {
   lands: number = 0
 
   // subdefines
-  _: Form[] = []
+  _: Spell[] = []
   dirty: Set<ERipple>
   id: number
 
@@ -97,6 +100,7 @@ export class Form {
     this._ = []
     this.dirty = new Set()
     this.lands = 0
+    this.velvarconstraint.set(0, 0, 0)
 
     delete this.gate
     delete this.land
@@ -131,6 +135,9 @@ export class Form {
           break
         case ERipple.VELVAR:
           c.velvar.copy(data)
+          break
+        case ERipple.VELVARCONSTRAINT:
+          c.velvarconstraint.copy(data)
           break
         case ERipple.POS:
           c.pos.copy(data)

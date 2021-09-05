@@ -13,7 +13,7 @@ import { MagickaVoxel } from 'src/render/magica'
 import { ShapeMap } from 'src/shape'
 import { ALPHABET } from 'src/shape/text'
 import { EAxis, EIdle, EShape, ETimeline } from 'src/timeline/def-timeline'
-import { ERipple, Form } from 'src/timeline/form'
+import { ERipple, Spell } from 'src/timeline/spell'
 import { Value } from 'src/value/value'
 import { Color, Euler, Object3D, Vector3 } from 'three'
 import { EMessage, FRez } from './sys-enum'
@@ -47,7 +47,7 @@ class Cardinal extends System {
   universal: Universal
   cage: Cage
 
-  forms: { [def: number]: Form } = {}
+  forms: { [def: number]: Spell } = {}
 
   // do a command at timing
   timing: { [time: number]: number[] } = {}
@@ -141,16 +141,16 @@ class Cardinal extends System {
 
     for (let i of this.timing[sec]) {
       const def = this.timeline.who(i)
-      const $rez = this.forms[def]
+      const $spell = this.forms[def]
 
-      if (!$rez) continue
+      if (!$spell) continue
 
       // Check the timing to only apply the right stuff
       if (this.timeline.when(i) > sec) continue
 
       switch (this.timeline.command(i)) {
         case ETimeline.POS_ADD:
-          $rez.pos.add(
+          $spell.pos.add(
             $vec3.set(
               this.timeline.data0(i),
               this.timeline.data1(i),
@@ -158,9 +158,9 @@ class Cardinal extends System {
             )
           )
 
-          $rez.ripple(ERipple.POSADD, $vec3)
+          $spell.ripple(ERipple.POSADD, $vec3)
 
-          for (let atom of $rez.all()) {
+          for (let atom of $spell.all()) {
             this.future.addX(atom, $vec3.x)
             this.future.addY(atom, $vec3.y)
             this.future.addZ(atom, $vec3.z)
@@ -169,7 +169,7 @@ class Cardinal extends System {
 
           break
         case ETimeline.THRUST_ADD:
-          $rez.vel.add(
+          $spell.vel.add(
             $vec3.set(
               this.timeline.data0(i),
               this.timeline.data1(i),
@@ -177,169 +177,199 @@ class Cardinal extends System {
             )
           )
 
-          $rez.ripple(ERipple.VELADD, $vec3)
+          $spell.ripple(ERipple.VELADD, $vec3)
 
-          for (let atom of $rez.all()) {
+          for (let atom of $spell.all()) {
             this.velocity.addX(atom, $vec3.x)
             this.velocity.addY(atom, $vec3.y)
             this.velocity.addZ(atom, $vec3.z)
           }
           break
         case ETimeline.FLOCK_TEXT:
-          $rez.text = this.timeline.text(i)
-          $rez.ripple(ERipple.TEXT, $rez.text)
+          $spell.text = this.timeline.text(i)
+          $spell.ripple(ERipple.TEXT, $spell.text)
           break
         case ETimeline.SHAPE_VAR:
-          $rez.sizevar.set(
+          $spell.sizevar.set(
             this.timeline.data0(i),
             this.timeline.data1(i),
             this.timeline.data2(i)
           )
-          $rez.ripple(ERipple.SIZEVAR, $rez.sizevar)
+          $spell.ripple(ERipple.SIZEVAR, $spell.sizevar)
           break
         case ETimeline.ROT_VAR:
-          $rez.rotvar.set(
+          $spell.rotvar.set(
             this.timeline.data0(i),
             this.timeline.data1(i),
             this.timeline.data2(i)
           )
-          $rez.ripple(ERipple.ROTVAR, $rez.rotvar)
+          $spell.ripple(ERipple.ROTVAR, $spell.rotvar)
           break
         case ETimeline.ROT:
-          $rez.rot.set(
+          $spell.rot.set(
             this.timeline.data0(i),
             this.timeline.data1(i),
             this.timeline.data2(i)
           )
-          $rez.ripple(ERipple.ROT, $rez.rot)
+          $spell.ripple(ERipple.ROT, $spell.rot)
           break
         case ETimeline.ROT_LOOK:
-          $rez.doLook = true
-          $rez.look.set(
+          $spell.doLook = true
+          $spell.look.set(
             this.timeline.data0(i),
             this.timeline.data1(i),
             this.timeline.data2(i)
           )
-          $rez.ripple(ERipple.DOLOOK, $rez.doLook)
-          $rez.ripple(ERipple.LOOK, $rez.look)
+          $spell.ripple(ERipple.DOLOOK, $spell.doLook)
+          $spell.ripple(ERipple.LOOK, $spell.look)
           break
         case ETimeline.SHAPE_VOX_VAR:
-          $rez.voxvar.set(
+          $spell.voxvar.set(
             this.timeline.data0(i),
             this.timeline.data1(i),
             this.timeline.data2(i)
           )
 
-          $rez.ripple(ERipple.VOXVAR, $rez.voxvar)
+          $spell.ripple(ERipple.VOXVAR, $spell.voxvar)
           break
         case ETimeline.SHAPE_VOX:
-          $rez.vox = this.timeline.text(i)
-          $rez.ripple(ERipple.VOX, $rez.vox)
+          $spell.vox = this.timeline.text(i)
+          $spell.ripple(ERipple.VOX, $spell.vox)
           break
         case ETimeline.FLOCK:
-          $rez.flock.shape = this.timeline.data0(i)
-          $rez.flock.size = this.timeline.data1(i)
-          $rez.flock.step = this.timeline.data2(i)
-          $rez.ripple(ERipple.FLOCK, $rez.flock)
+          $spell.flock.shape = this.timeline.data0(i)
+          $spell.flock.size = this.timeline.data1(i)
+          $spell.flock.step = this.timeline.data2(i)
+          $spell.ripple(ERipple.FLOCK, $spell.flock)
           break
         case ETimeline.FLOCK_RING:
-          $rez.flock.shape = EShape.Ring
-          $rez.flock.size = this.timeline.data0(i)
-          $rez.flock.step = this.timeline.data1(i)
-          $rez.ripple(ERipple.FLOCK, $rez.flock)
+          $spell.flock.shape = EShape.Ring
+          $spell.flock.size = this.timeline.data0(i)
+          $spell.flock.step = this.timeline.data1(i)
+          $spell.ripple(ERipple.FLOCK, $spell.flock)
           break
         case ETimeline.FLOCK_GRID:
-          $rez.flock.shape = EShape.Plane
-          $rez.flock.size = this.timeline.data0(i)
-          $rez.flock.step = this.timeline.data1(i)
-          $rez.ripple(ERipple.FLOCK, $rez.flock)
+          $spell.flock.shape = EShape.Plane
+          $spell.flock.size = this.timeline.data0(i)
+          $spell.flock.step = this.timeline.data1(i)
+          $spell.ripple(ERipple.FLOCK, $spell.flock)
           break
         case ETimeline.SHAPE:
-          $rez.size.x = this.timeline.data0(i)
-          $rez.size.y = this.timeline.data1(i)
-          $rez.size.z = this.timeline.data2(i)
-          $rez.ripple(ERipple.SIZE, $rez.size)
+          $spell.size.x = this.timeline.data0(i)
+          $spell.size.y = this.timeline.data1(i)
+          $spell.size.z = this.timeline.data2(i)
+          $spell.ripple(ERipple.SIZE, $spell.size)
           break
         case ETimeline.SHAPE_COLOR:
           const rgb = this.timeline.data0(i)
-          $rez.color.setHex(rgb)
-          $rez.col.tilt = this.timeline.data1(i)
-          $rez.col.variance = this.timeline.data2(i)
-          $rez.ripple(ERipple.COL, $rez.col)
-          $rez.ripple(ERipple.COLOR, $rez.color)
+          $spell.color.setHex(rgb)
+          $spell.col.tilt = this.timeline.data1(i)
+          $spell.col.variance = this.timeline.data2(i)
+          $spell.ripple(ERipple.COL, $spell.col)
+          $spell.ripple(ERipple.COLOR, $spell.color)
           break
         case ETimeline.POS_VAR:
-          $rez.posvar.x = this.timeline.data0(i)
-          $rez.posvar.y = this.timeline.data1(i)
-          $rez.posvar.z = this.timeline.data2(i)
-          $rez.ripple(ERipple.POSVAR, $rez.posvar)
+          $spell.posvar.x = this.timeline.data0(i)
+          $spell.posvar.y = this.timeline.data1(i)
+          $spell.posvar.z = this.timeline.data2(i)
+          $spell.ripple(ERipple.POSVAR, $spell.posvar)
           break
         case ETimeline.POS:
-          $rez.pos.x = this.timeline.data0(i)
-          $rez.pos.y = this.timeline.data1(i)
-          $rez.pos.z = this.timeline.data2(i)
+          $spell.pos.x = this.timeline.data0(i)
+          $spell.pos.y = this.timeline.data1(i)
+          $spell.pos.z = this.timeline.data2(i)
 
-          for (let atom of $rez.all()) {
-            this.future.x(atom, $rez.pos.x)
-            this.future.y(atom, $rez.pos.y)
-            this.future.z(atom, $rez.pos.z)
+          for (let atom of $spell.all()) {
+            this.future.x(atom, $spell.pos.x)
+            this.future.y(atom, $spell.pos.y)
+            this.future.z(atom, $spell.pos.z)
             this.future.time(atom, sec)
           }
 
-          $rez.ripple(ERipple.POS, $rez.pos)
+          $spell.ripple(ERipple.POS, $spell.pos)
           break
         case ETimeline.THRUST:
-          $rez.vel.set(
+          $spell.vel.set(
             this.timeline.data0(i),
             this.timeline.data1(i),
             this.timeline.data2(i)
           )
 
-          for (let atom of $rez.all()) {
-            this.velocity.x(atom, $rez.vel.x)
-            this.velocity.y(atom, $rez.vel.y)
-            this.velocity.z(atom, $rez.vel.z)
+          for (let atom of $spell.all()) {
+            this.velocity.x(atom, $spell.vel.x)
+            this.velocity.y(atom, $spell.vel.y)
+            this.velocity.z(atom, $spell.vel.z)
           }
 
-          $rez.ripple(ERipple.VEL, $rez.vel)
+          $spell.ripple(ERipple.VEL, $spell.vel)
           break
         case ETimeline.THRUST_VAR:
           const amount = this.timeline.data1(i)
+          const constraint = this.timeline.data2(i)
 
           switch (this.timeline.data0(i)) {
             case EAxis.XYZ:
-              $rez.velvar.z += amount
+              $spell.velvar.z += amount
+              $spell.velvarconstraint.z = constraint
             // fallthrough
             case EAxis.XY:
-              $rez.velvar.y += amount
-              $rez.velvar.x += amount
+              $spell.velvar.y += amount
+              $spell.velvar.x += amount
+              $spell.velvarconstraint.y = constraint
+              $spell.velvarconstraint.x = constraint
               break
             case EAxis.XZ:
-              $rez.velvar.z += amount
-              $rez.velvar.x += amount
+              $spell.velvar.z += amount
+              $spell.velvar.x += amount
+              $spell.velvarconstraint.z = constraint
+              $spell.velvarconstraint.x = constraint
               break
             case EAxis.YZ:
-              $rez.velvar.y += amount
-              $rez.velvar.z += amount
+              $spell.velvar.y += amount
+              $spell.velvar.z += amount
+              $spell.velvarconstraint.y = constraint
+              $spell.velvarconstraint.z = constraint
               break
             case EAxis.X:
-              $rez.velvar.x += amount
+              $spell.velvar.x += amount
+              $spell.velvarconstraint.x = constraint
               break
             case EAxis.Y:
-              $rez.velvar.y += amount
+              $spell.velvar.y += amount
+              $spell.velvarconstraint.y = constraint
               break
             case EAxis.Z:
-              $rez.velvar.z += amount
+              $spell.velvar.z += amount
+              $spell.velvarconstraint.z = constraint
               break
           }
 
-          for (let atom of $rez.all()) {
-            this.velocity.x(atom, $rez.vel.x + $rez.velvar.x * Math.random())
-            this.velocity.y(atom, $rez.vel.y + $rez.velvar.y * Math.random())
-            this.velocity.z(atom, $rez.vel.z + $rez.velvar.z * Math.random())
+          for (let atom of $spell.all()) {
+            this.velocity.x(
+              atom,
+              $spell.vel.x +
+                $spell.velvar.x * Math.random() -
+                $spell.velvar.x / 2 +
+                ($spell.velvarconstraint.x * $spell.velvar.x) / 2
+            )
+            this.velocity.y(
+              atom,
+              $spell.vel.y +
+                $spell.velvar.y * Math.random() -
+                $spell.velvar.y / 2 +
+                ($spell.velvarconstraint.y * $spell.velvar.y) / 2
+            )
+            this.velocity.z(
+              atom,
+              $spell.vel.z +
+                $spell.velvar.z * Math.random() -
+                $spell.velvar.z / 2 +
+                ($spell.velvarconstraint.z * $spell.velvar.z) / 2
+            )
           }
 
-          $rez.ripple(ERipple.VELVAR, $rez.velvar)
+          $spell.ripple(ERipple.VELVAR, $spell.velvar)
+          $spell.ripple(ERipple.VELVARCONSTRAINT, $spell.velvarconstraint)
           break
         case ETimeline.USER_ROT:
           this.universal.userRX(this.timeline.data0(i))
@@ -365,44 +395,44 @@ class Cardinal extends System {
           const max = this.timeline.data2(i)
           switch (this.timeline.data0(i)) {
             case EAxis.XYZ:
-              $rez.cage.min.z = min
-              $rez.cage.max.z = max
+              $spell.cage.min.z = min
+              $spell.cage.max.z = max
             // fallthrough
             case EAxis.XY:
-              $rez.cage.min.y = min
-              $rez.cage.max.y = max
-              $rez.cage.min.x = min
-              $rez.cage.max.x = max
+              $spell.cage.min.y = min
+              $spell.cage.max.y = max
+              $spell.cage.min.x = min
+              $spell.cage.max.x = max
               break
             case EAxis.XZ:
-              $rez.cage.min.x = min
-              $rez.cage.max.x = max
-              $rez.cage.min.z = min
-              $rez.cage.max.z = max
+              $spell.cage.min.x = min
+              $spell.cage.max.x = max
+              $spell.cage.min.z = min
+              $spell.cage.max.z = max
               break
             case EAxis.YZ:
-              $rez.cage.min.y = min
-              $rez.cage.max.y = max
-              $rez.cage.min.z = min
-              $rez.cage.max.z = max
+              $spell.cage.min.y = min
+              $spell.cage.max.y = max
+              $spell.cage.min.z = min
+              $spell.cage.max.z = max
               break
             case EAxis.X:
-              $rez.cage.min.x = min
-              $rez.cage.max.x = max
+              $spell.cage.min.x = min
+              $spell.cage.max.x = max
               break
             case EAxis.Y:
-              $rez.cage.min.y = min
-              $rez.cage.max.y = max
+              $spell.cage.min.y = min
+              $spell.cage.max.y = max
               break
             case EAxis.Z:
-              $rez.cage.min.z = min
-              $rez.cage.max.z = max
+              $spell.cage.min.z = min
+              $spell.cage.max.z = max
               break
           }
 
-          $rez.ripple(ERipple.CAGE, $rez.cage)
+          $spell.ripple(ERipple.CAGE, $spell.cage)
 
-          for (let atom of $rez.all()) {
+          for (let atom of $spell.all()) {
             switch (this.timeline.data0(atom)) {
               case EAxis.XYZ:
                 this.cage.z(atom, min)
@@ -442,18 +472,18 @@ class Cardinal extends System {
           }
           break
         case ETimeline.REZ_FREE:
-          for (let atom of $rez.atoms) {
+          for (let atom of $spell.atoms) {
             this.free(atom)
           }
-          $rez.atoms = []
+          $spell.atoms = []
 
-          if ($rez.lands > 0) {
+          if ($spell.lands > 0) {
             this.post({
               message: EMessage.LAND_REMOVE,
-              id: $rez.id,
+              id: $spell.id,
             })
 
-            $rez.lands = 0
+            $spell.lands = 0
           }
 
           // TODO: bool for rez/derez to ripple $rez.ripple(ERipple.DEREZ, this)
@@ -466,23 +496,23 @@ class Cardinal extends System {
         case ETimeline.THRUST_TO:
           break
         case ETimeline.PHYS_PHASE:
-          $rez.phase = this.timeline.data0(i)
-          $rez.ripple(ERipple.PHASE, $rez.phase)
+          $spell.phase = this.timeline.data0(i)
+          $spell.ripple(ERipple.PHASE, $spell.phase)
           break
         case ETimeline.IMPACT:
-          $rez.impact = this.timeline.data0(i)
-          $rez.ripple(ERipple.IMPACT, $rez.impact)
+          $spell.impact = this.timeline.data0(i)
+          $spell.ripple(ERipple.IMPACT, $spell.impact)
           break
         case ETimeline.THEIA_LAND:
-          $rez.land = this.timeline.text(i)
-          $rez.ripple(ERipple.LAND, $rez.land)
+          $spell.land = this.timeline.text(i)
+          $spell.ripple(ERipple.LAND, $spell.land)
           break
         case ETimeline.THEIA_GATE:
-          $rez.gate = this.timeline.text(i)
+          $spell.gate = this.timeline.text(i)
           break
         case ETimeline.THEIA_RULER:
-          $rez.ruler = this.timeline.text(i)
-          $rez.ripple(ERipple.RULER, $rez.ruler)
+          $spell.ruler = this.timeline.text(i)
+          $spell.ripple(ERipple.RULER, $spell.ruler)
           break
       }
     }
@@ -505,92 +535,92 @@ class Cardinal extends System {
     // build for loops to apply
 
     const t = this.universal.time()
-    const $rez = this.forms[def]
+    const $spell = this.forms[def]
 
     // now we rez
     // determine voxel count, for loop over them
-    const shape = ShapeMap[$rez.flock.shape]
+    const shape = ShapeMap[$spell.flock.shape]
     if (!shape) {
-      throw new Error("couldn't find shape on shapemap" + $rez.flock.shape)
+      throw new Error("couldn't find shape on shapemap" + $spell.flock.shape)
     }
 
-    const atoms = shape.AtomCount($rez.flock.size, $rez.flock.step)
+    const atoms = shape.AtomCount($spell.flock.size, $spell.flock.step)
     for (let i = 0; i < atoms; i++) {
-      const $shape = shape(i, $rez.flock.size, $rez.flock.step)
+      const $shape = shape(i, $spell.flock.size, $spell.flock.step)
 
       // apply $rez data
 
       const x =
-        $rez.pos.x +
+        $spell.pos.x +
         $shape.x +
-        Math.round($rez.posvar.x * Math.random() * 2 - $rez.posvar.x)
+        Math.round($spell.posvar.x * Math.random() * 2 - $spell.posvar.x)
       const y =
-        $rez.pos.y +
+        $spell.pos.y +
         $shape.y +
-        Math.round($rez.posvar.y * Math.random() * 2 - $rez.posvar.y)
+        Math.round($spell.posvar.y * Math.random() * 2 - $spell.posvar.y)
 
       const z =
-        $rez.pos.z +
+        $spell.pos.z +
         $shape.z +
-        Math.round($rez.posvar.z * Math.random() * 2 - $rez.posvar.z)
+        Math.round($spell.posvar.z * Math.random() * 2 - $spell.posvar.z)
 
       $col
         .setRGB(Math.random(), Math.random(), Math.random())
-        .lerp($rez.color, (NORMALIZER - $rez.col.variance) / NORMALIZER)
+        .lerp($spell.color, (NORMALIZER - $spell.col.variance) / NORMALIZER)
 
       // tilt
       $col.getHSL($hsl)
 
-      $col.setHSL($hsl.h + $rez.col.tilt / NORMALIZER, $hsl.s, $hsl.l)
+      $col.setHSL($hsl.h + $spell.col.tilt / NORMALIZER, $hsl.s, $hsl.l)
 
-      const sx = $rez.size.x + Math.round(Math.random() * $rez.sizevar.x)
-      const sy = $rez.size.y + Math.round(Math.random() * $rez.sizevar.y)
-      const sz = $rez.size.z + Math.round(Math.random() * $rez.sizevar.z)
+      const sx = $spell.size.x + Math.round(Math.random() * $spell.sizevar.x)
+      const sy = $spell.size.y + Math.round(Math.random() * $spell.sizevar.y)
+      const sz = $spell.size.z + Math.round(Math.random() * $spell.sizevar.z)
 
       switch (true) {
         // gate
-        case $rez.gate !== undefined:
+        case $spell.gate !== undefined:
           // swirl some voxels and add to gate list
           // physics system will check to see if they are in the gate
           continue
         // land
-        case $rez.land !== undefined:
+        case $spell.land !== undefined:
           this.post({
             message: EMessage.LAND_ADD,
             x,
             y,
             z,
-            id: $rez.id,
-            ruler: $rez.ruler,
-            land: $rez.land,
-            cage: $rez.cage,
+            id: $spell.id,
+            ruler: $spell.ruler,
+            land: $spell.land,
+            cage: $spell.cage,
           })
 
-          $rez.lands++
+          $spell.lands++
           continue
         // is voxel rez
-        case $rez.vox !== '' && voxes.$[$rez.vox] !== undefined:
+        case $spell.vox !== '' && voxes.$[$spell.vox] !== undefined:
           // Need to clean this part up
-          this.vox($rez, $hsl, t, x, y, z, sx, sy, sz)
+          this.vox($spell, $hsl, t, x, y, z, sx, sy, sz)
           continue
         // is text rez
-        case $rez.text !== undefined:
-          this.text($rez, $hsl, t, x, y, z, sx, sy, sz, $col)
+        case $spell.text !== undefined:
+          this.text($spell, $hsl, t, x, y, z, sx, sy, sz, $col)
           continue
         default:
-          this.basic($rez, $hsl, t, x, y, z, sx, sy, sz)
+          this.basic($spell, $hsl, t, x, y, z, sx, sy, sz)
       }
     }
   }
 
-  text($rez: Form, $hsl, t, x, y, z, sx, sy, sz, color) {
-    for (let i = 0; i < $rez.text.length; i++) {
-      const map = ALPHABET[$rez.text.charAt(i).toLowerCase()]
+  text($spell: Spell, $hsl, t, x, y, z, sx, sy, sz, color) {
+    for (let i = 0; i < $spell.text.length; i++) {
+      const map = ALPHABET[$spell.text.charAt(i).toLowerCase()]
       if (!map) continue
 
       for (let v of map) {
         const id = this.reserve()
-        $rez.atoms.push(id)
+        $spell.atoms.push(id)
 
         if (v[2] === undefined) {
           v[2] = v[0]
@@ -611,22 +641,22 @@ class Cardinal extends System {
         this.size.z(id, sz + Math.random() * 0.5)
         color
           .setRGB(Math.random(), Math.random(), Math.random())
-          .lerp($rez.color, (NORMALIZER - $rez.col.variance) / NORMALIZER)
+          .lerp($spell.color, (NORMALIZER - $spell.col.variance) / NORMALIZER)
 
-        this.velocity.x(id, $rez.vel.x)
-        this.velocity.y(id, $rez.vel.y)
-        this.velocity.z(id, $rez.vel.z)
+        this.velocity.x(id, $spell.vel.x)
+        this.velocity.y(id, $spell.vel.y)
+        this.velocity.z(id, $spell.vel.z)
 
-        this.core(id, color, $rez)
+        this.core(id, color, $spell)
       }
 
       x += sx * 5
     }
   }
 
-  basic($rez: Form, $hsl, t, x, y, z, sx, sy, sz) {
+  basic($spell: Spell, $hsl, t, x, y, z, sx, sy, sz) {
     const id = this.reserve()
-    $rez.atoms.push(id)
+    $spell.atoms.push(id)
 
     this.future.time(id, t + 1000 * Math.random() + 500)
     this.future.x(id, x)
@@ -636,44 +666,78 @@ class Cardinal extends System {
     this.size.x(id, sx)
     this.size.y(id, sy)
     this.size.z(id, sz)
-    this.velocity.x(id, $rez.vel.x + Math.floor(Math.random() * $rez.velvar.x))
-    this.velocity.y(id, $rez.vel.y + Math.floor(Math.random() * $rez.velvar.y))
-    this.velocity.z(id, $rez.vel.z + Math.floor(Math.random() * $rez.velvar.z))
-    this.core(id, $col, $rez)
+    this.velocity.x(
+      id,
+      $spell.vel.x +
+        Math.floor(
+          Math.random() * $spell.velvar.x -
+            $spell.velvar.x / 2 +
+            ($spell.velvarconstraint.x * $spell.velvar.x) / 2
+        )
+    )
+    this.velocity.y(
+      id,
+      $spell.vel.y +
+        Math.floor(
+          Math.random() * $spell.velvar.y -
+            $spell.velvar.y / 2 +
+            ($spell.velvarconstraint.y * $spell.velvar.y) / 2
+        )
+    )
+    this.velocity.z(
+      id,
+      $spell.vel.z +
+        Math.floor(
+          Math.random() * $spell.velvar.z -
+            $spell.velvar.z / 2 +
+            ($spell.velvarconstraint.y * $spell.velvar.y) / 2
+        )
+    )
+    this.core(id, $col, $spell)
   }
 
-  vox($rez: Form, $hsl, t, x, y, z, sx, sy, sz) {
+  vox($spell: Spell, $hsl, t, x, y, z, sx, sy, sz) {
     // vox miss, but could be because we haven't loaded $voxes yet
-    const voxDef = voxes.$[$rez.vox]
+    const voxDef = voxes.$[$spell.vox]
     const ts = $hsl.s
     const tl = $hsl.l
 
-    const variance = ($rez.col.variance / NORMALIZER) * Math.random()
-    let rx = ($rez.rotvar.x / NORMALIZER) * Math.random() * Math.PI * 2
-    let ry = ($rez.rotvar.y / NORMALIZER) * Math.random() * Math.PI * 2
-    let rz = ($rez.rotvar.z / NORMALIZER) * Math.random() * Math.PI * 2
+    const variance = ($spell.col.variance / NORMALIZER) * Math.random()
+    let rx = ($spell.rotvar.x / NORMALIZER) * Math.random() * Math.PI * 2
+    let ry = ($spell.rotvar.y / NORMALIZER) * Math.random() * Math.PI * 2
+    let rz = ($spell.rotvar.z / NORMALIZER) * Math.random() * Math.PI * 2
 
-    if ($rez.doLook) {
-      $o3d.position.set(x, $rez.look.y, z)
-      $o3d.lookAt($rez.look)
+    if ($spell.doLook) {
+      $o3d.position.set(x, $spell.look.y, z)
+      $o3d.lookAt($spell.look)
       $eule.setFromQuaternion($o3d.quaternion)
 
-      $eule.y += ($rez.rot.y / NORMALIZER) * Math.PI * 2
-      $eule.z += ($rez.rot.z / NORMALIZER) * Math.PI * 2
-      $eule.x += ($rez.rot.x / NORMALIZER) * Math.PI * 2
+      $eule.y += ($spell.rot.y / NORMALIZER) * Math.PI * 2
+      $eule.z += ($spell.rot.z / NORMALIZER) * Math.PI * 2
+      $eule.x += ($spell.rot.x / NORMALIZER) * Math.PI * 2
     } else {
       $eule.set(
-        rx + ($rez.rot.x / NORMALIZER) * Math.PI * 2,
-        ry + ($rez.rot.y / NORMALIZER) * Math.PI * 2,
-        rz + ($rez.rot.z / NORMALIZER) * Math.PI * 2
+        rx + ($spell.rot.x / NORMALIZER) * Math.PI * 2,
+        ry + ($spell.rot.y / NORMALIZER) * Math.PI * 2,
+        rz + ($spell.rot.z / NORMALIZER) * Math.PI * 2
       )
     }
-    const rtx = Math.random() * $rez.velvar.x
-    const rty = Math.random() * $rez.velvar.y
-    const rtz = Math.random() * $rez.velvar.z
+    const rtx =
+      Math.random() * $spell.velvar.x -
+      $spell.velvar.x / 2 +
+      ($spell.velvarconstraint.x * $spell.velvar.x) / 2
+    const rty =
+      Math.random() * $spell.velvar.y -
+      $spell.velvar.y / 2 +
+      ($spell.velvarconstraint.y * $spell.velvar.y) / 2
+    const rtz =
+      Math.random() * $spell.velvar.z -
+      $spell.velvar.z / 2 +
+      ($spell.velvarconstraint.z * $spell.velvar.z) / 2
+
     for (let i = 0; i < voxDef.xyzi.length / 4; i++) {
       const id = this.reserve()
-      $rez.atoms.push(id)
+      $spell.atoms.push(id)
       const ix = i * 4
 
       $vec3
@@ -700,13 +764,13 @@ class Cardinal extends System {
       $col2.setRGB(r / 255, g / 255, b / 255).getHSL($hsl)
 
       let addTilt = 0
-      if ($rez.voxvar.x === r * 256 * 256 + g * 256 + b) {
-        addTilt = Math.random() * $rez.voxvar.z + $rez.voxvar.y
+      if ($spell.voxvar.x === r * 256 * 256 + g * 256 + b) {
+        addTilt = Math.random() * $spell.voxvar.z + $spell.voxvar.y
       }
 
       $col2.setHSL(
         ($hsl.h +
-          $rez.col.tilt / NORMALIZER +
+          $spell.col.tilt / NORMALIZER +
           addTilt +
           variance +
           Math.random() * 0.05) %
@@ -718,14 +782,14 @@ class Cardinal extends System {
       this.size.x(id, sx)
       this.size.y(id, sy)
       this.size.z(id, sz)
-      this.velocity.x(id, $rez.vel.x + rtx)
-      this.velocity.y(id, $rez.vel.y + rty)
-      this.velocity.z(id, $rez.vel.z + rtz)
-      this.core(id, $col2, $rez)
+      this.velocity.x(id, $spell.vel.x + rtx)
+      this.velocity.y(id, $spell.vel.y + rty)
+      this.velocity.z(id, $spell.vel.z + rtz)
+      this.core(id, $col2, $spell)
     }
   }
 
-  core(id: number, color: Color, $rez: Form) {
+  core(id: number, color: Color, $rez: Spell) {
     this.matter.red(id, Math.floor(color.r * NORMALIZER))
     this.matter.green(id, Math.floor(color.g * NORMALIZER))
     this.matter.blue(id, Math.floor(color.b * NORMALIZER))
@@ -747,13 +811,13 @@ class Cardinal extends System {
       const def = this.timeline.who(i)
 
       if (!this.forms[def]) {
-        this.forms[def] = new Form(def)
+        this.forms[def] = new Spell(def)
         const parent = this.timeline.who(def)
 
         // avoid loop 0 => 0
         if (parent !== def) {
           const p = (this.forms[parent] =
-            this.forms[parent] || new Form(parent))
+            this.forms[parent] || new Spell(parent))
           p._.push(this.forms[def])
         }
       }
