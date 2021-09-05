@@ -6,7 +6,7 @@ import { Size } from 'src/buffer/size'
 import { SpaceTime } from 'src/buffer/spacetime'
 import { EStatus, Status } from 'src/buffer/status'
 import { Timeline } from 'src/buffer/timeline'
-import { ELandState, Universal } from 'src/buffer/universal'
+import { ERealmState, Universal } from 'src/buffer/universal'
 import { Velocity } from 'src/buffer/velocity'
 import { ENTITY_COUNT, NORMALIZER } from 'src/config'
 import { MagickaVoxel } from 'src/render/magica'
@@ -503,7 +503,7 @@ class Cardinal extends System {
           $spell.impact = this.timeline.data0(i)
           $spell.ripple(ERipple.IMPACT, $spell.impact)
           break
-        case ETimeline.THEIA_LAND:
+        case ETimeline.THEIA_REALM:
           $spell.land = this.timeline.text(i)
           $spell.ripple(ERipple.LAND, $spell.land)
           break
@@ -875,7 +875,7 @@ class Cardinal extends System {
   }
 
   tick() {
-    if (!this.ready || this.universal.state() !== ELandState.RUNNING) return
+    if (!this.ready || this.universal.state() !== ERealmState.RUNNING) return
 
     const t = this.universal.musicTime()
     if (t > this.lastTime) {

@@ -6,7 +6,7 @@ import {
   mouse_right,
   mouse_wheel,
 } from 'src/input/mouse'
-import { fantasy } from 'src/land/land'
+import { fantasy } from 'src/realm/realm'
 import { delta } from 'src/uniform/time'
 import { Value } from 'src/value/value'
 import { MathUtils, Vector2, Vector3 } from 'three'

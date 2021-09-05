@@ -117,7 +117,7 @@ export enum ETimeline {
   UNI_CLEAR_COLOR,
   POS_ADD,
   THRUST_ADD,
-  THEIA_LAND,
+  THEIA_REALM,
   THEIA_GATE,
   THEIA_RULER,
   SOUND_MIDI,
@@ -232,7 +232,7 @@ export const Commands: { [key: number]: any } = {
   },
 
   [ETimeline.THEIA_RULER]: { githubUser: EVar.STRING },
-  [ETimeline.THEIA_LAND]: { theia: EVar.STRING },
+  [ETimeline.THEIA_REALM]: { theia: EVar.STRING },
   [ETimeline.THEIA_GATE]: { theia: EVar.STRING },
   [ETimeline.SOUND_MIDI]: {
     instrument: EMidiChannel,

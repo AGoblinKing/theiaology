@@ -6,7 +6,7 @@ import { Box3, Vector3 } from 'three'
 const $cage = new Box3()
 const $offset = new Vector3()
 
-export enum ELandState {
+export enum ERealmState {
   PAUSED = 0,
   RUNNING,
 }
@@ -139,7 +139,7 @@ export class Universal extends AtomicInt {
     }
   }
 
-  state(state?: ELandState) {
+  state(state?: ERealmState) {
     return state === undefined
       ? Atomics.load(this, 20)
       : Atomics.store(this, 20, state)

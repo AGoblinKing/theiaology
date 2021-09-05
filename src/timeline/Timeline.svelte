@@ -7,7 +7,7 @@
   import Node from './Node.svelte'
   import fs from 'file-saver'
 
-  import { fantasy, first } from 'src/land/land'
+  import { fantasy, first } from 'src/realm/realm'
 
   $: timeline = $fantasy.timeline
   $: voxes = $first.voxes

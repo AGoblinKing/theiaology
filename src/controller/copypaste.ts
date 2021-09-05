@@ -1,4 +1,4 @@
-import { fantasy } from 'src/land/land'
+import { fantasy } from 'src/realm/realm'
 import { ETimeline } from 'src/timeline/def-timeline'
 import { cursor } from 'src/timeline/nav'
 import { Value } from 'src/value/value'

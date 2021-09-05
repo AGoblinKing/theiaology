@@ -1,7 +1,7 @@
 import { get } from 'idb-keyval'
 import { rootTheia } from 'src/config'
 import { url } from 'src/input/browser'
-import { first } from 'src/land/land'
+import { first } from 'src/realm/realm'
 import { MagickaVoxel } from 'src/render/magica'
 import { audio, audio_buffer, audio_name } from 'src/sound/audio'
 import { INode } from 'src/timeline/def-timeline'

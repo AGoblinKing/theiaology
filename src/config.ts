@@ -34,7 +34,7 @@ export const UNIVERSALS = [
   0,
   0,
   0,
-  // ELandState
+  // ERealmState
   1, // RUNNING
 ]
 

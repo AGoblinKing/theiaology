@@ -25,8 +25,7 @@ export class Net extends System {
   animation: Animation
   universal: Universal
   remote: string
-  ruler: string
-  realm: string
+  rulerRealm: string
 
   ready = false
 
@@ -61,18 +60,16 @@ export class Net extends System {
       case this.remote:
         this.remote = e.data
         break
-      case this.ruler:
-        this.ruler = e.data
-        break
-      case this.realm:
-        this.realm = e.data
+      case this.rulerRealm:
+        this.rulerRealm = e.data
+        this.connect()
         break
     }
   }
 
   connect() {
     this.ready = true
-    this.ws = new WebSocket(`ws://${this.remote}/net/${this.ruler}`)
+    this.ws = new WebSocket(`ws://${this.remote}/net/${this.rulerRealm}`)
     this.ws.binaryType = 'arraybuffer'
     this.ws.onopen = this.onopen.bind(this)
     this.ws.onerror = this.onerror.bind(this)

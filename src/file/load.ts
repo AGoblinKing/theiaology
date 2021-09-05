@@ -1,5 +1,5 @@
 import { Timeline } from 'src/buffer/timeline'
-import type { Land } from 'src/land/land'
+import type { Realm } from 'src/realm/realm'
 import { MagickaVoxel } from 'src/render/magica'
 import { Value } from 'src/value/value'
 
@@ -11,8 +11,8 @@ export const HEADER_END = HEADER_START + 4 * 4
 
 // map json ID to timeline ID
 
-export function Load(bytes: ArrayBuffer, land: Land) {
-  const { timeline } = land
+export function Load(bytes: ArrayBuffer, realm: Realm) {
+  const { timeline } = realm
 
   try {
     const view = new DataView(bytes)
@@ -64,9 +64,9 @@ export function Load(bytes: ArrayBuffer, land: Land) {
         music.setInt32(i * 4, view.getInt32(timeEnd + i * 4 + 12))
       }
 
-      land.musicBuffer = new DataView(mab)
-      land.musicName = str
-      land.musicString = URL.createObjectURL(new File([mab], 'thea'))
+      realm.musicBuffer = new DataView(mab)
+      realm.musicName = str
+      realm.musicString = URL.createObjectURL(new File([mab], 'thea'))
     }
 
     // clear existing vox
@@ -105,7 +105,7 @@ export function Load(bytes: ArrayBuffer, land: Land) {
         size = 0
       }
     }
-    land.voxes.set(voxUpdate)
+    realm.voxes.set(voxUpdate)
     // only poke at the end incase we need to revert
     timeline.poke()
   } catch (ex) {

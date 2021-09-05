@@ -55,7 +55,7 @@ import {
 
 const IDENTITY = new Matrix4().identity()
 
-let lands: { [key: number]: Land } = {}
+let lands: { [key: number]: Realm } = {}
 
 let nextLandCheck = 0
 
@@ -65,8 +65,8 @@ const $cage = new Box3()
 
 let i = 0
 
-export const first = new Value<Land>(undefined)
-export class Land {
+export const first = new Value<Realm>(undefined)
+export class Realm {
   // entity components
   past: SpaceTime
   future: SpaceTime
@@ -220,7 +220,7 @@ export class Land {
           case EMessage.LAND_ADD:
             if (!this.first) return
             if (!lands[data.id]) {
-              lands[data.id] = new Land()
+              lands[data.id] = new Realm()
             }
 
             lands[data.id].universalCage(data.cage)
@@ -413,7 +413,7 @@ export class Land {
 
   updateFantasy() {
     // check bounding box of all lands and update fantasy if needed
-    let land: Land = this
+    let land: Realm = this
 
     for (let l of Object.values(lands)) {
       if (
@@ -445,10 +445,10 @@ export class Land {
 
 const cache = {}
 
-export const fantasy = new Value(new Land())
+export const fantasy = new Value(new Realm())
 
 let cancel
-fantasy.on((land: Land) => {
+fantasy.on((land: Realm) => {
   if (cancel) cancel()
 
   cancel = land.timeline.on(() => {

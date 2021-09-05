@@ -12,7 +12,7 @@
 <script lang="ts">
   // organize-imports-ignore
   import Box from './Box.svelte'
-  import { fantasy, first } from 'src/land/land'
+  import { fantasy, first } from 'src/realm/realm'
 
   import {
     modal_cursor,
