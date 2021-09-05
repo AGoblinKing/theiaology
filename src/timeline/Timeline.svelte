@@ -8,13 +8,50 @@
   import fs from 'file-saver'
 
   import { fantasy, first } from 'src/realm/realm'
+  import { Save } from 'src/file/save';
+  import { ReadFile } from 'src/file/file';
 
   $: timeline = $fantasy.timeline
   $: voxes = $first.voxes
+
+  const down = "music|vox|boot|root"
+  
+  async function loadFile(event) {
+    const reader = new FileReader()
+    reader.addEventListener('load', (e: any) => {
+      ReadFile(event.target.files[0], e.target.result)
+    })
+    try {
+      reader.readAsArrayBuffer(event.target.files[0])
+    } catch (ex) {}
+  }
+
 </script>
 
 <div class="timeline">
   <div class="nodes">
+    <div class="tools">
+        <Box
+        tilt={-90}
+        hover="Load files into Theiaology "
+        nav={{ tag: 'load', left: 'workspace', right: 'save', down }}
+        ><input
+          id="load"
+          type="file"
+          title="LOAD"
+          accept=".theia,.mp3,.vox,.json"
+          on:change={loadFile}
+        />
+        <label for="load">LOAD</label></Box
+      >
+      <Box
+      tilt={-180}
+        hover="Download Theiaologian files.  Drag + Drop or load!"
+        nav={{ tag: 'save', right: '.theia', left: 'load', down }}
+        click={Save}>SAVE</Box
+      >
+      <div class="flex"/>
+    </div>
     {#if $audio_buffer}
       <div class="vox">
         <Box
@@ -53,6 +90,7 @@
         >
         <Box
           tilt={180}
+          style="border-radius: 0 0.5rem 0 0"
           hover="Audio File"
           flex
           nav={{
@@ -152,5 +190,12 @@
    ;
     border-radius: 1rem;
     max-height: 5rem;
+  }
+  .flex { flex: 1}
+  .tools {
+    display: flex;
+  }
+  label {
+    cursor: pointer;
   }
 </style>

@@ -11,10 +11,8 @@
   import Timeline from './Timeline.svelte'
   import Modal from './Modal.svelte'
 
-  import { Save } from 'src/file/save'
-
   import Box from './Box.svelte'
-  import { ReadFile } from 'src/file/file'
+
   import { url } from 'src/input/browser'
   import { EVar } from './def-timeline'
   import { mouse_page } from 'src/input/mouse'
@@ -22,16 +20,6 @@
   import { Redo, Undo } from 'src/controller/undoredo'
   import { key_down, key_map } from 'src/input/keyboard'
   import { Copy, Cut, Paste } from 'src/controller/copypaste'
-
-  async function loadFile(event) {
-    const reader = new FileReader()
-    reader.addEventListener('load', (e: any) => {
-      ReadFile(event.target.files[0], e.target.result)
-    })
-    try {
-      reader.readAsArrayBuffer(event.target.files[0])
-    } catch (ex) {}
-  }
 
   function Browse() {
     modal_location.set(
@@ -49,22 +37,27 @@
   function Sponsor() {
     window.open('https://github.com/sponsors/AGoblinKing', '_new')
     return
+  }
 
-  }  
-  
   function Net() {
     modal_location.set(
       modal_location.$.set($mouse_page.x - 5, $mouse_page.y - 5)
     )
 
-    modal_options.set(dotTheia)
+    modal_options.set(['Host', 'Join'])
 
     modal_visible.set((res) => {
-      window.open(`/${res}`, '_self')
-      modal_visible.set(false)
+      setTimeout(() => {
+        modal_options.set(['NOT IMPLEMENTED'])
+        modal_visible.set(() => {
+          modal_visible.set(false)
+        })
+        modal_location.set(
+          modal_location.$.set($mouse_page.x - 5, $mouse_page.y - 5)
+        )
+      })
     })
   }
-
 
   const down = 'music-name|vox-name|root-name'
 
@@ -93,7 +86,6 @@
         break
     }
   })
-
 </script>
 
 <a
@@ -134,23 +126,7 @@
   >
     {$url}
   </Box>
-  <Box
-    hover="Load files into Theiaology "
-    nav={{ tag: 'load', left: 'workspace', right: 'save', down }}
-    ><input
-      id="load"
-      type="file"
-      title="LOAD"
-      accept=".theia,.mp3,.vox,.json"
-      on:change={loadFile}
-    />
-    <label for="load">LOAD</label></Box
-  >
-  <Box
-    hover="Download Theiaologian files.  Drag + Drop or load!"
-    nav={{ tag: 'save', right: '.theia', left: 'load', down }}
-    click={Save}>SAVE</Box
-  >
+
   <Box
     tilt={290}
     hover="Play theiaologian demos"
@@ -160,19 +136,19 @@
   <Box
     tilt={110}
     hover="A Goblin King Demands Tribute"
-    nav={{ tag: 'sponsor', left: '.theia', right:'net',  down }}
+    nav={{ tag: 'sponsor', left: '.theia', right: 'net', down }}
     click={Sponsor}
   >
     SPONSOR
   </Box>
   <Box
-  tilt={180}
-  hover="A Goblin King Demands Tribute"
-  nav={{ tag: 'net', left: 'sponsor', down }}
-  click={Net}
-  style="border-radius: 0 0 0.5rem 0;"
->
-  NET
+    tilt={180}
+    hover="Host or Join Multiplayer Realms"
+    nav={{ tag: 'net', left: 'sponsor', down }}
+    click={Net}
+    style="border-radius: 0 0 0.5rem 0;"
+  >
+    MULTIPLAYER
   </Box>
 </div>
 <Modal />
@@ -188,9 +164,7 @@
     pointer-events: all;
     display: flex;
   }
-  label {
-    cursor: pointer;
-  }
+
   .ribbon {
     transition: all 0.2s ease-in-out;
     cursor: pointer;
