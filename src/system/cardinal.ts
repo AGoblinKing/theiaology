@@ -433,7 +433,7 @@ class Cardinal extends System {
           $spell.ripple(ERipple.CAGE, $spell.cage)
 
           for (let atom of $spell.all()) {
-            switch (this.timeline.data0(atom)) {
+            switch (this.timeline.data0(i)) {
               case EAxis.XYZ:
                 this.cage.z(atom, min)
                 this.cage.mZ(atom, max)

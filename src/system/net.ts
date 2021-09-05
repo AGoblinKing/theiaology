@@ -91,3 +91,5 @@ export class Net extends System {
 /* Concept
   Relay either full buffers or buffer maps to the Bifrost which echos it down based on room
 */
+
+new Net()

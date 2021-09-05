@@ -123,6 +123,5 @@ export default [
   config('service', '..'),
   config('system/physics', '', true),
   config('system/cardinal', '', true),
-  config('system/host', '', true),
-  config('system/client', '', true),
+  config('system/net', '', true),
 ]

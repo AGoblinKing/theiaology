@@ -24,7 +24,7 @@ export enum ERipple {
   POSADD,
   VELADD,
   CAGE,
-  DEREZ,
+  REZFREE,
   RULER,
   LAND,
   VELVARCONSTRAINT,
@@ -186,7 +186,7 @@ export class Spell {
         case ERipple.VELADD:
           c.vel.add(data)
           break
-        case ERipple.DEREZ:
+        case ERipple.REZFREE:
           for (let atom of this.atoms) {
             data.free(atom)
           }
