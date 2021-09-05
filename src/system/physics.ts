@@ -61,7 +61,7 @@ class Physics extends System {
   ready = false
   // 50 frames a second, idealy get this to 5
   constructor() {
-    super((1 / 30) * 1000)
+    super((1 / 15) * 1000)
   }
 
   onmessage(e: MessageEvent) {
@@ -154,11 +154,11 @@ class Physics extends System {
         let z = this.past.z(i, this.future.z(i))
         this.past.time(i, t)
 
-        x = this.future.x(i, x + vx)
-        y = this.future.y(i, y + vy)
-        z = this.future.z(i, z + vz)
+        x = this.future.x(i, x + (vx * this.tickrate) / 50)
+        y = this.future.y(i, y + (vy * this.tickrate) / 50)
+        z = this.future.z(i, z + (vz * this.tickrate) / 50)
 
-        this.future.time(i, t + this.tickrate)
+        this.future.time(i, t + this.tickrate * 2)
 
         const cX = this.cage.x(i),
           cY = this.cage.y(i),
