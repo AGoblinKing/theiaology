@@ -1,5 +1,6 @@
 // network the raw buffers over websockets
 
+import { Animation } from 'src/buffer/animation'
 import { Matter } from 'src/buffer/matter'
 import { Size } from 'src/buffer/size'
 import { SpaceTime } from 'src/buffer/spacetime'
@@ -23,6 +24,9 @@ export class Net extends System {
   size: Size
   animation: Animation
   universal: Universal
+  remote: string
+  ruler: string
+  realm: string
 
   ready = false
 
@@ -53,14 +57,22 @@ export class Net extends System {
         break
       case this.universal:
         this.universal = new Universal(e.data)
-        this.init()
+        break
+      case this.remote:
+        this.remote = e.data
+        break
+      case this.ruler:
+        this.ruler = e.data
+        break
+      case this.realm:
+        this.realm = e.data
         break
     }
   }
 
-  init() {
+  connect() {
     this.ready = true
-    this.ws = new WebSocket(`ws://${window.location.hostname}/bifrost`)
+    this.ws = new WebSocket(`ws://${this.remote}/net/${this.ruler}`)
     this.ws.binaryType = 'arraybuffer'
     this.ws.onopen = this.onopen.bind(this)
     this.ws.onerror = this.onerror.bind(this)
@@ -73,7 +85,7 @@ export class Net extends System {
   }
 
   onerror(e) {
-    console.log(e)
+    console.log(e, e.message)
   }
 
   onnet(e) {
@@ -83,6 +95,7 @@ export class Net extends System {
   onopen() {
     this.connected.set(true)
   }
+
   tick() {
     // send accrued changes
   }

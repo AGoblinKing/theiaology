@@ -50,7 +50,21 @@
     window.open('https://github.com/sponsors/AGoblinKing', '_new')
     return
 
+  }  
+  
+  function Net() {
+    modal_location.set(
+      modal_location.$.set($mouse_page.x - 5, $mouse_page.y - 5)
+    )
+
+    modal_options.set(dotTheia)
+
+    modal_visible.set((res) => {
+      window.open(`/${res}`, '_self')
+      modal_visible.set(false)
+    })
   }
+
 
   const down = 'music-name|vox-name|root-name'
 
@@ -146,11 +160,19 @@
   <Box
     tilt={110}
     hover="A Goblin King Demands Tribute"
-    nav={{ tag: 'sponsor', left: '.theia', down }}
+    nav={{ tag: 'sponsor', left: '.theia', right:'net',  down }}
     click={Sponsor}
-    style="border-radius: 0 0 0.5rem 0;"
   >
     SPONSOR
+  </Box>
+  <Box
+  tilt={180}
+  hover="A Goblin King Demands Tribute"
+  nav={{ tag: 'net', left: 'sponsor', down }}
+  click={Net}
+  style="border-radius: 0 0 0.5rem 0;"
+>
+  NET
   </Box>
 </div>
 <Modal />

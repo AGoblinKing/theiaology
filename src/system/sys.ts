@@ -1,7 +1,7 @@
 import { IAtomic } from 'src/buffer/atomic'
 import { ICancel, Value } from 'src/value/value'
 
-export type IMessage = IAtomic | number | object
+export type IMessage = IAtomic | number | object | string
 
 export class SystemWorker extends Worker {
   _delay = 0

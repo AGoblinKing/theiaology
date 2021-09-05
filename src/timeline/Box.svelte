@@ -1,21 +1,18 @@
 <script lang="ts" context="module">
   const vec2 = new Vector2()
- const offset = new Vector2(2,  -1).multiplyScalar(5)
+  const offset = new Vector2(1, 1).multiplyScalar(25)
 </script>
+
 <script lang="ts">
   import { onDestroy } from 'svelte'
 
-  import {
-    modal_location,
-    modal_options,
-    modal_visible,
-  } from './editor'
-  
-  import { cursor, doclick, navs } from './nav';
+  import { modal_location, modal_options, modal_visible } from './editor'
 
-  import type { INav } from './nav';
-import { mouse_page } from 'src/input/mouse';
-import { Vector2, Vector3 } from 'three';
+  import { cursor, doclick, navs } from './nav'
+
+  import type { INav } from './nav'
+  import { mouse_page } from 'src/input/mouse'
+  import { Vector2 } from 'three'
 
   export let nav: INav = {
     left: '',
@@ -23,7 +20,7 @@ import { Vector2, Vector3 } from 'three';
     up: '',
     down: '',
     tag: '',
-    i: 0
+    i: 0,
   }
 
   $: selected = $cursor.tag !== '' && $cursor.tag === nav.tag
@@ -36,7 +33,7 @@ import { Vector2, Vector3 } from 'three';
   export let flex = false
 
   export let upper = false
-  export let style = ""
+  export let style = ''
   export let click = () => {}
 
   let tags = []
@@ -91,12 +88,10 @@ import { Vector2, Vector3 } from 'three';
   class:flex
   class:upper
   class:selected
-
   on:contextmenu={(e) => {
     e.preventDefault()
-    if(nav.tag !== '') cursor.set(nav)
+    if (nav.tag !== '') cursor.set(nav)
   }}
-  
   bind:this={box}
   on:click={doClick}
   class:notilt

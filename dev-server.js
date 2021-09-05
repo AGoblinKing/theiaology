@@ -1,17 +1,9 @@
 const express = require('express')
+const ws = require('ws')
 const fetch = require('node-fetch')
+const wss = new ws.Server({ noServer: true })
 
-const app = express()
-
-app.use((req, res, next) => {
-  res.append('Cross-Origin-Opener-Policy', 'same-origin')
-  res.append('Cross-Origin-Embedder-Policy', 'require-corp')
-  next()
-})
-
-app.use(express.static('public'))
-
-const proxy = (req, res, next) => {
+function Proxy(req, res, next) {
   return fetch(`https://theiaology.com${req.originalUrl}`)
     .then((theia) => theia.arrayBuffer())
     .then((data) => {
@@ -20,11 +12,20 @@ const proxy = (req, res, next) => {
     })
 }
 
-app.get('/github*', proxy)
-app.get('/net*', proxy)
-
-app.get('*', (req, res) => {
-  res.sendFile(`${__dirname}/public/index.html`)
-})
-
-app.listen(10001, () => console.log('listening on port 10001'))
+express()
+  .use((req, res, next) => {
+    res.append('Cross-Origin-Opener-Policy', 'same-origin')
+    res.append('Cross-Origin-Embedder-Policy', 'require-corp')
+    next()
+  })
+  .use(express.static('public'))
+  .get('/github*', Proxy)
+  .get('*', (req, res) => {
+    res.sendFile(`${__dirname}/public/index.html`)
+  })
+  .listen(10001, () => console.log('listening on port 10001'))
+  .on('upgrade', (request, socket, head) => {
+    wss.handleUpgrade(request, socket, head, (socket) => {
+      wss.emit('connection', socket, request)
+    })
+  })
