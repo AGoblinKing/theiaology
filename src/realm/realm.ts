@@ -415,10 +415,11 @@ export class Realm {
     let realm: Realm = this
 
     for (let r of Object.values(realms)) {
+      $cage.min.copy(r.uniCage.value).multiplyScalar(0.1)
+      $cage.max.copy(r.uniCageM.value).multiplyScalar(0.1)
+
       if (
         !$cage
-          .set(r.uniCage.value, r.uniCageM.value)
-          .expandByScalar(0.1)
           .translate(r.uniOffset.value)
           .containsPoint($vec3.copy(body.$.position).multiplyScalar(200))
       ) {
