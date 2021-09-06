@@ -12,9 +12,6 @@ import { Box3, Vector3 } from 'three'
 import { EMessage } from './sys-enum'
 import { System } from './system'
 
-const $box = new Box3()
-const $box2 = new Box3()
-
 const $vec3 = new Vector3()
 
 class BBox extends Box3 {
@@ -44,6 +41,9 @@ class BBox extends Box3 {
   }
 }
 
+const $box = new BBox(0)
+const $box2 = new BBox(1)
+
 let $inserts: { [key: number]: BBox } = {}
 
 class Physics extends System {
@@ -57,7 +57,7 @@ class Physics extends System {
   cage: Cage
 
   // @ts-ignore
-  tree = new RBush3D(4)
+  tree = new RBush3D(2)
   ready = false
   // 50 frames a second, idealy get this to 5
   constructor() {
@@ -107,7 +107,7 @@ class Physics extends System {
   }
 
   // these numbers change a bunch so better to just assign them to a tmp
-  box(i: number, $bb: Box3 = $box) {
+  box(i: number, $bb: BBox = $box) {
     const sx = this.size.x(i) / 2,
       sy = this.size.y(i) / 2,
       sz = this.size.z(i) / 2,
@@ -135,6 +135,7 @@ class Physics extends System {
 
     // rip through matter, update their grid_past/futures
     this.tree.clear()
+    const moves = new Set()
 
     for (let i = 0; i < ENTITY_COUNT; i++) {
       const phase = this.matter.phase(i)
@@ -142,6 +143,8 @@ class Physics extends System {
         case EPhase.STUCK:
           this.insert(i)
           continue
+        case EPhase.NORMAL:
+          this.insert(i)
       }
 
       let vx = this.velocity.x(i),
@@ -149,6 +152,7 @@ class Physics extends System {
         vz = this.velocity.z(i)
 
       if (vx !== 0 || vy !== 0 || vz !== 0) {
+        moves.add(i)
         let x = this.past.x(i, this.future.x(i))
         let y = this.past.y(i, this.future.y(i))
         let z = this.past.z(i, this.future.z(i))
@@ -200,12 +204,6 @@ class Physics extends System {
             this.past.z(i, cMZ)
           }
         }
-
-        switch (phase) {
-          case EPhase.NORMAL:
-            this.insert(i)
-        }
-        // warp out of bounds to other side
       }
     }
 
@@ -217,23 +215,34 @@ class Physics extends System {
         case EPhase.STUCK:
           continue
       }
+      if (!moves.has(v.i)) continue
+
       this.box(v.i, $box)
-      this.size.vec3(v.i, $vec3)
+      this.future.vec3(v.i, $vec3)
+      this.velocity.vec3(v.i, $vec3v)
 
       for (let collide of this.tree.search(v)) {
         // richocet off collides
+
         if (collide.i === v.i) continue
-        // move the two objects away from one  another
-        const dif = this.box(collide.i, $box2).intersect($box)
 
-        dif.min.sub(dif.max).normalize()
+        collide.getCenter($vec3o).sub($vec3).multiplyScalar(0.4)
+        // $vec3.copy(dif.max).sub(dif.min)
 
-        this.future.addX(v.i, dif.min.x * this.velocity.x(v.i))
-        this.future.addY(v.i, dif.min.y * this.velocity.y(v.i))
-        this.future.addZ(v.i, dif.min.z * this.velocity.z(v.i))
+        // this.future.addX(v.i, $vec3.x)
+        // this.future.addY(v.i, $vec3.y)
+        // this.future.addZ(v.i, $vec3.z)
+        // add their size to their
+
+        this.future.addX(v.i, -$vec3o.x)
+        this.future.addY(v.i, -$vec3o.y)
+        this.future.addZ(v.i, -$vec3o.z)
       }
     }
   }
 }
 
 new Physics()
+
+const $vec3o = new Vector3()
+const $vec3v = new Vector3()

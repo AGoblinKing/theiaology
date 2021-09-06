@@ -173,7 +173,7 @@ class Multiplayer {
     // send an update for each Land
 
     if (this.fresh) {
-      this.fresh = false
+      // this.fresh = false
       this.sendRealm(first.$)
       for (let realm of Object.values(realms)) {
         this.sendRealm(realm)
