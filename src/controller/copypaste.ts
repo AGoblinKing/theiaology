@@ -1,4 +1,4 @@
-import { fantasy } from 'src/realm/realm'
+import { first } from 'src/realm/realm'
 import { ESpell } from 'src/timeline/def-timeline'
 import { cursor } from 'src/timeline/nav'
 import { Value } from 'src/value/value'
@@ -7,7 +7,7 @@ export const clipped = new Value(0)
 export const clip = new Value([0, 0, 0, 0, 0, 0])
 
 export function Copy() {
-  const { timeline } = fantasy.$
+  const { timeline } = first.$
   if (cursor.$.i === undefined) return
 
   clip.$[0] = timeline.$.when(cursor.$.i)
@@ -21,7 +21,7 @@ export function Copy() {
 }
 
 function SubItem(i: number, parent: number) {
-  const { timeline, timelineJSON } = fantasy.$
+  const { timeline, timelineJSON } = first.$
   const item = timelineJSON.$.flat[i]
 
   const id = timeline.$.add(
@@ -39,7 +39,7 @@ function SubItem(i: number, parent: number) {
 }
 
 export function Paste() {
-  const { timeline, timelineJSON } = fantasy.$
+  const { timeline, timelineJSON } = first.$
   if (cursor.$.i === undefined) return
   // get data from cursor
   clip.$[2] =
@@ -57,7 +57,7 @@ export function Paste() {
 }
 
 export function Cut() {
-  const { timeline } = fantasy.$
+  const { timeline } = first.$
   if (cursor.$.i === undefined) return
   Copy()
 
