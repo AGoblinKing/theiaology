@@ -11,7 +11,7 @@ export function Copy() {
   if (cursor.$.i === undefined) return
 
   clip.$[0] = timeline.$.when(cursor.$.i)
-  clip.$[1] = timeline.$.command(cursor.$.i)
+  clip.$[1] = timeline.$.invoke(cursor.$.i)
   clip.$[2] = timeline.$.who(cursor.$.i)
   clip.$[3] = timeline.$.data0(cursor.$.i)
   clip.$[4] = timeline.$.data1(cursor.$.i)
@@ -26,7 +26,7 @@ function SubItem(i: number, parent: number) {
 
   const id = timeline.$.add(
     timeline.$.when(i),
-    timeline.$.command(i),
+    timeline.$.invoke(i),
     parent,
     timeline.$.data0(i),
     timeline.$.data1(i),
@@ -43,7 +43,7 @@ export function Paste() {
   if (cursor.$.i === undefined) return
   // get data from cursor
   clip.$[2] =
-    timeline.$.command(cursor.$.i) === ETimeline.TAG
+    timeline.$.invoke(cursor.$.i) === ETimeline.TOME
       ? cursor.$.i
       : timeline.$.who(cursor.$.i)
   // @ts-ignore

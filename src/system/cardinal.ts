@@ -148,7 +148,7 @@ class Cardinal extends System {
       // Check the timing to only apply the right stuff
       if (this.timeline.when(i) > sec) continue
 
-      switch (this.timeline.command(i)) {
+      switch (this.timeline.invoke(i)) {
         case ETimeline.POS_ADD:
           $spell.pos.add(
             $vec3.set(

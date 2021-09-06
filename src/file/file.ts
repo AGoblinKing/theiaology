@@ -42,7 +42,7 @@ export function LoadJSON(json: INode, key = '0', map = {}) {
   // oh hi
   const id = map[key]
   timeline.$.when(id, json.$[0])
-  timeline.$.command(id, json.$[1])
+  timeline.$.invoke(id, json.$[1])
   // who is special!
   if (map[json.$[2]] === undefined) {
     map[json.$[2]] = json.$[2] === timeline.$.reserve()

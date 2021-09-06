@@ -55,7 +55,7 @@ export class Timeline extends AtomicInt {
       markers: {},
       $: [
         this.when(0),
-        this.command(0),
+        this.invoke(0),
         this.who(0),
         this.data0(0),
         this.data1(0),
@@ -65,7 +65,7 @@ export class Timeline extends AtomicInt {
     }
 
     for (let i = 1; i < TIMELINE_MAX; i++) {
-      const com = this.command(i)
+      const com = this.invoke(i)
 
       // next, the others could be anywhere
       if (com === ETimeline.NONE) continue
@@ -90,7 +90,7 @@ export class Timeline extends AtomicInt {
       }
 
       switch (com) {
-        case ETimeline.TAG:
+        case ETimeline.TOME:
           root.markers[i] = this.text(i)
 
         // fall through
@@ -127,7 +127,7 @@ export class Timeline extends AtomicInt {
     const res = [[]]
     // 1 is for control
     for (let i = 1; i < this.length; i++) {
-      const w = this.command(i)
+      const w = this.invoke(i)
 
       // by using the buffer in order we can look to see if we can early exit
       if (w === ETimeline.NONE) break
@@ -264,7 +264,7 @@ export class Timeline extends AtomicInt {
   }
 
   // what event
-  command(i: number, e?: ETimeline) {
+  invoke(i: number, e?: ETimeline) {
     return e === undefined
       ? Atomics.load(this, i * Timeline.COUNT + 1)
       : Atomics.store(this, i * Timeline.COUNT + 1, e)

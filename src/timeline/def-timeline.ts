@@ -53,7 +53,7 @@ export enum EVar {
   POSITIVE,
   NEGATIVE,
   // allows for selection of ID by marker name
-  TAG,
+  TOME,
   COLOR,
   VOX,
   // think 0 - 1 but like 0 - MAX_SAFE_INTEGER
@@ -76,7 +76,7 @@ export enum EIdle {
 // WARNING: Safe to add new events to end but not remove/reorder existing ones
 export enum ETimeline {
   NONE = 0,
-  TAG,
+  TOME,
   MUSIC,
   FLOCK,
   SHAPE_COLOR,
@@ -135,8 +135,8 @@ export enum EConstraint {
   POSITIVE = 1,
 }
 
-export const Commands: { [key: number]: any } = {
-  [ETimeline.TAG]: { text: EVar.STRING },
+export const Invocations: { [key: number]: any } = {
+  [ETimeline.TOME]: { text: EVar.STRING },
 
   [ETimeline.PHYS_PHASE]: { phase: EPhase },
   [ETimeline.SHAPE_COLOR]: {

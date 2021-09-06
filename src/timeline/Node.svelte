@@ -24,7 +24,7 @@
 
   import { mouse_page } from 'src/input/mouse'
 
-  import { Commands, ETimeline, EVar } from './def-timeline'
+  import { Invocations, ETimeline, EVar } from './def-timeline'
 
   import { SaveScript } from 'src/file/save'
   import { NORMALIZER, UserUnits } from 'src/config'
@@ -41,11 +41,11 @@
   $: myChildren =  Object.keys(item._).sort((i) => $timeline.when(parseInt(i, 10)))
 
   $: item = $timelineJSON.flat[i] || { $: [0], _: {} }
-  $: command = $timeline.command(i)
+  $: invoke = $timeline.invoke(i)
   
   function addTo(index: number) {
     modal_visible.set(false)
-    timeline.$.add(0, ETimeline.TAG, index, 0, 0, 0)
+    timeline.$.add(0, ETimeline.TOME, index, 0, 0, 0)
     timeline.poke()
   }
 
@@ -69,8 +69,8 @@
     )
   }
 
-  function inputCommand() {
-    if (command === 0) {
+  function inputInvoke() {
+    if (invoke === 0) {
       SaveScript()
       return
     }
@@ -79,7 +79,7 @@
       Object.keys(ETimeline).filter((k) => {
         const v = parseInt(k, 10)
 
-        if (k === 'NONE' || Commands[ETimeline[k]] === undefined) return false
+        if (k === 'NONE' || Invocations[ETimeline[k]] === undefined) return false
 
         if (window.Number.isNaN(v)) {
           return true
@@ -90,10 +90,10 @@
     modal_visible.set((res: string) => {
       const com: number = ETimeline[res]
 
-      timeline.$.command(i, com)
+      timeline.$.invoke(i, com)
 
       switch (ETimeline[res]) {
-        case ETimeline.TAG:
+        case ETimeline.TOME:
           break
         case ETimeline.REZ:
         case ETimeline.FLOCK:
@@ -249,11 +249,11 @@
       {i === 0 ? '>' : '-'}
     </Box>
     <Box
-      click={inputCommand}
+      click={inputInvoke}
       upper
       hover={label === 'boot'
         ? 'Download a .json of the BOOT script'
-        : 'Command'}
+        : 'Invocation'}
       tilt={hashcode(label.slice(0, 3)) % 360}
       nav={{
         i,
@@ -267,8 +267,8 @@
       {label}
     </Box>
 
-    {#if Commands[command]}
-      {#each Object.entries(Commands[command]) as [key, value], index (key)}
+    {#if Invocations[invoke]}
+      {#each Object.entries(Invocations[invoke]) as [key, value], index (key)}
         {#if value === EVar.STRING}
           <Box
             flex
@@ -352,7 +352,7 @@
       </Box>
     {/if}
 
-    {#if i === 0 || item.$[1] === ETimeline.TAG}
+    {#if i === 0 || item.$[1] === ETimeline.TOME}
       <Box
         tilt={180}
         click={() => addTo(i)}
@@ -367,7 +367,7 @@
           down: ``,
         }}>+</Box
       >
-    {:else if item.$[1] !== ETimeline.TAG && item.$[1] !== undefined}
+    {:else if item.$[1] !== ETimeline.TOME && item.$[1] !== undefined}
     
       <Box  
         style="margin-right: 1.5rem;"
