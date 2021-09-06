@@ -72,6 +72,8 @@ function Timer(time: number, fn: () => void) {
   return () => clearInterval(i)
 }
 
+Object.assign(window, { realms })
+
 export const first = new Value<Realm>(undefined)
 export class Realm {
   // entity components
@@ -416,6 +418,7 @@ export class Realm {
       if (
         !$cage
           .set(r.uniCage.value, r.uniCageM.value)
+          .expandByScalar(0.1)
           .translate(r.uniOffset.value)
           .containsPoint($vec3.copy(body.$.position).multiplyScalar(200))
       ) {
