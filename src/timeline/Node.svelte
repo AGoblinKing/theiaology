@@ -24,7 +24,7 @@
 
   import { mouse_page } from 'src/input/mouse'
 
-  import { Invocations, ETimeline, EVar } from './def-timeline'
+  import { Invocations, ESpell, EVar } from './def-timeline'
 
   import { SaveScript } from 'src/file/save'
   import { NORMALIZER, UserUnits } from 'src/config'
@@ -45,7 +45,7 @@
   
   function addTo(index: number) {
     modal_visible.set(false)
-    timeline.$.add(0, ETimeline.TOME, index, 0, 0, 0)
+    timeline.$.add(0, ESpell.TOME, index, 0, 0, 0)
     timeline.poke()
   }
 
@@ -76,10 +76,10 @@
     }
     // see if its a number
     modal_options.set(
-      Object.keys(ETimeline).filter((k) => {
+      Object.keys(ESpell).filter((k) => {
         const v = parseInt(k, 10)
 
-        if (k === 'NONE' || Invocations[ETimeline[k]] === undefined) return false
+        if (k === 'NONE' || Invocations[ESpell[k]] === undefined) return false
 
         if (window.Number.isNaN(v)) {
           return true
@@ -88,16 +88,16 @@
     )
     updateModal()
     modal_visible.set((res: string) => {
-      const com: number = ETimeline[res]
+      const com: number = ESpell[res]
 
       timeline.$.invoke(i, com)
 
-      switch (ETimeline[res]) {
-        case ETimeline.TOME:
+      switch (ESpell[res]) {
+        case ESpell.TOME:
           break
-        case ETimeline.REZ:
-        case ETimeline.FLOCK:
-        case ETimeline.SHAPE:
+        case ESpell.REZ:
+        case ESpell.FLOCK:
+        case ESpell.SHAPE:
           timeline.$.data0(i, 1)
           timeline.$.data1(i, 1)
           timeline.$.data2(i, 1)
@@ -207,7 +207,7 @@
     timeline.poke()
   }
 
-  $: label = ETimeline[item.$[1]] || 'boot'
+  $: label = ESpell[item.$[1]] || 'boot'
 
   function NavData(index: number) {
     return {
@@ -352,7 +352,7 @@
       </Box>
     {/if}
 
-    {#if i === 0 || item.$[1] === ETimeline.TOME}
+    {#if i === 0 || item.$[1] === ESpell.TOME}
       <Box
         tilt={180}
         click={() => addTo(i)}
@@ -367,7 +367,7 @@
           down: ``,
         }}>+</Box
       >
-    {:else if item.$[1] !== ETimeline.TOME && item.$[1] !== undefined}
+    {:else if item.$[1] !== ESpell.TOME && item.$[1] !== undefined}
     
       <Box  
         style="margin-right: 1.5rem;"

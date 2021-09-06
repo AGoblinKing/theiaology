@@ -1,6 +1,6 @@
 import { AtomicInt } from 'src/buffer/atomic'
 import { TIMELINE_MAX } from 'src/config'
-import { ETimeline, ITimeline } from 'src/timeline/def-timeline'
+import { ESpell, ITimeline } from 'src/timeline/def-timeline'
 
 const strConvertBuffer = new ArrayBuffer(4) // an Int32 takes 4 bytes
 const strView = new DataView(strConvertBuffer)
@@ -68,7 +68,7 @@ export class Timeline extends AtomicInt {
       const com = this.invoke(i)
 
       // next, the others could be anywhere
-      if (com === ETimeline.NONE) continue
+      if (com === ESpell.NONE) continue
 
       // assume root unless who is specified
       const who = this.who(i)
@@ -90,7 +90,7 @@ export class Timeline extends AtomicInt {
       }
 
       switch (com) {
-        case ETimeline.TOME:
+        case ESpell.TOME:
           root.markers[i] = this.text(i)
 
         // fall through
@@ -130,7 +130,7 @@ export class Timeline extends AtomicInt {
       const w = this.invoke(i)
 
       // by using the buffer in order we can look to see if we can early exit
-      if (w === ETimeline.NONE) break
+      if (w === ESpell.NONE) break
 
       res.push([
         this.when(i),
@@ -191,7 +191,7 @@ export class Timeline extends AtomicInt {
 
   add(
     when: number,
-    command: ETimeline,
+    command: ESpell,
     // identification number, whether timeline ID or
     who: number,
     d1: number = 0,
@@ -264,7 +264,7 @@ export class Timeline extends AtomicInt {
   }
 
   // what event
-  invoke(i: number, e?: ETimeline) {
+  invoke(i: number, e?: ESpell) {
     return e === undefined
       ? Atomics.load(this, i * Timeline.COUNT + 1)
       : Atomics.store(this, i * Timeline.COUNT + 1, e)

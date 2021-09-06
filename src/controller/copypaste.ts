@@ -1,5 +1,5 @@
 import { fantasy } from 'src/realm/realm'
-import { ETimeline } from 'src/timeline/def-timeline'
+import { ESpell } from 'src/timeline/def-timeline'
 import { cursor } from 'src/timeline/nav'
 import { Value } from 'src/value/value'
 
@@ -43,7 +43,7 @@ export function Paste() {
   if (cursor.$.i === undefined) return
   // get data from cursor
   clip.$[2] =
-    timeline.$.invoke(cursor.$.i) === ETimeline.TOME
+    timeline.$.invoke(cursor.$.i) === ESpell.TOME
       ? cursor.$.i
       : timeline.$.who(cursor.$.i)
   // @ts-ignore

@@ -12,7 +12,7 @@ import { ENTITY_COUNT, NORMALIZER } from 'src/config'
 import { MagickaVoxel } from 'src/render/magica'
 import { ShapeMap } from 'src/shape'
 import { ALPHABET } from 'src/shape/text'
-import { EAxis, EIdle, EShape, ETimeline } from 'src/timeline/def-timeline'
+import { EAxis, EIdle, EShape, ESpell } from 'src/timeline/def-timeline'
 import { ERipple, Spell } from 'src/timeline/spell'
 import { Value } from 'src/value/value'
 import { Color, Euler, Object3D, Vector3 } from 'three'
@@ -149,7 +149,7 @@ class Cardinal extends System {
       if (this.timeline.when(i) > sec) continue
 
       switch (this.timeline.invoke(i)) {
-        case ETimeline.POS_ADD:
+        case ESpell.POS_ADD:
           $spell.pos.add(
             $vec3.set(
               this.timeline.data0(i),
@@ -168,7 +168,7 @@ class Cardinal extends System {
           }
 
           break
-        case ETimeline.THRUST_ADD:
+        case ESpell.THRUST_ADD:
           $spell.vel.add(
             $vec3.set(
               this.timeline.data0(i),
@@ -185,11 +185,11 @@ class Cardinal extends System {
             this.velocity.addZ(atom, $vec3.z)
           }
           break
-        case ETimeline.FLOCK_TEXT:
+        case ESpell.FLOCK_TEXT:
           $spell.text = this.timeline.text(i)
           $spell.ripple(ERipple.TEXT, $spell.text)
           break
-        case ETimeline.SHAPE_VAR:
+        case ESpell.SHAPE_VAR:
           $spell.sizevar.set(
             this.timeline.data0(i),
             this.timeline.data1(i),
@@ -197,7 +197,7 @@ class Cardinal extends System {
           )
           $spell.ripple(ERipple.SIZEVAR, $spell.sizevar)
           break
-        case ETimeline.ROT_VAR:
+        case ESpell.ROT_VAR:
           $spell.rotvar.set(
             this.timeline.data0(i),
             this.timeline.data1(i),
@@ -205,7 +205,7 @@ class Cardinal extends System {
           )
           $spell.ripple(ERipple.ROTVAR, $spell.rotvar)
           break
-        case ETimeline.ROT:
+        case ESpell.ROT:
           $spell.rot.set(
             this.timeline.data0(i),
             this.timeline.data1(i),
@@ -213,7 +213,7 @@ class Cardinal extends System {
           )
           $spell.ripple(ERipple.ROT, $spell.rot)
           break
-        case ETimeline.ROT_LOOK:
+        case ESpell.ROT_LOOK:
           $spell.doLook = true
           $spell.look.set(
             this.timeline.data0(i),
@@ -223,7 +223,7 @@ class Cardinal extends System {
           $spell.ripple(ERipple.DOLOOK, $spell.doLook)
           $spell.ripple(ERipple.LOOK, $spell.look)
           break
-        case ETimeline.SHAPE_VOX_VAR:
+        case ESpell.SHAPE_VOX_VAR:
           $spell.voxvar.set(
             this.timeline.data0(i),
             this.timeline.data1(i),
@@ -232,35 +232,35 @@ class Cardinal extends System {
 
           $spell.ripple(ERipple.VOXVAR, $spell.voxvar)
           break
-        case ETimeline.SHAPE_VOX:
+        case ESpell.SHAPE_VOX:
           $spell.vox = this.timeline.text(i)
           $spell.ripple(ERipple.VOX, $spell.vox)
           break
-        case ETimeline.FLOCK:
+        case ESpell.FLOCK:
           $spell.flock.shape = this.timeline.data0(i)
           $spell.flock.size = this.timeline.data1(i)
           $spell.flock.step = this.timeline.data2(i)
           $spell.ripple(ERipple.FLOCK, $spell.flock)
           break
-        case ETimeline.FLOCK_RING:
+        case ESpell.FLOCK_RING:
           $spell.flock.shape = EShape.Ring
           $spell.flock.size = this.timeline.data0(i)
           $spell.flock.step = this.timeline.data1(i)
           $spell.ripple(ERipple.FLOCK, $spell.flock)
           break
-        case ETimeline.FLOCK_GRID:
+        case ESpell.FLOCK_GRID:
           $spell.flock.shape = EShape.Plane
           $spell.flock.size = this.timeline.data0(i)
           $spell.flock.step = this.timeline.data1(i)
           $spell.ripple(ERipple.FLOCK, $spell.flock)
           break
-        case ETimeline.SHAPE:
+        case ESpell.SHAPE:
           $spell.size.x = this.timeline.data0(i)
           $spell.size.y = this.timeline.data1(i)
           $spell.size.z = this.timeline.data2(i)
           $spell.ripple(ERipple.SIZE, $spell.size)
           break
-        case ETimeline.SHAPE_COLOR:
+        case ESpell.SHAPE_COLOR:
           const rgb = this.timeline.data0(i)
           $spell.color.setHex(rgb)
           $spell.col.tilt = this.timeline.data1(i)
@@ -268,13 +268,13 @@ class Cardinal extends System {
           $spell.ripple(ERipple.COL, $spell.col)
           $spell.ripple(ERipple.COLOR, $spell.color)
           break
-        case ETimeline.POS_VAR:
+        case ESpell.POS_VAR:
           $spell.posvar.x = this.timeline.data0(i)
           $spell.posvar.y = this.timeline.data1(i)
           $spell.posvar.z = this.timeline.data2(i)
           $spell.ripple(ERipple.POSVAR, $spell.posvar)
           break
-        case ETimeline.POS:
+        case ESpell.POS:
           $spell.pos.x = this.timeline.data0(i)
           $spell.pos.y = this.timeline.data1(i)
           $spell.pos.z = this.timeline.data2(i)
@@ -288,7 +288,7 @@ class Cardinal extends System {
 
           $spell.ripple(ERipple.POS, $spell.pos)
           break
-        case ETimeline.THRUST:
+        case ESpell.THRUST:
           $spell.vel.set(
             this.timeline.data0(i),
             this.timeline.data1(i),
@@ -303,7 +303,7 @@ class Cardinal extends System {
 
           $spell.ripple(ERipple.VEL, $spell.vel)
           break
-        case ETimeline.THRUST_VAR:
+        case ESpell.THRUST_VAR:
           const amount = this.timeline.data1(i)
           const constraint = this.timeline.data2(i)
 
@@ -371,26 +371,26 @@ class Cardinal extends System {
           $spell.ripple(ERipple.VELVAR, $spell.velvar)
           $spell.ripple(ERipple.VELVARCONSTRAINT, $spell.velvarconstraint)
           break
-        case ETimeline.USER_ROT:
+        case ESpell.USER_ROT:
           this.universal.userRX(this.timeline.data0(i))
           this.universal.userRY(this.timeline.data1(i))
           this.universal.userRZ(this.timeline.data2(i))
           this.post(EMessage.USER_ROT_UPDATE)
           break
-        case ETimeline.USER_POS:
+        case ESpell.USER_POS:
           this.universal.userX(this.timeline.data0(i))
           this.universal.userY(this.timeline.data1(i))
           this.universal.userZ(this.timeline.data2(i))
           this.post(EMessage.USER_POS_UPDATE)
           break
-        case ETimeline.UNI_CLEAR_COLOR:
+        case ESpell.UNI_CLEAR_COLOR:
           this.universal.clearColor(this.timeline.data0(i))
           this.post(EMessage.CLEAR_COLOR_UPDATE)
           break
-        case ETimeline.UNI_IDLE:
+        case ESpell.UNI_IDLE:
           this.universal.idle(this.timeline.data0(i))
           break
-        case ETimeline.PHYS_CAGE:
+        case ESpell.PHYS_CAGE:
           const min = this.timeline.data1(i)
           const max = this.timeline.data2(i)
           switch (this.timeline.data0(i)) {
@@ -471,7 +471,7 @@ class Cardinal extends System {
             }
           }
           break
-        case ETimeline.REZ_FREE:
+        case ESpell.REZ_FREE:
           for (let atom of $spell.atoms) {
             this.free(atom)
           }
@@ -489,28 +489,28 @@ class Cardinal extends System {
           // TODO: bool for rez/derez to ripple $rez.ripple(ERipple.DEREZ, this)
           break
         // rez time
-        case ETimeline.REZ:
+        case ESpell.REZ:
           toRez.push(i)
           break
         // TODO: useful for bullets and such
-        case ETimeline.THRUST_TO:
+        case ESpell.THRUST_TO:
           break
-        case ETimeline.PHYS_PHASE:
+        case ESpell.PHYS_PHASE:
           $spell.phase = this.timeline.data0(i)
           $spell.ripple(ERipple.PHASE, $spell.phase)
           break
-        case ETimeline.IMPACT:
+        case ESpell.IMPACT:
           $spell.impact = this.timeline.data0(i)
           $spell.ripple(ERipple.IMPACT, $spell.impact)
           break
-        case ETimeline.THEIA_REALM:
+        case ESpell.THEIA_REALM:
           $spell.land = this.timeline.text(i)
           $spell.ripple(ERipple.LAND, $spell.land)
           break
-        case ETimeline.THEIA_GATE:
+        case ESpell.THEIA_GATE:
           $spell.gate = this.timeline.text(i)
           break
-        case ETimeline.THEIA_RULER:
+        case ESpell.THEIA_RULER:
           $spell.ruler = this.timeline.text(i)
           $spell.ripple(ERipple.RULER, $spell.ruler)
           break
@@ -594,6 +594,7 @@ class Cardinal extends System {
             ruler: $spell.ruler,
             land: $spell.land,
             cage: $spell.cage,
+            shape: $spell.size,
           })
 
           $spell.lands++

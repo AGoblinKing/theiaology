@@ -1,6 +1,6 @@
 <script lang="ts">
   // organize-imports-ignore
-
+  import { Save } from 'src/file/save';
   import {
     modal_default,
     modal_location,
@@ -20,6 +20,7 @@
   import { Redo, Undo } from 'src/controller/undoredo'
   import { key_down, key_map } from 'src/input/keyboard'
   import { Copy, Cut, Paste } from 'src/controller/copypaste'
+  import { ReadFile } from 'src/file/file';
 
   function Browse() {
     modal_location.set(
@@ -86,6 +87,17 @@
         break
     }
   })
+
+    
+  async function loadFile(event) {
+    const reader = new FileReader()
+    reader.addEventListener('load', (e: any) => {
+      ReadFile(event.target.files[0], e.target.result)
+    })
+    try {
+      reader.readAsArrayBuffer(event.target.files[0])
+    } catch (ex) {}
+  }
 </script>
 
 <a
@@ -126,7 +138,25 @@
   >
     {$url}
   </Box>
-
+  <Box
+  tilt={-90}
+  hover="Load files into Theiaology "
+  nav={{ tag: 'load', left: 'workspace', right: 'save', down }}
+  ><input
+    id="load"
+    type="file"
+    title="LOAD"
+    accept=".theia,.mp3,.vox,.json"
+    on:change={loadFile}
+  />
+  <label for="load">LOAD</label></Box
+>
+<Box
+tilt={-180}
+  hover="Download Theiaologian files.  Drag + Drop or load!"
+  nav={{ tag: 'save', right: '.theia', left: 'load', down }}
+  click={Save}>SAVE</Box
+>
   <Box
     tilt={290}
     hover="Play theiaologian demos"

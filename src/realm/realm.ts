@@ -102,6 +102,7 @@ export class Realm {
   uniCage: Uniform
   uniCageM: Uniform
   uniOffset: Uniform
+  uniShape: Uniform
 
   cancels: ICancel[] = []
 
@@ -161,6 +162,7 @@ export class Realm {
     this.uniCage = new Uniform(c.min.clone())
     this.uniCageM = new Uniform(c.max.clone())
     this.uniOffset = new Uniform(this.universal.offset().clone())
+    this.uniShape = new Uniform(new Vector3(1, 1, 1))
 
     this.material.onBeforeCompile = (shader) => {
       shader.uniforms.time = timeUniform
@@ -169,6 +171,8 @@ export class Realm {
       shader.uniforms.cage = this.uniCage
       shader.uniforms.cageM = this.uniCageM
       shader.uniforms.offset = this.uniOffset
+      shader.uniforms.shape = this.uniShape
+
       const addHandUniform =
         (dir) =>
         ([key, value]) => {
@@ -225,6 +229,7 @@ export class Realm {
 
             lands[data.id].universalCage(data.cage)
             lands[data.id].universalOffset(data)
+            lands[data.id].universalShape(data.shape)
 
             // now to load a timeline
             lands[data.id].load(data.ruler, data.land)
@@ -287,13 +292,17 @@ export class Realm {
 
   universalCage(cage: Box3) {
     this.universal.cage(cage)
-    this.uniCage.value.copy(cage.min)
-    this.uniCageM.value.copy(cage.max)
+    this.uniCage.value = this.uniCage.value.copy(cage.min)
+    this.uniCageM.value = this.uniCageM.value.copy(cage.max)
   }
 
   universalOffset(offset: Vector3) {
     this.universal.offset(offset)
     this.uniOffset.value = this.uniOffset.value.copy(offset)
+  }
+
+  universalShape(shape: Vector3) {
+    this.uniShape.value = this.uniShape.value.copy(shape)
   }
 
   initListeners() {

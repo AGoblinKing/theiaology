@@ -7,7 +7,7 @@ function Proxy(req, res, next) {
   return fetch(`https://theiaology.com${req.originalUrl}`)
     .then((theia) => theia.arrayBuffer())
     .then((data) => {
-      res.type('application/octet-stream').send(Buffer.from(data))
+      res.send(Buffer.from(data))
       next()
     })
 }

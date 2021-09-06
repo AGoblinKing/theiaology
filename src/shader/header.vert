@@ -1,6 +1,7 @@
 uniform float time;
 uniform float audioHigh;
 uniform float audioLow;
+uniform vec3 shape;
 
 uniform vec3 leftindex;
 uniform vec3 leftthumb;

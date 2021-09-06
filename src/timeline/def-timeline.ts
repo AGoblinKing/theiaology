@@ -74,7 +74,7 @@ export enum EIdle {
 
 // ETimeline events are reversable transactions that allow for time travel
 // WARNING: Safe to add new events to end but not remove/reorder existing ones
-export enum ETimeline {
+export enum ESpell {
   NONE = 0,
   TOME,
   MUSIC,
@@ -136,61 +136,61 @@ export enum EConstraint {
 }
 
 export const Invocations: { [key: number]: any } = {
-  [ETimeline.TOME]: { text: EVar.STRING },
+  [ESpell.TOME]: { text: EVar.STRING },
 
-  [ETimeline.PHYS_PHASE]: { phase: EPhase },
-  [ETimeline.SHAPE_COLOR]: {
+  [ESpell.PHYS_PHASE]: { phase: EPhase },
+  [ESpell.SHAPE_COLOR]: {
     rgb: EVar.COLOR,
     tilt: EVar.NORMAL,
     variance: EVar.NORMAL,
   },
-  [ETimeline.SHAPE_VOX_VAR]: {
+  [ESpell.SHAPE_VOX_VAR]: {
     rgb: EVar.COLOR,
     tilt: EVar.NORMAL,
     variance: EVar.NORMAL,
   },
-  [ETimeline.SHAPE]: {
+  [ESpell.SHAPE]: {
     x: EVar.USERPOSITIVE,
     y: EVar.USERPOSITIVE,
     z: EVar.USERPOSITIVE,
   },
   //   [ETimeline.MUSIC]: { audio: EVar.AUDIO },
-  [ETimeline.SHAPE_VAR]: {
+  [ESpell.SHAPE_VAR]: {
     x: EVar.USERPOSITIVE,
     y: EVar.USERPOSITIVE,
     z: EVar.USERPOSITIVE,
   },
-  [ETimeline.ROT]: { x: EVar.NORMAL, y: EVar.NORMAL, z: EVar.NORMAL },
-  [ETimeline.ROT_VAR]: { x: EVar.NORMAL, y: EVar.NORMAL, z: EVar.NORMAL },
+  [ESpell.ROT]: { x: EVar.NORMAL, y: EVar.NORMAL, z: EVar.NORMAL },
+  [ESpell.ROT_VAR]: { x: EVar.NORMAL, y: EVar.NORMAL, z: EVar.NORMAL },
 
-  [ETimeline.REZ]: {
+  [ESpell.REZ]: {
     count: EVar.NUMBER,
   },
-  [ETimeline.REZ_FREE]: {},
+  [ESpell.REZ_FREE]: {},
 
-  [ETimeline.POS]: {
+  [ESpell.POS]: {
     x: EVar.USERNUMBER,
     y: EVar.USERNUMBER,
     z: EVar.USERNUMBER,
   },
-  [ETimeline.POS_VAR]: {
+  [ESpell.POS_VAR]: {
     x: EVar.USERNUMBER,
     y: EVar.USERNUMBER,
     z: EVar.USERNUMBER,
   },
-  [ETimeline.THRUST]: {
+  [ESpell.THRUST]: {
     x: EVar.USERNUMBER,
     y: EVar.USERNUMBER,
     z: EVar.USERNUMBER,
   },
 
-  [ETimeline.THRUST_VAR]: {
+  [ESpell.THRUST_VAR]: {
     axis: EAxis,
     thrust: EVar.USERPOSITIVE,
     constraint: EConstraint,
   },
 
-  [ETimeline.ROT_LOOK]: {
+  [ESpell.ROT_LOOK]: {
     x: EVar.USERNUMBER,
     y: EVar.USERNUMBER,
     z: EVar.USERNUMBER,
@@ -200,65 +200,65 @@ export const Invocations: { [key: number]: any } = {
   // [ETimeline.THRUSTTO]: {
   //     tag: EVar.TAGID,
   // },
-  [ETimeline.SHAPE_EFFECTS]: { animation: EAnimation },
-  [ETimeline.SHAPE_VOX]: { 'Vox Model': EVar.VOX },
+  [ESpell.SHAPE_EFFECTS]: { animation: EAnimation },
+  [ESpell.SHAPE_VOX]: { 'Vox Model': EVar.VOX },
   // [ETimeline.IMPACT]: { reaction: EImpactReaction },
-  [ETimeline.PHYS_CAGE]: {
+  [ESpell.PHYS_CAGE]: {
     axis: EAxis,
     min: EVar.USERNUMBER,
     max: EVar.USERNUMBER,
   },
 
-  [ETimeline.UNI_IDLE]: { idle: EIdle },
-  [ETimeline.USER_POS]: {
+  [ESpell.UNI_IDLE]: { idle: EIdle },
+  [ESpell.USER_POS]: {
     x: EVar.USERNUMBER,
     y: EVar.USERNUMBER,
     z: EVar.USERNUMBER,
   },
   // [ETimeline.USERROT]: { x: EVar.NUMBER, y: EVar.NUMBER, z: EVar.NUMBER },
-  [ETimeline.USER_SIZE]: { size: EVar.USERPOSITIVE },
-  [ETimeline.FLOCK_TEXT]: { text: EVar.STRING },
-  [ETimeline.UNI_CLEAR_COLOR]: { rgb: EVar.COLOR },
-  [ETimeline.USER_ROT]: { x: EVar.NORMAL, y: EVar.NORMAL, z: EVar.NORMAL },
-  [ETimeline.POS_ADD]: {
+  [ESpell.USER_SIZE]: { size: EVar.USERPOSITIVE },
+  [ESpell.FLOCK_TEXT]: { text: EVar.STRING },
+  [ESpell.UNI_CLEAR_COLOR]: { rgb: EVar.COLOR },
+  [ESpell.USER_ROT]: { x: EVar.NORMAL, y: EVar.NORMAL, z: EVar.NORMAL },
+  [ESpell.POS_ADD]: {
     x: EVar.USERNUMBER,
     y: EVar.USERNUMBER,
     z: EVar.USERNUMBER,
   },
-  [ETimeline.THRUST_ADD]: {
+  [ESpell.THRUST_ADD]: {
     x: EVar.USERNUMBER,
     y: EVar.USERNUMBER,
     z: EVar.USERNUMBER,
   },
 
-  [ETimeline.THEIA_RULER]: { githubUser: EVar.STRING },
-  [ETimeline.THEIA_REALM]: { theia: EVar.STRING },
-  [ETimeline.THEIA_GATE]: { theia: EVar.STRING },
-  [ETimeline.SOUND_MIDI]: {
+  [ESpell.THEIA_RULER]: { githubUser: EVar.STRING },
+  [ESpell.THEIA_REALM]: { theia: EVar.STRING },
+  [ESpell.THEIA_GATE]: { theia: EVar.STRING },
+  [ESpell.SOUND_MIDI]: {
     instrument: EMidiChannel,
     note: EVar.POSITIVE,
     velocity: EVar.NORMAL,
   },
-  [ETimeline.SOUND]: {
+  [ESpell.SOUND]: {
     duration: EVar.NORMAL,
     modulo: EVar.POSITIVE,
     step: EVar.POSITIVE,
   },
-  [ETimeline.SOUND_POS]: {
+  [ESpell.SOUND_POS]: {
     x: EVar.USERNUMBER,
     y: EVar.USERNUMBER,
     z: EVar.USERNUMBER,
   },
   // like a triggered rez by hand
-  [ETimeline.REZ_POSE]: {
+  [ESpell.REZ_POSE]: {
     // hand data
     hand: EVar.FIVEFINGERS,
   },
-  [ETimeline.FLOCK_RING]: {
+  [ESpell.FLOCK_RING]: {
     radius: EVar.USERPOSITIVE,
     count: EVar.POSITIVE,
   },
-  [ETimeline.FLOCK_GRID]: {
+  [ESpell.FLOCK_GRID]: {
     birds_squared: EVar.POSITIVE,
     margin: EVar.USERPOSITIVE,
   },

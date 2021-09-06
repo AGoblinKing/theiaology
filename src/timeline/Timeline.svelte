@@ -30,28 +30,7 @@
 
 <div class="timeline">
   <div class="nodes">
-    <div class="tools">
-        <Box
-        tilt={-90}
-        hover="Load files into Theiaology "
-        nav={{ tag: 'load', left: 'workspace', right: 'save', down }}
-        ><input
-          id="load"
-          type="file"
-          title="LOAD"
-          accept=".theia,.mp3,.vox,.json"
-          on:change={loadFile}
-        />
-        <label for="load">LOAD</label></Box
-      >
-      <Box
-      tilt={-180}
-        hover="Download Theiaologian files.  Drag + Drop or load!"
-        nav={{ tag: 'save', right: '.theia', left: 'load', down }}
-        click={Save}>SAVE</Box
-      >
-      <div class="flex"/>
-    </div>
+
     {#if $audio_buffer}
       <div class="vox">
         <Box
