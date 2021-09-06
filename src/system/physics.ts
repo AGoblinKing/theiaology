@@ -174,24 +174,30 @@ class Physics extends System {
         if (cageX) {
           if (x > cMX) {
             this.future.x(i, cX)
+            this.past.x(i, cX)
           } else if (x < cX) {
             this.future.x(i, cMX)
+            this.past.x(i, cMX)
           }
         }
 
         if (cageY) {
           if (y > cMY) {
             this.future.y(i, cY)
+            this.past.y(i, cY)
           } else if (y < cY) {
             this.future.y(i, cMY)
+            this.past.y(i, cMY)
           }
         }
 
         if (cageZ) {
           if (z > cMZ) {
             this.future.z(i, cZ)
+            this.past.z(i, cZ)
           } else if (z < cZ) {
             this.future.z(i, cMZ)
+            this.past.z(i, cMZ)
           }
         }
 
