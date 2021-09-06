@@ -38,7 +38,7 @@ import {
 } from 'src/sound/audio'
 import { sys, SystemWorker } from 'src/system/sys'
 import { EMessage } from 'src/system/sys-enum'
-import { runtime, tick, timeUniform } from 'src/uniform/time'
+import { runtime, timeUniform } from 'src/uniform/time'
 import { ICancel, Value } from 'src/value/value'
 import {
   Box3,
@@ -55,7 +55,7 @@ import {
 
 const IDENTITY = new Matrix4().identity()
 
-let lands: { [key: number]: Realm } = {}
+export const realms: { [key: number]: Realm } = {}
 
 let nextLandCheck = 0
 
@@ -64,6 +64,13 @@ const $vec3 = new Vector3()
 const $cage = new Box3()
 
 let i = 0
+
+let realmId = 0
+
+function Timer(time: number, fn: () => void) {
+  const i = setInterval(fn, time)
+  return () => clearInterval(i)
+}
 
 export const first = new Value<Realm>(undefined)
 export class Realm {
@@ -87,7 +94,7 @@ export class Realm {
 
   physics: SystemWorker
   cardinal: SystemWorker
-  net: SystemWorker
+
   atoms: InstancedMesh
 
   timelineJSON = new Value({
@@ -108,6 +115,7 @@ export class Realm {
 
   destroyed = false
   slowFantasy = i++
+  id = realmId++
 
   constructor() {
     if (first.$ === undefined) first.set(this)
@@ -216,23 +224,23 @@ export class Realm {
 
         switch (e) {
           case EMessage.LAND_REMOVE:
-            if (!this.first || !lands[data.id]) return
+            if (!this.first || !realms[data.id]) return
 
-            lands[data.id].cardinal.postMessage(EMessage.FREE_ALL)
+            realms[data.id].cardinal.postMessage(EMessage.FREE_ALL)
             // remove all lands with that id
             break
           case EMessage.LAND_ADD:
             if (!this.first) return
-            if (!lands[data.id]) {
-              lands[data.id] = new Realm()
+            if (!realms[data.id]) {
+              realms[data.id] = new Realm()
             }
 
-            lands[data.id].universalCage(data.cage)
-            lands[data.id].universalOffset(data)
-            lands[data.id].universalShape(data.shape)
+            realms[data.id].universalCage(data.cage)
+            realms[data.id].universalOffset(data)
+            realms[data.id].universalShape(data.shape)
 
             // now to load a timeline
-            lands[data.id].load(data.ruler, data.land)
+            realms[data.id].load(data.ruler, data.land)
             break
           case EMessage.USER_ROT_UPDATE:
             if (!this.fantasy) return
@@ -276,18 +284,6 @@ export class Realm {
         this.cage
       )
       .bind(this.cardinal)
-
-    this.net = sys
-      .start('net')
-      .send(
-        this.past,
-        this.future,
-        this.matter,
-        this.size,
-        this.animation,
-        this.universal,
-        `${window.location.hostname}:${window.location.port}`
-      )
   }
 
   universalCage(cage: Box3) {
@@ -321,17 +317,13 @@ export class Realm {
       seconds.on(($s) => {
         if (this.fantasy) this.universal.musicTime($s)
       }),
-      tick.on(() => {
+      Timer(1000 / 30, () => {
         const { atoms } = this
-
-        if (!this.fantasy && this.slowFantasy++ % 10 !== 0) return
-        // Update: WebGL isn't binding the buffer! wow not threejs
-        // TODO: Figure out why threejs is not leveraging the sharedarray
+        if (!this.fantasy && this.slowFantasy++ % 2 !== 0) return
         atoms.geometry.getAttribute('animation').needsUpdate = true
         atoms.geometry.getAttribute('past').needsUpdate = true
         atoms.geometry.getAttribute('future').needsUpdate = true
         atoms.geometry.getAttribute('matter').needsUpdate = true
-        atoms.geometry.getAttribute('velocity').needsUpdate = true
         atoms.geometry.getAttribute('size').needsUpdate = true
       }),
       this.timeline.on(($t) => {
@@ -378,10 +370,6 @@ export class Realm {
           new InstancedBufferAttribute(this.matter, Matter.COUNT)
         )
         .setAttribute(
-          'velocity',
-          new InstancedBufferAttribute(this.velocity, Velocity.COUNT)
-        )
-        .setAttribute(
           'size',
           new InstancedBufferAttribute(this.size, Velocity.COUNT)
         ),
@@ -422,26 +410,26 @@ export class Realm {
 
   updateFantasy() {
     // check bounding box of all lands and update fantasy if needed
-    let land: Realm = this
+    let realm: Realm = this
 
-    for (let l of Object.values(lands)) {
+    for (let r of Object.values(realms)) {
       if (
         !$cage
-          .set(l.uniCage.value, l.uniCageM.value)
-          .translate(l.uniOffset.value)
+          .set(r.uniCage.value, r.uniCageM.value)
+          .translate(r.uniOffset.value)
           .containsPoint($vec3.copy(body.$.position).multiplyScalar(200))
       ) {
         continue
       }
 
-      land = l
+      realm = r
 
       break
     }
 
-    if (fantasy.$ === land) return
+    if (fantasy.$ === realm) return
 
-    fantasy.set(land)
+    fantasy.set(realm)
   }
 
   get fantasy() {
@@ -457,18 +445,18 @@ const cache = {}
 export const fantasy = new Value(new Realm())
 
 let cancel
-fantasy.on((land: Realm) => {
+fantasy.on((realm: Realm) => {
   if (cancel) cancel()
 
-  cancel = land.timeline.on(() => {
-    if (!land.musicBuffer) return
+  cancel = realm.timeline.on(() => {
+    if (!realm.musicBuffer) return
 
-    audio.src = land.musicString
+    audio.src = realm.musicString
     audio.load()
 
-    if (land.first) {
-      audio_name.set(land.musicName)
-      audio_buffer.set(land.musicBuffer)
+    if (realm.first) {
+      audio_name.set(realm.musicName)
+      audio_buffer.set(realm.musicBuffer)
     }
   })
 })

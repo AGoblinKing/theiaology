@@ -14,7 +14,6 @@ uniform vec3 rightring;
 uniform vec3 rightpinky;
 
 varying vec3 v_pos;
-varying vec3 v_vel;
 varying float v_animation;
 
 float modu(float x, float y) {
@@ -34,7 +33,6 @@ vec4 AnimationFrag(in vec4 col) {
 		return col;
 	}
 
-
 	for(int i = 0; i < 10; i++) {
 		vec3 target = pts[i];
 
@@ -43,6 +41,6 @@ vec4 AnimationFrag(in vec4 col) {
 			col.xyz += sin(dist * 200. - time * 0.025 )* 0.01;
 		}
 	}
-	// col.xyz *= length(v_vel) * 0.01;
+
 	return col;
 }

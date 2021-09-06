@@ -8,23 +8,12 @@
   import fs from 'file-saver'
 
   import { fantasy, first } from 'src/realm/realm'
-  import { Save } from 'src/file/save';
-  import { ReadFile } from 'src/file/file';
+
 
   $: timeline = $fantasy.timeline
   $: voxes = $first.voxes
 
-  const down = "music|vox|boot|root"
-  
-  async function loadFile(event) {
-    const reader = new FileReader()
-    reader.addEventListener('load', (e: any) => {
-      ReadFile(event.target.files[0], e.target.result)
-    })
-    try {
-      reader.readAsArrayBuffer(event.target.files[0])
-    } catch (ex) {}
-  }
+
 
 </script>
 
@@ -170,11 +159,5 @@
     border-radius: 1rem;
     max-height: 5rem;
   }
-  .flex { flex: 1}
-  .tools {
-    display: flex;
-  }
-  label {
-    cursor: pointer;
-  }
+
 </style>

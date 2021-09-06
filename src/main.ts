@@ -3,6 +3,7 @@ import 'src/file/file'
 import * as render from 'src/render/render'
 import Theiaology from 'src/timeline/Theiaology.svelte'
 import './controller/player'
+import './realm/multiplayer'
 import './rez/hand-joints'
 import './sound/audio'
 // startup editor

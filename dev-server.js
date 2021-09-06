@@ -29,3 +29,44 @@ express()
       wss.emit('connection', socket, request)
     })
   })
+
+const RealmLog = {}
+const Realms = {}
+const Users = {}
+
+let floatingId = 0
+
+wss.on('connection', (socket, request) => {
+  const id = floatingId++
+  Users[id] = []
+
+  if (request.url.startsWith('/net/host')) {
+    Host(id, socket, request)
+  } else {
+    Join(id, socket, request)
+  }
+
+  socket.on('close', () => {
+    for (let realm of Users[id]) {
+      Realms[realm].delete(id)
+    }
+    delete Users[id]
+  })
+})
+
+const EMP = {
+  ROOM_ID: 1,
+}
+
+function Host(id, socket, request) {
+  console.log('host', id)
+  // see if our roomId is availble
+  socket.send(new Int32Array([EMP.ROOM_ID]))
+  // if not, create a new one
+  socket.on('message', (ws, data) => {})
+}
+
+function Join(id, socket, request) {
+  console.log('join', id)
+  socket.on('message', (ws, data) => {})
+}

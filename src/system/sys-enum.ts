@@ -13,3 +13,10 @@ export enum EMessage {
 }
 
 export type FRez = () => number
+
+export enum EMultiplayer {
+  LOBBY_HOST = 'LOBBY_HOST',
+  SECRET_HOST = 'SECRET_HOST',
+  LOBBY_JOIN = 'LOBBY_JOIN',
+  SECRET_JOIN = 'SECRET_JOIN',
+}
