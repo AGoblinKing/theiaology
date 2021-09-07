@@ -57,7 +57,7 @@ class Physics extends System {
   cage: Cage
 
   // @ts-ignore
-  tree = new RBush3D(4)
+  tree = new RBush3D(0)
   ready = false
   // 50 frames a second, idealy get this to 5
   constructor() {
