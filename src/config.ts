@@ -1,5 +1,5 @@
 const count = parseInt(location.search.slice(1), 10)
-export const ENTITY_COUNT = 60000
+export const ENTITY_COUNT = 256 * 256
 
 // For GamePlay, max impacts for entity, the impacts still happen for velocity purposes
 export const IMPACTS_MAX_PER = 8

@@ -215,7 +215,10 @@ class Physics extends System {
         case EPhase.STUCK:
           continue
       }
+
       if (!moves.has(v.i)) continue
+
+      let collision = false
 
       this.box(v.i, $box)
       this.future.vec3(v.i, $vec3)
@@ -223,8 +226,8 @@ class Physics extends System {
 
       for (let collide of this.tree.search(v)) {
         // richocet off collides
-
         if (collide.i === v.i) continue
+        collision = true
 
         collide.getCenter($vec3o).sub($vec3).multiplyScalar(0.4)
         // $vec3.copy(dif.max).sub(dif.min)
@@ -234,10 +237,10 @@ class Physics extends System {
         // this.future.addZ(v.i, $vec3.z)
         // add their size to their
 
-        this.future.addX(v.i, -$vec3o.x)
-        this.future.addY(v.i, -$vec3o.y)
-        this.future.addZ(v.i, -$vec3o.z)
+        $vec3.sub($vec3o)
       }
+
+      if (collision) this.future.setVec3(v.i, $vec3)
     }
   }
 }
