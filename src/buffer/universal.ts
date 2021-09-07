@@ -10,6 +10,7 @@ export enum ERealmState {
   PAUSED = 0,
   RUNNING,
 }
+
 export class Universal extends AtomicInt {
   static COUNT = 21
   _init = false
@@ -18,6 +19,7 @@ export class Universal extends AtomicInt {
     super(shared)
     this.reset()
   }
+
   reset() {
     for (let i = 0; i < UNIVERSALS.length; i++) {
       this.store(i, UNIVERSALS[i])
@@ -123,6 +125,7 @@ export class Universal extends AtomicInt {
       return offset
     }
   }
+
   cage(cage?: Box3) {
     if (cage === undefined) {
       $cage.min.set(this.cageX(), this.cageY(), this.cageZ())
