@@ -1,7 +1,6 @@
 // handle matter color
 varying vec3 v_matter;
 
-
 vec4 MatterFrag(in vec4 col) {
 
   col.x = v_matter.x;
