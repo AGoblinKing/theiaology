@@ -57,7 +57,7 @@ class Physics extends System {
   cage: Cage
 
   // @ts-ignore
-  tree = new RBush3D(2)
+  tree = new RBush3D(4)
   ready = false
   // 50 frames a second, idealy get this to 5
   constructor() {
@@ -123,9 +123,12 @@ class Physics extends System {
   }
 
   insert(i: number) {
-    if (!$inserts[i]) $inserts[i] = new BBox(i)
+    if (!$inserts[i]) {
+      $inserts[i] = new BBox(i)
+      $inserts[i].expandByScalar(1.1)
+    }
 
-    this.box(i, $inserts[i])
+    return this.box(i, $inserts[i])
   }
 
   tick() {
@@ -229,7 +232,7 @@ class Physics extends System {
         if (collide.i === v.i) continue
         collision = true
 
-        collide.getCenter($vec3o).sub($vec3).multiplyScalar(0.4)
+        collide.getCenter($vec3o).sub($vec3).multiplyScalar(0.5)
         // $vec3.copy(dif.max).sub(dif.min)
 
         // this.future.addX(v.i, $vec3.x)
@@ -238,6 +241,7 @@ class Physics extends System {
         // add their size to their
 
         $vec3.sub($vec3o)
+        break
       }
 
       if (collision) this.future.setVec3(v.i, $vec3)
