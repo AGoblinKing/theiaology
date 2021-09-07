@@ -1,6 +1,6 @@
-import { Value } from 'src/value/value'
+import { Value } from 'src/value'
 import { Uniform, Vector3 } from 'three'
-import { IJointGroup } from '../xr/joints'
+import { IJointGroup } from './joints'
 
 export const last_pose = new Value({
   left: '',

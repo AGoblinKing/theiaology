@@ -26,7 +26,7 @@
 
   import { Invocations, ESpell, EVar } from './def-timeline'
 
-  import { SaveScript } from 'src/file/save'
+  import { SaveScript } from 'src/input/save'
   import { NORMALIZER, UserUnits } from 'src/config'
   import { hashcode } from './color'
   import { seconds } from 'src/sound/audio';

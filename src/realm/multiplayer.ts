@@ -6,7 +6,7 @@ import { SpaceTime } from 'src/buffer/spacetime'
 import { Universal } from 'src/buffer/universal'
 import { EMessage } from 'src/system/sys-enum'
 import { EIdle } from 'src/timeline/def-timeline'
-import { Value } from 'src/value/value'
+import { Value } from 'src/value'
 import { first, Realm, realms } from './realm'
 
 export enum EMultiplayer {

@@ -1,7 +1,7 @@
 import { Uniform } from 'three'
 import WebAudioTinySynth from 'webaudio-tinysynth'
-import { tick } from '../uniform/time'
-import { Value } from '../value/value'
+import { tick } from '../render/time'
+import { Value } from '../value'
 import { EMidiChannel } from './midi'
 
 export const audio = document.getElementById('bgm') as HTMLAudioElement

@@ -16,18 +16,19 @@ import {
   SIZE,
   TOON_ENABLED,
 } from 'src/config'
-import { Load } from 'src/file/load'
 import { mobile } from 'src/input/browser'
+import { Load } from 'src/input/load'
 import { left_hand_uniforms, right_hand_uniforms } from 'src/input/xr'
+import AnimationFrag from 'src/render/animation.frag'
+import AnimationVert from 'src/render/animation.vert'
+import EnumVert from 'src/render/enum.vert'
+import HeaderVert from 'src/render/header.vert'
 import { MagickaVoxel } from 'src/render/magica'
+import MainVert from 'src/render/main.vert'
+import MatterFrag from 'src/render/matter.frag'
 import { body, renderer, scene } from 'src/render/render'
-import AnimationFrag from 'src/shader/animation.frag'
-import AnimationVert from 'src/shader/animation.vert'
-import EnumVert from 'src/shader/enum.vert'
-import HeaderVert from 'src/shader/header.vert'
-import MainVert from 'src/shader/main.vert'
-import MatterFrag from 'src/shader/matter.frag'
-import SpaceTimeVert from 'src/shader/spacetime.vert'
+import SpaceTimeVert from 'src/render/spacetime.vert'
+import { runtime, timeUniform } from 'src/render/time'
 import {
   audio,
   audio_buffer,
@@ -38,8 +39,7 @@ import {
 } from 'src/sound/audio'
 import { sys, SystemWorker } from 'src/system/sys'
 import { EMessage } from 'src/system/sys-enum'
-import { runtime, timeUniform } from 'src/uniform/time'
-import { ICancel, Value } from 'src/value/value'
+import { ICancel, Value } from 'src/value'
 import {
   Box3,
   BoxBufferGeometry,

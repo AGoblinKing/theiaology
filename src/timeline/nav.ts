@@ -1,5 +1,5 @@
 import { key_down, key_map } from 'src/input/keyboard'
-import { Value } from 'src/value/value'
+import { Value } from 'src/value'
 import { timeline_shown } from './editor'
 
 export let navs = {}

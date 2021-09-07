@@ -1,4 +1,4 @@
-import { Value } from 'src/value/value'
+import { Value } from 'src/value'
 import { Uniform } from 'three'
 
 export const tick = new Value(0)

@@ -1,5 +1,5 @@
 import { IAtomic } from 'src/buffer/atomic'
-import { ICancel, Value } from 'src/value/value'
+import { ICancel, Value } from 'src/value'
 
 export type IMessage = IAtomic | number | object | string
 

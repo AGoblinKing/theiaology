@@ -1,10 +1,10 @@
 // @ts-ignore - tots is a module
-import 'src/file/file'
+import 'src/input/file'
 import * as render from 'src/render/render'
 import Theiaology from 'src/timeline/Theiaology.svelte'
 import './controller/player'
 import './realm/multiplayer'
-import './rez/hand-joints'
+import './render/hand-joints'
 import './sound/audio'
 // startup editor
 const theiaology = new Theiaology({

@@ -3,7 +3,7 @@
 // piping input to an alias map to a controller's actions
 
 import { key_down, key_up } from 'src/input/keyboard'
-import { Value } from 'src/value/value'
+import { Value } from 'src/value'
 
 export const pad_axes = new Value({
   lefthorizontal: 0,

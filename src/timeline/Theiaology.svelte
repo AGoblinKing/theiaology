@@ -1,6 +1,6 @@
 <script lang="ts">
   // organize-imports-ignore
-  import { Save } from 'src/file/save'
+  import { Save } from 'src/input/save'
   import {
     modal_location,
     modal_options,
@@ -17,7 +17,7 @@
   import { Redo, Undo } from 'src/controller/undoredo'
   import { key_down, key_map } from 'src/input/keyboard'
   import { Copy, Cut, Paste } from 'src/controller/copypaste'
-  import { ReadFile } from 'src/file/file'
+  import { ReadFile } from 'src/input/file'
   import { multiplayer } from 'src/realm/multiplayer'
 
   function Browse() {

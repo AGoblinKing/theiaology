@@ -1,8 +1,8 @@
 // move body smoothly
 
 import { body, camera, renderer } from 'src/render/render'
-import { delta, runtime } from 'src/uniform/time'
-import { Value } from 'src/value/value'
+import { delta, runtime } from 'src/render/time'
+import { Value } from 'src/value'
 import { Vector3 } from 'three'
 
 export const MIN_VELOCITY = 0.1

@@ -1,13 +1,13 @@
 import { EAnimation } from 'src/buffer/animation'
 import { NORMALIZER } from 'src/config'
 import { doPose } from 'src/controller/hands'
+import { vr_keys } from 'src/input/joints'
 import { hands, left_hand_uniforms, right_hand_uniforms } from 'src/input/xr'
 import { fantasy } from 'src/realm/realm'
 import { body } from 'src/render/render'
+import { runtime } from 'src/render/time'
 import { SystemWorker } from 'src/system/sys'
 import { EMessage } from 'src/system/sys-enum'
-import { runtime } from 'src/uniform/time'
-import { vr_keys } from 'src/xr/joints'
 import { Vector3 } from 'three'
 
 let hand_joints: number[] = []

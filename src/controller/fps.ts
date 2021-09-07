@@ -7,8 +7,8 @@ import {
   mouse_wheel,
 } from 'src/input/mouse'
 import { fantasy } from 'src/realm/realm'
-import { delta } from 'src/uniform/time'
-import { Value } from 'src/value/value'
+import { delta } from 'src/render/time'
+import { Value } from 'src/value'
 import { MathUtils, Vector2, Vector3 } from 'three'
 import { body, renderer } from '../render/render'
 import { velocity } from './smooth'
