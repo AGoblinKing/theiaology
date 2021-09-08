@@ -16,7 +16,7 @@ export function AttemptNav(dir: 'up' | 'down' | 'left' | 'right') {
 }
 // @ts-ignore
 window.navs = navs
-key_down.on((k) => {
+key_down.subscribe((k) => {
   if (!timeline_shown.$) return
 
   switch (k) {

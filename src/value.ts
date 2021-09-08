@@ -1,10 +1,10 @@
 export type ICancel = () => void
 export type FSubscribe<T> = (value: T) => any
 
+// Why not EventTarget? This is sync
 export class Value<T> {
   $: T
-  protected reactions: Set<FSubscribe<T>>
-  stopKeeping: ICancel
+  protected ons: Set<FSubscribe<T>>
 
   constructor(value: T = undefined) {
     this.$ = value
@@ -17,33 +17,27 @@ export class Value<T> {
     return this
   }
 
-  on(subscribe: FSubscribe<T>): ICancel {
-    if (this.reactions === undefined) {
-      this.reactions = new Set()
-    }
-
-    this.reactions.add(subscribe)
-
-    subscribe(this.$)
-    return () => this.reactions.delete(subscribe)
+  on(subscribe: FSubscribe<T>) {
+    return this.subscribe(subscribe)
   }
 
   subscribe(subscribe: FSubscribe<T>) {
-    return this.on(subscribe)
-  }
+    if (this.ons === undefined) {
+      this.ons = new Set()
+    }
 
-  log(msg) {
-    this.on(() => console.log(msg, this.$))
-    return this
+    this.ons.add(subscribe)
+
+    subscribe(this.$)
+    return () => this.ons.delete(subscribe)
   }
 
   poke() {
-    if (this.reactions === undefined) return
+    if (this.ons === undefined) return
 
-    for (let callback of this.reactions) {
+    for (let callback of this.ons) {
       callback(this.$)
     }
-
     return this
   }
 }

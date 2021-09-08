@@ -6,6 +6,7 @@ import fs from 'fs'
 import path from 'path'
 import css from 'rollup-plugin-css-only'
 import glslify from 'rollup-plugin-glslify'
+import serve from 'rollup-plugin-serve'
 import svelte from 'rollup-plugin-svelte'
 import { terser } from 'rollup-plugin-terser'
 import autoPreprocess from 'svelte-preprocess'
@@ -96,6 +97,7 @@ const config = (input, dst = '', importThree = false) => {
       }),
 
       commonjs({}),
+      !production && serve('public'),
       production && terser(),
       {
         renderChunk(code) {
@@ -118,9 +120,4 @@ const config = (input, dst = '', importThree = false) => {
   return o
 }
 
-export default [
-  config('main'),
-  config('service', '..'),
-  config('system/physics', '', true),
-  config('system/cardinal', '', true),
-]
+export default [config('main'), config('service', '..')]

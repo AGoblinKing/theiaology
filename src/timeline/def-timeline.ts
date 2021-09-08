@@ -1,6 +1,21 @@
-import { EAnimation } from 'src/buffer/animation'
-import { EPhase } from 'src/buffer/matter'
 import { EMidiChannel } from 'src/sound/midi'
+
+export enum EAnimation {
+  Normal = 0,
+  NoEffects,
+  Fire,
+}
+
+export enum EPhase {
+  // doesn't get added to any collision
+  GHOST,
+  // doesn't exist according to physics
+  VOID,
+  // levels of reactivity
+  NORMAL,
+  // Doesn't move, but exists
+  STUCK,
+}
 
 export interface IMarkers {
   [markerID: number]: string

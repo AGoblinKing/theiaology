@@ -1,5 +1,5 @@
-import { Timeline } from 'src/buffer/timeline'
 import type { Realm } from 'src/realm/realm'
+import { Timeline } from 'src/realm/timeline'
 import { MagickaVoxel } from 'src/render/magica'
 import { Value } from 'src/value'
 
@@ -32,7 +32,7 @@ export function Load(bytes: ArrayBuffer, realm: Realm) {
     timeline.poke()
     for (let i = 0; i < timeLength / 4; i++) {
       const val = view.getInt32(HEADER_END + i * 4)
-      timeline.$.store(i, val)
+      timeline.$[i] = val
 
       // remove indexes from available as you come across them
       if (i % Timeline.COUNT === 1 && val !== 0) {

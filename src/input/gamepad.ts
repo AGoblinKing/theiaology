@@ -16,12 +16,12 @@ export const sensitivity = new Value(0.09)
 export const pads_disabled = new Value({})
 export const pads = new Value({})
 
-export const pads_activate = new Value(-1).on((i) => {
+export const pads_activate = new Value(-1).subscribe((i) => {
   if (i < 0) return
   delete pads_disabled.$[i]
   pads_disabled.poke()
 })
-export const pad_disable = new Value(-1).on((i) => {
+export const pad_disable = new Value(-1).subscribe((i) => {
   if (i < 0) return
 
   pads_disabled.$[i] = true
@@ -34,7 +34,7 @@ export const pad = new Value({})
 
 export const pad_connected = new Value(true)
 
-pads.on(
+pads.subscribe(
   ($pads) =>
     !pad_connected.$ && pad_connected.set(Object.keys($pads).length > 0)
 )
@@ -135,7 +135,7 @@ setInterval(() => {
   }
 }, 100)
 
-pad_down.on((i) => {
+pad_down.subscribe((i) => {
   if (i === -1) return
 
   const $p = pad.$
@@ -150,7 +150,7 @@ pad_down.on((i) => {
   key_down.set(input)
 })
 
-pad_up.on((i) => {
+pad_up.subscribe((i) => {
   if (i === -1) return
 
   const $p = pad.$

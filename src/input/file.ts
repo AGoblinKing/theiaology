@@ -1,7 +1,6 @@
 import { get } from 'idb-keyval'
 import { rootTheia } from 'src/config'
 import { url } from 'src/input/browser'
-import { multiplayer } from 'src/realm/multiplayer'
 import { first } from 'src/realm/realm'
 import { MagickaVoxel } from 'src/render/magica'
 import { audio, audio_buffer, audio_name } from 'src/sound/audio'
@@ -109,19 +108,20 @@ export async function ReadURL(url: string) {
 
 if (url.$[0] === '') url.$.pop()
 
-if (multiplayer.host.$ || window.location.hash === '') {
+if (window.location.hash === '') {
+  const github = 'https://theiaology.com/github'
   switch (url.$.length) {
     case 0:
-      ReadURL(`/github/${rootTheia}`)
+      ReadURL(`${github}/${rootTheia}`)
       break
     case 2:
-      ReadURL(`/github/${url.$[0]}/${url.$[1]}`)
+      ReadURL(`${github}/${url.$[0]}/${url.$[1]}`)
       break
     default:
       // try reading static file and if it misses load DB
       const u = url.$.join('/')
 
-      ReadURL(`/theia/${u}.theia`).catch(() => {
+      ReadURL(`${github}/${u}.theia`).catch(() => {
         get(window.location.pathname).then((v) => {
           if (v) {
             Load(v, first.$)

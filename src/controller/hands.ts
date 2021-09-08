@@ -35,7 +35,7 @@ button.addEventListener('click', () => {
 
     if (!hand) continue
 
-    scene.$.add(hand)
+    scene.add(hand)
 
     hand.addEventListener('connected', (e) => {
       hand.handedness = e.data.handedness
@@ -70,7 +70,7 @@ function comparePose(p1: PoseValues, p2: PoseValues): number {
   )
 }
 
-pose.on((v) => requestAnimationFrame(() => last_pose.set(v)))
+pose.subscribe((v) => requestAnimationFrame(() => last_pose.set(v)))
 
 export function doPose(hand: IJointGroup) {
   const handPoseValue = poseValue(hand)

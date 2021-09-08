@@ -1,5 +1,4 @@
 import { Loop, tick } from 'src/render/time'
-import { Value } from 'src/value'
 import {
   AmbientLight,
   DirectionalLight,
@@ -9,7 +8,7 @@ import {
   WebGLRenderer,
 } from 'three'
 
-export const scene = new Value(new Scene())
+export const scene = new Scene()
 export const camera = new PerspectiveCamera(
   75,
   window.innerWidth / window.innerHeight,
@@ -17,12 +16,12 @@ export const camera = new PerspectiveCamera(
   1000000
 )
 
-export const body = new Value(new Group())
+export const body = new Group()
 
-body.$.position.set(0, 0.15, 2.5)
+body.position.set(0, 0.15, 2.5)
 const sun = new DirectionalLight(0xffffff, 0.75)
 sun.position.set(1, 1, 1)
-scene.$.add(body.$.add(camera), new AmbientLight(0xffffff, 0.5), sun)
+scene.add(body.add(camera), new AmbientLight(0xffffff, 0.5), sun)
 
 export const renderer = new WebGLRenderer()
 
@@ -37,8 +36,8 @@ window.addEventListener('resize', () => {
   resize = true
 })
 
-tick.on(() => {
-  renderer.render(scene.$, camera)
+tick.subscribe(() => {
+  renderer.render(scene, camera)
 
   if (resize) {
     renderer.setSize(window.innerWidth, window.innerHeight)

@@ -61,7 +61,7 @@ export function BuildBuffer() {
   buffer.setInt32(HEADER_START, timeline.$.length * 4)
 
   for (let i = 0; i < timeline.$.length - 1; i++) {
-    buffer.setInt32(i * 4 + header, timeline.$.load(i))
+    buffer.setInt32(i * 4 + header, timeline.$[i])
   }
 
   // Music

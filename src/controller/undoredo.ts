@@ -5,13 +5,13 @@ let future = []
 let isUndo = false
 let cancel
 
-fantasy.on(($r) => {
+fantasy.subscribe(($r) => {
   if (cancel) cancel()
 
   past = []
   future = []
 
-  cancel = $r.timeline.on(($t) => {
+  cancel = $r.timeline.subscribe(($t) => {
     past.push($t.toArray())
     if (past.length > 5) {
       past.shift()

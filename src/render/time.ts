@@ -13,7 +13,7 @@ export function Loop($t) {
 }
 
 export const timeUniform = new Uniform(0.0)
-runtime.on(($t) => {
+runtime.subscribe(($t) => {
   timeUniform.value = Math.floor(performance.now())
 })
 

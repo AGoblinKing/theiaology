@@ -13,12 +13,11 @@
   import Box from './Box.svelte'
 
   import { mouse_page } from 'src/input/mouse'
-  import { dotTheia, SPONSOR } from 'src/config'
+  import { dotTheia } from 'src/config'
   import { Redo, Undo } from 'src/controller/undoredo'
   import { key_down, key_map } from 'src/input/keyboard'
   import { Copy, Cut, Paste } from 'src/controller/copypaste'
   import { ReadFile } from 'src/input/file'
-  import { multiplayer } from 'src/realm/multiplayer'
 
   function Browse() {
     modal_location.set(
@@ -41,20 +40,20 @@
   function handleMultiplayer(res) {
     switch (res) {
       case 'Host':
-        window.location.hash = `public/${`${Math.floor(
+        window.location.hash = `public|${`${Math.floor(
           Math.random() * Number.MAX_SAFE_INTEGER
         )}`.slice(0, 8)}`
-        multiplayer.host.set(true)
+
         break
       case 'Secret':
-        window.location.hash = 'private/' + `${Math.floor(
+        window.location.hash = 'private|' + `${Math.floor(
           Math.random() * Number.MAX_SAFE_INTEGER
         )}`.slice(0, 8)
-        multiplayer.host.set(true)
+
         break
       case 'Join':
         window.location.hash = `public`
-        multiplayer.host.set(false)
+
         break
       default:
         return undefined
@@ -134,27 +133,6 @@
       down: 'music|vox|root',
     }}>> THEIAOLOGY</Box
   >
-
-  <!-- <Box
-    tilt={220}
-    hover="The workspace, click to change"
-    nav={{
-      tag: 'workspace',
-      right: 'load',
-      left: 'theiaology',
-      down,
-    }}
-    click={() => {
-      modal_location.$.set(mouse_page.$.x - 5, mouse_page.$.y - 5)
-      modal_default.set($url)
-      modal_options.set(EVar.STRING)
-      modal_visible.set((r) => {
-        window.open(r, '_self')
-      })
-    }}
-  >
-    {$url}
-  </Box> -->
   <Box
     tilt={-90}
     hover="Load files into Theiaology "
@@ -189,7 +167,7 @@
   >
     SPONSOR
   </Box>
-  <!-- <Box
+  <Box
     tilt={180}
     hover="Host or Join Multiplayer Realms"
     nav={{ tag: 'net', left: 'sponsor', down }}
@@ -197,7 +175,7 @@
     style="border-radius: 0 0 0.5rem 0;"
   >
     MULTIPLAYER
-  </Box> -->
+  </Box> 
 </div>
 <Modal />
 {#if $timeline_shown}

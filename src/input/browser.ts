@@ -15,3 +15,9 @@ export const mobile =
 export const options = new Value(
   new Set(window.location.search.toUpperCase().slice(1).split('|'))
 )
+
+export const multi = new Value(window.location.hash)
+
+window.addEventListener('hashchange', () => {
+  multi.set(window.location.hash)
+})

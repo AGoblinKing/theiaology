@@ -1,4 +1,3 @@
-import { AtomicInt } from 'src/buffer/atomic'
 import { TIMELINE_MAX } from 'src/config'
 import { ESpell, ITimeline } from 'src/timeline/def-timeline'
 
@@ -13,14 +12,17 @@ function CharCode(code: number) {
       return String.fromCharCode(code)
   }
 }
+
 // Authoring Buffer - Generally shouldn't be updating the timeline unless during development
-export class Timeline extends AtomicInt {
+export class Timeline extends Int32Array {
   static COUNT = 6
+  static BLANK = [0, 0, 0, 0, 0, 0]
   available: number[]
 
   // expandable
-  constructor(sab = new SharedArrayBuffer(Timeline.COUNT * 4 * TIMELINE_MAX)) {
-    super(sab)
+  constructor(data = new Int32Array(Timeline.COUNT * TIMELINE_MAX)) {
+    super(data)
+
     // reset available
     this.available = [...new Array(TIMELINE_MAX)].map((_, i) => i)
     // never 0
@@ -33,17 +35,15 @@ export class Timeline extends AtomicInt {
 
     const v = new DataView(arr)
 
-    for (
-      let i = 0;
-      i < Math.min(arr.byteLength / 4, this.sab.byteLength / 4);
-      i++
-    ) {
-      const val = v.getInt32(i * 4, true)
+    for (let i = 0; i < Math.min(arr.byteLength / 4, this.length); i++) {
+      const ix = i * 4
+      const val = v.getInt32(ix, true)
 
       if (i % Timeline.COUNT === 0 && val !== 0) {
         this.available.splice(this.available.indexOf(i / Timeline.COUNT), 1)
       }
-      this.store(i, val)
+
+      this[ix] = val
     }
   }
   // rip through array and create a tree
@@ -185,7 +185,7 @@ export class Timeline extends AtomicInt {
   }
 
   free(i: number) {
-    super.free(i, Timeline.COUNT)
+    this.set(Timeline.BLANK, i * Timeline.COUNT)
     this.available.unshift(i)
   }
 
@@ -259,39 +259,39 @@ export class Timeline extends AtomicInt {
   // when
   when(i: number, when?: number) {
     return when === undefined
-      ? Atomics.load(this, i * Timeline.COUNT)
-      : Atomics.store(this, i * Timeline.COUNT, when)
+      ? this[i * Timeline.COUNT]
+      : (this[i * Timeline.COUNT] = when)
   }
 
   // what event
   invoke(i: number, e?: ESpell) {
     return e === undefined
-      ? Atomics.load(this, i * Timeline.COUNT + 1)
-      : Atomics.store(this, i * Timeline.COUNT + 1, e)
+      ? this[i * Timeline.COUNT + 1]
+      : (this[i * Timeline.COUNT + 1] = e)
   }
 
   // used for refering to something
   who(i: number, who?: number) {
     return who === undefined
-      ? Atomics.load(this, i * Timeline.COUNT + 2)
-      : Atomics.store(this, i * Timeline.COUNT + 2, who)
+      ? this[i * Timeline.COUNT + 2]
+      : (this[i * Timeline.COUNT + 2] = who)
   }
 
-  data0(i: number, d1?: number) {
+  data0(i: number, d0?: number) {
+    return d0 === undefined
+      ? this[i * Timeline.COUNT + 3]
+      : (this[i * Timeline.COUNT + 3] = d0)
+  }
+
+  data1(i: number, d1?: number) {
     return d1 === undefined
-      ? Atomics.load(this, i * Timeline.COUNT + 3)
-      : Atomics.store(this, i * Timeline.COUNT + 3, d1)
+      ? this[i * Timeline.COUNT + 4]
+      : (this[i * Timeline.COUNT + 4] = d1)
   }
 
-  data1(i: number, d2?: number) {
+  data2(i: number, d2?: number) {
     return d2 === undefined
-      ? Atomics.load(this, i * Timeline.COUNT + 4)
-      : Atomics.store(this, i * Timeline.COUNT + 4, d2)
-  }
-
-  data2(i: number, d3?: number) {
-    return d3 === undefined
-      ? Atomics.load(this, i * Timeline.COUNT + 5)
-      : Atomics.store(this, i * Timeline.COUNT + 5, d3)
+      ? this[i * Timeline.COUNT + 5]
+      : (this[i * Timeline.COUNT + 5] = d2)
   }
 }

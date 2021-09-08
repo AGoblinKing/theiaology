@@ -1,12 +1,6 @@
 import { AXIS, pad_axes } from 'src/input/gamepad'
 import { key_down, key_up } from 'src/input/keyboard'
-import {
-  mouse_left,
-  mouse_pos,
-  mouse_right,
-  mouse_wheel,
-} from 'src/input/mouse'
-import { fantasy } from 'src/realm/realm'
+import { mouse_left, mouse_pos, mouse_right } from 'src/input/mouse'
 import { delta } from 'src/render/time'
 import { Value } from 'src/value'
 import { MathUtils, Vector2, Vector3 } from 'three'
@@ -18,7 +12,7 @@ export const move_inputs = new Value(new Vector3(0, 0, 0))
 const CAPS_SPEED = 2
 const SPEED = 1
 
-key_down.on(($k) => {
+key_down.subscribe(($k) => {
   switch ($k) {
     case 'A':
       move_inputs.$.x = -CAPS_SPEED
@@ -54,7 +48,7 @@ key_down.on(($k) => {
   }
 })
 
-key_up.on(($k) => {
+key_up.subscribe(($k) => {
   switch ($k.toLowerCase()) {
     case 'a':
     case 'd':
@@ -78,7 +72,7 @@ function ClearMouse() {
 }
 let first = true
 // emulate mouse_pos updates
-pad_axes.on(($axis) => {
+pad_axes.subscribe(($axis) => {
   if (timer) {
     clearTimeout(timer)
     timer = undefined
@@ -128,21 +122,17 @@ function UpdateCamera($dt: number) {
       ),
       MathUtils.degToRad(lon)
     )
-    .add(body.$.position)
+    .add(body.position)
 
-  body.$.lookAt(targetPosition)
+  body.lookAt(targetPosition)
 }
 
-mouse_wheel.on(($wheel) => {
-  const { universal } = fantasy.$
-  universal.userSize(Math.max(1, universal.userSize() + Math.sign($wheel)))
-})
-delta.on(($dt) => {
+delta.subscribe(($dt) => {
   // only run not in VR
   if (renderer.xr.isPresenting) {
     if (camera_mucked) {
       camera_mucked = false
-      body.$.quaternion.identity()
+      body.quaternion.identity()
     }
     return
   }

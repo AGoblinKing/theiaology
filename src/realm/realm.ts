@@ -1,33 +1,9 @@
-import { Animation } from 'src/buffer/animation'
-import { Cage } from 'src/buffer/cage'
-import { Impact } from 'src/buffer/impact'
-import { Matter } from 'src/buffer/matter'
-import { Size } from 'src/buffer/size'
-import { SpaceTime } from 'src/buffer/spacetime'
-import { Status } from 'src/buffer/status'
-import { Timeline } from 'src/buffer/timeline'
-import { Universal } from 'src/buffer/universal'
-import { Velocity } from 'src/buffer/velocity'
-import {
-  ENTITY_COUNT,
-  FACES,
-  INFRINGEMENT,
-  NORMALIZER,
-  SIZE,
-  TOON_ENABLED,
-} from 'src/config'
-import { mobile } from 'src/input/browser'
+import { ENTITY_COUNT, FACES, INFRINGEMENT, SIZE } from 'src/config'
 import { Load } from 'src/input/load'
 import { left_hand_uniforms, right_hand_uniforms } from 'src/input/xr'
-import AnimationFrag from 'src/render/animation.frag'
-import AnimationVert from 'src/render/animation.vert'
-import EnumVert from 'src/render/enum.vert'
-import HeaderVert from 'src/render/header.vert'
+import { Timeline } from 'src/realm/timeline'
 import { MagickaVoxel } from 'src/render/magica'
-import MainVert from 'src/render/main.vert'
-import MatterFrag from 'src/render/matter.frag'
-import { body, renderer, scene } from 'src/render/render'
-import SpaceTimeVert from 'src/render/spacetime.vert'
+import { body, scene } from 'src/render/render'
 import { runtime, timeUniform } from 'src/render/time'
 import {
   audio,
@@ -37,21 +13,18 @@ import {
   seconds,
   upperUniform,
 } from 'src/sound/audio'
-import { sys, SystemWorker } from 'src/system/sys'
-import { EMessage } from 'src/system/sys-enum'
 import { ICancel, Value } from 'src/value'
 import {
   Box3,
   BoxBufferGeometry,
-  InstancedBufferAttribute,
   InstancedMesh,
   Material,
   Matrix4,
   MeshBasicMaterial,
-  MeshToonMaterial,
   Uniform,
   Vector3,
 } from 'three'
+import { GPGPU } from './gpgpu'
 
 const IDENTITY = new Matrix4().identity()
 
@@ -60,42 +33,21 @@ export const realms: { [key: number]: Realm } = {}
 let nextLandCheck = 0
 
 const $vec3 = new Vector3()
-
 const $cage = new Box3()
 
 let i = 0
 
 let realmId = 0
 
-function Timer(time: number, fn: () => void) {
-  const i = setInterval(fn, time)
-  return () => clearInterval(i)
-}
-
 Object.assign(window, { realms })
 
 export const first = new Value<Realm>(undefined)
 export class Realm {
   // entity components
-  past: SpaceTime
-  future: SpaceTime
-  matter: Matter
-  velocity: Velocity
-  size: Size
-  impact: Impact
-  animation: Animation
-  status: Status
-
-  timeline: Value<Timeline>
-  universal: Universal
-  cage: Cage
-
+  timeline = new Value(new Timeline())
   musicName: string
   musicBuffer: DataView
   musicString: string
-
-  physics: SystemWorker
-  cardinal: SystemWorker
 
   atoms: InstancedMesh
 
@@ -114,6 +66,7 @@ export class Realm {
   uniShape: Uniform
 
   cancels: ICancel[] = []
+  gpgpu = new GPGPU()
 
   destroyed = false
   slowFantasy = i++
@@ -122,56 +75,25 @@ export class Realm {
   constructor() {
     if (first.$ === undefined) first.set(this)
 
-    this.velocity = new Velocity()
-    this.past = new SpaceTime()
-
-    this.future = new SpaceTime()
-    this.animation = new Animation()
-    this.matter = new Matter()
-    this.impact = new Impact()
-    this.size = new Size()
-    this.status = new Status()
-    this.universal = new Universal()
-    this.cage = new Cage()
-
-    this.timeline = new Value(new Timeline())
     this.initMaterial()
 
     // delay init so reality is set and other things have settled
     setTimeout(() => {
-      this.initSystems()
       this.initAtoms()
       this.initListeners()
     }, 0)
   }
 
   initMaterial() {
-    this.material =
-      !mobile && TOON_ENABLED ? new MeshToonMaterial() : new MeshBasicMaterial()
+    this.material = new MeshBasicMaterial()
 
-    const commonVertChunk = [
-      '#include <common>',
-      HeaderVert,
-      EnumVert,
-      AnimationVert,
-      SpaceTimeVert,
-    ].join('\n')
-
-    const fragmentParsChunk = [
-      '#include <common>',
-      EnumVert,
-      MatterFrag,
-      AnimationFrag,
-    ].join('\n')
-
-    const colorChunk = [
-      `vec4 diffuseColor = AnimationFrag(MatterFrag(vec4( diffuse, opacity)));`,
-    ].join('\n')
-    const c = this.universal.cage()
-
-    this.uniCage = new Uniform(c.min.clone())
-    this.uniCageM = new Uniform(c.max.clone())
-    this.uniOffset = new Uniform(this.universal.offset().clone())
+    this.uniCage = new Uniform(
+      new Vector3().setScalar(-Number.MAX_SAFE_INTEGER)
+    )
+    this.uniCageM = new Uniform(
+      new Vector3().setScalar(Number.MAX_SAFE_INTEGER)
+    )
+    this.uniOffset = new Uniform(new Vector3())
     this.uniShape = new Uniform(new Vector3(1, 1, 1))
 
     this.material.onBeforeCompile = (shader) => {
@@ -191,111 +113,15 @@ export class Realm {
 
       Object.entries(left_hand_uniforms).forEach(addHandUniform('left'))
       Object.entries(right_hand_uniforms).forEach(addHandUniform('right'))
-
-      shader.vertexShader = shader.vertexShader
-        .replace('#include <common>', commonVertChunk)
-        .replace('#include <project_vertex>', MainVert)
-
-      shader.fragmentShader = shader.fragmentShader
-        .replace('#include <common>', fragmentParsChunk)
-        .replace('vec4 diffuseColor = vec4( diffuse, opacity );', colorChunk)
     }
   }
 
-  initSystems() {
-    this.cardinal = sys
-      .start('cardinal')
-      .send(
-        this.past,
-        this.future,
-        this.matter,
-        this.velocity,
-        this.size,
-        this.animation,
-        this.impact,
-        this.status,
-        this.timeline.$,
-        this.universal,
-        this.cage
-      )
-      .on((e) => {
-        const data = e
-        if (typeof e === 'object') {
-          e = e.message
-        }
-
-        switch (e) {
-          case EMessage.LAND_REMOVE:
-            if (!this.first || !realms[data.id]) return
-
-            realms[data.id].cardinal.postMessage(EMessage.FREE_ALL)
-            // remove all lands with that id
-            break
-          case EMessage.LAND_ADD:
-            if (!this.first) return
-            if (!realms[data.id]) {
-              realms[data.id] = new Realm()
-            }
-
-            realms[data.id].universalCage(data.cage)
-            realms[data.id].universalOffset(data)
-            realms[data.id].universalShape(data.shape)
-
-            // now to load a timeline
-            realms[data.id].load(data.ruler, data.land)
-            break
-          case EMessage.USER_ROT_UPDATE:
-            if (!this.fantasy) return
-            body.$.rotation.set(
-              (this.universal.userRX() / NORMALIZER) * Math.PI * 2,
-              (this.universal.userRY() / NORMALIZER) * Math.PI * 2,
-              (this.universal.userRZ() / NORMALIZER) * Math.PI * 2
-            )
-
-            break
-          case EMessage.USER_POS_UPDATE:
-            if (!this.fantasy) return
-            body.$.position.copy(
-              $vec3
-                .set(
-                  this.universal.userX(),
-                  this.universal.userY(),
-                  this.universal.userZ()
-                )
-                .multiplyScalar(0.01)
-                .add(this.universal.offset().multiplyScalar(0.005))
-            )
-            break
-          case EMessage.CLEAR_COLOR_UPDATE:
-            if (!this.fantasy) return
-            renderer.setClearColor(this.universal.clearColor())
-            break
-        }
-      })
-
-    this.physics = sys
-      .start('physics')
-      .send(
-        this.past,
-        this.future,
-        this.matter,
-        this.velocity,
-        this.size,
-        this.impact,
-        this.universal,
-        this.cage
-      )
-      .bind(this.cardinal)
-  }
-
   universalCage(cage: Box3) {
-    this.universal.cage(cage)
     this.uniCage.value = this.uniCage.value.copy(cage.min)
     this.uniCageM.value = this.uniCageM.value.copy(cage.max)
   }
 
   universalOffset(offset: Vector3) {
-    this.universal.offset(offset)
     this.uniOffset.value = this.uniOffset.value.copy(offset)
   }
 
@@ -305,8 +131,8 @@ export class Realm {
 
   initListeners() {
     this.cancels.push(
-      runtime.on(($t) => {
-        this.universal.time(timeUniform.value)
+      runtime.subscribe(($t) => {
+        // this.universal.time(timeUniform.value)
         // only need to check if first
         if (!this.first) return
 
@@ -316,31 +142,8 @@ export class Realm {
         }
       }),
       // update universal
-      seconds.on(($s) => {
-        if (this.fantasy) this.universal.musicTime($s)
-      }),
-      Timer(1000 / 30, () => {
-        const { atoms } = this
-        if (!this.fantasy && this.slowFantasy++ % 2 !== 0) return
-        atoms.geometry.getAttribute('animation').needsUpdate = true
-        atoms.geometry.getAttribute('past').needsUpdate = true
-        atoms.geometry.getAttribute('future').needsUpdate = true
-        atoms.geometry.getAttribute('matter').needsUpdate = true
-        atoms.geometry.getAttribute('size').needsUpdate = true
-      }),
-      this.timeline.on(($t) => {
-        if ($t === undefined) return
-
-        this.cardinal.send(EMessage.TIMELINE_UPDATE)
-        this.cardinal._queue = []
-
-        if (!this.first) return
-
-        // update the timelineJSON for UI
-        this.timelineJSON.set(this.timeline.$.toObject())
-      }),
-      this.voxes.on(($voxes) => {
-        this.cardinal.send($voxes)
+      seconds.subscribe(($s) => {
+        // if (this.fantasy) this.universal.musicTime($s)
       })
     )
   }
@@ -354,27 +157,7 @@ export class Realm {
         FACES,
         FACES,
         FACES
-      )
-        .setAttribute(
-          'animation',
-          new InstancedBufferAttribute(this.animation, 1)
-        )
-        .setAttribute(
-          'past',
-          new InstancedBufferAttribute(this.past, SpaceTime.COUNT)
-        )
-        .setAttribute(
-          'future',
-          new InstancedBufferAttribute(this.future, SpaceTime.COUNT)
-        )
-        .setAttribute(
-          'matter',
-          new InstancedBufferAttribute(this.matter, Matter.COUNT)
-        )
-        .setAttribute(
-          'size',
-          new InstancedBufferAttribute(this.size, Velocity.COUNT)
-        ),
+      ),
       this.material,
       ENTITY_COUNT
     )
@@ -383,27 +166,20 @@ export class Realm {
       this.atoms.setMatrixAt(i, IDENTITY)
     }
 
-    scene.$.add(this.atoms)
+    scene.add(this.atoms)
   }
 
   destroy() {
-    if (!this.cardinal) return
     this.cancels.forEach((c) => c())
 
-    this.cardinal.terminate()
-    this.physics.terminate()
-
-    delete this.cardinal
-    delete this.physics
-
-    scene.$.remove(this.atoms)
+    scene.remove(this.atoms)
     this.atoms.dispose()
     this.destroyed = true
   }
 
   // load a github repo into this land
   async load(ruler: string, realm: string) {
-    const url = `/github/${ruler}/${realm}`
+    const url = `https://theiaology.com/github/${ruler}/${realm}`
     if (!cache[url]) cache[url] = fetch(url).then((r) => r.arrayBuffer())
     const data = await cache[url]
 
@@ -421,7 +197,7 @@ export class Realm {
       if (
         !$cage
           .translate(r.uniOffset.value)
-          .containsPoint($vec3.copy(body.$.position).multiplyScalar(200))
+          .containsPoint($vec3.copy(body.position).multiplyScalar(200))
       ) {
         continue
       }
@@ -449,10 +225,10 @@ const cache = {}
 export const fantasy = new Value(new Realm())
 
 let cancel
-fantasy.on((realm: Realm) => {
+fantasy.subscribe((realm: Realm) => {
   if (cancel) cancel()
 
-  cancel = realm.timeline.on(() => {
+  cancel = realm.timeline.subscribe(() => {
     if (!realm.musicBuffer) return
 
     audio.src = realm.musicString

@@ -14,14 +14,14 @@ export const walk = new Value()
 
 const velta = new Vector3()
 
-runtime.on(($t) => {
+runtime.subscribe(($t) => {
   if (Math.abs(velocity.$.length()) > MIN_VELOCITY) {
     velta.copy(velocity.$).multiplyScalar(delta.$)
 
     velocity.$.sub(velta)
-    body.$.position.add(
+    body.position.add(
       velta.applyQuaternion(
-        renderer.xr.isPresenting ? camera.quaternion : body.$.quaternion
+        renderer.xr.isPresenting ? camera.quaternion : body.quaternion
       )
     )
   }
@@ -29,7 +29,7 @@ runtime.on(($t) => {
   if (Math.abs(angular.$) > MIN_VELOCITY) {
     const angleta = angular.$ * delta.$
 
-    body.$.rotateY(angleta)
+    body.rotateY(angleta)
 
     angular.$ -= angleta
   }

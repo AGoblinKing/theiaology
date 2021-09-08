@@ -46,7 +46,7 @@ audio.onplay = function () {
     return val
   }
 
-  tick.on(() => {
+  tick.subscribe(() => {
     analyser.getByteFrequencyData(dataArray)
     const lowerHalfArray = dataArray.slice(0, dataArray.length / 2 - 1)
     const upperHalfArray = dataArray.slice(
@@ -69,12 +69,12 @@ export const upperUniform = new Uniform(0)
 export const lowerUniform = new Uniform(0)
 
 export const upperAvg = new Value(0)
-upperAvg.on(($ua) => (upperUniform.value = $ua))
+upperAvg.subscribe(($ua) => (upperUniform.value = $ua))
 
 export const lowerAvg = new Value(0)
-lowerAvg.on(($la) => (lowerUniform.value = $la))
+lowerAvg.subscribe(($la) => (lowerUniform.value = $la))
 
-tick.on(() => {
+tick.subscribe(() => {
   if (seconds.$ !== audio.currentTime) {
     seconds.set(audio.currentTime)
   }
