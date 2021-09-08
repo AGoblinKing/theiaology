@@ -89,13 +89,17 @@ export async function Host(count = 10) {
   const offers = friends.map((f) => f.CreateOffer())
 
   // host might throw if can't
-  await fetch(`${url}/host`, {
+
+  return fetch(`${url}/host`, {
     method: 'POST',
     body: offers.join('\n'),
     mode: 'no-cors',
+  }).then(function (response) {
+    if (!response.ok) {
+      throw Error(response.statusText)
+    }
+    return response
   })
-
-  return friends
 }
 
 export const connected = new Value(false)

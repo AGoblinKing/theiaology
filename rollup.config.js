@@ -97,7 +97,11 @@ const config = (input, dst = '', importThree = false) => {
       }),
 
       commonjs({}),
-      !production && serve('public'),
+      !production &&
+        serve({
+          historyApiFallback: true,
+          contentBase: 'public',
+        }),
       production && terser(),
       {
         renderChunk(code) {
