@@ -3,6 +3,8 @@ import * as render from 'src/render/render'
 // @ts-ignore
 import Theiaology from 'src/timeline/Theiaology.svelte'
 import './controller/player'
+import { local } from './input/browser'
+import './realm/yggdrasil'
 import './render/hand-joints'
 import './sound/audio'
 
@@ -13,7 +15,7 @@ const theiaology = new Theiaology({
 })
 
 // register service worker
-if ('serviceWorker' in navigator) {
+if ('serviceWorker' in navigator && !local) {
   navigator.serviceWorker.register('/service.js', { scope: '/' })
 }
 

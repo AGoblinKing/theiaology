@@ -1,8 +1,11 @@
-const count = parseInt(location.search.slice(1), 10)
+import { local } from './input/browser'
+
 export const ENTITY_COUNT = 256 * 256
 
 // For GamePlay, max impacts for entity, the impacts still happen for velocity purposes
 export const IMPACTS_MAX_PER = 8
+
+// TODO: change to 128x128
 export const TIMELINE_MAX = 1024 * 8
 
 export const SIZE = 0.001
@@ -61,3 +64,7 @@ export function UserUnits(x: number) {
 }
 
 export const TOON_ENABLED = false
+
+export const YGGDRASIL = local
+  ? 'http://localhost:8081/bifrost'
+  : 'https://theiaology.com/bifrost'

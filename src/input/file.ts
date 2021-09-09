@@ -78,10 +78,7 @@ export function ReadFile(file: File | string, buffer: ArrayBufferLike) {
         new MagickaVoxel(buffer)
       first.$.voxes.poke()
       break
-    case name.indexOf('github') !== -1:
-    case name.indexOf('.theia') !== -1:
-      Load(buffer, first.$)
-      break
+
     case name.indexOf('.mp3') != -1:
     case name.indexOf('.wav') != -1:
     case name.indexOf('.ogg') != -1:
@@ -93,6 +90,11 @@ export function ReadFile(file: File | string, buffer: ArrayBufferLike) {
       audio_name.set(name.split('.')[0].slice(0, 12))
 
       break
+    default:
+    case name.indexOf('github') !== -1:
+    case name.indexOf('.theia') !== -1:
+      Load(buffer, first.$)
+      break
   }
 }
 
@@ -100,9 +102,10 @@ const cache = {}
 
 export async function ReadURL(url: string) {
   if (!cache[url]) {
-    cache[url] = fetch(url, {
-      mode: 'no-cors',
-    }).then((r) => r.arrayBuffer())
+    cache[url] = fetch(url).then((r) => {
+      if (!r.ok) throw new Error(`Couldn't load ${url}`)
+      return r.arrayBuffer()
+    })
   }
 
   return ReadFile(url, await cache[url])
@@ -112,9 +115,10 @@ if (url.$[0] === '') url.$.pop()
 
 if (window.location.search.slice(1) === '') {
   const github = 'https://theiaology.com/github'
+
   switch (url.$.length) {
     case 0:
-      ReadURL(`/${rootTheia}`)
+      ReadURL(`${github}/${rootTheia}`)
       break
     case 2:
       ReadURL(`${github}/${url.$[0]}/${url.$[1]}`)

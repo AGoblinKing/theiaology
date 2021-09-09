@@ -12,7 +12,7 @@ export const HEADER_END = HEADER_START + 4 * 4
 // map json ID to timeline ID
 
 export function Load(bytes: ArrayBuffer, realm: Realm) {
-  const { timeline } = realm
+  const { timeline, timelineJSON } = realm
 
   try {
     const view = new DataView(bytes)
@@ -29,7 +29,7 @@ export function Load(bytes: ArrayBuffer, realm: Realm) {
     const timeEnd = HEADER_END + timeLength
 
     timeline.$.freeAll()
-    timeline.poke()
+
     for (let i = 0; i < timeLength / 4; i++) {
       const val = view.getInt32(HEADER_END + i * 4)
       timeline.$[i] = val
@@ -108,6 +108,7 @@ export function Load(bytes: ArrayBuffer, realm: Realm) {
     realm.voxes.set(voxUpdate)
     // only poke at the end incase we need to revert
     timeline.poke()
+    timelineJSON.set(timeline.$.toObject())
   } catch (ex) {
     // undo that garbo
     timeline.$.freeAll()

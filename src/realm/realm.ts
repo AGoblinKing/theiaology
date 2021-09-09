@@ -20,11 +20,11 @@ import {
   InstancedMesh,
   Material,
   Matrix4,
-  MeshBasicMaterial,
+  ShaderMaterial,
   Uniform,
   Vector3,
 } from 'three'
-import { GPGPU } from './gpgpu'
+import { FluxLight } from './fluxlight'
 
 const IDENTITY = new Matrix4().identity()
 
@@ -66,10 +66,10 @@ export class Realm {
   uniShape: Uniform
 
   cancels: ICancel[] = []
-  gpgpu = new GPGPU()
+  fluxCapacitor
 
   destroyed = false
-  slowFantasy = i++
+
   id = realmId++
 
   constructor() {
@@ -78,42 +78,38 @@ export class Realm {
     this.initMaterial()
 
     // delay init so reality is set and other things have settled
-    setTimeout(() => {
-      this.initAtoms()
-      this.initListeners()
-    }, 0)
+
+    this.initAtoms()
+    this.initListeners()
   }
 
   initMaterial() {
-    this.material = new MeshBasicMaterial()
-
-    this.uniCage = new Uniform(
-      new Vector3().setScalar(-Number.MAX_SAFE_INTEGER)
-    )
-    this.uniCageM = new Uniform(
-      new Vector3().setScalar(Number.MAX_SAFE_INTEGER)
-    )
-    this.uniOffset = new Uniform(new Vector3())
-    this.uniShape = new Uniform(new Vector3(1, 1, 1))
-
-    this.material.onBeforeCompile = (shader) => {
-      shader.uniforms.time = timeUniform
-      shader.uniforms.audioLow = lowerUniform
-      shader.uniforms.audioHigh = upperUniform
-      shader.uniforms.cage = this.uniCage
-      shader.uniforms.cageM = this.uniCageM
-      shader.uniforms.offset = this.uniOffset
-      shader.uniforms.shape = this.uniShape
-
-      const addHandUniform =
-        (dir) =>
-        ([key, value]) => {
-          shader.uniforms[`${dir}${key.split('-')[0]}`] = value
-        }
-
-      Object.entries(left_hand_uniforms).forEach(addHandUniform('left'))
-      Object.entries(right_hand_uniforms).forEach(addHandUniform('right'))
+    const uniforms = {
+      uniCage: new Uniform(new Vector3().setScalar(-Number.MAX_SAFE_INTEGER)),
+      uniCageM: new Uniform(new Vector3().setScalar(Number.MAX_SAFE_INTEGER)),
+      uniOffset: new Uniform(new Vector3()),
+      uniShape: new Uniform(new Vector3(1, 1, 1)),
+      time: timeUniform,
+      audioLow: lowerUniform,
+      audioHigh: upperUniform,
+      cage: this.uniCage,
+      cageM: this.uniCageM,
+      offset: this.uniOffset,
+      shape: this.uniShape,
     }
+    const addHandUniform =
+      (dir) =>
+      ([key, value]) => {
+        uniforms[`${dir}${key.split('-')[0]}`] = value
+      }
+
+    Object.entries(left_hand_uniforms).forEach(addHandUniform('left'))
+    Object.entries(right_hand_uniforms).forEach(addHandUniform('right'))
+    this.fluxCapacitor = new FluxLight(uniforms)
+
+    this.material = new ShaderMaterial({
+      uniforms,
+    })
   }
 
   universalCage(cage: Box3) {

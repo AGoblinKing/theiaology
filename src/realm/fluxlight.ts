@@ -1,4 +1,3 @@
-import { multi } from 'src/input/browser'
 import { renderer, scene } from 'src/render/render'
 import { Timer, timeUniform } from 'src/render/time'
 import {
@@ -16,9 +15,9 @@ import {
   GPUComputationRenderer,
   Variable,
 } from 'three/examples/jsm/misc/GPUComputationRenderer'
-import { connected, Host, Join } from './friend'
 import Position from './position.frag'
 import Thrust from './thrust.frag'
+import { yggdrasil } from './yggdrasil'
 
 function Waves(tex: DataTexture) {
   const data = tex.image.data
@@ -52,7 +51,7 @@ function Randomize(tex: DataTexture) {
 const geometry = new SphereBufferGeometry(0.5)
 //new BoxBufferGeometry()
 
-export class GPGPU {
+export class FluxLight {
   compute = new GPUComputationRenderer(256, 256, renderer)
 
   // x, y, z, decay
@@ -84,50 +83,63 @@ export class GPGPU {
   varPos: Variable
   varThrust: Variable
 
-  o3dPos = new Mesh(
-    geometry,
-    new MeshBasicMaterial({
-      map: this.position,
-    })
-  )
-  o3dThrust = new Mesh(
-    geometry,
-    new MeshBasicMaterial({
-      map: this.thrust,
-    })
-  )
-  o3dColor = new Mesh(
-    geometry,
-    new MeshBasicMaterial({
-      map: this.color,
-    })
-  )
-  o3dSize = new Mesh(
-    geometry,
-    new MeshBasicMaterial({
-      map: this.size,
-    })
-  )
+  uniforms: any
 
-  constructor() {
+  constructor(uniforms: any) {
     this.compute.setDataType(FloatType)
-    // set uniforms
-
-    // set variables
     this.reset()
+
+    this.uniforms = uniforms
+
+    this.uniforms.positionTex = new Uniform(undefined)
 
     const err = this.compute.init()
     if (err !== null) {
       throw err
     }
 
-    this.o3dPos.position.set(0.5, 0.5, 0)
-    this.o3dThrust.position.set(-0.5, 0.5, 0)
-    this.o3dColor.position.set(0.5, -0.5, 0)
-    this.o3dSize.position.set(-0.5, -0.5, 0)
+    this.debug()
+    Timer(1000 / 15, this.tick.bind(this))
+  }
+
+  debug() {
+    Waves2(this.thrust)
+    Waves(this.position)
+    Waves(this.color)
+    Randomize(this.size)
+
+    const o3dPos = new Mesh(
+      geometry,
+      new MeshBasicMaterial({
+        map: this.position,
+      })
+    )
+    const o3dThrust = new Mesh(
+      geometry,
+      new MeshBasicMaterial({
+        map: this.thrust,
+      })
+    )
+    const o3dColor = new Mesh(
+      geometry,
+      new MeshBasicMaterial({
+        map: this.color,
+      })
+    )
+    const o3dSize = new Mesh(
+      geometry,
+      new MeshBasicMaterial({
+        map: this.size,
+      })
+    )
+
+    o3dPos.position.set(0.5, 0.5, 0)
+    o3dThrust.position.set(-0.5, 0.5, 0)
+    o3dColor.position.set(0.5, -0.5, 0)
+    o3dSize.position.set(-0.5, -0.5, 0)
 
     const g = new Group()
-    g.add(this.o3dPos, this.o3dThrust, this.o3dColor, this.o3dSize)
+    g.add(o3dPos, o3dThrust, o3dColor, o3dSize)
     const g2 = g.clone()
     g2.rotateY(Math.PI)
     g2.rotateX(Math.PI)
@@ -135,17 +147,15 @@ export class GPGPU {
     g2.position.set(0, 0, -1)
     scene.add(g, g2)
 
-    Timer(1000 / 60, this.tick.bind(this))
-
-    this.multiChange = this.multiChange.bind(this)
-    multi.on(this.multiChange)
+    Timer(1000 / 15, () => {
+      o3dPos.material.map = this.compute.getCurrentRenderTarget(
+        this.varPos
+        // @ts-ignore
+      ).texture
+    })
   }
 
   reset() {
-    Waves2(this.thrust)
-    Waves(this.position)
-    Waves(this.color)
-    Randomize(this.size)
     // bind shaders
     this.varPos = this.compute.addVariable('texPos', Position, this.position)
     this.varThrust = this.compute.addVariable('texThrust', Thrust, this.thrust)
@@ -156,35 +166,16 @@ export class GPGPU {
     ])
 
     this.compute.setVariableDependencies(this.varThrust, [this.varThrust])
-
-    // set variable depedencies
-  }
-
-  async multiChange($m) {
-    if (connected.$ || $m === '') return
-
-    // try to host
-    return Join().catch((e) => {
-      console.log('error joining', arguments)
-
-      switch (e.status) {
-        case 404:
-          Host()
-      }
-    })
   }
 
   tick() {
     this.compute.compute()
-
-    this.o3dPos.material.map = this.compute.getCurrentRenderTarget(
+    this.uniforms.positionTex = this.compute.getCurrentRenderTarget(
       this.varPos
       // @ts-ignore
     ).texture
 
-    // this.o3dThrust.material.map = this.compute.getCurrentRenderTarget(
-    //   this.varThrust
-    //   // @ts-ignore
-    // ).texture
+    // send remote
+    yggdrasil.render()
   }
 }

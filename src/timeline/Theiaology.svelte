@@ -167,7 +167,7 @@
   >
     SPONSOR
   </Box>
-  <Box
+  <!-- <Box
     tilt={180}
     hover="Host or Join Multiplayer Realms"
     nav={{ tag: 'net', left: 'sponsor', down }}
@@ -175,7 +175,7 @@
     style="border-radius: 0 0 0.5rem 0;"
   >
     MULTIPLAYER
-  </Box> 
+  </Box>  -->
 </div>
 <Modal />
 {#if $timeline_shown}

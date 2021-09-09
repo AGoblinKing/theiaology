@@ -1,6 +1,9 @@
 import { Value } from 'src/value'
 
 export const url = new Value(window.location.pathname.slice(1).split('/'))
+
+export const local = window.location.host.indexOf('localhost') > -1
+
 export const hasSharedArrayBuffer = window.SharedArrayBuffer !== undefined
 
 if (hasSharedArrayBuffer) {

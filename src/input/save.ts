@@ -34,6 +34,7 @@ export function Save(withFile = true) {
 
 export function BuildBuffer() {
   const { timeline } = first.$
+
   // [THEA, TIME_SIZE, VOX_SIZE, MUSIC_SIZE, 0, 0, ...
   const header = HEADER_START * 2
   const timelineLength = timeline.$.length * 4

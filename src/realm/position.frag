@@ -1,4 +1,4 @@
-#define delta (1.0/60.0)
+#define delta (1.0/15.0)
 
 float modu(float x, float y) {
   return x - y * floor(x/y);

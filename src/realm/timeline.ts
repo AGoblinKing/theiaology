@@ -203,13 +203,14 @@ export class Timeline extends Int32Array {
     }
 
     const i = this.available.shift()
+    const ix = i * Timeline.COUNT
 
-    Atomics.store(this, i * Timeline.COUNT, when)
-    Atomics.store(this, i * Timeline.COUNT + 1, command)
-    Atomics.store(this, i * Timeline.COUNT + 2, who)
-    Atomics.store(this, i * Timeline.COUNT + 3, d1)
-    Atomics.store(this, i * Timeline.COUNT + 4, d2)
-    Atomics.store(this, i * Timeline.COUNT + 5, d3)
+    this[ix] = when
+    this[ix + 1] = command
+    this[ix + 2] = who
+    this[ix + 3] = d1
+    this[ix + 4] = d2
+    this[ix + 5] = d3
 
     return i
   }
@@ -245,11 +246,7 @@ export class Timeline extends Int32Array {
 
       // last
       if (six === 3) {
-        Atomics.store(
-          this,
-          i * Timeline.COUNT + 3 + siy,
-          strView.getInt32(0, false)
-        )
+        this[i * Timeline.COUNT + 3 + siy] = strView.getInt32(0, false)
       }
     }
 

@@ -120,7 +120,7 @@
       </div>
     {/each}
 
-    <Node i={$timeline ? 0 : 0}/>
+    <Node i={0}/>
   </div>
 </div>
 
