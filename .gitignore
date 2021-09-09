@@ -9,4 +9,3 @@ public/stats.html
 .rollup.cache*
 public/build/
 public/saves/
-public/service.js

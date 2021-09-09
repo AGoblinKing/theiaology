@@ -6,6 +6,7 @@ import fs from 'fs'
 import path from 'path'
 import css from 'rollup-plugin-css-only'
 import glslify from 'rollup-plugin-glslify'
+import livereload from 'rollup-plugin-livereload'
 import serve from 'rollup-plugin-serve'
 import svelte from 'rollup-plugin-svelte'
 import { terser } from 'rollup-plugin-terser'
@@ -36,92 +37,76 @@ const rootImport = (options) => ({
   },
 })
 
-let once = true
-const config = (input, dst = '', importThree = false) => {
-  const o = {
-    input: `src/${input}.ts`,
+const input = 'main'
 
-    external: ['three'],
-    output: {
-      globals: {
-        three: 'THREE',
-      },
-      format: 'iife',
-      chunkFileNames: '[name].js',
-      sourcemap: true,
+export default {
+  input: `src/${input}.ts`,
 
-      name: 'app',
-      dir: `public/build/${dst}`,
+  external: ['three'],
+  output: {
+    globals: {
+      three: 'THREE',
     },
-    plugins: [
-      css(),
-      resolve({
-        browser: true,
-        moduleDirectories: ['node_modules'],
-        dedupe: ['svelte'],
-        extensions: ['.js', '.ts'],
-      }),
-      svelte({
-        onwarn: (warning, handler) => {
-          switch (warning.code) {
-            case 'missing-declaration':
-            case 'a11y-mouse-events-have-key-events':
-            case 'a11y-autofocus':
-            case 'module-script-reactive-declaration':
-            case 'unused-export-let':
-            case 'a11y-distracting-elements':
-              return
-            default:
-              console.log(warning.code)
-          }
-          handler(warning)
-        },
-        extensions: ['.svelte'],
-        preprocess: autoPreprocess({
-          typescript: {
-            compilerOptions: {
-              checkJs: false,
-            },
+    format: 'iife',
+    chunkFileNames: '[name].js',
+    sourcemap: true,
+
+    name: 'app',
+    dir: `public/build`,
+  },
+  plugins: [
+    css(),
+    resolve({
+      browser: true,
+      moduleDirectories: ['node_modules'],
+      dedupe: ['svelte'],
+      extensions: ['.js', '.ts'],
+    }),
+    svelte({
+      onwarn: (warning, handler) => {
+        switch (warning.code) {
+          case 'missing-declaration':
+          case 'a11y-mouse-events-have-key-events':
+          case 'a11y-autofocus':
+          case 'module-script-reactive-declaration':
+          case 'unused-export-let':
+          case 'a11y-distracting-elements':
+            return
+          default:
+            console.log(warning.code)
+        }
+        handler(warning)
+      },
+      extensions: ['.svelte'],
+      preprocess: autoPreprocess({
+        typescript: {
+          compilerOptions: {
+            checkJs: false,
           },
-        }),
-      }),
-
-      json(),
-      glslify({
-        compress: false,
-      }),
-      ts({}),
-      rootImport({
-        extensions: ['.ts', '.svelte', '', '.json', '.js'],
-        root: `${__dirname}/`,
-      }),
-
-      commonjs({}),
-      !production &&
-        serve({
-          historyApiFallback: true,
-          contentBase: 'public',
-        }),
-      production && terser(),
-      {
-        renderChunk(code) {
-          return {
-            code: `${
-              importThree
-                ? `if(typeof importScripts === "function") { importScripts("/three.js") }\r\n`
-                : ''
-            }${code}`,
-            map: null,
-          }
         },
-      },
-    ],
-    watch: {
-      clearScreen: false,
-    },
-  }
-  once = false
-  return o
-}
+      }),
+    }),
 
-export default [config('main'), config('service', '..')]
+    json(),
+    glslify({
+      compress: false,
+    }),
+    ts({}),
+    rootImport({
+      extensions: ['.ts', '.svelte', '', '.json', '.js'],
+      root: `${__dirname}/`,
+    }),
+
+    commonjs({}),
+    !production &&
+      serve({
+        historyApiFallback: true,
+        contentBase: 'public',
+      }),
+    !production && livereload('public'),
+    production && terser(),
+  ],
+  watch: {
+    clearScreen: true,
+  },
+}

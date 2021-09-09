@@ -2,7 +2,6 @@ import { multi } from 'src/input/browser'
 import { renderer, scene } from 'src/render/render'
 import { Timer, timeUniform } from 'src/render/time'
 import {
-  BoxBufferGeometry,
   DataTexture,
   FloatType,
   Group,
@@ -10,6 +9,7 @@ import {
   Mesh,
   MeshBasicMaterial,
   RGBAFormat,
+  SphereBufferGeometry,
   Uniform,
 } from 'three'
 import {
@@ -49,7 +49,8 @@ function Randomize(tex: DataTexture) {
   tex.needsUpdate = true
 }
 
-const geometry = new BoxBufferGeometry()
+const geometry = new SphereBufferGeometry(0.5)
+//new BoxBufferGeometry()
 
 export class GPGPU {
   compute = new GPUComputationRenderer(256, 256, renderer)
@@ -160,14 +161,17 @@ export class GPGPU {
   }
 
   async multiChange($m) {
-    if (connected.$) return
+    if (connected.$ || $m === '') return
 
     // try to host
-    return Host()
-      .catch(() => Join())
-      .catch(() => {
-        setTimeout(this.multiChange, 1000 * 60)
-      })
+    return Join().catch((e) => {
+      console.log('error joining', arguments)
+
+      switch (e.status) {
+        case 404:
+          Host()
+      }
+    })
   }
 
   tick() {

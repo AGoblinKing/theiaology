@@ -11,7 +11,11 @@ const grab = (url: string, body?: any) =>
     method: 'POST',
     body,
     mode: 'no-cors',
-  }).then((res) => res.json())
+  }).then((res) => {
+    console.log(res)
+    if (!res.ok) return Promise.reject(res)
+    return res.text()
+  })
 
 export class Friend {
   pc: RTCPeerConnection
@@ -75,7 +79,8 @@ export class Friend {
 export async function Join() {
   const offer = await grab(`${url}/join`)
 
-  const friend = new Friend(offer)
+  // @ts-ignore
+  const friend = new Friend(JSON.parse(offer))
 
   return friend
 }
@@ -86,7 +91,7 @@ export async function Host(count = 10) {
     friends.push(new Friend())
   }
 
-  const offers = friends.map((f) => f.CreateOffer())
+  const offers = await Promise.all(friends.map((f) => f.CreateOffer()))
 
   // host might throw if can't
 
@@ -98,7 +103,7 @@ export async function Host(count = 10) {
     if (!response.ok) {
       throw Error(response.statusText)
     }
-    return response
+    return response.text()
   })
 }
 

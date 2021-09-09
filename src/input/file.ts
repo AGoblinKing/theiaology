@@ -100,7 +100,9 @@ const cache = {}
 
 export async function ReadURL(url: string) {
   if (!cache[url]) {
-    cache[url] = fetch(url).then((r) => r.arrayBuffer())
+    cache[url] = fetch(url, {
+      mode: 'no-cors',
+    }).then((r) => r.arrayBuffer())
   }
 
   return ReadFile(url, await cache[url])
@@ -108,27 +110,22 @@ export async function ReadURL(url: string) {
 
 if (url.$[0] === '') url.$.pop()
 
-if (window.location.hash === '') {
+if (window.location.search.slice(1) === '') {
   const github = 'https://theiaology.com/github'
   switch (url.$.length) {
     case 0:
-      ReadURL(`${github}/${rootTheia}`)
+      ReadURL(`/${rootTheia}`)
       break
     case 2:
       ReadURL(`${github}/${url.$[0]}/${url.$[1]}`)
       break
     default:
-      // try reading static file and if it misses load DB
-      const u = url.$.join('/')
+      get(window.location.pathname).then((v) => {
+        if (v) {
+          Load(v, first.$)
+        }
 
-      ReadURL(`${github}/${u}.theia`).catch(() => {
-        get(window.location.pathname).then((v) => {
-          if (v) {
-            Load(v, first.$)
-          }
-
-          dbLoaded.set(true)
-        })
+        dbLoaded.set(true)
       })
   }
 }

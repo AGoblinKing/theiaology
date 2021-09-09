@@ -6,7 +6,7 @@
   "scripts": {
     "build": "rollup -c",
     "test": "node ./public/build/test.js",
-    "dev":  "rollup -c -w"
+    "dev": "rollup -c -w"
   },
   "author": "king@goblin.life",
   "license": "MIT",

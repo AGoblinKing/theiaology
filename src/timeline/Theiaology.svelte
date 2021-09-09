@@ -40,19 +40,19 @@
   function handleMultiplayer(res) {
     switch (res) {
       case 'Host':
-        window.location.hash = `public|${`${Math.floor(
+        window.location.search = `public|${`${Math.floor(
           Math.random() * Number.MAX_SAFE_INTEGER
         )}`.slice(0, 8)}`
 
         break
       case 'Secret':
-        window.location.hash = 'private|' + `${Math.floor(
+        window.location.search = 'secret|' + `${Math.floor(
           Math.random() * Number.MAX_SAFE_INTEGER
         )}`.slice(0, 8)
 
         break
-      case 'Join':
-        window.location.hash = `public`
+      case 'Public':
+        window.location.search = `public`
 
         break
       default:
@@ -73,7 +73,7 @@
       modal_location.$.set($mouse_page.x - 5, $mouse_page.y - 5)
     )
 
-    modal_options.set(['Host', 'Join', 'Secret'])
+    modal_options.set(['Public', 'Secret'])
 
     modal_visible.set((res) => setTimeout(handleMultiplayer(res)))
   }
