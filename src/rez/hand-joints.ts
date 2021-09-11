@@ -1,12 +1,13 @@
 import { EAnimation } from 'src/buffer/animation'
+import { EPhase } from 'src/buffer/matter'
 import { NORMALIZER } from 'src/config'
 import { doPose } from 'src/controller/hands'
 import { hands, left_hand_uniforms, right_hand_uniforms } from 'src/input/xr'
-import { fantasy } from 'src/realm/realm'
+import { first } from 'src/realm/realm'
 import { body } from 'src/render/render'
 import { SystemWorker } from 'src/system/sys'
 import { EMessage } from 'src/system/sys-enum'
-import { runtime } from 'src/uniform/time'
+import { timing } from 'src/uniform/time'
 import { vr_keys } from 'src/xr/joints'
 import { Vector3 } from 'three'
 
@@ -16,6 +17,7 @@ const $vec = new Vector3()
 // Rezes allow us to inject into the worker simulation from the main thread
 export function RezHands(cardinal: SystemWorker) {
   hand_joints = []
+
   // request the hands
   // vr_keys is an enum and therefore 2x the length, which is what we want
   // for two hands anyhow
@@ -31,7 +33,7 @@ const rTip = /tip$/
 const rMeta = /metacarpal$|proximal$/
 
 // update hand rezes if they exist
-runtime.on(() => {
+timing.on(() => {
   // no hands, nothing to do
   if (hands.$.length === 0) return
 
@@ -67,16 +69,16 @@ runtime.on(() => {
 
       target[vr_keys[ix]].value.copy($vec)
     }
-    fantasy.$.animation.store(id, EAnimation.NoEffects)
 
     const s = Math.floor(rMeta.test(vr_keys[ix]) ? 8 : 5) * 10
 
-    const { size, future, matter, past } = fantasy.$
-
+    const { size, future, matter, past, animation } = first.$
+    animation.store(id, EAnimation.NoEffects)
     size.x(id, s)
     size.y(id, s)
     size.z(id, s)
 
+    matter.phase(id, EPhase.VOID)
     matter.red(id, NORMALIZER - (Math.random() * NORMALIZER) / 100)
     $vec.multiplyScalar(1000)
 
@@ -86,15 +88,15 @@ runtime.on(() => {
     past.x(id, future.x(id))
     past.y(id, future.y(id))
     past.z(id, future.z(id))
-    past.time(id, Math.floor(runtime.$))
-    future.time(id, Math.floor(runtime.$))
+    past.time(id, Math.floor(timing.$))
+    future.time(id, Math.floor(timing.$ + 200))
   }
 })
 
 let cancel
-fantasy.on(($r) => {
+first.on(($r) => {
   if (cancel) cancel()
-  cancel = $r.timeline.on(() => {
+  cancel = $r.fate.on(() => {
     // Rez the player hands
 
     if ($r.cardinal) RezHands($r.cardinal)

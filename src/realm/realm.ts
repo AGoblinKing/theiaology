@@ -38,7 +38,7 @@ import {
 } from 'src/sound/audio'
 import { sys, SystemWorker } from 'src/system/sys'
 import { EMessage } from 'src/system/sys-enum'
-import { runtime, timeUniform } from 'src/uniform/time'
+import { timeUniform, timing } from 'src/uniform/time'
 import { ICancel, Value } from 'src/value/value'
 import {
   Box3,
@@ -86,7 +86,7 @@ export class Realm {
   animation: Animation
   status: Status
 
-  timeline: Value<Timeline>
+  fate: Value<Timeline>
   universal: Universal
   cage: Cage
 
@@ -99,7 +99,7 @@ export class Realm {
 
   atoms: InstancedMesh
 
-  timelineJSON = new Value({
+  fateJSON = new Value({
     markers: {},
     _: {},
     flat: {},
@@ -134,7 +134,7 @@ export class Realm {
     this.universal = new Universal()
     this.cage = new Cage()
 
-    this.timeline = new Value(new Timeline())
+    this.fate = new Value(new Timeline())
     this.initMaterial()
 
     // delay init so reality is set and other things have settled
@@ -214,7 +214,7 @@ export class Realm {
         this.animation,
         this.impact,
         this.status,
-        this.timeline.$,
+        this.fate.$,
         this.universal,
         this.cage
       )
@@ -311,7 +311,7 @@ export class Realm {
 
   initListeners() {
     this.cancels.push(
-      runtime.on(($t) => {
+      timing.on(($t) => {
         this.universal.time(timeUniform.value)
         // only need to check if first
         if (!this.fantasy && this.slowFantasy++ % 5 !== 0) return
@@ -332,16 +332,16 @@ export class Realm {
         if (this.fantasy) this.universal.musicTime($s)
       }),
 
-      this.timeline.on(($t) => {
+      this.fate.on(($t) => {
         if ($t === undefined) return
 
-        this.cardinal.send(EMessage.TIMELINE_UPDATE)
+        this.cardinal.send(EMessage.FATE_UPDATE)
         this.cardinal._queue = []
 
         if (!this.first) return
 
         // update the timelineJSON for UI
-        this.timelineJSON.set(this.timeline.$.toObject())
+        this.fateJSON.set(this.fate.$.toObject())
       }),
       this.voxes.on(($voxes) => {
         this.cardinal.send($voxes)
@@ -462,7 +462,7 @@ let cancel
 fantasy.on((realm: Realm) => {
   if (cancel) cancel()
 
-  cancel = realm.timeline.on(() => {
+  cancel = realm.fate.on(() => {
     if (!realm.musicBuffer) return
 
     audio.src = realm.musicString

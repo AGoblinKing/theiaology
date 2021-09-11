@@ -7,7 +7,7 @@ export const clipped = new Value(0)
 export const clip = new Value([0, 0, 0, 0, 0, 0])
 
 export function Copy() {
-  const { timeline } = first.$
+  const { fate: timeline } = first.$
   if (cursor.$.i === undefined) return
 
   clip.$[0] = timeline.$.when(cursor.$.i)
@@ -21,7 +21,7 @@ export function Copy() {
 }
 
 function SubItem(i: number, parent: number) {
-  const { timeline, timelineJSON } = first.$
+  const { fate: timeline, fateJSON: timelineJSON } = first.$
   const item = timelineJSON.$.flat[i]
 
   const id = timeline.$.add(
@@ -39,7 +39,7 @@ function SubItem(i: number, parent: number) {
 }
 
 export function Paste() {
-  const { timeline, timelineJSON } = first.$
+  const { fate: timeline, fateJSON: timelineJSON } = first.$
   if (cursor.$.i === undefined) return
   // get data from cursor
   clip.$[2] =
@@ -57,7 +57,7 @@ export function Paste() {
 }
 
 export function Cut() {
-  const { timeline } = first.$
+  const { fate: timeline } = first.$
   if (cursor.$.i === undefined) return
   Copy()
 

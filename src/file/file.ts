@@ -35,7 +35,7 @@ window.addEventListener('drop', async (e) => {
 })
 
 export function LoadJSON(json: INode, key = '0', map = {}) {
-  const { timeline } = first.$
+  const { fate: timeline } = first.$
   if (map[key] === undefined) {
     map[key] = timeline.$.reserve()
   }
@@ -61,7 +61,7 @@ export function LoadJSON(json: INode, key = '0', map = {}) {
 // ReadFile
 export function ReadFile(file: File | string, buffer: ArrayBufferLike) {
   const { name } = typeof file === 'string' ? { name: file } : file
-  const { timeline } = first.$
+  const { fate: timeline } = first.$
 
   switch (true) {
     case name.indexOf('.json') !== -1:

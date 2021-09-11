@@ -7,14 +7,11 @@
   import Node from './Node.svelte'
   import fs from 'file-saver'
 
-  import { fantasy, first } from 'src/realm/realm'
+  import { first } from 'src/realm/realm'
 
 
-  $: timeline = $fantasy.timeline
+  $: fate = $first.fate
   $: voxes = $first.voxes
-
-
-
 </script>
 
 <div class="timeline">
@@ -120,7 +117,7 @@
       </div>
     {/each}
 
-    <Node i={$timeline ? 0 : 0}/>
+    <Node i={$fate ? 0 : 0}/>
   </div>
 </div>
 

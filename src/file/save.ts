@@ -8,15 +8,15 @@ import { dbLoaded, HEADER_START, SIGNATURE } from './load'
 export function SaveScript() {
   if (!dbLoaded) return
 
-  const blob = new Blob([first.$.timeline.$.toJSON()], {
+  const blob = new Blob([first.$.fate.$.toJSON()], {
     type: 'application/json',
   })
-  fs.saveAs(blob, first.$.timeline.$.text(0) + '.json')
+  fs.saveAs(blob, first.$.fate.$.text(0) + '.json')
 }
 
 // Save .theia file
 export function Save(withFile = true) {
-  const name = first.$.timeline.$.text(0)
+  const name = first.$.fate.$.text(0)
   const buff = BuildBuffer()
 
   if (withFile) {
@@ -33,7 +33,7 @@ export function Save(withFile = true) {
 }
 
 export function BuildBuffer() {
-  const { timeline } = first.$
+  const { fate: timeline } = first.$
   // [THEA, TIME_SIZE, VOX_SIZE, MUSIC_SIZE, 0, 0, ...
   const header = HEADER_START * 2
   const timelineLength = timeline.$.length * 4

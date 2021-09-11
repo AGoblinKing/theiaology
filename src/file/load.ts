@@ -12,7 +12,7 @@ export const HEADER_END = HEADER_START + 4 * 4
 // map json ID to timeline ID
 
 export function Load(bytes: ArrayBuffer, realm: Realm) {
-  const { timeline } = realm
+  const { fate: timeline } = realm
 
   try {
     const view = new DataView(bytes)

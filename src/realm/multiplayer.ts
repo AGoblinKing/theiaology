@@ -27,7 +27,7 @@ class RealmUpdate {
   constructor(id) {
     this.id = id
 
-    first.$.timeline.on(() => {
+    first.$.fate.on(() => {
       if (this.universal) this.render()
     })
   }

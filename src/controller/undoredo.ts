@@ -11,7 +11,7 @@ fantasy.on(($r) => {
   past = []
   future = []
 
-  cancel = $r.timeline.on(($t) => {
+  cancel = $r.fate.on(($t) => {
     past.push($t.toArray())
     if (past.length > 5) {
       past.shift()
@@ -20,7 +20,7 @@ fantasy.on(($r) => {
 })
 
 export function Undo() {
-  const { timeline } = fantasy.$
+  const { fate: timeline } = fantasy.$
   let p = past.pop()
 
   if (!p) return
@@ -34,7 +34,7 @@ export function Undo() {
 }
 
 export function Redo() {
-  const { timeline } = fantasy.$
+  const { fate: timeline } = fantasy.$
   const p = future.pop()
 
   if (!p) return

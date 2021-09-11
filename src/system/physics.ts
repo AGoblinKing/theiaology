@@ -95,7 +95,7 @@ class Physics extends System {
 
       default:
         switch (e.data) {
-          case EMessage.TIMELINE_UPDATE:
+          case EMessage.FATE_UPDATE:
             $inserts = {}
 
             break
@@ -144,6 +144,8 @@ class Physics extends System {
     for (let i = 0; i < ENTITY_COUNT; i++) {
       const phase = this.matter.phase(i)
       switch (phase) {
+        case EPhase.VOID:
+          continue
         case EPhase.STUCK:
           this.insert(i)
           continue
