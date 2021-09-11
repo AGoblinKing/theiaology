@@ -326,6 +326,8 @@ export class Realm {
         if (this.fantasy) this.universal.musicTime($s)
       }),
       Timer(1000 / 60, () => {
+        if (!this.fantasy && this.slowFantasy++ % 20 !== 0) return
+
         const { atoms } = this
         atoms.geometry.getAttribute('past').needsUpdate = true
         atoms.geometry.getAttribute('future').needsUpdate = true
