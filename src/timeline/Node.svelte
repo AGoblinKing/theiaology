@@ -207,7 +207,7 @@
     timeline.poke()
   }
 
-  $: label = ESpell[item.$[1]] || 'boot'
+  $: label = ESpell[item.$[1]] || 'evoke'
 
   function NavData(index: number) {
     return {
@@ -251,8 +251,8 @@
     <Box
       click={inputInvoke}
       upper
-      hover={label === 'boot'
-        ? 'Download a .json of the BOOT script'
+      hover={label === 'evoke'
+        ? `Evoke into JSON`
         : 'Invocation'}
       tilt={hashcode(label.slice(0, 3)) % 360}
       nav={{
@@ -367,8 +367,7 @@
           down: ``,
         }}>+</Box
       >
-    {:else if item.$[1] !== ESpell.TOME && item.$[1] !== undefined}
-    
+    {:else if item.$[1] !== ESpell.TOME && item.$[1] !== undefined}  
       <Box  
         style="margin-right: 1.5rem;"
         nav={{
@@ -378,7 +377,7 @@
           up: `${order - 1}-add|${order - 1}-data-2|${order -1 }-data-1|${order -1 }-data-0|${up}`,
           down: `${order + 1}-add|${order + 1}-data-2|${order + 1}-data-1|${order + 1}-data-0|${order + 1}-command`,
         }}
-        hover="When to Apply" 
+        hover="When to Evoke" 
         click={inputTime}
         tilt={-45 }
       >

@@ -126,7 +126,7 @@
 
 <div class="commands">
   <Box
-    hover="Toggle the Theiaology Editor"
+    hover="Weave FATE"
     click={() => timeline_shown.set(!timeline_shown.$)}
     nav={{
       tag: 'theiaology',
@@ -157,7 +157,7 @@
   </Box> -->
   <Box
     tilt={-90}
-    hover="Load files into Theiaology "
+    hover="Load a Fate"
     nav={{ tag: 'load', left: 'workspace|theiaology', right: 'save', down }}
     ><input
       id="load"
@@ -170,20 +170,20 @@
   >
   <Box
     tilt={-180}
-    hover="Download Theiaologian files.  Drag + Drop or load!"
-    nav={{ tag: 'save', right: '.theia', left: 'load', down }}
+    hover="Download Fate files.  Drag + Drop or load!"
+    nav={{ tag: 'save', right: '.fate', left: 'load', down }}
     click={Save}>SAVE</Box
   >
   <Box
     tilt={290}
     hover="Play theiaologian demos"
-    nav={{ tag: '.theia', left: 'save', right: 'sponsor', down }}
+    nav={{ tag: '.fate', left: 'save', right: 'sponsor', down }}
     click={Browse}>DEMOS</Box
   >
   <Box
     tilt={110}
     hover="A Goblin King Demands Tribute"
-    nav={{ tag: 'sponsor', left: '.theia', right: 'net', down }}
+    nav={{ tag: 'sponsor', left: '.fate', right: 'net', down }}
     click={Sponsor}
     style="border-radius: 0 0 0.5rem 0;"
   >

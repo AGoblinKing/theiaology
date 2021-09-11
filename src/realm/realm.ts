@@ -386,6 +386,12 @@ export class Realm {
     for (let i = 0; i < this.atoms.count; i++) {
       this.atoms.setMatrixAt(i, IDENTITY)
     }
+    const { atoms } = this
+    atoms.geometry.getAttribute('animation').needsUpdate = true
+    atoms.geometry.getAttribute('matter').needsUpdate = true
+    atoms.geometry.getAttribute('size').needsUpdate = true
+    atoms.geometry.getAttribute('past').needsUpdate = true
+    atoms.geometry.getAttribute('future').needsUpdate = true
 
     scene.$.add(this.atoms)
   }
