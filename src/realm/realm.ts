@@ -321,7 +321,7 @@ export class Realm {
       }),
       Timer(1000 / 30, () => {
         const { atoms } = this
-        if (!this.fantasy && this.slowFantasy++ % 2 !== 0) return
+
         atoms.geometry.getAttribute('animation').needsUpdate = true
         atoms.geometry.getAttribute('past').needsUpdate = true
         atoms.geometry.getAttribute('future').needsUpdate = true

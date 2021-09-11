@@ -62,7 +62,7 @@ class Physics extends System {
   slowtree = 0
 
   constructor() {
-    super((1 / 10) * 1000)
+    super((1 / 5) * 1000)
   }
 
   onmessage(e: MessageEvent) {
@@ -137,20 +137,18 @@ class Physics extends System {
 
     const t = this.universal.time()
 
-    const buildTree = this.slowtree++ % 30
-
     // rip through matter, update their grid_past/futures
-    buildTree && this.tree.clear()
+    this.tree.clear()
     const moves = new Set()
 
     for (let i = 0; i < ENTITY_COUNT; i++) {
       const phase = this.matter.phase(i)
       switch (phase) {
         case EPhase.STUCK:
-          buildTree && this.insert(i)
+          this.insert(i)
           continue
         case EPhase.NORMAL:
-          buildTree && this.insert(i)
+          this.insert(i)
       }
 
       let vx = this.velocity.x(i),
@@ -214,7 +212,7 @@ class Physics extends System {
     }
 
     // collision phase
-    buildTree && this.tree.load(Object.values($inserts))
+    this.tree.load(Object.values($inserts))
 
     for (let [k, v] of Object.entries($inserts)) {
       switch (this.matter.phase(parseInt(k, 10))) {
