@@ -7,13 +7,13 @@ uniform sampler2D texSize;
 
 // these are for rendering
 uniform vec3 offset;
-uniform vec3 uniSize;
+uniform float uniSize;
 varying vec2 v_reference;
 
 void main() {
     v_reference = reference;
-    vec4 size = texture2D(texSize, reference);
-    vec4 pos = texture2D(texPos, reference) * vec4(uniSize, 1.0);
+    vec4 size = texture2D(texSize, reference) * uniSize;
+    vec4 pos = texture2D(texPos, reference) * uniSize;
 
     vec3 update = position * size.xyz + pos.xyz + offset;
 

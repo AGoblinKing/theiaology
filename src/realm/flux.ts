@@ -85,6 +85,7 @@ export class FluxLight {
   listeners = []
 
   constructor(material: ShaderMaterial, fate: Value<Fate>) {
+    this.material = material
     this.listeners.push(
       fate.on(($t) => {
         this.fate = $t
@@ -95,7 +96,6 @@ export class FluxLight {
     this.setup()
 
     // setup uniforms you want on the atomic material
-    this.material = material
     const uniforms = material.uniforms
     // xyz, time
     uniforms.texPos = new Uniform(undefined)
@@ -113,7 +113,7 @@ export class FluxLight {
 
     this.material.uniformsNeedUpdate = true
 
-    Timer(1000 / 60, this.tick.bind(this))
+    Timer(1000 / 24, this.tick.bind(this))
   }
 
   destroy() {
@@ -142,10 +142,13 @@ export class FluxLight {
 
     // thrust
     this.varThrust.material.uniforms.time = timeUniform
+
     this.compute.setVariableDependencies(this.varThrust, [this.varThrust])
 
     // impact
     this.varImpact.material.uniforms.texSize = new Uniform(this.size)
+    this.varImpact.material.uniforms.uniSize = this.material.uniforms.uniSize
+
     this.compute.setVariableDependencies(this.varImpact, [
       this.varThrust,
       this.varPos,

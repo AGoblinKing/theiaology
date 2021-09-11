@@ -37,8 +37,6 @@ let nextLandCheck = 0
 const $vec3 = new Vector3()
 const $cage = new Box3()
 
-let i = 0
-
 let realmId = 0
 
 Object.assign(window, { realms })
@@ -62,10 +60,10 @@ export class Realm {
   voxes = new Value<{ [name: string]: MagickaVoxel }>({})
   material: ShaderMaterial
 
-  uniCage = new Uniform(new Vector3().setScalar(-Number.MAX_SAFE_INTEGER))
+  uniCage = new Uniform(new Vector3().setScalar(0))
   uniCageM = new Uniform(new Vector3().setScalar(Number.MAX_SAFE_INTEGER))
-  uniOffset = new Uniform(new Vector3(0, 0, 0))
-  uniSize = new Uniform(new Vector3(1, 1, 1))
+  uniSize = new Uniform(Number.MAX_SAFE_INTEGER)
+  uniOffset = new Uniform(new Vector3().setScalar(this.uniSize.value * -0.25))
 
   cancels: ICancel[] = []
   flux: FluxLight
