@@ -314,6 +314,12 @@ export class Realm {
       runtime.on(($t) => {
         this.universal.time(timeUniform.value)
         // only need to check if first
+        if (!this.fantasy && this.slowFantasy++ % 5 !== 0) return
+
+        const { atoms } = this
+        atoms.geometry.getAttribute('past').needsUpdate = true
+        atoms.geometry.getAttribute('future').needsUpdate = true
+
         if (!this.first) return
 
         if ($t > nextLandCheck) {
@@ -325,13 +331,7 @@ export class Realm {
       seconds.on(($s) => {
         if (this.fantasy) this.universal.musicTime($s)
       }),
-      Timer(1000 / 60, () => {
-        if (!this.fantasy && this.slowFantasy++ % 20 !== 0) return
 
-        const { atoms } = this
-        atoms.geometry.getAttribute('past').needsUpdate = true
-        atoms.geometry.getAttribute('future').needsUpdate = true
-      }),
       this.timeline.on(($t) => {
         if ($t === undefined) return
 
