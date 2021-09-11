@@ -1,13 +1,13 @@
 import { renderer, scene } from 'src/render/render'
 import { Timer, timeUniform } from 'src/render/time'
+import { Value } from 'src/value'
 import {
   DataTexture,
   FloatType,
   Group,
-  IntType,
   Mesh,
   MeshBasicMaterial,
-  RGBAFormat,
+  ShaderMaterial,
   SphereBufferGeometry,
   Uniform,
 } from 'three'
@@ -15,6 +15,7 @@ import {
   GPUComputationRenderer,
   Variable,
 } from 'three/examples/jsm/misc/GPUComputationRenderer'
+import { Fate } from './fate'
 import Position from './position.frag'
 import Thrust from './thrust.frag'
 import { yggdrasil } from './yggdrasil'
@@ -51,55 +52,92 @@ function Randomize(tex: DataTexture) {
 const geometry = new SphereBufferGeometry(0.5)
 //new BoxBufferGeometry()
 
-export class FluxLight {
+export class Quantum {
   compute = new GPUComputationRenderer(256, 256, renderer)
 
-  // x, y, z, decay
-  thrust: DataTexture = this.compute.createTexture()
-
-  // x, y, z, time
-  position: DataTexture = this.compute.createTexture()
-
-  // rgba
-  color: DataTexture = this.compute.createTexture()
+  // x, y, z
+  thrust = this.compute.createTexture()
 
   // x, y, z
-  size: DataTexture = this.compute.createTexture()
+  position = this.compute.createTexture()
 
-  // RGBA for commands, R command GBA for parameters
-  cardinal: DataTexture = this.compute.createTexture()
+  // rgba
+  color = this.compute.createTexture()
 
-  // uses i * 2 for indexing needs 8 bits
-  timeline = new Uniform(
-    new DataTexture(
-      new Int32Array(256 * 256 * 4),
-      256,
-      256,
-      RGBAFormat,
-      IntType
-    )
-  )
+  // x, y, z
+  size = this.compute.createTexture()
+
+  cageMin = this.compute.createTexture()
+  cageMax = this.compute.createTexture()
 
   varPos: Variable
   varThrust: Variable
 
-  uniforms: any
+  material: ShaderMaterial
+  timeline: Fate
 
-  constructor(uniforms: any) {
+  listeners = []
+
+  constructor(material: ShaderMaterial, fate: Value<Fate>) {
+    this.listeners.push(
+      fate.on(($t) => {
+        this.timeline = $t
+      })
+    )
+
     this.compute.setDataType(FloatType)
-    this.reset()
+    this.setup()
 
-    this.uniforms = uniforms
+    this.material = material
+    const uniforms = material.uniforms
+    // xyz, time
+    uniforms.positionTex = new Uniform(undefined)
 
-    this.uniforms.positionTex = new Uniform(undefined)
+    // rgb, material
+    uniforms.colorTex = { value: this.color }
+
+    // xyz, animation
+    uniforms.sizeTex = { value: this.size }
 
     const err = this.compute.init()
     if (err !== null) {
       throw err
     }
 
+    this.material.uniformsNeedUpdate = true
     this.debug()
-    Timer(1000 / 15, this.tick.bind(this))
+    Timer(1000 / 60, this.tick.bind(this))
+  }
+
+  destroy() {
+    this.listeners.forEach((l) => l())
+  }
+
+  setup() {
+    // bind shaders
+    this.varPos = this.compute.addVariable('texPos', Position, this.position)
+    this.varThrust = this.compute.addVariable('texThrust', Thrust, this.thrust)
+    this.varThrust.material.uniforms.time = timeUniform
+    this.compute.setVariableDependencies(this.varPos, [
+      this.varPos,
+      this.varThrust,
+    ])
+
+    this.compute.setVariableDependencies(this.varThrust, [this.varThrust])
+  }
+
+  tick() {
+    this.compute.compute()
+
+    this.material.uniforms.positionTex.value =
+      this.compute.getCurrentRenderTarget(
+        this.varPos
+        // @ts-ignore
+      ).texture
+
+    this.material.uniformsNeedUpdate = true
+    // send remote
+    yggdrasil.render()
   }
 
   debug() {
@@ -153,29 +191,5 @@ export class FluxLight {
         // @ts-ignore
       ).texture
     })
-  }
-
-  reset() {
-    // bind shaders
-    this.varPos = this.compute.addVariable('texPos', Position, this.position)
-    this.varThrust = this.compute.addVariable('texThrust', Thrust, this.thrust)
-    this.varThrust.material.uniforms.time = timeUniform
-    this.compute.setVariableDependencies(this.varPos, [
-      this.varPos,
-      this.varThrust,
-    ])
-
-    this.compute.setVariableDependencies(this.varThrust, [this.varThrust])
-  }
-
-  tick() {
-    this.compute.compute()
-    this.uniforms.positionTex = this.compute.getCurrentRenderTarget(
-      this.varPos
-      // @ts-ignore
-    ).texture
-
-    // send remote
-    yggdrasil.render()
   }
 }

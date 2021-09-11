@@ -1,4 +1,4 @@
-import { TIMELINE_MAX } from 'src/config'
+import { FATE_MAX } from 'src/config'
 import { ESpell, ITimeline } from 'src/timeline/def-timeline'
 
 const strConvertBuffer = new ArrayBuffer(4) // an Int32 takes 4 bytes
@@ -14,17 +14,17 @@ function CharCode(code: number) {
 }
 
 // Authoring Buffer - Generally shouldn't be updating the timeline unless during development
-export class Timeline extends Int32Array {
+export class Fate extends Int32Array {
   static COUNT = 6
   static BLANK = [0, 0, 0, 0, 0, 0]
   available: number[]
 
   // expandable
-  constructor(data = new Int32Array(Timeline.COUNT * TIMELINE_MAX)) {
+  constructor(data = new Int32Array(Fate.COUNT * FATE_MAX)) {
     super(data)
 
     // reset available
-    this.available = [...new Array(TIMELINE_MAX)].map((_, i) => i)
+    this.available = [...new Array(FATE_MAX)].map((_, i) => i)
     // never 0
     this.reserve()
   }
@@ -39,8 +39,8 @@ export class Timeline extends Int32Array {
       const ix = i * 4
       const val = v.getInt32(ix, true)
 
-      if (i % Timeline.COUNT === 0 && val !== 0) {
-        this.available.splice(this.available.indexOf(i / Timeline.COUNT), 1)
+      if (i % Fate.COUNT === 0 && val !== 0) {
+        this.available.splice(this.available.indexOf(i / Fate.COUNT), 1)
       }
 
       this[ix] = val
@@ -64,7 +64,7 @@ export class Timeline extends Int32Array {
       _: {},
     }
 
-    for (let i = 1; i < TIMELINE_MAX; i++) {
+    for (let i = 1; i < FATE_MAX; i++) {
       const com = this.invoke(i)
 
       // next, the others could be anywhere
@@ -161,16 +161,14 @@ export class Timeline extends Int32Array {
 
   resetAvailable(offset: number = 0) {
     // reset available
-    this.available = [...new Array(TIMELINE_MAX - offset)].map(
-      (_, i) => i + offset
-    )
+    this.available = [...new Array(FATE_MAX - offset)].map((_, i) => i + offset)
   }
 
   // freeAll but do not mark them as available
   freeAll() {
     this.available = []
 
-    for (let i = TIMELINE_MAX - 1; i >= 0; i--) {
+    for (let i = FATE_MAX - 1; i >= 0; i--) {
       this.free(i)
     }
     // always reserve 0
@@ -185,7 +183,7 @@ export class Timeline extends Int32Array {
   }
 
   free(i: number) {
-    this.set(Timeline.BLANK, i * Timeline.COUNT)
+    this.set(Fate.BLANK, i * Fate.COUNT)
     this.available.unshift(i)
   }
 
@@ -203,7 +201,7 @@ export class Timeline extends Int32Array {
     }
 
     const i = this.available.shift()
-    const ix = i * Timeline.COUNT
+    const ix = i * Fate.COUNT
 
     this[ix] = when
     this[ix + 1] = command
@@ -246,7 +244,7 @@ export class Timeline extends Int32Array {
 
       // last
       if (six === 3) {
-        this[i * Timeline.COUNT + 3 + siy] = strView.getInt32(0, false)
+        this[i * Fate.COUNT + 3 + siy] = strView.getInt32(0, false)
       }
     }
 
@@ -256,39 +254,39 @@ export class Timeline extends Int32Array {
   // when
   when(i: number, when?: number) {
     return when === undefined
-      ? this[i * Timeline.COUNT]
-      : (this[i * Timeline.COUNT] = when)
+      ? this[i * Fate.COUNT]
+      : (this[i * Fate.COUNT] = when)
   }
 
   // what event
   invoke(i: number, e?: ESpell) {
     return e === undefined
-      ? this[i * Timeline.COUNT + 1]
-      : (this[i * Timeline.COUNT + 1] = e)
+      ? this[i * Fate.COUNT + 1]
+      : (this[i * Fate.COUNT + 1] = e)
   }
 
   // used for refering to something
   who(i: number, who?: number) {
     return who === undefined
-      ? this[i * Timeline.COUNT + 2]
-      : (this[i * Timeline.COUNT + 2] = who)
+      ? this[i * Fate.COUNT + 2]
+      : (this[i * Fate.COUNT + 2] = who)
   }
 
   data0(i: number, d0?: number) {
     return d0 === undefined
-      ? this[i * Timeline.COUNT + 3]
-      : (this[i * Timeline.COUNT + 3] = d0)
+      ? this[i * Fate.COUNT + 3]
+      : (this[i * Fate.COUNT + 3] = d0)
   }
 
   data1(i: number, d1?: number) {
     return d1 === undefined
-      ? this[i * Timeline.COUNT + 4]
-      : (this[i * Timeline.COUNT + 4] = d1)
+      ? this[i * Fate.COUNT + 4]
+      : (this[i * Fate.COUNT + 4] = d1)
   }
 
   data2(i: number, d2?: number) {
     return d2 === undefined
-      ? this[i * Timeline.COUNT + 5]
-      : (this[i * Timeline.COUNT + 5] = d2)
+      ? this[i * Fate.COUNT + 5]
+      : (this[i * Fate.COUNT + 5] = d2)
   }
 }

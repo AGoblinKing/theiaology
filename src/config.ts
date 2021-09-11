@@ -2,11 +2,8 @@ import { local } from './input/browser'
 
 export const ENTITY_COUNT = 256 * 256
 
-// For GamePlay, max impacts for entity, the impacts still happen for velocity purposes
-export const IMPACTS_MAX_PER = 8
-
 // TODO: change to 128x128
-export const TIMELINE_MAX = 1024 * 8
+export const FATE_MAX = 1024 * 8
 
 export const SIZE = 0.001
 export const FACES = 1
@@ -41,8 +38,6 @@ export const UNIVERSALS = [
   1, // RUNNING
 ]
 
-export const CACHE = 'v1'
-
 export const dotTheia = [
   'agoblinking/overworld',
   'starvoyage',
@@ -62,8 +57,6 @@ export const USER_SCALE = 100
 export function UserUnits(x: number) {
   return x / USER_SCALE
 }
-
-export const TOON_ENABLED = false
 
 export const YGGDRASIL = local
   ? 'http://localhost:8081/bifrost'

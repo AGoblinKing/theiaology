@@ -1,7 +1,7 @@
 import { ENTITY_COUNT, FACES, INFRINGEMENT, SIZE } from 'src/config'
 import { Load } from 'src/input/load'
 import { left_hand_uniforms, right_hand_uniforms } from 'src/input/xr'
-import { Timeline } from 'src/realm/timeline'
+import { Fate } from 'src/realm/fate'
 import { MagickaVoxel } from 'src/render/magica'
 import { body, scene } from 'src/render/render'
 import { runtime, timeUniform } from 'src/render/time'
@@ -17,14 +17,16 @@ import { ICancel, Value } from 'src/value'
 import {
   Box3,
   BoxBufferGeometry,
+  InstancedBufferAttribute,
   InstancedMesh,
-  Material,
   Matrix4,
   ShaderMaterial,
   Uniform,
   Vector3,
 } from 'three'
-import { FluxLight } from './fluxlight'
+import { Quantum } from '././quantum'
+import fragmentShader from './atom.frag'
+import vertexShader from './atom.vert'
 
 const IDENTITY = new Matrix4().identity()
 
@@ -44,7 +46,7 @@ Object.assign(window, { realms })
 export const first = new Value<Realm>(undefined)
 export class Realm {
   // entity components
-  timeline = new Value(new Timeline())
+  timeline = new Value(new Fate())
   musicName: string
   musicBuffer: DataView
   musicString: string
@@ -58,7 +60,7 @@ export class Realm {
   })
 
   voxes = new Value<{ [name: string]: MagickaVoxel }>({})
-  material: Material
+  material: ShaderMaterial
 
   uniCage: Uniform
   uniCageM: Uniform
@@ -66,7 +68,7 @@ export class Realm {
   uniShape: Uniform
 
   cancels: ICancel[] = []
-  fluxCapacitor
+  flux: Quantum
 
   destroyed = false
 
@@ -105,24 +107,14 @@ export class Realm {
 
     Object.entries(left_hand_uniforms).forEach(addHandUniform('left'))
     Object.entries(right_hand_uniforms).forEach(addHandUniform('right'))
-    this.fluxCapacitor = new FluxLight(uniforms)
 
     this.material = new ShaderMaterial({
       uniforms,
+      vertexShader,
+      fragmentShader,
     })
-  }
 
-  universalCage(cage: Box3) {
-    this.uniCage.value = this.uniCage.value.copy(cage.min)
-    this.uniCageM.value = this.uniCageM.value.copy(cage.max)
-  }
-
-  universalOffset(offset: Vector3) {
-    this.uniOffset.value = this.uniOffset.value.copy(offset)
-  }
-
-  universalShape(shape: Vector3) {
-    this.uniShape.value = this.uniShape.value.copy(shape)
+    this.flux = new Quantum(this.material, this.timeline)
   }
 
   initListeners() {
@@ -145,6 +137,12 @@ export class Realm {
   }
 
   initAtoms() {
+    const arr = new Float32Array(ENTITY_COUNT * 2)
+    for (let i = 0; i < ENTITY_COUNT; i++) {
+      arr[i * 2] = (i % 256) / 256
+      arr[i * 2 + 1] = ~~(i / 256) / 256
+    }
+
     this.atoms = new InstancedMesh(
       new BoxBufferGeometry(
         SIZE * INFRINGEMENT,
@@ -153,7 +151,7 @@ export class Realm {
         FACES,
         FACES,
         FACES
-      ),
+      ).setAttribute('reference', new InstancedBufferAttribute(arr, 2)),
       this.material,
       ENTITY_COUNT
     )
