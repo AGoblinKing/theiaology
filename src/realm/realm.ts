@@ -253,6 +253,12 @@ export class Realm {
             )
 
             break
+          case EMessage.CARDINAL_TICK:
+            const { atoms } = this
+            atoms.geometry.getAttribute('animation').needsUpdate = true
+            atoms.geometry.getAttribute('matter').needsUpdate = true
+            atoms.geometry.getAttribute('size').needsUpdate = true
+            break
           case EMessage.USER_POS_UPDATE:
             if (!this.fantasy) return
             body.$.position.copy(
@@ -321,12 +327,8 @@ export class Realm {
       }),
       Timer(1000 / 30, () => {
         const { atoms } = this
-
-        atoms.geometry.getAttribute('animation').needsUpdate = true
         atoms.geometry.getAttribute('past').needsUpdate = true
         atoms.geometry.getAttribute('future').needsUpdate = true
-        atoms.geometry.getAttribute('matter').needsUpdate = true
-        atoms.geometry.getAttribute('size').needsUpdate = true
       }),
       this.timeline.on(($t) => {
         if ($t === undefined) return

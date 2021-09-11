@@ -527,6 +527,8 @@ class Cardinal extends System {
     for (let def of Object.values(this.forms)) {
       def.dirty.clear()
     }
+
+    this.post(EMessage.CARDINAL_TICK)
   }
 
   // Entity ID number to init

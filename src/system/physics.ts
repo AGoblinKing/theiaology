@@ -234,12 +234,6 @@ class Physics extends System {
         collision = true
 
         collide.getCenter($vec3o).sub($vec3).multiplyScalar(0.5)
-        // $vec3.copy(dif.max).sub(dif.min)
-
-        // this.future.addX(v.i, $vec3.x)
-        // this.future.addY(v.i, $vec3.y)
-        // this.future.addZ(v.i, $vec3.z)
-        // add their size to their
 
         $vec3.sub($vec3o)
         break
@@ -247,6 +241,8 @@ class Physics extends System {
 
       if (collision) this.future.setVec3(v.i, $vec3)
     }
+
+    this.post(EMessage.PHYSICS_TICK)
   }
 }
 

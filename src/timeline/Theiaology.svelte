@@ -132,7 +132,7 @@
       tag: 'theiaology',
       right: 'workspace|load',
       down: 'music|vox|root',
-    }}>> THEIAOLOGY</Box
+    }}>> FATE</Box
   >
 
   <!-- <Box
