@@ -1,13 +1,13 @@
 import { ENTITY_COUNT, NORMALIZER } from 'src/config'
-import { EAxis, EIdle, EShape, ESpell } from 'src/fate/enum_fate'
+import { EAxis, EShape, ESpell } from 'src/fate/enum_fate'
 import { ShapeMap } from 'src/fate/shape'
 import { ERipple, Spell } from 'src/fate/spell'
 import { ALPHABET } from 'src/fate/text'
+import { Fate } from 'src/realm/fate'
 import { MagickaVoxel } from 'src/render/magica'
 import { Value } from 'src/value'
 import { Color, Euler, Object3D, Vector3 } from 'three'
-import { Fate } from '../fate/fate'
-import { Quantum } from '././quantum'
+import { FluxLight } from './flux'
 
 const $hsl = { h: 0, s: 0, l: 0 }
 const $col = new Color()
@@ -27,7 +27,7 @@ export enum EMessage {
 }
 
 // Deal out entity IDs, execute fate events
-class Cardinal extends Value<EMessage> {
+export class Cardinal extends Value<EMessage> {
   _available: number[] = [...new Array(ENTITY_COUNT)].map((_, i) => i)
   forms: { [def: number]: Spell } = {}
 
@@ -39,43 +39,45 @@ class Cardinal extends Value<EMessage> {
   lastTime = 0
   tickrate: number
 
-  quantum: Quantum
+  flux: FluxLight
   fate: Fate
 
-  constructor(quantum: Quantum, tickrate: number = 1000) {
+  constructor(flux: FluxLight, tickrate: number = 1000) {
     super(EMessage.CONSTRUCTOR)
     // Music Timing works off seconds
-    this.quantum = quantum
+    this.flux = flux
     this.tickrate = tickrate
-    this.fate = quantum.fate
 
     setInterval(this.tick.bind(this), tickrate)
     this.set(EMessage.READY)
   }
 
   doTurn(sec?: number) {
-    if (sec === undefined) sec = this.quantum.material.uniforms.time.value
+    // ensure latest fate
+    this.fate = this.flux.fate
+
+    if (sec === undefined) sec = this.flux.material.uniforms.time.value
 
     if (!this.timing[sec]) return
 
     const toRez = []
 
     for (let i of this.timing[sec]) {
-      const def = this.quantum.fate.who(i)
+      const def = this.fate.who(i)
       const $spell = this.forms[def]
 
       if (!$spell) continue
 
       // Check the timing to only apply the right stuff
-      if (this.quantum.fate.when(i) > sec) continue
+      if (this.fate.when(i) > sec) continue
 
-      switch (this.quantum.fate.invoke(i)) {
+      switch (this.fate.invoke(i)) {
         case ESpell.POS_ADD:
           $spell.pos.add(
             $vec3.set(
-              this.quantum.fate.data0(i),
-              this.quantum.fate.data1(i),
-              this.quantum.fate.data2(i)
+              this.fate.data0(i),
+              this.fate.data1(i),
+              this.fate.data2(i)
             )
           )
 
@@ -92,9 +94,9 @@ class Cardinal extends Value<EMessage> {
         case ESpell.THRUST_ADD:
           $spell.vel.add(
             $vec3.set(
-              this.quantum.fate.data0(i),
-              this.quantum.fate.data1(i),
-              this.quantum.fate.data2(i)
+              this.fate.data0(i),
+              this.fate.data1(i),
+              this.fate.data2(i)
             )
           )
 
@@ -107,98 +109,98 @@ class Cardinal extends Value<EMessage> {
           }
           break
         case ESpell.FLOCK_TEXT:
-          $spell.text = this.quantum.fate.text(i)
+          $spell.text = this.fate.text(i)
           $spell.ripple(ERipple.TEXT, $spell.text)
           break
         case ESpell.SHAPE_VAR:
           $spell.sizevar.set(
-            this.quantum.fate.data0(i),
-            this.quantum.fate.data1(i),
-            this.quantum.fate.data2(i)
+            this.fate.data0(i),
+            this.fate.data1(i),
+            this.fate.data2(i)
           )
           $spell.ripple(ERipple.SIZEVAR, $spell.sizevar)
           break
         case ESpell.ROT_VAR:
           $spell.rotvar.set(
-            this.quantum.fate.data0(i),
-            this.quantum.fate.data1(i),
-            this.quantum.fate.data2(i)
+            this.fate.data0(i),
+            this.fate.data1(i),
+            this.fate.data2(i)
           )
           $spell.ripple(ERipple.ROTVAR, $spell.rotvar)
           break
         case ESpell.ROT:
           $spell.rot.set(
-            this.quantum.fate.data0(i),
-            this.quantum.fate.data1(i),
-            this.quantum.fate.data2(i)
+            this.fate.data0(i),
+            this.fate.data1(i),
+            this.fate.data2(i)
           )
           $spell.ripple(ERipple.ROT, $spell.rot)
           break
         case ESpell.ROT_LOOK:
           $spell.doLook = true
           $spell.look.set(
-            this.quantum.fate.data0(i),
-            this.quantum.fate.data1(i),
-            this.quantum.fate.data2(i)
+            this.fate.data0(i),
+            this.fate.data1(i),
+            this.fate.data2(i)
           )
           $spell.ripple(ERipple.DOLOOK, $spell.doLook)
           $spell.ripple(ERipple.LOOK, $spell.look)
           break
         case ESpell.SHAPE_VOX_VAR:
           $spell.voxvar.set(
-            this.quantum.fate.data0(i),
-            this.quantum.fate.data1(i),
-            this.quantum.fate.data2(i)
+            this.fate.data0(i),
+            this.fate.data1(i),
+            this.fate.data2(i)
           )
 
           $spell.ripple(ERipple.VOXVAR, $spell.voxvar)
           break
         case ESpell.SHAPE_VOX:
-          $spell.vox = this.quantum.fate.text(i)
+          $spell.vox = this.fate.text(i)
           $spell.ripple(ERipple.VOX, $spell.vox)
           break
         case ESpell.FLOCK:
-          $spell.flock.shape = this.quantum.fate.data0(i)
-          $spell.flock.size = this.quantum.fate.data1(i)
-          $spell.flock.step = this.quantum.fate.data2(i)
+          $spell.flock.shape = this.fate.data0(i)
+          $spell.flock.size = this.fate.data1(i)
+          $spell.flock.step = this.fate.data2(i)
           $spell.ripple(ERipple.FLOCK, $spell.flock)
           break
         case ESpell.FLOCK_RING:
           $spell.flock.shape = EShape.Ring
-          $spell.flock.size = this.quantum.fate.data0(i)
-          $spell.flock.step = this.quantum.fate.data1(i)
+          $spell.flock.size = this.fate.data0(i)
+          $spell.flock.step = this.fate.data1(i)
           $spell.ripple(ERipple.FLOCK, $spell.flock)
           break
         case ESpell.FLOCK_GRID:
           $spell.flock.shape = EShape.Plane
-          $spell.flock.size = this.quantum.fate.data0(i)
-          $spell.flock.step = this.quantum.fate.data1(i)
+          $spell.flock.size = this.fate.data0(i)
+          $spell.flock.step = this.fate.data1(i)
           $spell.ripple(ERipple.FLOCK, $spell.flock)
           break
         case ESpell.SHAPE:
-          $spell.size.x = this.quantum.fate.data0(i)
-          $spell.size.y = this.quantum.fate.data1(i)
-          $spell.size.z = this.quantum.fate.data2(i)
+          $spell.size.x = this.fate.data0(i)
+          $spell.size.y = this.fate.data1(i)
+          $spell.size.z = this.fate.data2(i)
           $spell.ripple(ERipple.SIZE, $spell.size)
           break
         case ESpell.SHAPE_COLOR:
-          const rgb = this.quantum.fate.data0(i)
+          const rgb = this.fate.data0(i)
           $spell.color.setHex(rgb)
-          $spell.col.tilt = this.quantum.fate.data1(i)
-          $spell.col.variance = this.quantum.fate.data2(i)
+          $spell.col.tilt = this.fate.data1(i)
+          $spell.col.variance = this.fate.data2(i)
           $spell.ripple(ERipple.COL, $spell.col)
           $spell.ripple(ERipple.COLOR, $spell.color)
           break
         case ESpell.POS_VAR:
-          $spell.posvar.x = this.quantum.fate.data0(i)
-          $spell.posvar.y = this.quantum.fate.data1(i)
-          $spell.posvar.z = this.quantum.fate.data2(i)
+          $spell.posvar.x = this.fate.data0(i)
+          $spell.posvar.y = this.fate.data1(i)
+          $spell.posvar.z = this.fate.data2(i)
           $spell.ripple(ERipple.POSVAR, $spell.posvar)
           break
         case ESpell.POS:
-          $spell.pos.x = this.quantum.fate.data0(i)
-          $spell.pos.y = this.quantum.fate.data1(i)
-          $spell.pos.z = this.quantum.fate.data2(i)
+          $spell.pos.x = this.fate.data0(i)
+          $spell.pos.y = this.fate.data1(i)
+          $spell.pos.z = this.fate.data2(i)
 
           for (let atom of $spell.all()) {
             this.future.x(atom, $spell.pos.x)
@@ -211,9 +213,9 @@ class Cardinal extends Value<EMessage> {
           break
         case ESpell.THRUST:
           $spell.vel.set(
-            this.quantum.fate.data0(i),
-            this.quantum.fate.data1(i),
-            this.quantum.fate.data2(i)
+            this.fate.data0(i),
+            this.fate.data1(i),
+            this.fate.data2(i)
           )
 
           for (let atom of $spell.all()) {
@@ -225,10 +227,10 @@ class Cardinal extends Value<EMessage> {
           $spell.ripple(ERipple.VEL, $spell.vel)
           break
         case ESpell.THRUST_VAR:
-          const amount = this.quantum.fate.data1(i)
-          const constraint = this.quantum.fate.data2(i)
+          const amount = this.fate.data1(i)
+          const constraint = this.fate.data2(i)
 
-          switch (this.quantum.fate.data0(i)) {
+          switch (this.fate.data0(i)) {
             case EAxis.XYZ:
               $spell.velvar.z += amount
               $spell.velvarconstraint.z = constraint
@@ -293,28 +295,28 @@ class Cardinal extends Value<EMessage> {
           $spell.ripple(ERipple.VELVARCONSTRAINT, $spell.velvarconstraint)
           break
         case ESpell.USER_ROT:
-          this.universal.userRX(this.quantum.fate.data0(i))
-          this.universal.userRY(this.quantum.fate.data1(i))
-          this.universal.userRZ(this.quantum.fate.data2(i))
+          this.universal.userRX(this.fate.data0(i))
+          this.universal.userRY(this.fate.data1(i))
+          this.universal.userRZ(this.fate.data2(i))
           this.post(EMessage.USER_ROT_UPDATE)
           break
         case ESpell.USER_POS:
-          this.universal.userX(this.quantum.fate.data0(i))
-          this.universal.userY(this.quantum.fate.data1(i))
-          this.universal.userZ(this.quantum.fate.data2(i))
+          this.universal.userX(this.fate.data0(i))
+          this.universal.userY(this.fate.data1(i))
+          this.universal.userZ(this.fate.data2(i))
           this.post(EMessage.USER_POS_UPDATE)
           break
         case ESpell.UNI_CLEAR_COLOR:
-          this.universal.clearColor(this.quantum.fate.data0(i))
+          this.universal.clearColor(this.fate.data0(i))
           this.post(EMessage.CLEAR_COLOR_UPDATE)
           break
         case ESpell.UNI_IDLE:
-          this.universal.idle(this.quantum.fate.data0(i))
+          this.universal.idle(this.fate.data0(i))
           break
         case ESpell.PHYS_CAGE:
-          const min = this.quantum.fate.data1(i)
-          const max = this.quantum.fate.data2(i)
-          switch (this.quantum.fate.data0(i)) {
+          const min = this.fate.data1(i)
+          const max = this.fate.data2(i)
+          switch (this.fate.data0(i)) {
             case EAxis.XYZ:
               $spell.cage.min.z = min
               $spell.cage.max.z = max
@@ -354,7 +356,7 @@ class Cardinal extends Value<EMessage> {
           $spell.ripple(ERipple.CAGE, $spell.cage)
 
           for (let atom of $spell.all()) {
-            switch (this.quantum.fate.data0(i)) {
+            switch (this.fate.data0(i)) {
               case EAxis.XYZ:
                 this.cage.z(atom, min)
                 this.cage.mZ(atom, max)
@@ -417,30 +419,30 @@ class Cardinal extends Value<EMessage> {
         case ESpell.THRUST_TO:
           break
         case ESpell.PHYS_PHASE:
-          $spell.phase = this.quantum.fate.data0(i)
+          $spell.phase = this.fate.data0(i)
           $spell.ripple(ERipple.PHASE, $spell.phase)
           break
         case ESpell.IMPACT:
-          $spell.impact = this.quantum.fate.data0(i)
+          $spell.impact = this.fate.data0(i)
           $spell.ripple(ERipple.IMPACT, $spell.impact)
           break
         case ESpell.THEIA_REALM:
-          $spell.land = this.quantum.fate.text(i)
+          $spell.land = this.fate.text(i)
           $spell.ripple(ERipple.LAND, $spell.land)
           break
         case ESpell.THEIA_GATE:
-          $spell.gate = this.quantum.fate.text(i)
+          $spell.gate = this.fate.text(i)
           break
         case ESpell.THEIA_RULER:
-          $spell.ruler = this.quantum.fate.text(i)
+          $spell.ruler = this.fate.text(i)
           $spell.ripple(ERipple.RULER, $spell.ruler)
           break
       }
     }
 
     for (let rez of toRez) {
-      for (let c = 0; c < this.quantum.fate.data0(rez); c++) {
-        this.entity(this.quantum.fate.who(rez))
+      for (let c = 0; c < this.fate.data0(rez); c++) {
+        this.entity(this.fate.who(rez))
       }
     }
 
@@ -725,16 +727,16 @@ class Cardinal extends Value<EMessage> {
     const timing = this.universal.musicTime()
     this.lastTime = timing
     // run through timeline and execute rezes
-    for (let i = 0; i < this.quantum.fate.length / Fate.COUNT; i++) {
-      const t = this.quantum.fate.when(i)
+    for (let i = 0; i < this.fate.length / Fate.COUNT; i++) {
+      const t = this.fate.when(i)
       this.timing[t] = this.timing[t] || []
       this.timing[t].push(i)
 
-      const def = this.quantum.fate.who(i)
+      const def = this.fate.who(i)
 
       if (!this.forms[def]) {
         this.forms[def] = new Spell(def)
-        const parent = this.quantum.fate.who(def)
+        const parent = this.fate.who(def)
 
         // avoid loop 0 => 0
         if (parent !== def) {
@@ -811,51 +813,7 @@ class Cardinal extends Value<EMessage> {
 
       // back in time
     } else if (t < this.lastTime) {
-      this.quantum.fateUpdated()
+      this.fateUpdated()
     }
-
-    switch (this.universal.idle()) {
-      case EIdle.Randomize:
-        this.randomize()
-        break
-    }
-  }
-
-  randomize() {
-    // TODO: Use cage bounds
-    const scale = 100000
-    const t = this.universal.time()
-
-    const chunk = 1000
-    // lets prove out thhese even render
-    for (let ix = last; ix < last + chunk; ix++) {
-      // only use left overs
-      const i = this._available[ix % this._available.length]
-      this.past.x(i, this.future.x(i))
-      this.past.y(i, this.future.y(i))
-      this.past.z(i, this.future.z(i))
-      this.past.time(i, t)
-
-      this.future.x(i, Math.floor(Math.random() * scale - scale / 2))
-      this.future.y(i, Math.floor(Math.random() * scale - scale / 2))
-      this.future.z(i, Math.floor(Math.random() * scale - scale / 2))
-      this.future.time(i, t + 30000 + 100)
-
-      const s = 20 + Math.floor(Math.random() * 5)
-
-      this.size.x(i, s)
-      this.size.y(i, s)
-      this.size.z(i, s)
-
-      this.matter.blue(i, NORMALIZER)
-      this.matter.red(i, Math.floor(Math.random() * NORMALIZER))
-      this.matter.green(i, Math.floor(Math.random() * NORMALIZER))
-    }
-
-    last += chunk
   }
 }
-
-let last = 0
-
-new Cardinal()

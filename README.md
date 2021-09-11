@@ -4,7 +4,6 @@
 | [Discord](https://discord.gg/bPq8U3zhvy)
 
 _Undock your imagination._
-
 ![Promotional Gif](./public/image/promo.gif)
 
 ## Features
@@ -19,9 +18,13 @@ _Undock your imagination._
 - [x] Drag n' Drop .vox / .m3p / .wav / .ogg files to use them
 - [x] Unified Velocity locomotion
 - [x] Pet DogSheeps in VR
-- [x] SharedArrayBuffer Workers, like uh.. an ECS that your GPU has access to
+- [x] ~~SharedArrayBuffer Workers, like uh.. an ECS that your GPU has access to~~
+- [x] GP-GPU Atom Light Flux(ALF) simulation.
+
+![Promotional Gif](./public/image/atomic.gif)
+
 - [x] .theia file format for sharing the whole thing as drag n' drop or linkable
-- [?] a Timeline editor in VR with funky text
+- [x] a Fate editor
 
 ![Promotional Gif](./public/image/interaction.gif)
 
@@ -33,6 +36,8 @@ Share your .theia files in a public GitHub repository called theiaology.com and 
 
 ie: https://theiaology.com/username/a_city would resolve to github.com/username/theiaology.com/blob/main/a_city.theia
 
+![Voxel Text](./public/image/ANYTHING.gif)
+
 ## Quick Start
 
 Install https://nodejs.org/en/download/ or have >v14
@@ -42,26 +47,6 @@ npm ci
 npm run dev
 http://localhost:10001
 ```
-
-![Voxel Text](./public/image/ANYTHING.gif)
-
-## But I want to host it
-
-```
-npm ci
-npm run build
-```
-
-The public directory should be your webroot.
-
-You will need these headers.
-
-```
-"Cross-Origin-Opener-Policy": "same-origin",
-"Cross-Origin-Embedder-Policy": "require-corp"
-```
-
-Which are brutal but enable SharedArrayBuffers which are magic.
 
 ![Promotional VR GIF](./public/image/vr.gif)
 
@@ -75,8 +60,7 @@ Which are brutal but enable SharedArrayBuffers which are magic.
 ## Maybe One Day
 
 - [ ] Spells like uh fireballs and lightning raining from the sky
-- [~] Physics on a worker making use of those magic buffers
-- [~] ~~WebRTC~~ Networking
+- [~] WebRTC Networking using Holograms
 - [ ] Play Queue / Gateways / Playlists / Albums?
 - [ ] Motion: Climbing, ride the tiger, zip line, swing
 - [ ] Interaction: Buttons, triggers, branching?

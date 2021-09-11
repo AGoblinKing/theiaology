@@ -1,5 +1,5 @@
 import { Box3, Color, Euler, Vector3 } from 'three'
-import { EImpactReaction, EPhase, EShape } from './efatefatee'
+import { EImpactReaction, EPhase, EShape } from './enum_fate'
 
 export enum ERipple {
   PHASE,

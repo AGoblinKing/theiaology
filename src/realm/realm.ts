@@ -24,9 +24,9 @@ import {
   Uniform,
   Vector3,
 } from 'three'
-import { Quantum } from '././quantum'
 import fragmentShader from './atom.frag'
 import vertexShader from './atom.vert'
+import { FluxLight } from './flux'
 
 const IDENTITY = new Matrix4().identity()
 
@@ -62,13 +62,13 @@ export class Realm {
   voxes = new Value<{ [name: string]: MagickaVoxel }>({})
   material: ShaderMaterial
 
-  uniCage: Uniform
-  uniCageM: Uniform
-  uniOffset: Uniform
-  uniShape: Uniform
+  uniCage = new Uniform(new Vector3().setScalar(-Number.MAX_SAFE_INTEGER))
+  uniCageM = new Uniform(new Vector3().setScalar(Number.MAX_SAFE_INTEGER))
+  uniOffset = new Uniform(new Vector3(0, 0, 0))
+  uniSize = new Uniform(new Vector3(1, 1, 1))
 
   cancels: ICancel[] = []
-  quantum: Quantum
+  flux: FluxLight
   fate = new Value(new Fate())
 
   destroyed = false
@@ -88,17 +88,17 @@ export class Realm {
 
   initMaterial() {
     const uniforms = {
-      uniCage: new Uniform(new Vector3().setScalar(-Number.MAX_SAFE_INTEGER)),
-      uniCageM: new Uniform(new Vector3().setScalar(Number.MAX_SAFE_INTEGER)),
-      uniOffset: new Uniform(new Vector3()),
-      uniShape: new Uniform(new Vector3(1, 1, 1)),
+      uniCage: this.uniCage,
+      uniCageM: this.uniCageM,
+      uniOffset: this.uniOffset,
+      uniShape: this.uniSize,
       time: timeUniform,
       audioLow: lowerUniform,
       audioHigh: upperUniform,
       cage: this.uniCage,
       cageM: this.uniCageM,
       offset: this.uniOffset,
-      shape: this.uniShape,
+      uniSize: this.uniSize,
     }
     const addHandUniform =
       (dir) =>
@@ -115,7 +115,7 @@ export class Realm {
       fragmentShader,
     })
 
-    this.quantum = new Quantum(this.material, this.fate)
+    this.flux = new FluxLight(this.material, this.fate)
   }
 
   initListeners() {
