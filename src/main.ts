@@ -1,7 +1,7 @@
+// @ts-ignore
+import Theiaology from 'src/fate/Theiaology.svelte'
 import 'src/input/file'
 import * as render from 'src/render/render'
-// @ts-ignore
-import Theiaology from 'src/timeline/Theiaology.svelte'
 import './controller/player'
 import { local } from './input/browser'
 import './realm/yggdrasil'

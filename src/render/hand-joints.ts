@@ -91,7 +91,7 @@ runtime.subscribe(() => {
 let cancel
 fantasy.subscribe(($r) => {
   if (cancel) cancel()
-  cancel = $r.timeline.subscribe(() => {
+  cancel = $r.fate.subscribe(() => {
     // Rez the player hands
     // if ($r.cardinal) RezHands($r.cardinal)
   })

@@ -1,10 +1,10 @@
 import { get } from 'idb-keyval'
 import { rootTheia } from 'src/config'
+import { INode } from 'src/fate/enum_fate'
 import { url } from 'src/input/browser'
 import { first } from 'src/realm/realm'
 import { MagickaVoxel } from 'src/render/magica'
 import { audio, audio_buffer, audio_name } from 'src/sound/audio'
-import { INode } from 'src/timeline/def-timeline'
 import { dbLoaded, Load } from './load'
 
 window.addEventListener('dragover', (e) => {
@@ -34,7 +34,7 @@ window.addEventListener('drop', async (e) => {
 })
 
 export function LoadJSON(json: INode, key = '0', map = {}) {
-  const { timeline } = first.$
+  const { fate: timeline } = first.$
   if (map[key] === undefined) {
     map[key] = timeline.$.reserve()
   }
@@ -60,7 +60,7 @@ export function LoadJSON(json: INode, key = '0', map = {}) {
 // ReadFile
 export function ReadFile(file: File | string, buffer: ArrayBufferLike) {
   const { name } = typeof file === 'string' ? { name: file } : file
-  const { timeline } = first.$
+  const { fate: timeline } = first.$
 
   switch (true) {
     case name.indexOf('.json') !== -1:

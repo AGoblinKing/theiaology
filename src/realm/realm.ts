@@ -46,7 +46,7 @@ Object.assign(window, { realms })
 export const first = new Value<Realm>(undefined)
 export class Realm {
   // entity components
-  timeline = new Value(new Fate())
+
   musicName: string
   musicBuffer: DataView
   musicString: string
@@ -68,7 +68,8 @@ export class Realm {
   uniShape: Uniform
 
   cancels: ICancel[] = []
-  flux: Quantum
+  quantum: Quantum
+  fate = new Value(new Fate())
 
   destroyed = false
 
@@ -114,7 +115,7 @@ export class Realm {
       fragmentShader,
     })
 
-    this.flux = new Quantum(this.material, this.timeline)
+    this.quantum = new Quantum(this.material, this.fate)
   }
 
   initListeners() {
@@ -222,7 +223,7 @@ let cancel
 fantasy.subscribe((realm: Realm) => {
   if (cancel) cancel()
 
-  cancel = realm.timeline.subscribe(() => {
+  cancel = realm.fate.subscribe(() => {
     if (!realm.musicBuffer) return
 
     audio.src = realm.musicString

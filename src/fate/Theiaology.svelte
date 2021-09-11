@@ -7,7 +7,7 @@
     modal_visible,
     timeline_shown,
   } from './editor'
-  import Timeline from './Timeline.svelte'
+  import Timeline from './Fate.svelte'
   import Modal from './Modal.svelte'
 
   import Box from './Box.svelte'
@@ -125,13 +125,13 @@
 
 <div class="commands">
   <Box
-    hover="Toggle the Theiaology Editor"
+    hover="Weave FATE"
     click={() => timeline_shown.set(!timeline_shown.$)}
     nav={{
       tag: 'theiaology',
       right: 'workspace|load',
       down: 'music|vox|root',
-    }}>> THEIAOLOGY</Box
+    }}>> FATE</Box
   >
   <Box
     tilt={-90}

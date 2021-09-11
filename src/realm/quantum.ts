@@ -15,7 +15,7 @@ import {
   GPUComputationRenderer,
   Variable,
 } from 'three/examples/jsm/misc/GPUComputationRenderer'
-import { Fate } from './fate'
+import { Fate } from '../fate/fate'
 import Position from './position.frag'
 import Thrust from './thrust.frag'
 import { yggdrasil } from './yggdrasil'
@@ -74,14 +74,14 @@ export class Quantum {
   varThrust: Variable
 
   material: ShaderMaterial
-  timeline: Fate
+  fate: Fate
 
   listeners = []
 
   constructor(material: ShaderMaterial, fate: Value<Fate>) {
     this.listeners.push(
       fate.on(($t) => {
-        this.timeline = $t
+        this.fate = $t
       })
     )
 

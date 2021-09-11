@@ -1,5 +1,5 @@
 import { Box3, Color, Euler, Vector3 } from 'three'
-import { EImpactReaction, EPhase, EShape } from './def-timeline'
+import { EImpactReaction, EPhase, EShape } from './efatefatee'
 
 export enum ERipple {
   PHASE,

@@ -3,7 +3,7 @@ import { key_down } from 'src/input/keyboard'
 import { mouse_wheel } from 'src/input/mouse'
 import { Value } from 'src/value'
 import { Vector2 } from 'three'
-import { EVar } from './def-timeline'
+import { EVar } from './enum_fate'
 
 export const timeline_shown = new Value(options.$.has('DEV'))
 

@@ -9,8 +9,8 @@
   import Time from './evar/Time.svelte'
 
   import { key_down } from 'src/input/keyboard'
-  import { EVar } from './def-timeline'
-  import Box from 'src/timeline/Box.svelte'
+  import { EVar } from './enum_fate'
+  import Box from 'src/fate/Box.svelte'
   import { hashcode } from './color'
   import { USER_SCALE } from 'src/config';
 
