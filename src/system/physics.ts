@@ -166,7 +166,7 @@ class Physics extends System {
         y = this.future.y(i, y + (vy * this.tickrate) / 50)
         z = this.future.z(i, z + (vz * this.tickrate) / 50)
 
-        this.future.time(i, t + this.tickrate * 2)
+        this.future.time(i, t + this.tickrate)
 
         const cX = this.cage.x(i),
           cY = this.cage.y(i),
