@@ -17,7 +17,7 @@ import {
   TOON_ENABLED,
 } from 'src/config'
 import { Load } from 'src/file/load'
-import { mobile } from 'src/input/browser'
+import { isVR, mobile } from 'src/input/browser'
 import { left_hand_uniforms, right_hand_uniforms } from 'src/input/xr'
 import { MagickaVoxel } from 'src/render/magica'
 import { body, renderer, scene } from 'src/render/render'
@@ -232,7 +232,7 @@ export class Realm {
             // remove all lands with that id
             break
           case EMessage.LAND_ADD:
-            if (!this.first) return
+            if (!this.first || isVR.$) return
             if (!realms[data.id]) {
               realms[data.id] = new Realm()
             }
