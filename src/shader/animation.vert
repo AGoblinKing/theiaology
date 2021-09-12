@@ -49,16 +49,16 @@ vec4 Animation(in vec4 pos) {
 
 // Rotations, maybe scale?
 mat4 AnimationMatrix(in mat4 mvMatrix) {
-	float lav = 1.;
+	float lav = 0.;
 
 	if(animation != ANIM_NO_EFFECT) {
-		lav += audioLow * 0.000525;
+		lav += audioLow * 0.525;
 	}
 
 	float timescale = time * 0.00001;
-	float s = 0.05 * lav;
+	float s = lav;
 
-	mvMatrix = mvMatrix * scale(float(size.x) * shape.x, float(size.y) * shape.y, float(size.z) * shape.z);
+	mvMatrix = mvMatrix * scale(float(size.x) * shape.x + s, float(size.y) * shape.y, float(size.z) * shape.z + s);
 
 	return mvMatrix;
 }

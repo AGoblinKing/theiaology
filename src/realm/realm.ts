@@ -17,7 +17,7 @@ import {
   TOON_ENABLED,
 } from 'src/config'
 import { Load } from 'src/file/load'
-import { isVR, mobile } from 'src/input/browser'
+import { isVR, mobile, options } from 'src/input/browser'
 import { left_hand_uniforms, right_hand_uniforms } from 'src/input/xr'
 import { MagickaVoxel } from 'src/render/magica'
 import { body, renderer, scene } from 'src/render/render'
@@ -60,17 +60,11 @@ export const realms: { [key: number]: Realm } = {}
 let nextLandCheck = 0
 
 const $vec3 = new Vector3()
-
 const $cage = new Box3()
 
 let i = 0
 
 let realmId = 0
-
-function Timer(time: number, fn: () => void) {
-  const i = setInterval(fn, time)
-  return () => clearInterval(i)
-}
 
 Object.assign(window, { realms })
 
@@ -232,7 +226,7 @@ export class Realm {
             // remove all lands with that id
             break
           case EMessage.LAND_ADD:
-            if (!this.first || isVR.$) return
+            if (!this.first || isVR.$ || options.$.has('ISOLATE')) return
             if (!realms[data.id]) {
               realms[data.id] = new Realm()
             }
