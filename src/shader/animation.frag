@@ -42,5 +42,7 @@ vec4 AnimationFrag(in vec4 col) {
 		}
 	}
 
+	col.xyz += (sin(v_pos * 0.1))  * 0.05;
+
 	return col;
 }

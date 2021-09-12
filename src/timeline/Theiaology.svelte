@@ -183,7 +183,7 @@
     click={Sponsor}
     style="border-radius: 0 0 0.5rem 0;"
   >
-    SPONSOR
+    TRiBuTe
   </Box>
   <!-- <Box
     tilt={180}
