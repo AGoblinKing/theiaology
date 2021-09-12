@@ -18,7 +18,6 @@
   import { key_down, key_map } from 'src/input/keyboard'
   import { Copy, Cut, Paste } from 'src/controller/copypaste'
   import { ReadFile } from 'src/file/file'
-  import { multiplayer } from 'src/realm/multiplayer'
 
   function Browse() {
     modal_location.set(
@@ -40,22 +39,19 @@
 
   function handleMultiplayer(res) {
     switch (res) {
-      case 'Host':
-        window.location.hash = `public/${`${Math.floor(
+      case 'Public':
+        window.location.search = `public/${`${Math.floor(
           Math.random() * Number.MAX_SAFE_INTEGER
         )}`.slice(0, 8)}`
-        multiplayer.host.set(true)
+  
         break
       case 'Secret':
-        window.location.hash = 'private/' + `${Math.floor(
+        window.location.search = 'private/' + `${Math.floor(
           Math.random() * Number.MAX_SAFE_INTEGER
         )}`.slice(0, 8)
-        multiplayer.host.set(true)
+
         break
-      case 'Join':
-        window.location.hash = `public`
-        multiplayer.host.set(false)
-        break
+
       default:
         return undefined
     }
@@ -74,7 +70,7 @@
       modal_location.$.set($mouse_page.x - 5, $mouse_page.y - 5)
     )
 
-    modal_options.set(['Host', 'Join', 'Secret'])
+    modal_options.set(['Public', 'Secret'])
 
     modal_visible.set((res) => setTimeout(handleMultiplayer(res)))
   }

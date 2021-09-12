@@ -1,4 +1,6 @@
 // performs grid traversal and collision detection
+// Rbush-3d seems fast enough for now
+// TODO: Trial against kd-tree, phys-x, revived gpgpu, and/or spherical
 import { RBush3D } from 'rbush-3d'
 import { Cage } from 'src/buffer/cage'
 import { Impact } from 'src/buffer/impact'
