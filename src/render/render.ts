@@ -13,8 +13,8 @@ export const scene = new Value(new Scene())
 export const camera = new PerspectiveCamera(
   75,
   window.innerWidth / window.innerHeight,
-  0.0001,
-  100000
+  0.01,
+  10000000
 )
 
 export const body = new Value(new Group())
