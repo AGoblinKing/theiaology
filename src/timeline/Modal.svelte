@@ -99,7 +99,8 @@
     padding: 0.4rem;
 
     cursor: pointer;
-    font-size: 0.75rem;
+    text-transform: capitalize;
+    font-size: 1rem;
   }
 
   .modal {

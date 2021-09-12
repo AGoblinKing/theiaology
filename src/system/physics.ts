@@ -231,13 +231,20 @@ class Physics extends System {
       this.box(v.i, $box)
       this.future.vec3(v.i, $vec3)
       this.velocity.vec3(v.i, $vec3v)
+      $vec3v.negate()
+      this.size.vec3(v.i, $vec3s)
 
       for (let collide of this.tree.search(v)) {
         // richocet off collides
         if (collide.i === v.i) continue
         collision = true
 
-        collide.getCenter($vec3o).sub($vec3).multiplyScalar(0.5)
+        collide
+          .getCenter($vec3o)
+          .sub($vec3)
+          .multiply($vec3v)
+          .max($vec3s.negate())
+          .min($vec3s.negate())
 
         $vec3.sub($vec3o)
         break
@@ -254,3 +261,4 @@ new Physics()
 
 const $vec3o = new Vector3()
 const $vec3v = new Vector3()
+const $vec3s = new Vector3()
