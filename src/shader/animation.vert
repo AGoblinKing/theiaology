@@ -52,7 +52,7 @@ mat4 AnimationMatrix(in mat4 mvMatrix) {
 	float lav = 0.;
 
 	if(animation != ANIM_NO_EFFECT) {
-		lav += audioLow * 0.525;
+		lav += audioLow * 0.2525;
 	}
 
 	float timescale = time * 0.00001;
