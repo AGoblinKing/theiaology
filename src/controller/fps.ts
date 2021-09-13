@@ -166,7 +166,7 @@ delta.on(($dt) => {
     const atom = fantasy.$.future.vec3(avatar).multiplyScalar(0.0005)
 
     // move us towards the avatar location
-    body.$.position.lerp(avg.add(atom).multiplyScalar(0.5), $dt)
+    body.$.position.lerp(avg.add(atom).multiplyScalar(0.5), $dt * 5)
 
     atom.sub(body.$.position).length() > 0.1 &&
       atom

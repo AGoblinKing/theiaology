@@ -163,9 +163,9 @@ class Physics extends System {
           this.insert(i)
       }
 
-      let tx = this.thrust.x(i),
-        ty = this.thrust.y(i),
-        tz = this.thrust.z(i)
+      let tx = this.thrust.x(i) * 4,
+        ty = this.thrust.y(i) * 4,
+        tz = this.thrust.z(i) * 4
 
       // let vx = this.velocity.x(i) + tx,
       //   vy = this.velocity.y(i) + ty,
