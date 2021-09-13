@@ -113,6 +113,9 @@ export class Realm {
   slowFantasy = i++
   id = realmId++
 
+  // the id of the atom that is the user's avatar
+  avatar = new Value<number>()
+
   constructor() {
     if (first.$ === undefined) first.set(this)
 
@@ -210,7 +213,8 @@ export class Realm {
         this.status,
         this.fate.$,
         this.universal,
-        this.cage
+        this.cage,
+        this.velocity
       )
       .on((e) => {
         const data = e
@@ -283,7 +287,8 @@ export class Realm {
         this.size,
         this.impact,
         this.universal,
-        this.cage
+        this.cage,
+        this.velocity
       )
       .bind(this.cardinal)
   }

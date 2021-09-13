@@ -8,6 +8,7 @@ import { SpaceTime } from 'src/buffer/spacetime'
 import { EStatus, Status } from 'src/buffer/status'
 import { Thrust } from 'src/buffer/thrust'
 import { ERealmState, Universal } from 'src/buffer/universal'
+import { Velocity } from 'src/buffer/velocity'
 import { ENTITY_COUNT, NORMALIZER } from 'src/config'
 import { ShapeMap } from 'src/fate/shape'
 import { ALPHABET } from 'src/fate/shape/text'
@@ -37,11 +38,12 @@ class Cardinal extends System {
   past: SpaceTime
   future: SpaceTime
   matter: Matter
-  velocity: Thrust
+  thrust: Thrust
   size: Size
   impact: Impact
   animation: Animation
   status: Status
+  velocity: Velocity
 
   fate: Timeline
   universal: Universal
@@ -54,6 +56,9 @@ class Cardinal extends System {
   ready = false
 
   lastTime = 0
+
+  // the user avatar, useful for stuff I guess
+  avatar: number
 
   constructor() {
     // Music Timing works off seconds
@@ -72,8 +77,8 @@ class Cardinal extends System {
       case this.matter:
         this.matter = new Matter(e.data)
         break
-      case this.velocity:
-        this.velocity = new Thrust(e.data)
+      case this.thrust:
+        this.thrust = new Thrust(e.data)
         break
       case this.size:
         this.size = new Size(e.data)
@@ -99,6 +104,10 @@ class Cardinal extends System {
 
       case this.cage:
         this.cage = new Cage(e.data)
+        break
+
+      case this.velocity:
+        this.velocity = new Velocity(e.data)
         this.ready = true
         break
 
@@ -149,6 +158,17 @@ class Cardinal extends System {
       if (this.fate.when(i) > sec) continue
 
       switch (this.fate.invoke(i)) {
+        case ESpell.USER_AVATAR: {
+          // doesn't ripple
+          $spell.avatar = true
+
+          if ($spell.atoms.length === 0) break
+
+          const id = $spell.atoms[0]
+          this.avatar = id
+          this.post({ message: EMessage.CARDINAL_AVATAR, id })
+          break
+        }
         case ESpell.POS_ADD:
           $spell.pos.add(
             $vec3.set(
@@ -180,9 +200,9 @@ class Cardinal extends System {
           $spell.ripple(ERipple.VELADD, $vec3)
 
           for (let atom of $spell.all()) {
-            this.velocity.addX(atom, $vec3.x)
-            this.velocity.addY(atom, $vec3.y)
-            this.velocity.addZ(atom, $vec3.z)
+            this.thrust.addX(atom, $vec3.x)
+            this.thrust.addY(atom, $vec3.y)
+            this.thrust.addZ(atom, $vec3.z)
           }
           break
         case ESpell.FLOCK_TEXT:
@@ -296,9 +316,9 @@ class Cardinal extends System {
           )
 
           for (let atom of $spell.all()) {
-            this.velocity.x(atom, $spell.vel.x)
-            this.velocity.y(atom, $spell.vel.y)
-            this.velocity.z(atom, $spell.vel.z)
+            this.thrust.x(atom, $spell.vel.x)
+            this.thrust.y(atom, $spell.vel.y)
+            this.thrust.z(atom, $spell.vel.z)
           }
 
           $spell.ripple(ERipple.VEL, $spell.vel)
@@ -345,21 +365,21 @@ class Cardinal extends System {
           }
 
           for (let atom of $spell.all()) {
-            this.velocity.x(
+            this.thrust.x(
               atom,
               $spell.vel.x +
                 $spell.velvar.x * Math.random() -
                 $spell.velvar.x / 2 +
                 ($spell.velvarconstraint.x * $spell.velvar.x) / 2
             )
-            this.velocity.y(
+            this.thrust.y(
               atom,
               $spell.vel.y +
                 $spell.velvar.y * Math.random() -
                 $spell.velvar.y / 2 +
                 ($spell.velvarconstraint.y * $spell.velvar.y) / 2
             )
-            this.velocity.z(
+            this.thrust.z(
               atom,
               $spell.vel.z +
                 $spell.velvar.z * Math.random() -
@@ -646,9 +666,9 @@ class Cardinal extends System {
           .setRGB(Math.random(), Math.random(), Math.random())
           .lerp($spell.color, (NORMALIZER - $spell.col.variance) / NORMALIZER)
 
-        this.velocity.x(id, $spell.vel.x)
-        this.velocity.y(id, $spell.vel.y)
-        this.velocity.z(id, $spell.vel.z)
+        this.thrust.x(id, $spell.vel.x)
+        this.thrust.y(id, $spell.vel.y)
+        this.thrust.z(id, $spell.vel.z)
 
         this.core(id, color, $spell)
       }
@@ -669,7 +689,7 @@ class Cardinal extends System {
     this.size.x(id, sx)
     this.size.y(id, sy)
     this.size.z(id, sz)
-    this.velocity.x(
+    this.thrust.x(
       id,
       $spell.vel.x +
         Math.floor(
@@ -678,7 +698,7 @@ class Cardinal extends System {
             ($spell.velvarconstraint.x * $spell.velvar.x) / 2
         )
     )
-    this.velocity.y(
+    this.thrust.y(
       id,
       $spell.vel.y +
         Math.floor(
@@ -687,7 +707,7 @@ class Cardinal extends System {
             ($spell.velvarconstraint.y * $spell.velvar.y) / 2
         )
     )
-    this.velocity.z(
+    this.thrust.z(
       id,
       $spell.vel.z +
         Math.floor(
@@ -785,9 +805,9 @@ class Cardinal extends System {
       this.size.x(id, sx)
       this.size.y(id, sy)
       this.size.z(id, sz)
-      this.velocity.x(id, $spell.vel.x + rtx)
-      this.velocity.y(id, $spell.vel.y + rty)
-      this.velocity.z(id, $spell.vel.z + rtz)
+      this.thrust.x(id, $spell.vel.x + rtx)
+      this.thrust.y(id, $spell.vel.y + rty)
+      this.thrust.z(id, $spell.vel.z + rtz)
       this.core(id, $col2, $spell)
     }
   }
@@ -800,6 +820,12 @@ class Cardinal extends System {
     this.matter.phase(id, $rez.phase)
     this.impact.reaction(id, $rez.impact)
     this.cage.box(id, $rez.cage)
+
+    // TODO: handle voxes better
+    if ($rez.avatar) {
+      this.avatar = id
+      this.post({ message: EMessage.CARDINAL_AVATAR, id })
+    }
   }
 
   process() {
@@ -846,6 +872,7 @@ class Cardinal extends System {
   }
 
   freeAll() {
+    delete this.avatar
     for (let i = 0; i < ENTITY_COUNT; i++) {
       this.free(i)
     }
@@ -856,11 +883,12 @@ class Cardinal extends System {
     this.animation.free(i)
     this.future.free(i, SpaceTime.COUNT)
     this.past.free(i, SpaceTime.COUNT)
-    this.velocity.free(i, Thrust.COUNT)
+    this.thrust.free(i, Thrust.COUNT)
     this.matter.free(i, Matter.COUNT)
     this.impact.free(i, Impact.COUNT)
     this.size.free(i, Thrust.COUNT)
     this.cage.free(i, Cage.COUNT)
+    this.velocity.free(i, Velocity.COUNT)
     this.status.free(i)
   }
 

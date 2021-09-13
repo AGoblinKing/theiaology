@@ -64,6 +64,7 @@ export class Spell {
   _: Spell[] = []
   dirty: Set<ERipple>
   id: number
+  avatar = false
 
   constructor(id) {
     this.id = id

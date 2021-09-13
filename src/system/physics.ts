@@ -9,6 +9,7 @@ import { Size } from 'src/buffer/size'
 import { SpaceTime } from 'src/buffer/spacetime'
 import { Thrust } from 'src/buffer/thrust'
 import { ERealmState, Universal } from 'src/buffer/universal'
+import { Velocity } from 'src/buffer/velocity'
 import { ENTITY_COUNT } from 'src/config'
 import { Box3, Vector3 } from 'three'
 import { EMessage } from './enum'
@@ -56,6 +57,7 @@ class Physics extends System {
   impact: Impact
   universal: Universal
   cage: Cage
+  velocity: Velocity
 
   // @ts-ignore
   tree = new RBush3D(0)
@@ -92,6 +94,11 @@ class Physics extends System {
         break
       case this.cage:
         this.cage = new Cage(e.data)
+
+        break
+      case this.velocity:
+        this.velocity = new Velocity(e.data)
+
         this.init()
         break
 

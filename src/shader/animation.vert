@@ -55,10 +55,10 @@ mat4 AnimationMatrix(in mat4 mvMatrix) {
 		lav += audioLow * 0.0525;
 	}
 
-	float timescale = time * 0.00001;
+	float timescale = time * 0.000001;
 	float s = lav;
 
-	mvMatrix = mvMatrix * scale(float(size.x) * shape.x + s, float(size.y) * shape.y, float(size.z) * shape.z + s) * rotationY(sin(timescale + v_pos.x * v_pos.y * v_pos.z) * 0.01);
+	mvMatrix = mvMatrix * scale(float(size.x) * shape.x + s, float(size.y) * shape.y, float(size.z) * shape.z + s) * rotationY(sin(timescale * v_pos.x * v_pos.y * v_pos.z) * 10.);
 
 	return mvMatrix;
 }

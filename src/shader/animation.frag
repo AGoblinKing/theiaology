@@ -27,8 +27,11 @@ vec4 AnimationFrag(in vec4 col) {
 	float xyz = v_pos.z * v_pos.x * v_pos.y;
 	float t= sin(time * 0.00001) * 1.;
 	col.xyz *= 0.95 + 0.01 * modu(xy * 100.+ t, 2.);
-	col.xyz *= 1. + 0.02 * modu(xyz* cos(audioHigh * 0.001 + t), 5.);
+	col.xyz *= 1. + 0.01 * modu(xyz* cos(audioHigh * 0.001 + t), 5.);
 	col.xyz *= 0.95 + 0.01 * modu(xyz * 1000. * cos(audioHigh * 0.01 + t) , 4.)* sin(audioLow * 0.01);
+
+    col.xyz *= 1. + (sin( (v_pos.x + v_pos.z) * 10.) + cos(10. * (v_pos.x + v_pos.z)))* 0.01;
+
 
 	if(v_animation == float(ANIM_NO_EFFECT)) {
 		return col;

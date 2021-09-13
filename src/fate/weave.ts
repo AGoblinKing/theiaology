@@ -127,6 +127,7 @@ export enum ESpell {
   TRIGGER,
   FLOCK_RING,
   FLOCK_GRID,
+  USER_AVATAR,
 }
 
 export enum EConstraint {
@@ -261,5 +262,9 @@ export const Invocations: { [key: number]: any } = {
   [ESpell.FLOCK_GRID]: {
     birds_squared: EVar.POSITIVE,
     margin: EVar.USERPOSITIVE,
+  },
+
+  [ESpell.USER_AVATAR]: {
+    elasticity: EVar.NORMAL,
   },
 }

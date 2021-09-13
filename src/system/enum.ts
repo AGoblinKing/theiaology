@@ -12,6 +12,7 @@ export enum EMessage {
   LAND_REMOVE = -5002,
   PHYSICS_TICK = -6000,
   CARDINAL_TICK = -7000,
+  CARDINAL_AVATAR = -7001,
 }
 
 export type FRez = () => number
