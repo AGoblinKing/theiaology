@@ -223,7 +223,6 @@ class Physics extends System {
           }
         }
       }
-
       $vec3.set(vx, vy, vz).multiplyScalar(0.5)
       this.velocity.setVec3(i, $vec3)
     }
@@ -245,6 +244,7 @@ class Physics extends System {
       this.future.vec3(v.i, $vec3)
       this.velocity.vec3(v.i, $vec3v)
       $vec3v.negate()
+
       this.size.vec3(v.i, $vec3s)
       const phase = this.matter.phase(v.i)
 
@@ -253,25 +253,18 @@ class Physics extends System {
         if (collide.i === v.i) continue
         collision = true
 
-        collide
-          .getCenter($vec3o)
-          .sub($vec3)
-          .multiply($vec3v)
-          .max($vec3s.negate())
-          .min($vec3s.negate())
-          .multiplyScalar(2)
-
+        collide.getCenter($vec3o).sub($vec3)
+        if (phase === EPhase.LIQUID) {
+          $vec3v.multiplyScalar(2)
+          $vec3v.add($vec3o.normalize().negate().multiplyScalar(40))
+        }
         break
       }
 
       if (collision) {
-        if (phase === EPhase.LIQUID) {
-          this.future.setVec3(v.i, $vec3)
-        } else {
-          this.velocity.addX(v.i, $vec3v.x)
-          this.velocity.addY(v.i, $vec3v.y)
-          this.velocity.addZ(v.i, $vec3v.z)
-        }
+        this.velocity.addX(v.i, $vec3v.x)
+        this.velocity.addY(v.i, $vec3v.y)
+        this.velocity.addZ(v.i, $vec3v.z)
       }
     }
 
@@ -284,3 +277,4 @@ new Physics()
 const $vec3o = new Vector3()
 const $vec3v = new Vector3()
 const $vec3s = new Vector3()
+const $vec3t = new Vector3()
