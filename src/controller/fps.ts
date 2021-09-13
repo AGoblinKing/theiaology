@@ -142,6 +142,9 @@ mouse_wheel.on(($wheel) => {
   const { universal } = fantasy.$
   universal.userSize(Math.max(1, universal.userSize() + Math.sign($wheel)))
 })
+
+const avg = new Vector3()
+
 delta.on(($dt) => {
   // only run not in VR
   if (renderer.xr.isPresenting) {
@@ -160,15 +163,17 @@ delta.on(($dt) => {
 
   const avatar = fantasy.$.universal.avatar()
   if (avatar !== -1) {
-    const atom = fantasy.$.future.vec3(avatar).multiplyScalar(0.01)
+    const atom = fantasy.$.future.vec3(avatar).multiplyScalar(0.0005)
 
     // move us towards the avatar location
-    body.$.position.lerp(atom, $dt * 2.5)
+    body.$.position.lerp(avg.add(atom).multiplyScalar(0.5), $dt)
 
-    atom
-      .sub(body.$.position)
-      .multiplyScalar(fantasy.$.universal.thrustStrength())
-      .negate()
+    atom.sub(body.$.position).length() > 0.1 &&
+      atom
+        .normalize()
+        .set(atom.x, 0, atom.z)
+        .multiplyScalar(fantasy.$.universal.thrustStrength())
+        .negate()
 
     // update velocity of avatar
     const { velocity } = fantasy.$

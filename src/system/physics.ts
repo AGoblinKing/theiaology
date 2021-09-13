@@ -158,6 +158,7 @@ class Physics extends System {
         case EPhase.STUCK:
           this.insert(i)
           continue
+        case EPhase.NORMAL:
         case EPhase.LIQUID:
           this.insert(i)
       }

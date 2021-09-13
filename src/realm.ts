@@ -8,6 +8,7 @@ import { SpaceTime } from 'src/buffer/spacetime'
 import { Status } from 'src/buffer/status'
 import { Thrust } from 'src/buffer/thrust'
 import { Universal } from 'src/buffer/universal'
+import { Velocity } from 'src/buffer/velocity'
 import {
   ENTITY_COUNT,
   FACES,
@@ -74,7 +75,8 @@ export class Realm {
   past: SpaceTime
   future: SpaceTime
   matter: Matter
-  velocity: Thrust
+  thrust: Thrust
+  velocity: Velocity
   size: Size
   impact: Impact
   animation: Animation
@@ -113,10 +115,15 @@ export class Realm {
   slowFantasy = i++
   id = realmId++
 
+  // the id of the atom that is the user's avatar
+  avatar = new Value<number>()
+
   constructor() {
     if (first.$ === undefined) first.set(this)
 
-    this.velocity = new Thrust()
+    this.thrust = new Thrust()
+    this.velocity = new Velocity()
+
     this.past = new SpaceTime()
 
     this.future = new SpaceTime()
@@ -203,7 +210,7 @@ export class Realm {
         this.past,
         this.future,
         this.matter,
-        this.velocity,
+        this.thrust,
         this.size,
         this.animation,
         this.impact,
@@ -280,7 +287,7 @@ export class Realm {
         this.past,
         this.future,
         this.matter,
-        this.velocity,
+        this.thrust,
         this.size,
         this.impact,
         this.universal,
