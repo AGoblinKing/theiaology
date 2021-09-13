@@ -36,6 +36,7 @@ export const UNIVERSALS = [
   0,
   // ERealmState
   1, // RUNNING
+  -1, // no avatar
 ]
 
 export const CACHE = 'v1'

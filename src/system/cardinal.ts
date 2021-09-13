@@ -57,9 +57,6 @@ class Cardinal extends System {
 
   lastTime = 0
 
-  // the user avatar, useful for stuff I guess
-  avatar: number
-
   constructor() {
     // Music Timing works off seconds
     super(500)
@@ -165,8 +162,8 @@ class Cardinal extends System {
           if ($spell.atoms.length === 0) break
 
           const id = $spell.atoms[0]
-          this.avatar = id
-          this.post({ message: EMessage.CARDINAL_AVATAR, id })
+          this.universal.avatar(id)
+          this.post(EMessage.CARDINAL_AVATAR)
           break
         }
         case ESpell.POS_ADD:
@@ -823,8 +820,8 @@ class Cardinal extends System {
 
     // TODO: handle voxes better
     if ($rez.avatar) {
-      this.avatar = id
-      this.post({ message: EMessage.CARDINAL_AVATAR, id })
+      this.universal.avatar(id)
+      this.post(EMessage.CARDINAL_AVATAR)
     }
   }
 
@@ -872,7 +869,6 @@ class Cardinal extends System {
   }
 
   freeAll() {
-    delete this.avatar
     for (let i = 0; i < ENTITY_COUNT; i++) {
       this.free(i)
     }

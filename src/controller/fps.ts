@@ -14,12 +14,17 @@ import { MathUtils, Vector2, Vector3 } from 'three'
 import { velocity } from './smooth'
 
 export const move_inputs = new Value(new Vector3(0, 0, 0))
+export const fly_engaged = new Value(false)
 
 const CAPS_SPEED = 2
 const SPEED = 1
 
 key_down.on(($k) => {
   switch ($k) {
+    case 'Capslock':
+      fly_engaged.set(!fly_engaged.$)
+      break
+
     case 'A':
       move_inputs.$.x = -CAPS_SPEED
       break
@@ -152,4 +157,16 @@ delta.on(($dt) => {
   }
 
   if (mouse_right.$ || mouse_left.$) UpdateCamera($dt)
+
+  const avatar = fantasy.$.universal.avatar()
+  if (avatar !== -1) {
+    const atom = fantasy.$.future.vec3(avatar).multiplyScalar(0.01)
+
+    atom.y -= 0.1
+
+    // move us towards the avatar location
+    body.$.position.lerp(atom, $dt * 5)
+
+    // update velocity of avatar
+  }
 })

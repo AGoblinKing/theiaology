@@ -113,9 +113,6 @@ export class Realm {
   slowFantasy = i++
   id = realmId++
 
-  // the id of the atom that is the user's avatar
-  avatar = new Value<number>()
-
   constructor() {
     if (first.$ === undefined) first.set(this)
 

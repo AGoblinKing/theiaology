@@ -65,6 +65,7 @@ export class Spell {
   dirty: Set<ERipple>
   id: number
   avatar = false
+  avatarBinding = 1.0
 
   constructor(id) {
     this.id = id
