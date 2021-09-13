@@ -149,6 +149,7 @@ class Physics extends System {
     this.tree.clear()
     const moves = new Set()
     const dx = this.tickrate / 1000
+
     for (let i = 0; i < ENTITY_COUNT; i++) {
       const phase = this.matter.phase(i)
       switch (phase) {
@@ -165,20 +166,20 @@ class Physics extends System {
         ty = this.thrust.y(i),
         tz = this.thrust.z(i)
 
-      let vx = this.velocity.x(i) + tx,
-        vy = this.velocity.y(i) + ty,
-        vz = this.velocity.z(i) + tz
+      // let vx = this.velocity.x(i) + tx,
+      //   vy = this.velocity.y(i) + ty,
+      //   vz = this.velocity.z(i) + tz
 
-      if (vx !== 0 || vy !== 0 || vz !== 0) {
+      if (tx !== 0 || ty !== 0 || tz !== 0) {
         moves.add(i)
         let x = this.past.x(i, this.future.x(i))
         let y = this.past.y(i, this.future.y(i))
         let z = this.past.z(i, this.future.z(i))
         this.past.time(i, t)
 
-        x = this.future.x(i, x + vx)
-        y = this.future.y(i, y + vy)
-        z = this.future.z(i, z + vz)
+        x = this.future.x(i, x + tx)
+        y = this.future.y(i, y + ty)
+        z = this.future.z(i, z + tz)
 
         this.future.time(i, t + this.tickrate)
 
@@ -223,8 +224,6 @@ class Physics extends System {
           }
         }
       }
-      $vec3.set(vx, vy, vz).multiplyScalar(0.5)
-      this.velocity.setVec3(i, $vec3)
     }
 
     // collision phase
@@ -240,9 +239,8 @@ class Physics extends System {
 
       let collision = false
 
-      this.box(v.i, $box)
       this.future.vec3(v.i, $vec3)
-      this.velocity.vec3(v.i, $vec3v)
+      this.thrust.vec3(v.i, $vec3v)
       $vec3v.negate()
 
       this.size.vec3(v.i, $vec3s)
@@ -256,15 +254,24 @@ class Physics extends System {
         collide.getCenter($vec3o).sub($vec3)
         if (phase === EPhase.LIQUID) {
           $vec3v.multiplyScalar(2)
-          $vec3v.add($vec3o.normalize().negate().multiplyScalar(40))
+          $vec3v.add(
+            $vec3o
+              .normalize()
+              .negate()
+              .multiply(
+                $vec3t
+                  .set(1 + Math.random(), 1 + Math.random(), 1 + Math.random())
+                  .multiplyScalar(40)
+              )
+          )
         }
         break
       }
 
       if (collision) {
-        this.velocity.addX(v.i, $vec3v.x)
-        this.velocity.addY(v.i, $vec3v.y)
-        this.velocity.addZ(v.i, $vec3v.z)
+        this.future.addX(v.i, $vec3v.x)
+        this.future.addY(v.i, $vec3v.y)
+        this.future.addZ(v.i, $vec3v.z)
       }
     }
 

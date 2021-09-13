@@ -17,9 +17,7 @@ export const options = new Value(
 )
 
 export const isVR = new Value(false)
-
 // @ts-ignore
-
 navigator.xr?.isSessionSupported('immersive-vr').then(function (supported) {
   isVR.set(supported)
 })
