@@ -1,6 +1,6 @@
 import { AtomicInt } from 'src/buffer/atomic'
 import { UNIVERSALS } from 'src/config'
-import { EIdle } from 'src/timeline/def-timeline'
+import { EIdle } from 'src/fate/weave'
 import { Box3, Vector3 } from 'three'
 
 const $cage = new Box3()

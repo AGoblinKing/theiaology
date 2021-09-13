@@ -1,6 +1,6 @@
 import { EPhase } from 'src/buffer/matter'
 import { Box3, Color, Euler, Vector3 } from 'three'
-import { EImpactReaction, EShape } from './def-timeline'
+import { EImpactReaction, EShape } from './weave'
 
 export enum ERipple {
   PHASE,

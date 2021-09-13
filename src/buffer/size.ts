@@ -1,3 +1,3 @@
-import { Velocity } from './velocity'
+import { Vec3 } from './vec3'
 
-export class Size extends Velocity {}
+export class Size extends Vec3 {}

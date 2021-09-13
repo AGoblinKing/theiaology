@@ -1,6 +1,7 @@
-import { Value } from 'src/value/value'
+import { Value } from 'src/value'
 import { Uniform, Vector3 } from 'three'
-import { IJointGroup } from '../xr/joints'
+import { isVR } from './browser'
+import { IJointGroup } from './joints'
 
 export const last_pose = new Value({
   left: '',
@@ -13,6 +14,8 @@ export const pose = new Value({
 })
 
 export const hands = new Value<IJointGroup[]>([])
+if (!isVR) {
+}
 export const left_hand = new Value<IJointGroup>()
 export const right_hand = new Value<IJointGroup>()
 export const VRInit = new Value(false)

@@ -1,5 +1,8 @@
 import { MIN_POSE_VALUE } from 'src/config'
-import { VRButton } from 'src/render/VRButton'
+import { poses, poseValue } from 'src/input/poses'
+import { renderer, scene } from 'src/render'
+import { VRButton } from 'src/VRButton'
+import { IJointGroup } from '../input/joints'
 import {
   hands,
   last_pose,
@@ -8,12 +11,9 @@ import {
   right_hand,
   VRInit,
 } from '../input/xr'
-import { renderer, scene } from '../render/render'
-import { audio } from '../sound/audio'
-import * as Spells from '../spell'
-import { Value } from '../value/value'
-import { IJointGroup } from '../xr/joints'
-import { poses, poseValue } from '../xr/poses'
+import { Value } from '../value'
+import { audio } from './audio'
+import * as Spells from './spell'
 
 renderer.xr.enabled = true
 

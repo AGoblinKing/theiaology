@@ -7,11 +7,11 @@ import { Impact } from 'src/buffer/impact'
 import { EPhase, Matter } from 'src/buffer/matter'
 import { Size } from 'src/buffer/size'
 import { SpaceTime } from 'src/buffer/spacetime'
+import { Thrust } from 'src/buffer/thrust'
 import { ERealmState, Universal } from 'src/buffer/universal'
-import { Velocity } from 'src/buffer/velocity'
 import { ENTITY_COUNT } from 'src/config'
 import { Box3, Vector3 } from 'three'
-import { EMessage } from './sys-enum'
+import { EMessage } from './enum'
 import { System } from './system'
 
 const $vec3 = new Vector3()
@@ -51,7 +51,7 @@ class Physics extends System {
   past: SpaceTime
   future: SpaceTime
   matter: Matter
-  velocity: Velocity
+  thrust: Thrust
   size: Size
   impact: Impact
   universal: Universal
@@ -78,8 +78,8 @@ class Physics extends System {
       case this.matter:
         this.matter = new Matter(e.data)
         break
-      case this.velocity:
-        this.velocity = new Velocity(e.data)
+      case this.thrust:
+        this.thrust = new Thrust(e.data)
         break
       case this.size:
         this.size = new Size(e.data)
@@ -155,9 +155,9 @@ class Physics extends System {
           this.insert(i)
       }
 
-      let vx = this.velocity.x(i),
-        vy = this.velocity.y(i),
-        vz = this.velocity.z(i)
+      let vx = this.thrust.x(i),
+        vy = this.thrust.y(i),
+        vz = this.thrust.z(i)
 
       if (vx !== 0 || vy !== 0 || vz !== 0) {
         moves.add(i)
@@ -230,7 +230,7 @@ class Physics extends System {
 
       this.box(v.i, $box)
       this.future.vec3(v.i, $vec3)
-      this.velocity.vec3(v.i, $vec3v)
+      this.thrust.vec3(v.i, $vec3v)
       $vec3v.negate()
       this.size.vec3(v.i, $vec3s)
 

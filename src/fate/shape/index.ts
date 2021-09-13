@@ -1,4 +1,4 @@
-import { EShape } from 'src/timeline/def-timeline'
+import { EShape } from 'src/fate/weave'
 import { Plane, Ring } from './simple'
 
 export const ShapeMap = {

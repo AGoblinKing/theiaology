@@ -1,13 +1,13 @@
 import { Animation } from 'src/buffer/animation'
 import { Cage } from 'src/buffer/cage'
+import { Timeline } from 'src/buffer/fate'
 import { Impact } from 'src/buffer/impact'
 import { Matter } from 'src/buffer/matter'
 import { Size } from 'src/buffer/size'
 import { SpaceTime } from 'src/buffer/spacetime'
 import { Status } from 'src/buffer/status'
-import { Timeline } from 'src/buffer/timeline'
+import { Thrust } from 'src/buffer/thrust'
 import { Universal } from 'src/buffer/universal'
-import { Velocity } from 'src/buffer/velocity'
 import {
   ENTITY_COUNT,
   FACES,
@@ -16,18 +16,6 @@ import {
   SIZE,
   TOON_ENABLED,
 } from 'src/config'
-import { Load } from 'src/file/load'
-import { isVR, mobile, options } from 'src/input/browser'
-import { left_hand_uniforms, right_hand_uniforms } from 'src/input/xr'
-import { MagickaVoxel } from 'src/render/magica'
-import { body, renderer, scene } from 'src/render/render'
-import AnimationFrag from 'src/shader/animation.frag'
-import AnimationVert from 'src/shader/animation.vert'
-import EnumVert from 'src/shader/enum.vert'
-import HeaderVert from 'src/shader/header.vert'
-import MainVert from 'src/shader/main.vert'
-import MatterFrag from 'src/shader/matter.frag'
-import SpaceTimeVert from 'src/shader/spacetime.vert'
 import {
   audio,
   audio_buffer,
@@ -35,11 +23,23 @@ import {
   lowerUniform,
   seconds,
   upperUniform,
-} from 'src/sound/audio'
+} from 'src/controller/audio'
+import { isVR, mobile, options } from 'src/input/browser'
+import { Load } from 'src/input/load'
+import { left_hand_uniforms, right_hand_uniforms } from 'src/input/xr'
+import { MagickaVoxel } from 'src/magica'
+import { body, renderer, scene } from 'src/render'
+import AnimationFrag from 'src/shader/animation.frag'
+import AnimationVert from 'src/shader/animation.vert'
+import EnumVert from 'src/shader/enum.vert'
+import HeaderVert from 'src/shader/header.vert'
+import MainVert from 'src/shader/main.vert'
+import MatterFrag from 'src/shader/matter.frag'
+import SpaceTimeVert from 'src/shader/spacetime.vert'
+import { timeUniform, timing } from 'src/shader/time'
+import { EMessage } from 'src/system/enum'
 import { sys, SystemWorker } from 'src/system/sys'
-import { EMessage } from 'src/system/sys-enum'
-import { timeUniform, timing } from 'src/uniform/time'
-import { ICancel, Value } from 'src/value/value'
+import { ICancel, Value } from 'src/value'
 import {
   Box3,
   BoxBufferGeometry,
@@ -74,7 +74,7 @@ export class Realm {
   past: SpaceTime
   future: SpaceTime
   matter: Matter
-  velocity: Velocity
+  velocity: Thrust
   size: Size
   impact: Impact
   animation: Animation
@@ -116,7 +116,7 @@ export class Realm {
   constructor() {
     if (first.$ === undefined) first.set(this)
 
-    this.velocity = new Velocity()
+    this.velocity = new Thrust()
     this.past = new SpaceTime()
 
     this.future = new SpaceTime()
@@ -371,7 +371,7 @@ export class Realm {
         )
         .setAttribute(
           'size',
-          new InstancedBufferAttribute(this.size, Velocity.COUNT)
+          new InstancedBufferAttribute(this.size, Thrust.COUNT)
         ),
       this.material,
       ENTITY_COUNT

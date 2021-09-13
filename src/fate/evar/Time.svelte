@@ -1,5 +1,5 @@
 <script>
-  import { audio } from 'src/sound/audio'
+  import { audio } from 'src/controller/audio'
   import Box from '../Box.svelte'
   import { modal_default, modal_visible } from '../editor'
   function d0(t) {

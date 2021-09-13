@@ -1,3 +1,5 @@
+import { Loop, tick } from 'src/shader/time'
+import { Value } from 'src/value'
 import {
   AmbientLight,
   DirectionalLight,
@@ -6,8 +8,6 @@ import {
   Scene,
   WebGLRenderer,
 } from 'three'
-import { Loop, tick } from '../uniform/time'
-import { Value } from '../value/value'
 
 export const scene = new Value(new Scene())
 export const camera = new PerspectiveCamera(

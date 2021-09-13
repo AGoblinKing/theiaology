@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { audio, audio_buffer, audio_name } from 'src/sound/audio'
+  import { audio, audio_buffer, audio_name } from 'src/controller/audio'
 
   import Box from './Box.svelte'
 
@@ -7,7 +7,7 @@
   import Node from './Node.svelte'
   import fs from 'file-saver'
 
-  import { first } from 'src/realm/realm'
+  import { first } from 'src/realm'
 
 
   $: fate = $first.fate

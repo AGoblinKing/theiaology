@@ -1,22 +1,22 @@
 import { Animation } from 'src/buffer/animation'
 import { Cage } from 'src/buffer/cage'
+import { Timeline } from 'src/buffer/fate'
 import { Impact } from 'src/buffer/impact'
 import { Matter } from 'src/buffer/matter'
 import { Size } from 'src/buffer/size'
 import { SpaceTime } from 'src/buffer/spacetime'
 import { EStatus, Status } from 'src/buffer/status'
-import { Timeline } from 'src/buffer/timeline'
+import { Thrust } from 'src/buffer/thrust'
 import { ERealmState, Universal } from 'src/buffer/universal'
-import { Velocity } from 'src/buffer/velocity'
 import { ENTITY_COUNT, NORMALIZER } from 'src/config'
-import { MagickaVoxel } from 'src/render/magica'
-import { ShapeMap } from 'src/shape'
-import { ALPHABET } from 'src/shape/text'
-import { EAxis, EIdle, EShape, ESpell } from 'src/timeline/def-timeline'
-import { ERipple, Spell } from 'src/timeline/spell'
-import { Value } from 'src/value/value'
+import { ShapeMap } from 'src/fate/shape'
+import { ALPHABET } from 'src/fate/shape/text'
+import { ERipple, Spell } from 'src/fate/spell'
+import { EAxis, EIdle, EShape, ESpell } from 'src/fate/weave'
+import { MagickaVoxel } from 'src/magica'
+import { Value } from 'src/value'
 import { Color, Euler, Object3D, Vector3 } from 'three'
-import { EMessage, FRez } from './sys-enum'
+import { EMessage, FRez } from './enum'
 import { System } from './system'
 
 const $hsl = { h: 0, s: 0, l: 0 }
@@ -37,7 +37,7 @@ class Cardinal extends System {
   past: SpaceTime
   future: SpaceTime
   matter: Matter
-  velocity: Velocity
+  velocity: Thrust
   size: Size
   impact: Impact
   animation: Animation
@@ -73,7 +73,7 @@ class Cardinal extends System {
         this.matter = new Matter(e.data)
         break
       case this.velocity:
-        this.velocity = new Velocity(e.data)
+        this.velocity = new Thrust(e.data)
         break
       case this.size:
         this.size = new Size(e.data)
@@ -856,10 +856,10 @@ class Cardinal extends System {
     this.animation.free(i)
     this.future.free(i, SpaceTime.COUNT)
     this.past.free(i, SpaceTime.COUNT)
-    this.velocity.free(i, Velocity.COUNT)
+    this.velocity.free(i, Thrust.COUNT)
     this.matter.free(i, Matter.COUNT)
     this.impact.free(i, Impact.COUNT)
-    this.size.free(i, Velocity.COUNT)
+    this.size.free(i, Thrust.COUNT)
     this.cage.free(i, Cage.COUNT)
     this.status.free(i)
   }

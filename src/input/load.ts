@@ -1,7 +1,7 @@
-import { Timeline } from 'src/buffer/timeline'
-import type { Realm } from 'src/realm/realm'
-import { MagickaVoxel } from 'src/render/magica'
-import { Value } from 'src/value/value'
+import { Timeline } from 'src/buffer/fate'
+import { MagickaVoxel } from 'src/magica'
+import type { Realm } from 'src/realm'
+import { Value } from 'src/value'
 
 // Load .theia file into the timePline
 export const SIGNATURE = 'THEA'

@@ -1,6 +1,6 @@
 import { AtomicInt } from 'src/buffer/atomic'
 import { TIMELINE_MAX } from 'src/config'
-import { ESpell, ITimeline } from 'src/timeline/def-timeline'
+import { ESpell, ITimeline } from 'src/fate/weave'
 
 const strConvertBuffer = new ArrayBuffer(4) // an Int32 takes 4 bytes
 const strView = new DataView(strConvertBuffer)

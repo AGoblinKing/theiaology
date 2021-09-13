@@ -1,8 +1,8 @@
 import fs from 'file-saver'
 import { set } from 'idb-keyval'
-import { first } from 'src/realm/realm'
-import { audio_buffer, audio_name } from 'src/sound/audio'
-import { timeline_shown } from 'src/timeline/editor'
+import { audio_buffer, audio_name } from 'src/controller/audio'
+import { timeline_shown } from 'src/fate/editor'
+import { first } from 'src/realm'
 import { dbLoaded, HEADER_START, SIGNATURE } from './load'
 
 export function SaveScript() {

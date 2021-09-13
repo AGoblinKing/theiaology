@@ -1,4 +1,4 @@
-import { fantasy } from 'src/realm/realm'
+import { fantasy } from 'src/realm'
 let past = []
 let future = []
 

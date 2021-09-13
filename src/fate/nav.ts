@@ -1,9 +1,15 @@
 import { key_down, key_map } from 'src/input/keyboard'
-import { Value } from 'src/value/value'
+import { Value } from 'src/value'
 import { timeline_shown } from './editor'
 
 export let navs = {}
 export const doclick = new Value(false)
+
+export const cursor = new Value<INav>({
+  right: 'workspace',
+  down: 'music|vox|root',
+  tag: 'theiaology',
+})
 
 export function AttemptNav(dir: 'up' | 'down' | 'left' | 'right') {
   if (!cursor.$[dir]) return
@@ -58,9 +64,3 @@ export interface INav {
   tag: string
   i?: number
 }
-
-export const cursor = new Value<INav>({
-  right: 'workspace',
-  down: 'music|vox|root',
-  tag: 'theiaology',
-})

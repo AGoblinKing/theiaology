@@ -1,10 +1,10 @@
 import { get } from 'idb-keyval'
 import { rootTheia } from 'src/config'
+import { audio, audio_buffer, audio_name } from 'src/controller/audio'
+import { INode } from 'src/fate/weave'
 import { url } from 'src/input/browser'
-import { first } from 'src/realm/realm'
-import { MagickaVoxel } from 'src/render/magica'
-import { audio, audio_buffer, audio_name } from 'src/sound/audio'
-import { INode } from 'src/timeline/def-timeline'
+import { MagickaVoxel } from 'src/magica'
+import { first } from 'src/realm'
 import { dbLoaded, Load } from './load'
 
 window.addEventListener('dragover', (e) => {

@@ -1,5 +1,5 @@
 import { angular } from 'src/controller/smooth'
-import { IJointGroup } from 'src/xr/joints'
+import { IJointGroup } from 'src/input/joints'
 
 const SPEED = 0.75
 export function Swipe(hand: IJointGroup) {

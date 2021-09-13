@@ -1,6 +1,6 @@
 import { EAnimation } from 'src/buffer/animation'
 import { EPhase } from 'src/buffer/matter'
-import { EMidiChannel } from 'src/sound/midi'
+import { EMidiChannel } from 'src/controller/midi'
 
 export interface IMarkers {
   [markerID: number]: string

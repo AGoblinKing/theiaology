@@ -1,10 +1,10 @@
+import 'src/controller/audio'
+import 'src/controller/player'
+import 'src/fate/rez/hand-joints'
 // @ts-ignore - tots is a module
-import 'src/file/file'
-import * as render from 'src/render/render'
-import Theiaology from 'src/timeline/Theiaology.svelte'
-import './controller/player'
-import './rez/hand-joints'
-import './sound/audio'
+import Theiaology from 'src/fate/Theiaology.svelte'
+import 'src/input/file'
+import * as render from 'src/render'
 
 // startup editor
 const theiaology = new Theiaology({

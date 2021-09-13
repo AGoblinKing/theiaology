@@ -12,7 +12,7 @@
 <script lang="ts">
   // organize-imports-ignore
   import Box from './Box.svelte'
-  import { fantasy, first } from 'src/realm/realm'
+  import { fantasy, first } from 'src/realm'
 
   import {
     modal_cursor,
@@ -24,12 +24,12 @@
 
   import { mouse_page } from 'src/input/mouse'
 
-  import { Invocations, ESpell, EVar } from './def-timeline'
+  import { Invocations, ESpell, EVar } from './weave'
 
-  import { SaveScript } from 'src/file/save'
+  import { SaveScript } from 'src/input/save'
   import { NORMALIZER, UserUnits } from 'src/config'
   import { hashcode } from './color'
-  import { seconds } from 'src/sound/audio';
+  import { seconds } from 'src/controller/audio';
   
   $: voxes = $first.voxes
   $: fate = $first.fate

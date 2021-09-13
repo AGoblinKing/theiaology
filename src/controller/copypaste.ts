@@ -1,7 +1,7 @@
-import { first } from 'src/realm/realm'
-import { ESpell } from 'src/timeline/def-timeline'
-import { cursor } from 'src/timeline/nav'
-import { Value } from 'src/value/value'
+import { cursor } from 'src/fate/nav'
+import { ESpell } from 'src/fate/weave'
+import { first } from 'src/realm'
+import { Value } from 'src/value'
 
 export const clipped = new Value(0)
 export const clip = new Value([0, 0, 0, 0, 0, 0])

@@ -6,11 +6,11 @@ import {
   mouse_right,
   mouse_wheel,
 } from 'src/input/mouse'
-import { fantasy } from 'src/realm/realm'
-import { delta } from 'src/uniform/time'
-import { Value } from 'src/value/value'
+import { fantasy } from 'src/realm'
+import { body, renderer } from 'src/render'
+import { delta } from 'src/shader/time'
+import { Value } from 'src/value'
 import { MathUtils, Vector2, Vector3 } from 'three'
-import { body, renderer } from '../render/render'
 import { velocity } from './smooth'
 
 export const move_inputs = new Value(new Vector3(0, 0, 0))

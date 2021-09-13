@@ -1,6 +1,6 @@
 import { AtomicInt } from 'src/buffer/atomic'
 import { ENTITY_COUNT, IMPACTS_MAX_PER } from 'src/config'
-import { EImpactReaction } from 'src/timeline/def-timeline'
+import { EImpactReaction } from 'src/fate/weave'
 
 export class Impact extends AtomicInt {
   // [who]

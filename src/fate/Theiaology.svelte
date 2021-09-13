@@ -1,13 +1,13 @@
 <script lang="ts">
   // organize-imports-ignore
-  import { Save } from 'src/file/save'
+  import { Save } from 'src/input/save'
   import {
     modal_location,
     modal_options,
     modal_visible,
     timeline_shown,
   } from './editor'
-  import Timeline from './Timeline.svelte'
+  import Fate from './Fate.svelte'
   import Modal from './Modal.svelte'
 
   import Box from './Box.svelte'
@@ -17,7 +17,7 @@
   import { Redo, Undo } from 'src/controller/undoredo'
   import { key_down, key_map } from 'src/input/keyboard'
   import { Copy, Cut, Paste } from 'src/controller/copypaste'
-  import { ReadFile } from 'src/file/file'
+  import { ReadFile } from 'src/input/file'
 
   function Browse() {
     modal_location.set(
@@ -198,7 +198,7 @@
 <Modal />
 {#if $timeline_shown}
   <theiaology>
-    <Timeline />
+    <Fate />
   </theiaology>
 {/if}
 
