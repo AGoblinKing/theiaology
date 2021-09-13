@@ -135,7 +135,6 @@ class Physics extends System {
   insert(i: number) {
     if (!$inserts[i]) {
       $inserts[i] = new BBox(i)
-      $inserts[i].expandByScalar(1.1)
     }
 
     return this.box(i, $inserts[i])
@@ -149,7 +148,7 @@ class Physics extends System {
     // rip through matter, update their grid_past/futures
     this.tree.clear()
     const moves = new Set()
-
+    const dx = this.tickrate / 1000
     for (let i = 0; i < ENTITY_COUNT; i++) {
       const phase = this.matter.phase(i)
       switch (phase) {
@@ -158,13 +157,17 @@ class Physics extends System {
         case EPhase.STUCK:
           this.insert(i)
           continue
-        case EPhase.NORMAL:
+        case EPhase.LIQUID:
           this.insert(i)
       }
 
-      let vx = this.thrust.x(i),
-        vy = this.thrust.y(i),
-        vz = this.thrust.z(i)
+      let tx = this.thrust.x(i),
+        ty = this.thrust.y(i),
+        tz = this.thrust.z(i)
+
+      let vx = this.velocity.x(i) + tx,
+        vy = this.velocity.y(i) + ty,
+        vz = this.velocity.z(i) + tz
 
       if (vx !== 0 || vy !== 0 || vz !== 0) {
         moves.add(i)
@@ -173,9 +176,9 @@ class Physics extends System {
         let z = this.past.z(i, this.future.z(i))
         this.past.time(i, t)
 
-        x = this.future.x(i, x + (vx * this.tickrate) / 50)
-        y = this.future.y(i, y + (vy * this.tickrate) / 50)
-        z = this.future.z(i, z + (vz * this.tickrate) / 50)
+        x = this.future.x(i, x + vx)
+        y = this.future.y(i, y + vy)
+        z = this.future.z(i, z + vz)
 
         this.future.time(i, t + this.tickrate)
 
@@ -220,6 +223,9 @@ class Physics extends System {
           }
         }
       }
+
+      $vec3.set(vx, vy, vz).multiplyScalar(0.5)
+      this.velocity.setVec3(i, $vec3)
     }
 
     // collision phase
@@ -237,9 +243,10 @@ class Physics extends System {
 
       this.box(v.i, $box)
       this.future.vec3(v.i, $vec3)
-      this.thrust.vec3(v.i, $vec3v)
+      this.velocity.vec3(v.i, $vec3v)
       $vec3v.negate()
       this.size.vec3(v.i, $vec3s)
+      const phase = this.matter.phase(v.i)
 
       for (let collide of this.tree.search(v)) {
         // richocet off collides
@@ -252,12 +259,20 @@ class Physics extends System {
           .multiply($vec3v)
           .max($vec3s.negate())
           .min($vec3s.negate())
+          .multiplyScalar(2)
 
-        $vec3.sub($vec3o)
         break
       }
 
-      if (collision) this.future.setVec3(v.i, $vec3)
+      if (collision) {
+        if (phase === EPhase.LIQUID) {
+          this.future.setVec3(v.i, $vec3)
+        } else {
+          this.velocity.addX(v.i, $vec3v.x)
+          this.velocity.addY(v.i, $vec3v.y)
+          this.velocity.addZ(v.i, $vec3v.z)
+        }
+      }
     }
 
     this.post(EMessage.PHYSICS_TICK)

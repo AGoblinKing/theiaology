@@ -37,6 +37,7 @@ export const UNIVERSALS = [
   // ERealmState
   1, // RUNNING
   -1, // no avatar
+  1, // thrust strength is 1 normally
 ]
 
 export const CACHE = 'v1'

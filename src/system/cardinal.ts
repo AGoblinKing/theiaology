@@ -158,11 +158,13 @@ class Cardinal extends System {
         case ESpell.USER_AVATAR: {
           // doesn't ripple
           $spell.avatar = true
+          $spell.avatarThrust = this.fate.data0(i)
 
           if ($spell.atoms.length === 0) break
 
           const id = $spell.atoms[0]
           this.universal.avatar(id)
+          this.universal.thrustStrength($spell.avatarThrust)
           this.post(EMessage.CARDINAL_AVATAR)
           break
         }
@@ -200,6 +202,10 @@ class Cardinal extends System {
             this.thrust.addX(atom, $vec3.x)
             this.thrust.addY(atom, $vec3.y)
             this.thrust.addZ(atom, $vec3.z)
+
+            this.velocity.addX(atom, $vec3.x)
+            this.velocity.addY(atom, $vec3.y)
+            this.velocity.addZ(atom, $vec3.z)
           }
           break
         case ESpell.FLOCK_TEXT:
@@ -316,6 +322,10 @@ class Cardinal extends System {
             this.thrust.x(atom, $spell.vel.x)
             this.thrust.y(atom, $spell.vel.y)
             this.thrust.z(atom, $spell.vel.z)
+
+            this.velocity.x(atom, $spell.vel.x)
+            this.velocity.y(atom, $spell.vel.y)
+            this.velocity.z(atom, $spell.vel.z)
           }
 
           $spell.ripple(ERipple.VEL, $spell.vel)
@@ -383,6 +393,10 @@ class Cardinal extends System {
                 $spell.velvar.z / 2 +
                 ($spell.velvarconstraint.z * $spell.velvar.z) / 2
             )
+
+            this.velocity.x(atom, this.thrust.x(atom))
+            this.velocity.y(atom, this.thrust.y(atom))
+            this.velocity.z(atom, this.thrust.z(atom))
           }
 
           $spell.ripple(ERipple.VELVAR, $spell.velvar)
@@ -667,6 +681,10 @@ class Cardinal extends System {
         this.thrust.y(id, $spell.vel.y)
         this.thrust.z(id, $spell.vel.z)
 
+        this.velocity.x(id, $spell.vel.x)
+        this.velocity.y(id, $spell.vel.y)
+        this.velocity.z(id, $spell.vel.z)
+
         this.core(id, color, $spell)
       }
 
@@ -713,6 +731,11 @@ class Cardinal extends System {
             ($spell.velvarconstraint.y * $spell.velvar.y) / 2
         )
     )
+
+    this.velocity.x(id, this.thrust.x(id))
+    this.velocity.y(id, this.thrust.y(id))
+    this.velocity.z(id, this.thrust.z(id))
+
     this.core(id, $col, $spell)
   }
 
@@ -805,6 +828,10 @@ class Cardinal extends System {
       this.thrust.x(id, $spell.vel.x + rtx)
       this.thrust.y(id, $spell.vel.y + rty)
       this.thrust.z(id, $spell.vel.z + rtz)
+      this.velocity.x(id, this.thrust.x(id))
+      this.velocity.y(id, this.thrust.y(id))
+      this.velocity.z(id, this.thrust.z(id))
+
       this.core(id, $col2, $spell)
     }
   }
@@ -821,6 +848,7 @@ class Cardinal extends System {
     // TODO: handle voxes better
     if ($rez.avatar) {
       this.universal.avatar(id)
+      this.universal.thrustStrength($rez.avatarThrust)
       this.post(EMessage.CARDINAL_AVATAR)
     }
   }

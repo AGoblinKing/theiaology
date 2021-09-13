@@ -8,9 +8,10 @@ export enum EPhase {
   // doesn't exist according to physics
   VOID,
   // levels of reactivity
-  NORMAL,
+  LIQUID,
   // Doesn't move, but exists
   STUCK,
+  NORMAL,
 }
 
 export class Matter extends AtomicInt {

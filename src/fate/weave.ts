@@ -265,6 +265,6 @@ export const Invocations: { [key: number]: any } = {
   },
 
   [ESpell.USER_AVATAR]: {
-    elasticity: EVar.NORMAL,
+    thrustStrength: EVar.USERNUMBER,
   },
 }

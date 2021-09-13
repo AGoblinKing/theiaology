@@ -162,10 +162,10 @@ delta.on(($dt) => {
   if (avatar !== -1) {
     const atom = fantasy.$.future.vec3(avatar).multiplyScalar(0.01)
 
-    atom.y -= 0.1
+    atom.y -= 0.15
 
     // move us towards the avatar location
-    body.$.position.lerp(atom, $dt * 5)
+    body.$.position.lerp(atom, $dt * 2.5)
 
     // update velocity of avatar
   }
