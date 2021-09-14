@@ -34,7 +34,6 @@ export function RezHands(cardinal: SystemWorker) {
 const rTip = /tip$/
 const rMeta = /metacarpal$|proximal$/
 
-let logHands = false
 // update hand rezes if they exist
 timing.on(() => {
   // no hands, nothing to do
@@ -74,7 +73,7 @@ timing.on(() => {
       target[vr_keys[ix]].value.copy($vec)
     }
 
-    const s = Math.floor(rMeta.test(vr_keys[ix]) ? 8 : 5) * 9
+    const s = Math.floor(rMeta.test(vr_keys[ix]) ? 8 : 5) * 9.5
 
     const { size, future, matter, past, animation } = first.$
     animation.store(id, EAnimation.NoEffects)
@@ -114,7 +113,3 @@ first.on(($r) => {
     }, 1000)
   })
 })
-
-setInterval(() => {
-  logHands = true
-}, 5000)

@@ -273,7 +273,17 @@ class Physics extends System {
 
         collide.getCenter($vec3o).sub($vec3)
         if (phase === EPhase.LIQUID) {
-          $vec3o.normalize().negate().multiplyScalar(100)
+          $vec3o
+            .normalize()
+            .negate()
+            .multiply(
+              $vec3t.set(
+                3 + Math.random(),
+                3 + Math.random(),
+                3 + Math.random()
+              )
+            )
+            .multiplyScalar(33)
 
           $vec3v.add($vec3o)
           if (this.matter.phase(collide.i) === EPhase.LIQUID) {
