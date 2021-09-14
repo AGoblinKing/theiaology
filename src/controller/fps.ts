@@ -164,14 +164,17 @@ delta.on(($dt) => {
   const avatar = fantasy.$.universal.avatar()
   if (avatar !== -1) {
     const atom = fantasy.$.future.vec3(avatar).multiplyScalar(0.0005)
+    atom.y += fantasy.$.size.y(avatar) * 0.0005
 
     // move us towards the avatar location
-    body.$.position.lerp(avg.add(atom).multiplyScalar(0.5), $dt * 5)
+    body.$.position.lerp(
+      avg.multiplyScalar(99).add(atom).multiplyScalar(0.01),
+      $dt * 5
+    )
 
     atom.sub(body.$.position).length() > 0.1 &&
       atom
-        .normalize()
-        .set(atom.x, 0, atom.z)
+        .set(atom.x, -0.001, atom.z)
         .multiplyScalar(fantasy.$.universal.thrustStrength())
         .negate()
 

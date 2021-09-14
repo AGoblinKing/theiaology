@@ -529,6 +529,10 @@ class Cardinal extends System {
         case ESpell.PHYS_PHASE:
           $spell.phase = this.fate.data0(i)
           $spell.ripple(ERipple.PHASE, $spell.phase)
+
+          for (let atom of $spell.all()) {
+            this.matter.phase(atom, $spell.phase)
+          }
           break
         case ESpell.IMPACT:
           $spell.impact = this.fate.data0(i)

@@ -119,6 +119,7 @@ export class Spell {
       switch (what) {
         case ERipple.PHASE:
           c.phase = data
+
           break
         case ERipple.IMPACT:
           c.impact = data

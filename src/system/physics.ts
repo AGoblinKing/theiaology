@@ -169,9 +169,9 @@ class Physics extends System {
         ty = this.thrust.y(i),
         tz = this.thrust.z(i)
 
-      let vx = this.velocity.x(i) + tx * dx * 2,
-        vy = this.velocity.y(i) + ty * dx * 2,
-        vz = this.velocity.z(i) + tz * dx * 2
+      let vx = this.velocity.x(i) + tx * dx,
+        vy = this.velocity.y(i) + ty * dx,
+        vz = this.velocity.z(i) + tz * dx
 
       if (vx !== 0 || vy !== 0 || vz !== 0) {
         moves.add(i)
@@ -245,6 +245,8 @@ class Physics extends System {
 
       this.future.vec3(v.i, $vec3)
       this.velocity.vec3(v.i, $vec3v)
+      this.thrust.vec3(v.i, $vec3t).negate().multiplyScalar(2)
+
       $vec3v.negate().multiplyScalar(2)
 
       this.size.vec3(v.i, $vec3s)
@@ -270,10 +272,19 @@ class Physics extends System {
             .multiplyScalar(100)
 
           $vec3v.add($vec3o)
+          if (this.matter.phase(collide.i) === EPhase.LIQUID) {
+            this.velocity.x(collide.i, $vec3v.x * 0.5)
+            this.velocity.y(collide.i, $vec3v.y * 0.5)
+            this.velocity.z(collide.i, $vec3v.z * 0.5)
+          }
         }
       }
 
       if (collision) {
+        this.future.addX(v.i, $vec3t.x)
+        this.future.addY(v.i, $vec3t.y)
+        this.future.addZ(v.i, $vec3t.z)
+
         this.velocity.addX(v.i, $vec3v.x)
         this.velocity.addY(v.i, $vec3v.y)
         this.velocity.addZ(v.i, $vec3v.z)
