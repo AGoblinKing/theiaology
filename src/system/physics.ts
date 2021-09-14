@@ -137,6 +137,7 @@ class Physics extends System {
   insert(i: number) {
     if (!$inserts[i]) {
       $inserts[i] = new BBox(i)
+      $inserts[i].expandByScalar(2)
     }
 
     return this.box(i, $inserts[i])

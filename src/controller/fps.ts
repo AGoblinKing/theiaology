@@ -16,8 +16,8 @@ import { velocity } from './smooth'
 export const move_inputs = new Value(new Vector3(0, 0, 0))
 export const fly_engaged = new Value(false)
 
-const CAPS_SPEED = 2
-const SPEED = 1
+const CAPS_SPEED = 8
+const SPEED = 3
 
 key_down.on(($k) => {
   switch ($k) {
@@ -168,15 +168,12 @@ delta.on(($dt) => {
 
     // move us towards the avatar location
     body.$.position.lerp(
-      avg.multiplyScalar(99).add(atom).multiplyScalar(0.01),
-      $dt * 5
+      avg.multiplyScalar(9).add(atom).multiplyScalar(0.1),
+      $dt * 4
     )
 
     atom.sub(body.$.position).length() > 0.1 &&
-      atom
-        .set(atom.x, -0.001, atom.z)
-        .multiplyScalar(fantasy.$.universal.thrustStrength())
-        .negate()
+      atom.multiplyScalar(fantasy.$.universal.thrustStrength()).negate()
 
     // update velocity of avatar
     const { velocity } = fantasy.$
