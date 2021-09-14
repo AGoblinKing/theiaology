@@ -1,5 +1,5 @@
 import { IJointGroup, vr_keys } from 'src/input/joints'
-import { hands } from 'src/input/xr'
+import { hands, left_hand, right_hand } from 'src/input/xr'
 import { tick } from 'src/shader/time'
 import { Group } from 'three'
 
@@ -67,8 +67,15 @@ export class Phony extends Group implements IJointGroup {
     super()
     this.handedness = handedness
 
+    switch (handedness) {
+      case 'left':
+        left_hand.set(this)
+        break
+      default:
+        right_hand.set(this)
+    }
+
     this.joints = {}
-    this.position.set(0, 0.5, -1)
 
     for (let i = 0; i < handData.length / 3; i++) {
       const hand = new Group()

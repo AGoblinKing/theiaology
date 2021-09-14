@@ -15,6 +15,7 @@ import { Box3, Vector3 } from 'three'
 import { EMessage } from './enum'
 import { System } from './system'
 
+const DECAY = 0.95
 const $vec3 = new Vector3()
 
 class BBox extends Box3 {
@@ -137,7 +138,7 @@ class Physics extends System {
   insert(i: number) {
     if (!$inserts[i]) {
       $inserts[i] = new BBox(i)
-      $inserts[i].expandByScalar(2)
+      $inserts[i].expandByScalar(1000)
     }
 
     return this.box(i, $inserts[i])
@@ -145,7 +146,8 @@ class Physics extends System {
 
   tick() {
     if (!this.ready || this.universal.state() !== ERealmState.RUNNING) return
-
+    const isInsert = this.count % 20 === 0
+    this.count++
     const t = this.universal.time()
 
     // rip through matter, update their grid_past/futures
@@ -158,12 +160,15 @@ class Physics extends System {
       switch (phase) {
         case EPhase.VOID:
           continue
-        case EPhase.STUCK:
-          this.insert(i)
+        case EPhase.STUCK: {
+          isInsert && this.insert(i)
+
           continue
+        }
         case EPhase.NORMAL:
-        case EPhase.LIQUID:
+        case EPhase.LIQUID: {
           this.insert(i)
+        }
       }
 
       let tx = this.thrust.x(i),
@@ -237,9 +242,9 @@ class Physics extends System {
         }
       }
 
-      this.velocity.x(i, vx * 0.95)
-      this.velocity.y(i, vy * 0.95)
-      this.velocity.z(i, vz * 0.95)
+      this.velocity.x(i, vx * DECAY)
+      this.velocity.y(i, vy * DECAY)
+      this.velocity.z(i, vz * DECAY)
     }
 
     for (let [k, v] of Object.entries($inserts)) {
@@ -268,17 +273,7 @@ class Physics extends System {
 
         collide.getCenter($vec3o).sub($vec3)
         if (phase === EPhase.LIQUID) {
-          $vec3o
-            .normalize()
-            .negate()
-            .multiply(
-              $vec3t.set(
-                1 + Math.random(),
-                1 + Math.random(),
-                1 + Math.random()
-              )
-            )
-            .multiplyScalar(100)
+          $vec3o.normalize().negate().multiplyScalar(100)
 
           $vec3v.add($vec3o)
           if (this.matter.phase(collide.i) === EPhase.LIQUID) {
@@ -301,8 +296,6 @@ class Physics extends System {
     }
 
     this.post(EMessage.PHYSICS_TICK)
-    const isInsert = this.count % (1000 / this.tickrate) === 0
-    this.count++
 
     isInsert && this.tree.clear()
     // collision phase

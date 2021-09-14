@@ -2,6 +2,7 @@ import { EAnimation } from 'src/buffer/animation'
 import { EPhase } from 'src/buffer/matter'
 import { NORMALIZER } from 'src/config'
 import { doPose } from 'src/controller/hands'
+import { isVR } from 'src/input/browser'
 import { vr_keys } from 'src/input/joints'
 import { hands, left_hand_uniforms, right_hand_uniforms } from 'src/input/xr'
 import { first } from 'src/realm'
@@ -73,7 +74,7 @@ timing.on(() => {
       target[vr_keys[ix]].value.copy($vec)
     }
 
-    const s = Math.floor(rMeta.test(vr_keys[ix]) ? 8 : 5) * 10
+    const s = Math.floor(rMeta.test(vr_keys[ix]) ? 8 : 5) * 9
 
     const { size, future, matter, past, animation } = first.$
     animation.store(id, EAnimation.NoEffects)
@@ -84,8 +85,10 @@ timing.on(() => {
     matter.phase(id, EPhase.STUCK)
     matter.blue(id, NORMALIZER - (Math.random() * NORMALIZER) / 1000)
 
+    if (!isVR.$) {
+      $vec.y -= 1
+    }
     $vec.multiplyScalar(1000)
-
     future.x(id, Math.floor($vec.x))
     future.y(id, Math.floor($vec.y))
     future.z(id, Math.floor($vec.z))

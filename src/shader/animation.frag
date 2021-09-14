@@ -23,7 +23,7 @@ float modu(float x, float y) {
 vec4 AnimationFrag(in vec4 col) {
 	vec3[] pts = vec3[](leftindex, leftthumb, leftmiddle, leftring, leftpinky, rightindex, rightthumb, rightmiddle, rightring, rightpinky);
 
-	float v = 5000000.;
+	float v = 50000000.;
 	float xy = modu(v_pos.x * v_pos.y, v);
 	float xyz = modu(v_pos.z * v_pos.x * v_pos.y, v);
 	float xz = modu(v_pos.x + v_pos.z, v);
