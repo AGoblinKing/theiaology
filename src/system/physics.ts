@@ -65,6 +65,8 @@ class Physics extends System {
 
   slowtree = 0
 
+  count = 0
+
   constructor() {
     super((1 / 5) * 1000)
   }
@@ -146,7 +148,7 @@ class Physics extends System {
     const t = this.universal.time()
 
     // rip through matter, update their grid_past/futures
-    this.tree.clear()
+
     const moves = new Set()
     const dx = this.tickrate / 1000
 
@@ -163,24 +165,24 @@ class Physics extends System {
           this.insert(i)
       }
 
-      let tx = this.thrust.x(i) * 4,
-        ty = this.thrust.y(i) * 4,
-        tz = this.thrust.z(i) * 4
+      let tx = this.thrust.x(i),
+        ty = this.thrust.y(i),
+        tz = this.thrust.z(i)
 
-      // let vx = this.velocity.x(i) + tx,
-      //   vy = this.velocity.y(i) + ty,
-      //   vz = this.velocity.z(i) + tz
+      let vx = this.velocity.x(i) + tx * dx * 2,
+        vy = this.velocity.y(i) + ty * dx * 2,
+        vz = this.velocity.z(i) + tz * dx * 2
 
-      if (tx !== 0 || ty !== 0 || tz !== 0) {
+      if (vx !== 0 || vy !== 0 || vz !== 0) {
         moves.add(i)
         let x = this.past.x(i, this.future.x(i))
         let y = this.past.y(i, this.future.y(i))
         let z = this.past.z(i, this.future.z(i))
         this.past.time(i, t)
 
-        x = this.future.x(i, x + tx)
-        y = this.future.y(i, y + ty)
-        z = this.future.z(i, z + tz)
+        x = this.future.x(i, x + vx)
+        y = this.future.y(i, y + vy)
+        z = this.future.z(i, z + vz)
 
         this.future.time(i, t + this.tickrate)
 
@@ -225,10 +227,11 @@ class Physics extends System {
           }
         }
       }
-    }
 
-    // collision phase
-    this.tree.load(Object.values($inserts))
+      this.velocity.x(i, vx * 0.95)
+      this.velocity.y(i, vy * 0.95)
+      this.velocity.z(i, vz * 0.95)
+    }
 
     for (let [k, v] of Object.entries($inserts)) {
       switch (this.matter.phase(parseInt(k, 10))) {
@@ -241,8 +244,8 @@ class Physics extends System {
       let collision = false
 
       this.future.vec3(v.i, $vec3)
-      this.thrust.vec3(v.i, $vec3v)
-      $vec3v.negate()
+      this.velocity.vec3(v.i, $vec3v)
+      $vec3v.negate().multiplyScalar(2)
 
       this.size.vec3(v.i, $vec3s)
       const phase = this.matter.phase(v.i)
@@ -254,29 +257,36 @@ class Physics extends System {
 
         collide.getCenter($vec3o).sub($vec3)
         if (phase === EPhase.LIQUID) {
-          $vec3v.multiplyScalar(2)
-          $vec3v.add(
-            $vec3o
-              .normalize()
-              .negate()
-              .multiply(
-                $vec3t
-                  .set(1 + Math.random(), 1 + Math.random(), 1 + Math.random())
-                  .multiplyScalar(40)
+          $vec3o
+            .normalize()
+            .negate()
+            .multiply(
+              $vec3t.set(
+                1 + Math.random(),
+                1 + Math.random(),
+                1 + Math.random()
               )
-          )
+            )
+            .multiplyScalar(100)
+
+          $vec3v.add($vec3o)
         }
-        break
       }
 
       if (collision) {
-        this.future.addX(v.i, $vec3v.x)
-        this.future.addY(v.i, $vec3v.y)
-        this.future.addZ(v.i, $vec3v.z)
+        this.velocity.addX(v.i, $vec3v.x)
+        this.velocity.addY(v.i, $vec3v.y)
+        this.velocity.addZ(v.i, $vec3v.z)
       }
     }
 
     this.post(EMessage.PHYSICS_TICK)
+    const isInsert = this.count % (1000 / this.tickrate) === 0
+    this.count++
+
+    isInsert && this.tree.clear()
+    // collision phase
+    isInsert && this.tree.load(Object.values($inserts))
   }
 }
 
