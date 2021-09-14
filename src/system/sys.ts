@@ -43,6 +43,7 @@ export class SystemWorker extends Worker {
     // >= 0 are eids while - are commands
     if (typeof e.data === 'number' && e.data >= 0) {
       const i = this._queue.pop()
+
       if (i) {
         i(e.data)
       }

@@ -10,6 +10,7 @@ import { timing } from 'src/shader/time'
 import { EMessage } from 'src/system/enum'
 import { SystemWorker } from 'src/system/sys'
 import { Vector3 } from 'three'
+import './phony'
 
 let hand_joints: number[] = []
 const $vec = new Vector3()
@@ -32,9 +33,11 @@ export function RezHands(cardinal: SystemWorker) {
 const rTip = /tip$/
 const rMeta = /metacarpal$|proximal$/
 
+let logHands = false
 // update hand rezes if they exist
 timing.on(() => {
   // no hands, nothing to do
+
   if (hands.$.length === 0) return
 
   for (let i = 0; i < hand_joints.length; i++) {
@@ -78,13 +81,15 @@ timing.on(() => {
     size.y(id, s)
     size.z(id, s)
 
-    matter.phase(id, EPhase.VOID)
-    matter.red(id, NORMALIZER - (Math.random() * NORMALIZER) / 100)
+    matter.phase(id, EPhase.STUCK)
+    matter.blue(id, NORMALIZER - (Math.random() * NORMALIZER) / 1000)
+
     $vec.multiplyScalar(1000)
 
     future.x(id, Math.floor($vec.x))
     future.y(id, Math.floor($vec.y))
     future.z(id, Math.floor($vec.z))
+
     past.x(id, future.x(id))
     past.y(id, future.y(id))
     past.z(id, future.z(id))
@@ -99,6 +104,14 @@ first.on(($r) => {
   cancel = $r.fate.on(() => {
     // Rez the player hands
 
-    if ($r.cardinal) RezHands($r.cardinal)
+    if (!$r.cardinal) return
+
+    setTimeout(() => {
+      RezHands($r.cardinal)
+    }, 1000)
   })
 })
+
+setInterval(() => {
+  logHands = true
+}, 5000)

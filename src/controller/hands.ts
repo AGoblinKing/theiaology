@@ -49,7 +49,7 @@ button.addEventListener('click', () => {
       }
     })
 
-    hands.$.push(hand)
+    hands.$[i] = hand
 
     hands.poke()
   }
