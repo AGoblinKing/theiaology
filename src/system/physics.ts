@@ -280,11 +280,11 @@ class Physics extends System {
             .multiplyScalar(100)
 
           $vec3v.add($vec3o)
-          // if (this.matter.phase(collide.i) === EPhase.LIQUID) {
-          //   this.velocity.x(collide.i, $vec3v.x * 0.5)
-          //   this.velocity.y(collide.i, $vec3v.y * 0.5)
-          //   this.velocity.z(collide.i, $vec3v.z * 0.5)
-          // }
+          if (this.matter.phase(collide.i) === EPhase.LIQUID) {
+            this.velocity.x(collide.i, $vec3v.x * 0.5)
+            this.velocity.y(collide.i, $vec3v.y * 0.5)
+            this.velocity.z(collide.i, $vec3v.z * 0.5)
+          }
         }
       }
 
