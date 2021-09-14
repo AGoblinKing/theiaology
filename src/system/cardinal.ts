@@ -246,7 +246,7 @@ class Cardinal extends System {
           $spell.ripple(ERipple.DOLOOK, $spell.doLook)
           $spell.ripple(ERipple.LOOK, $spell.look)
           break
-        case ESpell.SHAPE_VOX_VAR:
+        case ESpell.VOX_VAR:
           $spell.voxvar.set(
             this.fate.data0(i),
             this.fate.data1(i),
@@ -255,7 +255,7 @@ class Cardinal extends System {
 
           $spell.ripple(ERipple.VOXVAR, $spell.voxvar)
           break
-        case ESpell.SHAPE_VOX:
+        case ESpell.VOX:
           $spell.vox = this.fate.text(i)
           $spell.ripple(ERipple.VOX, $spell.vox)
           break

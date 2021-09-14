@@ -45,10 +45,10 @@ export const CACHE = 'v1'
 export const dotTheia = [
   'agoblinking/rpg',
   'agoblinking/overworld',
-  'starvoyage',
-  'forest',
-  'flood',
-  'birthday',
+  'agoblinking/starvoyage',
+  'agoblinking/forest',
+  'agoblinking/flood',
+  'agoblinking/birthday',
   'agoblinking/city',
 ]
 export const rootTheia = 'agoblinking/overworld'

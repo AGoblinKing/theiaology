@@ -105,10 +105,10 @@ export enum ESpell {
   NET,
   AI,
   SHAPE_EFFECTS,
-  SHAPE_VOX,
+  VOX,
   ROT_VAR,
   IMPACT,
-  SHAPE_VOX_VAR,
+  VOX_VAR,
   USER_POS,
   USER_ROT,
   USER_SIZE,
@@ -128,6 +128,7 @@ export enum ESpell {
   FLOCK_RING,
   FLOCK_GRID,
   USER_AVATAR,
+  VOX_BREAK,
 }
 
 export enum EConstraint {
@@ -145,7 +146,7 @@ export const Invocations: { [key: number]: any } = {
     tilt: EVar.NORMAL,
     variance: EVar.NORMAL,
   },
-  [ESpell.SHAPE_VOX_VAR]: {
+  [ESpell.VOX_VAR]: {
     rgb: EVar.COLOR,
     tilt: EVar.NORMAL,
     variance: EVar.NORMAL,
@@ -202,7 +203,7 @@ export const Invocations: { [key: number]: any } = {
   //     tag: EVar.TAGID,
   // },
   [ESpell.SHAPE_EFFECTS]: { animation: EAnimation },
-  [ESpell.SHAPE_VOX]: { 'Vox Model': EVar.VOX },
+  [ESpell.VOX]: { 'Vox Model': EVar.VOX },
   // [ETimeline.IMPACT]: { reaction: EImpactReaction },
   [ESpell.PHYS_CAGE]: {
     axis: EAxis,
@@ -267,4 +268,6 @@ export const Invocations: { [key: number]: any } = {
   [ESpell.USER_AVATAR]: {
     thrustStrength: EVar.USERNUMBER,
   },
+
+  [ESpell.VOX_BREAK]: {},
 }
