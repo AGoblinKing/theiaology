@@ -94,6 +94,13 @@ body::-webkit-scrollbar-track {
   border-radius: 1rem;
 }
 
+canvas {
+  cursor: grab;
+}
+canvas:active {
+  cursor: grabbing;
+}
+
 .sab .warning {
   display: none;
 }

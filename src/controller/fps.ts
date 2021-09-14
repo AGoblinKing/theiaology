@@ -164,7 +164,7 @@ delta.on(($dt) => {
   const avatar = fantasy.$.universal.avatar()
   if (avatar !== -1) {
     const atom = fantasy.$.future.vec3(avatar).multiplyScalar(0.0005)
-    atom.y += fantasy.$.size.y(avatar) * 0.0005
+    atom.y += fantasy.$.size.y(avatar) * 0.0005 + 0.1
 
     // move us towards the avatar location
     body.$.position.lerp(
