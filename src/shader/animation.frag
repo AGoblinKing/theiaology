@@ -23,9 +23,10 @@ float modu(float x, float y) {
 vec4 AnimationFrag(in vec4 col) {
 	vec3[] pts = vec3[](leftindex, leftthumb, leftmiddle, leftring, leftpinky, rightindex, rightthumb, rightmiddle, rightring, rightpinky);
 
-	float xy = v_pos.x * v_pos.y;
-	float xyz = v_pos.z * v_pos.x * v_pos.y;
+	float xy = modu(v_pos.x * v_pos.y, 5000.);
+	float xyz = modu(v_pos.z * v_pos.x * v_pos.y, 5000.);
 	float t= sin(time * 0.00001) * 1.;
+	
 	col.xyz *= 0.95 + 0.01 * modu(xy * 100.+ t, 2.);
 	col.xyz *= 1. + 0.01 * modu(xyz* cos(audioHigh * 0.001 + t), 5.);
 	col.xyz *= 0.95 + 0.01 * modu(xyz * 1000. * cos(audioHigh * 0.01 + t) , 4.)* sin(audioLow * 0.01);
@@ -48,5 +49,6 @@ vec4 AnimationFrag(in vec4 col) {
 
 	col.xyz += (sin(time * 0.00001 + v_pos * 0.05))  * 0.05 + (sin(time * 0.00001 + v_pos * 0.01))  * 0.05;
 
+	// col.xyz = max(min(col.xyz, 1.0), 0.);
 	return col;
 }
