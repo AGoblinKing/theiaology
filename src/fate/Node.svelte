@@ -254,7 +254,7 @@
       hover={label === 'evoke'
         ? `Evoke into JSON`
         : 'Invocation'}
-      tilt={hashcode(label.slice(0, 3)) % 360}
+      tilt={hashcode(label.slice(0, 3)) * 0.05 % 360}
       nav={{
         i,
         tag: `${order}-command|${i === 0 ? 'root' : ''}|last`,

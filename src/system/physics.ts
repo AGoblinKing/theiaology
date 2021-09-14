@@ -199,30 +199,38 @@ class Physics extends System {
 
         if (cageX) {
           if (x > cMX) {
-            this.future.x(i, cX + x - cMX)
+            const dx = cMX - cX > 0 ? x - cMX : 0
+            this.future.x(i, cX + dx)
             this.past.x(i, cX)
           } else if (x < cX) {
-            this.future.x(i, cMX + x - cX)
+            const dx = cMX - cX > 0 ? x - cX : 0
+            this.future.x(i, cMX + dx)
             this.past.x(i, cMX)
           }
         }
 
         if (cageY) {
           if (y > cMY) {
-            this.future.y(i, cY + y - cMY)
+            const dy = cMY - cY > 0 ? y - cMY : 0
+
+            this.future.y(i, cY + dy)
             this.past.y(i, cY)
           } else if (y < cY) {
-            this.future.y(i, cMY + y - cY)
+            const dy = cMY - cY > 0 ? y - cY : 0
+
+            this.future.y(i, cMY + dy)
             this.past.y(i, cMY)
           }
         }
 
         if (cageZ) {
           if (z > cMZ) {
-            this.future.z(i, cZ + z - cMZ)
+            const dz = cMZ - cZ > 0 ? z - cMZ : 0
+            this.future.z(i, cZ + dz)
             this.past.z(i, cZ)
           } else if (z < cZ) {
-            this.future.z(i, cMZ + z - cZ)
+            const dz = cMZ - cZ > 0 ? z - cZ : 0
+            this.future.z(i, cMZ + dz)
             this.past.z(i, cMZ)
           }
         }
@@ -272,11 +280,11 @@ class Physics extends System {
             .multiplyScalar(100)
 
           $vec3v.add($vec3o)
-          if (this.matter.phase(collide.i) === EPhase.LIQUID) {
-            this.velocity.x(collide.i, $vec3v.x * 0.5)
-            this.velocity.y(collide.i, $vec3v.y * 0.5)
-            this.velocity.z(collide.i, $vec3v.z * 0.5)
-          }
+          // if (this.matter.phase(collide.i) === EPhase.LIQUID) {
+          //   this.velocity.x(collide.i, $vec3v.x * 0.5)
+          //   this.velocity.y(collide.i, $vec3v.y * 0.5)
+          //   this.velocity.z(collide.i, $vec3v.z * 0.5)
+          // }
         }
       }
 

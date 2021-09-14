@@ -52,7 +52,7 @@
     class="modal"
     style="left: {$modal_location.x}px; top: {$modal_location.y >
     window.innerHeight / 2
-      ? $modal_location.y - (len / 5) * 65
+      ? $modal_location.y - (len / 5) * 70
       : $modal_location.y}px"
   >
     {#if typeof $modal_options === 'string'}
@@ -64,13 +64,12 @@
       <div class="contentRow"> 
           {#each contentRow as content}
            
-            <Box tilt={hashcode(content.slice(0, 3)) % 360} style="flex:1;">
+            <Box tilt={hashcode(content.slice(0, 3)) * 0.05 % 360} style="flex:1;" click={() => {
+              if (typeof $modal_visible === 'function') $modal_visible(content)
+              modal_visible.set(false)
+            }}>
                 <div
                   class="item"
-                  on:click={() => {
-                    if (typeof $modal_visible === 'function') $modal_visible(content)
-                    modal_visible.set(false)
-                  }}
                 >
                   {content}
                 </div>
@@ -100,7 +99,7 @@
 
     cursor: pointer;
     text-transform: capitalize;
-    font-size: 1rem;
+    font-size: 0.75rem;
   }
 
   .modal {
