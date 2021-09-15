@@ -1,5 +1,5 @@
 import { AtomicInt } from 'src/buffer/atomic'
-import { ENTITY_COUNT } from 'src/config'
+import { ATOM_COUNT } from 'src/config'
 
 export enum EAnimation {
   Normal = 0,
@@ -8,7 +8,17 @@ export enum EAnimation {
 }
 
 export class Animation extends AtomicInt {
-  constructor(buffer = new SharedArrayBuffer(ENTITY_COUNT * 4)) {
+  static COUNT = 1
+
+  constructor(
+    buffer = new SharedArrayBuffer(ATOM_COUNT * Animation.COUNT * 4)
+  ) {
     super(buffer)
+  }
+
+  animation(i: number, animation?: EAnimation): EAnimation {
+    return animation === undefined
+      ? Atomics.load(this, Animation.COUNT)
+      : Atomics.store(this, Animation.COUNT, animation)
   }
 }

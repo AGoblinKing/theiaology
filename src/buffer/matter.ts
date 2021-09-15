@@ -1,5 +1,5 @@
 import { AtomicInt } from 'src/buffer/atomic'
-import { ENTITY_COUNT } from 'src/config'
+import { ATOM_COUNT } from 'src/config'
 
 // how together something is
 export enum EPhase {
@@ -17,7 +17,7 @@ export enum EPhase {
 export class Matter extends AtomicInt {
   static COUNT = 4
 
-  constructor(shared = new SharedArrayBuffer(ENTITY_COUNT * Matter.COUNT * 4)) {
+  constructor(shared = new SharedArrayBuffer(ATOM_COUNT * Matter.COUNT * 4)) {
     super(shared)
   }
 

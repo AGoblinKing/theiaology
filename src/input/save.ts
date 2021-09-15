@@ -14,7 +14,7 @@ export function SaveScript() {
   fs.saveAs(blob, first.$.fate.$.text(0) + '.json')
 }
 
-// Save .theia file
+// Save .fate file
 export function Save(withFile = true) {
   const name = first.$.fate.$.text(0)
   const buff = BuildBuffer()
@@ -24,7 +24,7 @@ export function Save(withFile = true) {
       new Blob([buff], {
         type: 'application/octet-stream',
       }),
-      `${name}.theia`
+      `${name}.fate`
     )
   }
 

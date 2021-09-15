@@ -129,6 +129,7 @@ export enum ESpell {
   FLOCK_GRID,
   USER_AVATAR,
   VOX_BREAK,
+  AI_HUNTER,
 }
 
 export enum EConstraint {
@@ -270,4 +271,5 @@ export const Invocations: { [key: number]: any } = {
   },
 
   [ESpell.VOX_BREAK]: {},
+  [ESpell.AI_HUNTER]: {},
 }

@@ -1,5 +1,5 @@
 import { AtomicInt } from 'src/buffer/atomic'
-import { ENTITY_COUNT } from 'src/config'
+import { ATOM_COUNT } from 'src/config'
 import { Vector3 } from 'three'
 
 const $vec3 = new Vector3()
@@ -8,7 +8,7 @@ export class SpaceTime extends AtomicInt {
   static COUNT = 4
 
   constructor(
-    shared = new SharedArrayBuffer(ENTITY_COUNT * 4 * SpaceTime.COUNT)
+    shared = new SharedArrayBuffer(ATOM_COUNT * 4 * SpaceTime.COUNT)
   ) {
     super(shared)
   }

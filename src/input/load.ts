@@ -3,7 +3,7 @@ import { MagickaVoxel } from 'src/magica'
 import type { Realm } from 'src/realm'
 import { Value } from 'src/value'
 
-// Load .theia file into the timePline
+// Load .fate file into the timePline
 export const SIGNATURE = 'THEA'
 export const HEADER_START = 4 * 4
 

@@ -1,5 +1,5 @@
 const count = parseInt(location.search.slice(1), 10)
-export const ENTITY_COUNT = 256 * 256
+export const ATOM_COUNT = 256 * 256
 
 // For GamePlay, max impacts for entity, the impacts still happen for velocity purposes
 export const IMPACTS_MAX_PER = 8
@@ -38,6 +38,7 @@ export const UNIVERSALS = [
   1, // RUNNING
   -1, // no avatar
   1, // thrust strength is 1 normally
+  0, // SCORE
 ]
 
 export const CACHE = 'v1'

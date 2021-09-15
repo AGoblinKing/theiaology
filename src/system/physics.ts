@@ -10,7 +10,7 @@ import { SpaceTime } from 'src/buffer/spacetime'
 import { Thrust } from 'src/buffer/thrust'
 import { ERealmState, Universal } from 'src/buffer/universal'
 import { Velocity } from 'src/buffer/velocity'
-import { ENTITY_COUNT } from 'src/config'
+import { ATOM_COUNT } from 'src/config'
 import { Box3, Vector3 } from 'three'
 import { EMessage } from './enum'
 import { System } from './system'
@@ -155,7 +155,7 @@ class Physics extends System {
     const moves = new Set()
     const dx = this.tickrate / 1000
 
-    for (let i = 0; i < ENTITY_COUNT; i++) {
+    for (let i = 0; i < ATOM_COUNT; i++) {
       const phase = this.matter.phase(i)
       switch (phase) {
         case EPhase.VOID:
@@ -287,21 +287,17 @@ class Physics extends System {
 
           $vec3v.add($vec3o)
           if (this.matter.phase(collide.i) === EPhase.LIQUID) {
-            this.velocity.x(collide.i, $vec3v.x * 0.5)
-            this.velocity.y(collide.i, $vec3v.y * 0.5)
-            this.velocity.z(collide.i, $vec3v.z * 0.5)
+            this.velocity.addX(collide.i, $vec3v.x * 0.5)
+            this.velocity.addY(collide.i, $vec3v.y * 0.5)
+            this.velocity.addZ(collide.i, $vec3v.z * 0.5)
           }
         }
       }
 
       if (collision) {
-        this.future.addX(v.i, $vec3t.x)
-        this.future.addY(v.i, $vec3t.y)
-        this.future.addZ(v.i, $vec3t.z)
-
-        this.velocity.addX(v.i, $vec3v.x)
-        this.velocity.addY(v.i, $vec3v.y)
-        this.velocity.addZ(v.i, $vec3v.z)
+        this.velocity.addX(v.i, $vec3v.x + $vec3t.x)
+        this.velocity.addY(v.i, $vec3v.y + $vec3t.y * 200)
+        this.velocity.addZ(v.i, $vec3v.z + $vec3t.z)
       }
     }
 

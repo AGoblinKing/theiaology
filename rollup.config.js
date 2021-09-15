@@ -123,4 +123,5 @@ export default [
   config('service', '..'),
   config('system/physics', '', true),
   config('system/cardinal', '', true),
+  config('system/ai', '', true),
 ]

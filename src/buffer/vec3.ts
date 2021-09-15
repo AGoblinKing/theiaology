@@ -1,5 +1,5 @@
 import { AtomicInt } from 'src/buffer/atomic'
-import { ENTITY_COUNT } from 'src/config'
+import { ATOM_COUNT } from 'src/config'
 import { Vector3 } from 'three'
 
 const $vec3 = new Vector3()
@@ -7,7 +7,7 @@ const $vec3 = new Vector3()
 export class Vec3 extends AtomicInt {
   static COUNT = 3
 
-  constructor(buffer = new SharedArrayBuffer(ENTITY_COUNT * Vec3.COUNT * 4)) {
+  constructor(buffer = new SharedArrayBuffer(ATOM_COUNT * Vec3.COUNT * 4)) {
     super(buffer)
   }
   addX(i: number, x: number) {

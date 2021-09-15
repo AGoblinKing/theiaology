@@ -5,12 +5,12 @@ import { Impact } from 'src/buffer/impact'
 import { Matter } from 'src/buffer/matter'
 import { Size } from 'src/buffer/size'
 import { SpaceTime } from 'src/buffer/spacetime'
-import { Status } from 'src/buffer/status'
 import { Thrust } from 'src/buffer/thrust'
+import { Traits } from 'src/buffer/traits'
 import { Universal } from 'src/buffer/universal'
 import { Velocity } from 'src/buffer/velocity'
 import {
-  ENTITY_COUNT,
+  ATOM_COUNT,
   FACES,
   INFRINGEMENT,
   NORMALIZER,
@@ -80,7 +80,7 @@ export class Realm {
   size: Size
   impact: Impact
   animation: Animation
-  status: Status
+  status: Traits
 
   fate: Value<Timeline>
   universal: Universal
@@ -92,6 +92,7 @@ export class Realm {
 
   physics: SystemWorker
   cardinal: SystemWorker
+  ai: SystemWorker
 
   atoms: InstancedMesh
 
@@ -131,7 +132,7 @@ export class Realm {
     this.matter = new Matter()
     this.impact = new Impact()
     this.size = new Size()
-    this.status = new Status()
+    this.status = new Traits()
     this.universal = new Universal()
     this.cage = new Cage()
 
@@ -383,7 +384,7 @@ export class Realm {
           new InstancedBufferAttribute(this.size, Thrust.COUNT)
         ),
       this.material,
-      ENTITY_COUNT
+      ATOM_COUNT
     )
 
     for (let i = 0; i < this.atoms.count; i++) {

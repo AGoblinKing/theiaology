@@ -5,11 +5,11 @@ import { Impact } from 'src/buffer/impact'
 import { Matter } from 'src/buffer/matter'
 import { Size } from 'src/buffer/size'
 import { SpaceTime } from 'src/buffer/spacetime'
-import { EStatus, Status } from 'src/buffer/status'
 import { Thrust } from 'src/buffer/thrust'
+import { EStatus, Traits } from 'src/buffer/traits'
 import { ERealmState, Universal } from 'src/buffer/universal'
 import { Velocity } from 'src/buffer/velocity'
-import { ENTITY_COUNT, NORMALIZER } from 'src/config'
+import { ATOM_COUNT, NORMALIZER } from 'src/config'
 import { ShapeMap } from 'src/fate/shape'
 import { ALPHABET } from 'src/fate/shape/text'
 import { ERipple, Spell } from 'src/fate/spell'
@@ -32,7 +32,7 @@ const voxes = new Value<{ [name: string]: MagickaVoxel }>({})
 
 // Deal out entity IDs, execute timeline events
 class Cardinal extends System {
-  _available: number[] = [...new Array(ENTITY_COUNT)].map((_, i) => i)
+  _available: number[] = [...new Array(ATOM_COUNT)].map((_, i) => i)
 
   // entity components
   past: SpaceTime
@@ -42,7 +42,7 @@ class Cardinal extends System {
   size: Size
   impact: Impact
   animation: Animation
-  status: Status
+  status: Traits
   velocity: Velocity
 
   fate: Timeline
@@ -59,7 +59,7 @@ class Cardinal extends System {
 
   constructor() {
     // Music Timing works off seconds
-    super(500)
+    super(200)
   }
 
   // receives buffers then IDs to free
@@ -88,7 +88,7 @@ class Cardinal extends System {
         break
 
       case this.status:
-        this.status = new Status(e.data)
+        this.status = new Traits(e.data)
         break
 
       case this.fate:
@@ -901,14 +901,14 @@ class Cardinal extends System {
   }
 
   freeAll() {
-    for (let i = 0; i < ENTITY_COUNT; i++) {
+    for (let i = 0; i < ATOM_COUNT; i++) {
       this.free(i)
     }
-    this._available = [...new Array(ENTITY_COUNT)].map((_, i) => i)
+    this._available = [...new Array(ATOM_COUNT)].map((_, i) => i)
   }
 
   free(i: number) {
-    this.animation.free(i)
+    this.animation.free(i, Animation.COUNT)
     this.future.free(i, SpaceTime.COUNT)
     this.past.free(i, SpaceTime.COUNT)
     this.thrust.free(i, Thrust.COUNT)
@@ -917,7 +917,7 @@ class Cardinal extends System {
     this.size.free(i, Thrust.COUNT)
     this.cage.free(i, Cage.COUNT)
     this.velocity.free(i, Velocity.COUNT)
-    this.status.free(i)
+    this.status.free(i, Traits.COUNT)
   }
 
   available(i: number) {
@@ -929,7 +929,7 @@ class Cardinal extends System {
     const i = this._available.pop()
     this.free(i)
 
-    this.status.store(i, EStatus.Assigned)
+    this.status.status(i, EStatus.Assigned)
     return i
   }
 

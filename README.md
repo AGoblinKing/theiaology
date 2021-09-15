@@ -20,7 +20,7 @@ _Undock your imagination._
 - [x] Unified Velocity locomotion
 - [x] Pet DogSheeps in VR
 - [x] SharedArrayBuffer Workers, like uh.. an ECS that your GPU has access to
-- [x] .theia file format for sharing the whole thing as drag n' drop or linkable
+- [x] .fate file format for sharing the whole thing as drag n' drop or linkable
 - [?] a Timeline editor in VR with funky text
 
 ![Promotional Gif](./public/image/interaction.gif)
@@ -29,9 +29,9 @@ _Undock your imagination._
 
 https://theiaology.com/sandbox#dev
 
-Share your .theia files in a public GitHub repository called theiaology.com and you can load .theia files from it.
+Share your .fate files in a public GitHub repository called theiaology.com and you can load .fate files from it.
 
-ie: https://theiaology.com/username/a_city would resolve to github.com/username/theiaology.com/blob/main/a_city.theia
+ie: https://theiaology.com/username/a_city would resolve to github.com/username/theiaology.com/blob/main/a_city.fate
 
 ## Quick Start
 

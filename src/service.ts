@@ -4,7 +4,6 @@ self.addEventListener('install', (event: any) => {
   event.waitUntil(
     caches.open(CACHE).then((cache) => {
       return cache.addAll([
-        '/.theia',
         '/index.html',
         '/global.css',
         '/favicon.png',

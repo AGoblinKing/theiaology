@@ -1,11 +1,11 @@
-import { ENTITY_COUNT } from 'src/config'
+import { ATOM_COUNT } from 'src/config'
 import { Box3 } from 'three'
 import { AtomicInt } from './atomic'
 
 export class Cage extends AtomicInt {
   static COUNT = 6
 
-  constructor(buffer = new SharedArrayBuffer(ENTITY_COUNT * Cage.COUNT * 4)) {
+  constructor(buffer = new SharedArrayBuffer(ATOM_COUNT * Cage.COUNT * 4)) {
     super(buffer)
   }
   addX(i: number, x: number) {

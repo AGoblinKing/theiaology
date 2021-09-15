@@ -1,12 +1,12 @@
 import { AtomicInt } from 'src/buffer/atomic'
-import { ENTITY_COUNT, IMPACTS_MAX_PER } from 'src/config'
+import { ATOM_COUNT, IMPACTS_MAX_PER } from 'src/config'
 import { EImpactReaction } from 'src/fate/weave'
 
 export class Impact extends AtomicInt {
   // [who]
   static COUNT = IMPACTS_MAX_PER + 1
 
-  constructor(shared = new SharedArrayBuffer(ENTITY_COUNT * Impact.COUNT * 4)) {
+  constructor(shared = new SharedArrayBuffer(ATOM_COUNT * Impact.COUNT * 4)) {
     super(shared)
   }
 

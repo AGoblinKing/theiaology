@@ -78,6 +78,7 @@ export function ReadFile(file: File | string, buffer: ArrayBufferLike) {
         new MagickaVoxel(buffer)
       first.$.voxes.poke()
       break
+    case name.indexOf('.fate') !== -1:
     case name.indexOf('github') !== -1:
     case name.indexOf('.theia') !== -1:
       Load(buffer, first.$)
@@ -120,7 +121,7 @@ if (window.location.search === '') {
       // try reading static file and if it misses load DB
       const u = url.$.join('/')
 
-      ReadURL(`/github/agoblinking/${u}.theia`).catch(() => {
+      ReadURL(`/github/agoblinking/${u}.fate`).catch(() => {
         get(window.location.pathname).then((v) => {
           if (v) {
             Load(v, first.$)
