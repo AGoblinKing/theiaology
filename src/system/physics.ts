@@ -266,7 +266,7 @@ class Physics extends System {
       this.size.vec3(v.i, $vec3s)
       const phase = this.matter.phase(v.i)
       // reset impact
-      this.impact.impact(i, 0, -1)
+      this.impact.impact(v.i, 0, -1)
       for (let collide of this.tree.search(v)) {
         // richocet off collides
         if (collide.i === v.i) continue
