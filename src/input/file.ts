@@ -121,7 +121,7 @@ if (window.location.search === '') {
       // try reading static file and if it misses load DB
       const u = url.$.join('/')
 
-      ReadURL(`/github/agoblinking/${u}.fate`).catch(() => {
+      ReadURL(`/github/agoblinking/${u}`).catch(() => {
         get(window.location.pathname).then((v) => {
           if (v) {
             Load(v, first.$)
