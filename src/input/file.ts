@@ -117,7 +117,7 @@ if (window.location.search === '') {
     case 2:
       ReadURL(`/github/${url.$[0]}/${url.$[1]}`)
       break
-    default:
+    case 1:
       // try reading static file and if it misses load DB
       const u = url.$.join('/')
 
@@ -129,6 +129,14 @@ if (window.location.search === '') {
 
           dbLoaded.set(true)
         })
+      })
+    default:
+      get(window.location.pathname).then((v) => {
+        if (v) {
+          Load(v, first.$)
+        }
+
+        dbLoaded.set(true)
       })
   }
 }

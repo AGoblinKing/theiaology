@@ -1,5 +1,6 @@
 import { EAnimation } from 'src/buffer/animation'
 import { EPhase } from 'src/buffer/matter'
+import { ERole } from 'src/buffer/traits'
 import { EMidiChannel } from 'src/controller/midi'
 
 export interface IMarkers {
@@ -129,7 +130,6 @@ export enum ESpell {
   FLOCK_GRID,
   USER_AVATAR,
   VOX_BREAK,
-  AI_HUNTER,
 }
 
 export enum EConstraint {
@@ -271,5 +271,7 @@ export const Invocations: { [key: number]: any } = {
   },
 
   [ESpell.VOX_BREAK]: {},
-  [ESpell.AI_HUNTER]: {},
+  [ESpell.AI]: {
+    role: ERole,
+  },
 }

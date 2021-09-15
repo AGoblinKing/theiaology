@@ -42,7 +42,7 @@ class Cardinal extends System {
   size: Size
   impact: Impact
   animation: Animation
-  status: Traits
+  traits: Traits
   velocity: Velocity
 
   fate: Timeline
@@ -87,8 +87,8 @@ class Cardinal extends System {
         this.impact = new Impact(e.data)
         break
 
-      case this.status:
-        this.status = new Traits(e.data)
+      case this.traits:
+        this.traits = new Traits(e.data)
         break
 
       case this.fate:
@@ -520,6 +520,9 @@ class Cardinal extends System {
           // TODO: bool for rez/derez to ripple $rez.ripple(ERipple.DEREZ, this)
           break
         // rez time
+        case ESpell.AI:
+          $spell.role = this.fate.data0(i)
+          break
         case ESpell.REZ:
           toRez.push(i)
           break
@@ -840,19 +843,20 @@ class Cardinal extends System {
     }
   }
 
-  core(id: number, color: Color, $rez: Spell) {
+  core(id: number, color: Color, $spell: Spell) {
     this.matter.red(id, Math.floor(color.r * NORMALIZER))
     this.matter.green(id, Math.floor(color.g * NORMALIZER))
     this.matter.blue(id, Math.floor(color.b * NORMALIZER))
 
-    this.matter.phase(id, $rez.phase)
-    this.impact.reaction(id, $rez.impact)
-    this.cage.box(id, $rez.cage)
+    this.matter.phase(id, $spell.phase)
+    this.impact.reaction(id, $spell.impact)
+    this.cage.box(id, $spell.cage)
+    this.traits.role(id, $spell.role)
 
     // TODO: handle voxes better
-    if ($rez.avatar) {
+    if ($spell.avatar) {
       this.universal.avatar(id)
-      this.universal.thrustStrength($rez.avatarThrust)
+      this.universal.thrustStrength($spell.avatarThrust)
       this.post(EMessage.CARDINAL_AVATAR)
     }
   }
@@ -917,7 +921,7 @@ class Cardinal extends System {
     this.size.free(i, Thrust.COUNT)
     this.cage.free(i, Cage.COUNT)
     this.velocity.free(i, Velocity.COUNT)
-    this.status.free(i, Traits.COUNT)
+    this.traits.free(i, Traits.COUNT)
   }
 
   available(i: number) {
@@ -929,7 +933,7 @@ class Cardinal extends System {
     const i = this._available.pop()
     this.free(i)
 
-    this.status.status(i, EStatus.Assigned)
+    this.traits.status(i, EStatus.Assigned)
     return i
   }
 

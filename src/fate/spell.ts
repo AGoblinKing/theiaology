@@ -1,4 +1,5 @@
 import { EPhase } from 'src/buffer/matter'
+import { ERole } from 'src/buffer/traits'
 import { Box3, Color, Euler, Vector3 } from 'three'
 import { EImpactReaction, EShape } from './weave'
 
@@ -31,6 +32,7 @@ export enum ERipple {
 }
 
 export class Spell {
+  role: ERole = ERole.None
   color = new Color()
   pos = new Vector3()
   rot = new Euler()

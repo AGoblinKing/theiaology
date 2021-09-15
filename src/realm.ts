@@ -43,13 +43,13 @@ import { sys, SystemWorker } from 'src/system/sys'
 import { ICancel, Value } from 'src/value'
 import {
   Box3,
-  BoxBufferGeometry,
   InstancedBufferAttribute,
   InstancedMesh,
   Material,
   Matrix4,
   MeshBasicMaterial,
   MeshToonMaterial,
+  SphereBufferGeometry,
   Uniform,
   Vector3,
 } from 'three'
@@ -80,7 +80,7 @@ export class Realm {
   size: Size
   impact: Impact
   animation: Animation
-  status: Traits
+  traits: Traits
 
   fate: Value<Timeline>
   universal: Universal
@@ -132,7 +132,7 @@ export class Realm {
     this.matter = new Matter()
     this.impact = new Impact()
     this.size = new Size()
-    this.status = new Traits()
+    this.traits = new Traits()
     this.universal = new Universal()
     this.cage = new Cage()
 
@@ -215,7 +215,7 @@ export class Realm {
         this.size,
         this.animation,
         this.impact,
-        this.status,
+        this.traits,
         this.fate.$,
         this.universal,
         this.cage,
@@ -296,6 +296,20 @@ export class Realm {
         this.velocity
       )
       .bind(this.cardinal)
+
+    this.ai = sys
+      .start('ai')
+      .send(
+        this.future,
+        this.matter,
+        this.thrust,
+        this.size,
+        this.impact,
+        this.universal,
+        this.velocity,
+        this.traits
+      )
+      .bind(this.cardinal)
   }
 
   universalCage(cage: Box3) {
@@ -355,7 +369,7 @@ export class Realm {
 
   initAtoms() {
     this.atoms = new InstancedMesh(
-      new BoxBufferGeometry(
+      new SphereBufferGeometry(
         SIZE * INFRINGEMENT,
         SIZE * INFRINGEMENT,
         SIZE * INFRINGEMENT,

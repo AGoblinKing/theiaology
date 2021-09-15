@@ -265,11 +265,13 @@ class Physics extends System {
 
       this.size.vec3(v.i, $vec3s)
       const phase = this.matter.phase(v.i)
-
+      // reset impact
+      this.impact.impact(i, 0, -1)
       for (let collide of this.tree.search(v)) {
         // richocet off collides
         if (collide.i === v.i) continue
         collision = true
+        this.impact.impact(v.i, 0, collide.i)
 
         collide.getCenter($vec3o).sub($vec3)
         if (phase === EPhase.LIQUID) {
@@ -295,9 +297,9 @@ class Physics extends System {
       }
 
       if (collision) {
-        this.velocity.addX(v.i, $vec3v.x + $vec3t.x)
+        this.velocity.addX(v.i, $vec3v.x)
         this.velocity.addY(v.i, $vec3v.y + $vec3t.y * 200)
-        this.velocity.addZ(v.i, $vec3v.z + $vec3t.z)
+        this.velocity.addZ(v.i, $vec3v.z)
       }
     }
 
