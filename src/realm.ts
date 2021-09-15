@@ -43,13 +43,13 @@ import { sys, SystemWorker } from 'src/system/sys'
 import { ICancel, Value } from 'src/value'
 import {
   Box3,
+  BoxBufferGeometry,
   InstancedBufferAttribute,
   InstancedMesh,
   Material,
   Matrix4,
   MeshBasicMaterial,
   MeshToonMaterial,
-  SphereBufferGeometry,
   Uniform,
   Vector3,
 } from 'three'
@@ -369,7 +369,7 @@ export class Realm {
 
   initAtoms() {
     this.atoms = new InstancedMesh(
-      new SphereBufferGeometry(
+      new BoxBufferGeometry(
         SIZE * INFRINGEMENT,
         SIZE * INFRINGEMENT,
         SIZE * INFRINGEMENT,
