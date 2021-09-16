@@ -24,7 +24,7 @@ class AI extends System {
   traits: Traits
 
   constructor() {
-    super(500)
+    super(200)
   }
 
   tick() {
@@ -52,9 +52,9 @@ class AI extends System {
       .negate()
       .normalize()
       .multiplyScalar(
-        dst < 100000 && this.impact.impact(i, 0) !== -1 ? 1000 : 100
+        dst < 10000000 && this.impact.impact(i, 0) !== -1 ? 7 : 0.5
       )
-
+      .multiplyScalar(Math.abs(this.thrust.y(i)))
     this.velocity.addX(i, $vec3.x)
     this.velocity.addY(i, $vec3.y)
     this.velocity.addZ(i, $vec3.z)
