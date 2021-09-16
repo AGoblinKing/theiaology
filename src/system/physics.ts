@@ -15,7 +15,7 @@ import { Box3, Vector3 } from 'three'
 import { EMessage } from './enum'
 import { System } from './system'
 
-const DECAY = 0.99
+const DECAY = 0.95
 const $vec3 = new Vector3()
 
 class BBox extends Box3 {
