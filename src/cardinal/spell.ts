@@ -1,7 +1,7 @@
 import { EPhase } from 'src/buffer/matter'
 import { ERole } from 'src/buffer/traits'
+import { EImpactReaction, EShape } from 'src/fate/weave'
 import { Box3, Color, Euler, Vector3 } from 'three'
-import { EImpactReaction, EShape } from './weave'
 
 export enum ERipple {
   PHASE,
@@ -29,6 +29,7 @@ export enum ERipple {
   RULER,
   LAND,
   VELVARCONSTRAINT,
+  AI,
 }
 
 export class Spell {

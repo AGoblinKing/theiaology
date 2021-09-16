@@ -13,7 +13,7 @@ export interface INode {
 }
 
 // easier for humans to read
-export interface ITimeline extends INode {
+export interface IFate extends INode {
   markers: IMarkers
   flat: { [key: number]: INode }
 }

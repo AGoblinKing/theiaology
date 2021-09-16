@@ -1,4 +1,4 @@
-import { Timeline } from 'src/buffer/fate'
+import { Fate } from 'src/buffer/fate'
 import { MagickaVoxel } from 'src/magica'
 import type { Realm } from 'src/realm'
 import { Value } from 'src/value'
@@ -35,9 +35,9 @@ export function Load(bytes: ArrayBuffer, realm: Realm) {
       timeline.$.store(i, val)
 
       // remove indexes from available as you come across them
-      if (i % Timeline.COUNT === 1 && val !== 0) {
+      if (i % Fate.COUNT === 1 && val !== 0) {
         timeline.$.available.splice(
-          timeline.$.available.indexOf(Math.floor(i / Timeline.COUNT)),
+          timeline.$.available.indexOf(Math.floor(i / Fate.COUNT)),
           1
         )
       }

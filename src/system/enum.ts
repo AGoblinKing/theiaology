@@ -1,6 +1,18 @@
 // Positives are used to refer to entity IDs
 // Negatives for messages
 
+import { Animation } from 'src/buffer/animation'
+import { Cage } from 'src/buffer/cage'
+import { Fate } from 'src/buffer/fate'
+import { Impact } from 'src/buffer/impact'
+import { Matter } from 'src/buffer/matter'
+import { Size } from 'src/buffer/size'
+import { SpaceTime } from 'src/buffer/spacetime'
+import { Thrust } from 'src/buffer/thrust'
+import { Traits } from 'src/buffer/traits'
+import { Universal } from 'src/buffer/universal'
+import { Velocity } from 'src/buffer/velocity'
+
 export enum EMessage {
   REZ = -1,
   FREE_ALL = -404,
@@ -16,3 +28,27 @@ export enum EMessage {
 }
 
 export type FRez = () => number
+
+export interface ICardinal {
+  // entity components
+  past: SpaceTime
+  future: SpaceTime
+  matter: Matter
+  thrust: Thrust
+  size: Size
+  impact: Impact
+  animation: Animation
+  traits: Traits
+  velocity: Velocity
+
+  fate: Fate
+  universal: Universal
+  cage: Cage
+
+  ready: boolean
+
+  lastTime: number
+
+  free(i: number)
+  post(message: any)
+}

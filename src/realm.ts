@@ -1,6 +1,6 @@
 import { Animation } from 'src/buffer/animation'
 import { Cage } from 'src/buffer/cage'
-import { Timeline } from 'src/buffer/fate'
+import { Fate } from 'src/buffer/fate'
 import { Impact } from 'src/buffer/impact'
 import { Matter } from 'src/buffer/matter'
 import { Size } from 'src/buffer/size'
@@ -82,7 +82,7 @@ export class Realm {
   animation: Animation
   traits: Traits
 
-  fate: Value<Timeline>
+  fate: Value<Fate>
   universal: Universal
   cage: Cage
 
@@ -136,7 +136,7 @@ export class Realm {
     this.universal = new Universal()
     this.cage = new Cage()
 
-    this.fate = new Value(new Timeline())
+    this.fate = new Value(new Fate())
     this.initMaterial()
 
     // delay init so reality is set and other things have settled

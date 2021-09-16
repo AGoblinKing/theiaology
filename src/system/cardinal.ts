@@ -1,6 +1,6 @@
 import { Animation } from 'src/buffer/animation'
 import { Cage } from 'src/buffer/cage'
-import { Timeline } from 'src/buffer/fate'
+import { Fate } from 'src/buffer/fate'
 import { Impact } from 'src/buffer/impact'
 import { Matter } from 'src/buffer/matter'
 import { Size } from 'src/buffer/size'
@@ -9,15 +9,16 @@ import { Thrust } from 'src/buffer/thrust'
 import { EStatus, Traits } from 'src/buffer/traits'
 import { ERealmState, Universal } from 'src/buffer/universal'
 import { Velocity } from 'src/buffer/velocity'
+import { Spell } from 'src/cardinal/spell'
+import spells from 'src/cardinal/spells'
 import { ATOM_COUNT, NORMALIZER } from 'src/config'
 import { ShapeMap } from 'src/fate/shape'
 import { ALPHABET } from 'src/fate/shape/text'
-import { ERipple, Spell } from 'src/fate/spell'
-import { EAxis, EIdle, EShape, ESpell } from 'src/fate/weave'
+import { EIdle } from 'src/fate/weave'
 import { MagickaVoxel } from 'src/magica'
 import { Value } from 'src/value'
 import { Color, Euler, Object3D, Vector3 } from 'three'
-import { EMessage, FRez } from './enum'
+import { EMessage, FRez, ICardinal } from './enum'
 import { System } from './system'
 
 const $hsl = { h: 0, s: 0, l: 0 }
@@ -31,7 +32,7 @@ const $vec3_o = new Vector3()
 const voxes = new Value<{ [name: string]: MagickaVoxel }>({})
 
 // Deal out entity IDs, execute timeline events
-class Cardinal extends System {
+class Cardinal extends System implements ICardinal {
   _available: number[] = [...new Array(ATOM_COUNT)].map((_, i) => i)
 
   // entity components
@@ -45,7 +46,7 @@ class Cardinal extends System {
   traits: Traits
   velocity: Velocity
 
-  fate: Timeline
+  fate: Fate
   universal: Universal
   cage: Cage
 
@@ -92,7 +93,7 @@ class Cardinal extends System {
         break
 
       case this.fate:
-        this.fate = new Timeline(e.data)
+        this.fate = new Fate(e.data)
         break
 
       case this.universal:
@@ -154,404 +155,12 @@ class Cardinal extends System {
       // Check the timing to only apply the right stuff
       if (this.fate.when(i) > sec) continue
 
-      switch (this.fate.invoke(i)) {
-        case ESpell.USER_AVATAR: {
-          // doesn't ripple
-          $spell.avatar = true
-          $spell.avatarThrust = this.fate.data0(i)
-
-          if ($spell.atoms.length === 0) break
-
-          const id = $spell.atoms[0]
-          this.universal.avatar(id)
-          this.universal.thrustStrength($spell.avatarThrust)
-          this.post(EMessage.CARDINAL_AVATAR)
-          break
+      const s = this.fate.invoke(i)
+      if (spells[s]) {
+        const r = spells[s](i, this, $spell, sec)
+        if (typeof r === 'number') {
+          toRez.push(r)
         }
-        case ESpell.POS_ADD:
-          $spell.pos.add(
-            $vec3.set(
-              this.fate.data0(i),
-              this.fate.data1(i),
-              this.fate.data2(i)
-            )
-          )
-
-          $spell.ripple(ERipple.POSADD, $vec3)
-
-          for (let atom of $spell.all()) {
-            this.future.addX(atom, $vec3.x)
-            this.future.addY(atom, $vec3.y)
-            this.future.addZ(atom, $vec3.z)
-            this.future.time(sec)
-          }
-
-          break
-        case ESpell.THRUST_ADD:
-          $spell.vel.add(
-            $vec3.set(
-              this.fate.data0(i),
-              this.fate.data1(i),
-              this.fate.data2(i)
-            )
-          )
-
-          $spell.ripple(ERipple.VELADD, $vec3)
-
-          for (let atom of $spell.all()) {
-            this.thrust.addX(atom, $vec3.x)
-            this.thrust.addY(atom, $vec3.y)
-            this.thrust.addZ(atom, $vec3.z)
-
-            this.velocity.addX(atom, $vec3.x)
-            this.velocity.addY(atom, $vec3.y)
-            this.velocity.addZ(atom, $vec3.z)
-          }
-          break
-        case ESpell.FLOCK_TEXT:
-          $spell.text = this.fate.text(i)
-          $spell.ripple(ERipple.TEXT, $spell.text)
-          break
-        case ESpell.SHAPE_VAR:
-          $spell.sizevar.set(
-            this.fate.data0(i),
-            this.fate.data1(i),
-            this.fate.data2(i)
-          )
-          $spell.ripple(ERipple.SIZEVAR, $spell.sizevar)
-          break
-        case ESpell.ROT_VAR:
-          $spell.rotvar.set(
-            this.fate.data0(i),
-            this.fate.data1(i),
-            this.fate.data2(i)
-          )
-          $spell.ripple(ERipple.ROTVAR, $spell.rotvar)
-          break
-        case ESpell.ROT:
-          $spell.rot.set(
-            this.fate.data0(i),
-            this.fate.data1(i),
-            this.fate.data2(i)
-          )
-          $spell.ripple(ERipple.ROT, $spell.rot)
-          break
-        case ESpell.ROT_LOOK:
-          $spell.doLook = true
-          $spell.look.set(
-            this.fate.data0(i),
-            this.fate.data1(i),
-            this.fate.data2(i)
-          )
-          $spell.ripple(ERipple.DOLOOK, $spell.doLook)
-          $spell.ripple(ERipple.LOOK, $spell.look)
-          break
-        case ESpell.VOX_VAR:
-          $spell.voxvar.set(
-            this.fate.data0(i),
-            this.fate.data1(i),
-            this.fate.data2(i)
-          )
-
-          $spell.ripple(ERipple.VOXVAR, $spell.voxvar)
-          break
-        case ESpell.VOX:
-          $spell.vox = this.fate.text(i)
-          $spell.ripple(ERipple.VOX, $spell.vox)
-          break
-        case ESpell.FLOCK:
-          $spell.flock.shape = this.fate.data0(i)
-          $spell.flock.size = this.fate.data1(i)
-          $spell.flock.step = this.fate.data2(i)
-          $spell.ripple(ERipple.FLOCK, $spell.flock)
-          break
-        case ESpell.FLOCK_RING:
-          $spell.flock.shape = EShape.Ring
-          $spell.flock.size = this.fate.data0(i)
-          $spell.flock.step = this.fate.data1(i)
-          $spell.ripple(ERipple.FLOCK, $spell.flock)
-          break
-        case ESpell.FLOCK_GRID:
-          $spell.flock.shape = EShape.Plane
-          $spell.flock.size = this.fate.data0(i)
-          $spell.flock.step = this.fate.data1(i)
-          $spell.ripple(ERipple.FLOCK, $spell.flock)
-          break
-        case ESpell.SHAPE:
-          $spell.size.x = this.fate.data0(i)
-          $spell.size.y = this.fate.data1(i)
-          $spell.size.z = this.fate.data2(i)
-          $spell.ripple(ERipple.SIZE, $spell.size)
-          break
-        case ESpell.SHAPE_COLOR:
-          const rgb = this.fate.data0(i)
-          $spell.color.setHex(rgb)
-          $spell.col.tilt = this.fate.data1(i)
-          $spell.col.variance = this.fate.data2(i)
-          $spell.ripple(ERipple.COL, $spell.col)
-          $spell.ripple(ERipple.COLOR, $spell.color)
-          break
-        case ESpell.POS_VAR:
-          $spell.posvar.x = this.fate.data0(i)
-          $spell.posvar.y = this.fate.data1(i)
-          $spell.posvar.z = this.fate.data2(i)
-          $spell.ripple(ERipple.POSVAR, $spell.posvar)
-          break
-        case ESpell.POS:
-          $spell.pos.x = this.fate.data0(i)
-          $spell.pos.y = this.fate.data1(i)
-          $spell.pos.z = this.fate.data2(i)
-
-          for (let atom of $spell.all()) {
-            this.future.x(atom, $spell.pos.x)
-            this.future.y(atom, $spell.pos.y)
-            this.future.z(atom, $spell.pos.z)
-            this.future.time(atom, sec)
-          }
-
-          $spell.ripple(ERipple.POS, $spell.pos)
-          break
-        case ESpell.THRUST:
-          $spell.vel.set(
-            this.fate.data0(i),
-            this.fate.data1(i),
-            this.fate.data2(i)
-          )
-
-          for (let atom of $spell.all()) {
-            this.thrust.x(atom, $spell.vel.x)
-            this.thrust.y(atom, $spell.vel.y)
-            this.thrust.z(atom, $spell.vel.z)
-
-            this.velocity.x(atom, $spell.vel.x)
-            this.velocity.y(atom, $spell.vel.y)
-            this.velocity.z(atom, $spell.vel.z)
-          }
-
-          $spell.ripple(ERipple.VEL, $spell.vel)
-          break
-        case ESpell.THRUST_VAR:
-          const amount = this.fate.data1(i)
-          const constraint = this.fate.data2(i)
-
-          switch (this.fate.data0(i)) {
-            case EAxis.XYZ:
-              $spell.velvar.z += amount
-              $spell.velvarconstraint.z = constraint
-            // fallthrough
-            case EAxis.XY:
-              $spell.velvar.y += amount
-              $spell.velvar.x += amount
-              $spell.velvarconstraint.y = constraint
-              $spell.velvarconstraint.x = constraint
-              break
-            case EAxis.XZ:
-              $spell.velvar.z += amount
-              $spell.velvar.x += amount
-              $spell.velvarconstraint.z = constraint
-              $spell.velvarconstraint.x = constraint
-              break
-            case EAxis.YZ:
-              $spell.velvar.y += amount
-              $spell.velvar.z += amount
-              $spell.velvarconstraint.y = constraint
-              $spell.velvarconstraint.z = constraint
-              break
-            case EAxis.X:
-              $spell.velvar.x += amount
-              $spell.velvarconstraint.x = constraint
-              break
-            case EAxis.Y:
-              $spell.velvar.y += amount
-              $spell.velvarconstraint.y = constraint
-              break
-            case EAxis.Z:
-              $spell.velvar.z += amount
-              $spell.velvarconstraint.z = constraint
-              break
-          }
-
-          for (let atom of $spell.all()) {
-            this.thrust.x(
-              atom,
-              $spell.vel.x +
-                $spell.velvar.x * Math.random() -
-                $spell.velvar.x / 2 +
-                ($spell.velvarconstraint.x * $spell.velvar.x) / 2
-            )
-            this.thrust.y(
-              atom,
-              $spell.vel.y +
-                $spell.velvar.y * Math.random() -
-                $spell.velvar.y / 2 +
-                ($spell.velvarconstraint.y * $spell.velvar.y) / 2
-            )
-            this.thrust.z(
-              atom,
-              $spell.vel.z +
-                $spell.velvar.z * Math.random() -
-                $spell.velvar.z / 2 +
-                ($spell.velvarconstraint.z * $spell.velvar.z) / 2
-            )
-
-            this.velocity.x(atom, this.thrust.x(atom))
-            this.velocity.y(atom, this.thrust.y(atom))
-            this.velocity.z(atom, this.thrust.z(atom))
-          }
-
-          $spell.ripple(ERipple.VELVAR, $spell.velvar)
-          $spell.ripple(ERipple.VELVARCONSTRAINT, $spell.velvarconstraint)
-          break
-        case ESpell.USER_ROT:
-          this.universal.userRX(this.fate.data0(i))
-          this.universal.userRY(this.fate.data1(i))
-          this.universal.userRZ(this.fate.data2(i))
-          this.post(EMessage.USER_ROT_UPDATE)
-          break
-        case ESpell.USER_POS:
-          this.universal.userX(this.fate.data0(i))
-          this.universal.userY(this.fate.data1(i))
-          this.universal.userZ(this.fate.data2(i))
-          this.post(EMessage.USER_POS_UPDATE)
-          break
-        case ESpell.UNI_CLEAR_COLOR:
-          this.universal.clearColor(this.fate.data0(i))
-          this.post(EMessage.CLEAR_COLOR_UPDATE)
-          break
-        case ESpell.UNI_IDLE:
-          this.universal.idle(this.fate.data0(i))
-          break
-        case ESpell.PHYS_CAGE:
-          const min = this.fate.data1(i)
-          const max = this.fate.data2(i)
-          switch (this.fate.data0(i)) {
-            case EAxis.XYZ:
-              $spell.cage.min.z = min
-              $spell.cage.max.z = max
-            // fallthrough
-            case EAxis.XY:
-              $spell.cage.min.y = min
-              $spell.cage.max.y = max
-              $spell.cage.min.x = min
-              $spell.cage.max.x = max
-              break
-            case EAxis.XZ:
-              $spell.cage.min.x = min
-              $spell.cage.max.x = max
-              $spell.cage.min.z = min
-              $spell.cage.max.z = max
-              break
-            case EAxis.YZ:
-              $spell.cage.min.y = min
-              $spell.cage.max.y = max
-              $spell.cage.min.z = min
-              $spell.cage.max.z = max
-              break
-            case EAxis.X:
-              $spell.cage.min.x = min
-              $spell.cage.max.x = max
-              break
-            case EAxis.Y:
-              $spell.cage.min.y = min
-              $spell.cage.max.y = max
-              break
-            case EAxis.Z:
-              $spell.cage.min.z = min
-              $spell.cage.max.z = max
-              break
-          }
-
-          $spell.ripple(ERipple.CAGE, $spell.cage)
-
-          for (let atom of $spell.all()) {
-            switch (this.fate.data0(i)) {
-              case EAxis.XYZ:
-                this.cage.z(atom, min)
-                this.cage.mZ(atom, max)
-              // fallthrough
-              case EAxis.XY:
-                this.cage.y(atom, min)
-                this.cage.mY(atom, max)
-                this.cage.x(atom, min)
-                this.cage.mX(atom, max)
-                break
-              case EAxis.XZ:
-                this.cage.x(atom, min)
-                this.cage.mX(atom, max)
-                this.cage.z(atom, min)
-                this.cage.mZ(atom, max)
-                break
-              case EAxis.YZ:
-                this.cage.y(atom, min)
-                this.cage.mY(atom, max)
-                this.cage.z(atom, min)
-                this.cage.mZ(atom, max)
-                break
-              case EAxis.X:
-                this.cage.x(atom, min)
-                this.cage.mX(atom, max)
-                break
-              case EAxis.Y:
-                this.cage.y(atom, min)
-                this.cage.mY(atom, max)
-                break
-              case EAxis.Z:
-                this.cage.z(atom, min)
-                this.cage.mZ(atom, max)
-                break
-            }
-          }
-          break
-        case ESpell.REZ_FREE:
-          for (let atom of $spell.atoms) {
-            this.free(atom)
-          }
-          $spell.atoms = []
-
-          if ($spell.lands > 0) {
-            this.post({
-              message: EMessage.LAND_REMOVE,
-              id: $spell.id,
-            })
-
-            $spell.lands = 0
-          }
-
-          // TODO: bool for rez/derez to ripple $rez.ripple(ERipple.DEREZ, this)
-          break
-        // rez time
-        case ESpell.AI:
-          $spell.role = this.fate.data0(i)
-          break
-        case ESpell.REZ:
-          toRez.push(i)
-          break
-        // TODO: useful for bullets and such
-        case ESpell.THRUST_TO:
-          break
-        case ESpell.PHYS_PHASE:
-          $spell.phase = this.fate.data0(i)
-          $spell.ripple(ERipple.PHASE, $spell.phase)
-
-          for (let atom of $spell.all()) {
-            this.matter.phase(atom, $spell.phase)
-          }
-          break
-        case ESpell.IMPACT:
-          $spell.impact = this.fate.data0(i)
-          $spell.ripple(ERipple.IMPACT, $spell.impact)
-          break
-        case ESpell.THEIA_REALM:
-          $spell.land = this.fate.text(i)
-          $spell.ripple(ERipple.LAND, $spell.land)
-          break
-        case ESpell.THEIA_GATE:
-          $spell.gate = this.fate.text(i)
-          break
-        case ESpell.THEIA_RULER:
-          $spell.ruler = this.fate.text(i)
-          $spell.ripple(ERipple.RULER, $spell.ruler)
-          break
       }
     }
 
@@ -865,7 +474,7 @@ class Cardinal extends System {
     const timing = this.universal.musicTime()
     this.lastTime = timing
     // run through timeline and execute rezes
-    for (let i = 0; i < this.fate.length / Timeline.COUNT; i++) {
+    for (let i = 0; i < this.fate.length / Fate.COUNT; i++) {
       const t = this.fate.when(i)
       this.timing[t] = this.timing[t] || []
       this.timing[t].push(i)

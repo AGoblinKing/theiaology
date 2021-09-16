@@ -1,6 +1,6 @@
 import { AtomicInt } from 'src/buffer/atomic'
 import { TIMELINE_MAX } from 'src/config'
-import { ESpell, ITimeline } from 'src/fate/weave'
+import { ESpell, IFate } from 'src/fate/weave'
 
 const strConvertBuffer = new ArrayBuffer(4) // an Int32 takes 4 bytes
 const strView = new DataView(strConvertBuffer)
@@ -14,12 +14,12 @@ function CharCode(code: number) {
   }
 }
 // Authoring Buffer - Generally shouldn't be updating the timeline unless during development
-export class Timeline extends AtomicInt {
+export class Fate extends AtomicInt {
   static COUNT = 6
   available: number[]
 
   // expandable
-  constructor(sab = new SharedArrayBuffer(Timeline.COUNT * 4 * TIMELINE_MAX)) {
+  constructor(sab = new SharedArrayBuffer(Fate.COUNT * 4 * TIMELINE_MAX)) {
     super(sab)
     // reset available
     this.available = [...new Array(TIMELINE_MAX)].map((_, i) => i)
@@ -40,14 +40,14 @@ export class Timeline extends AtomicInt {
     ) {
       const val = v.getInt32(i * 4, true)
 
-      if (i % Timeline.COUNT === 0 && val !== 0) {
-        this.available.splice(this.available.indexOf(i / Timeline.COUNT), 1)
+      if (i % Fate.COUNT === 0 && val !== 0) {
+        this.available.splice(this.available.indexOf(i / Fate.COUNT), 1)
       }
       this.store(i, val)
     }
   }
   // rip through array and create a tree
-  toObject(): ITimeline {
+  toObject(): IFate {
     // cache markers by number
 
     const root = {
@@ -185,7 +185,7 @@ export class Timeline extends AtomicInt {
   }
 
   free(i: number) {
-    super.free(i, Timeline.COUNT)
+    super.free(i, Fate.COUNT)
     this.available.unshift(i)
   }
 
@@ -204,12 +204,12 @@ export class Timeline extends AtomicInt {
 
     const i = this.available.shift()
 
-    Atomics.store(this, i * Timeline.COUNT, when)
-    Atomics.store(this, i * Timeline.COUNT + 1, command)
-    Atomics.store(this, i * Timeline.COUNT + 2, who)
-    Atomics.store(this, i * Timeline.COUNT + 3, d1)
-    Atomics.store(this, i * Timeline.COUNT + 4, d2)
-    Atomics.store(this, i * Timeline.COUNT + 5, d3)
+    Atomics.store(this, i * Fate.COUNT, when)
+    Atomics.store(this, i * Fate.COUNT + 1, command)
+    Atomics.store(this, i * Fate.COUNT + 2, who)
+    Atomics.store(this, i * Fate.COUNT + 3, d1)
+    Atomics.store(this, i * Fate.COUNT + 4, d2)
+    Atomics.store(this, i * Fate.COUNT + 5, d3)
 
     return i
   }
@@ -247,7 +247,7 @@ export class Timeline extends AtomicInt {
       if (six === 3) {
         Atomics.store(
           this,
-          i * Timeline.COUNT + 3 + siy,
+          i * Fate.COUNT + 3 + siy,
           strView.getInt32(0, false)
         )
       }
@@ -259,39 +259,39 @@ export class Timeline extends AtomicInt {
   // when
   when(i: number, when?: number) {
     return when === undefined
-      ? Atomics.load(this, i * Timeline.COUNT)
-      : Atomics.store(this, i * Timeline.COUNT, when)
+      ? Atomics.load(this, i * Fate.COUNT)
+      : Atomics.store(this, i * Fate.COUNT, when)
   }
 
   // what event
   invoke(i: number, e?: ESpell) {
     return e === undefined
-      ? Atomics.load(this, i * Timeline.COUNT + 1)
-      : Atomics.store(this, i * Timeline.COUNT + 1, e)
+      ? Atomics.load(this, i * Fate.COUNT + 1)
+      : Atomics.store(this, i * Fate.COUNT + 1, e)
   }
 
   // used for refering to something
   who(i: number, who?: number) {
     return who === undefined
-      ? Atomics.load(this, i * Timeline.COUNT + 2)
-      : Atomics.store(this, i * Timeline.COUNT + 2, who)
+      ? Atomics.load(this, i * Fate.COUNT + 2)
+      : Atomics.store(this, i * Fate.COUNT + 2, who)
   }
 
   data0(i: number, d1?: number) {
     return d1 === undefined
-      ? Atomics.load(this, i * Timeline.COUNT + 3)
-      : Atomics.store(this, i * Timeline.COUNT + 3, d1)
+      ? Atomics.load(this, i * Fate.COUNT + 3)
+      : Atomics.store(this, i * Fate.COUNT + 3, d1)
   }
 
   data1(i: number, d2?: number) {
     return d2 === undefined
-      ? Atomics.load(this, i * Timeline.COUNT + 4)
-      : Atomics.store(this, i * Timeline.COUNT + 4, d2)
+      ? Atomics.load(this, i * Fate.COUNT + 4)
+      : Atomics.store(this, i * Fate.COUNT + 4, d2)
   }
 
   data2(i: number, d3?: number) {
     return d3 === undefined
-      ? Atomics.load(this, i * Timeline.COUNT + 5)
-      : Atomics.store(this, i * Timeline.COUNT + 5, d3)
+      ? Atomics.load(this, i * Fate.COUNT + 5)
+      : Atomics.store(this, i * Fate.COUNT + 5, d3)
   }
 }
