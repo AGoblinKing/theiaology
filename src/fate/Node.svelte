@@ -252,7 +252,7 @@
       click={inputInvoke}
       upper
       hover={label === 'weave'
-        ? `Download the weave as LUA`
+        ? `Download the weave as LISP`
         : 'Invocation'}
       tilt={hashcode(label.slice(0, 3)) * 0.05 % 360}
       nav={{

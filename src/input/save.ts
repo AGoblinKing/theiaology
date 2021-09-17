@@ -9,9 +9,9 @@ export function SaveScript() {
   if (!dbLoaded) return
 
   const blob = new Blob([first.$.fate.$.toLUA()], {
-    type: 'application/lua',
+    type: 'application/lisp',
   })
-  fs.saveAs(blob, first.$.fate.$.text(0) + '.lua')
+  fs.saveAs(blob, first.$.fate.$.text(0) + '.lisp')
 }
 
 // Save .fate file

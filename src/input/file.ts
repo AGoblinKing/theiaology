@@ -73,9 +73,9 @@ export function ReadFile(file: File | string, buffer: ArrayBufferLike) {
         console.log("Couldn't load JSON", file)
       }
       break
-    case /lua$/.test(name):
+    case /lisp$/.test(name):
       first.$.fate.$.fromLUA(
-        name.replace('.lua', ''),
+        name.replace('.lisp', ''),
         new TextDecoder('utf-8').decode(new Uint8Array(buffer))
       )
       first.$.fate.poke()
