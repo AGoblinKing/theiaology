@@ -143,6 +143,7 @@
     direction: rtl;
     text-shadow: rgb(0, 0, 0) 0.075rem 0.075rem 0rem;
     scroll-behavior: smooth;
+    padding-bottom: 50rem;
   }
 
   .timeline::-webkit-scrollbar {

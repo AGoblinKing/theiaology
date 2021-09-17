@@ -76,7 +76,7 @@ timing.on(() => {
     const s = Math.floor(rMeta.test(vr_keys[ix]) ? 8 : 5) * 9.5
 
     const { size, future, matter, past, animation: animation } = first.$
-    animation.store(id, EAnimation.NoEffects)
+    animation.store(id, EAnimation.OFF)
     size.x(id, s)
     size.y(id, s)
     size.z(id, s)

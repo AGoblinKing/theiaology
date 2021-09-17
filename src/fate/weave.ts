@@ -19,17 +19,17 @@ export interface IFate extends INode {
 }
 
 export enum EImpactReaction {
-  None = 0,
-  Destroy,
-  Bounce,
-  DestroyOther,
-  DestroyBoth,
-  Respawn,
+  NONE = 0,
+  DESTROY,
+  BOUNCE,
+  DESTROY_OTHER,
+  DESTROY_BOTH,
+  RESPAWN,
 }
 
 export enum EShape {
-  Plane,
-  Ring,
+  PLANE,
+  RING,
   // Sphere,
   // Circle,
 
@@ -69,8 +69,8 @@ export enum EVar {
 }
 
 export enum EIdle {
-  Randomize,
-  None,
+  RANDOMIZE,
+  NONE,
 }
 
 // ETimeline events are reversable transactions that allow for time travel

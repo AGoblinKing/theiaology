@@ -2,9 +2,9 @@ import { AtomicInt } from 'src/buffer/atomic'
 import { ATOM_COUNT } from 'src/config'
 
 export enum EAnimation {
-  Normal = 0,
-  NoEffects,
-  Fire,
+  NORMAL = 0,
+  OFF,
+  FIRE,
 }
 
 export class Animation extends AtomicInt {

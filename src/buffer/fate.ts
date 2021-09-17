@@ -58,7 +58,7 @@ export class Fate extends AtomicInt {
       markers: {},
       $: [
         this.when(0),
-        this.invoke(0),
+        this.spell(0),
         this.who(0),
         this.data0(0),
         this.data1(0),
@@ -68,7 +68,7 @@ export class Fate extends AtomicInt {
     }
 
     for (let i = 1; i < TIMELINE_MAX; i++) {
-      const com = this.invoke(i)
+      const com = this.spell(i)
 
       // next, the others could be anywhere
       if (com === ESpell.NONE) continue
@@ -123,7 +123,8 @@ export class Fate extends AtomicInt {
   toLUA(): string {
     const obj = this.toObject()
 
-    let output = '# You have encountered Fate! \n# Load on Theiaology.com\n\n'
+    let output =
+      '# You have encountered Fate! \n# Load on https://theiaology.com\n\n'
 
     const addChild = (target: INode, t = 0) => {
       const addT = () => [...new Array(t)].map(() => '\t').join('')
@@ -194,7 +195,103 @@ export class Fate extends AtomicInt {
   }
 
   fromLUA(lua: string) {
-    //;/\(.*\)/.search(lua)
+    this.freeAll()
+
+    lua = lua.replace(/[\n\t]/g, '')
+
+    const RBLOB = /\(.*\)/
+
+    const commands = []
+    const text = []
+
+    let res = RBLOB.exec(lua)
+    if (res === null) return
+
+    // just the commands now
+    lua = res[0]
+
+    while ((res = /\(([A-Za-z0-9!.?$#\-+*/'"_ ]*)\)/g.exec(lua))) {
+      let txt
+      let code = res[1]
+
+      // pull out text blobs
+      while ((txt = /['"]([A-Za-z0-9 .!?]*)['"]/g.exec(code))) {
+        code = splice(code, txt.index, txt[0].length, `$${text.length}`)
+        text.push(txt[1])
+      }
+
+      commands.push(code)
+      lua = splice(lua, res.index, res[0].length, `#${commands.length} `)
+    }
+
+    for (let command of commands) {
+      try {
+        const i = this.reserve()
+
+        let spell: ESpell
+        let d = 0
+
+        let evoke
+        let ks
+        for (let item of command.split(' ')) {
+          if (item.length === 0) continue
+          if (spell === undefined) {
+            // parse to see if this is a time
+            const t = parseInt(item, 10)
+            if (isNaN(t)) {
+              // @ts-ignore
+              spell = ESpell[item.toUpperCase()]
+
+              this.spell(i, spell)
+              evoke = Invocations[spell]
+              ks = Object.values(evoke || {})
+            } else {
+              this.when(i, t)
+            }
+
+            continue
+          }
+
+          if (item[0] === '#') {
+            this.who(parseInt(item.slice(1), 10), i)
+            continue
+          }
+
+          // this is a data item
+          if (!evoke || !ks[d]) continue
+
+          const dat = `data${d}`
+          switch (ks[d]) {
+            case EVar.COLOR:
+              this[dat](i, parseInt(item, 16))
+              break
+            case EVar.USERNUMBER:
+            case EVar.USERPOSITIVE:
+              this[dat](i, parseFloat(item) * 100)
+              break
+            case EVar.NORMAL:
+              this[dat](i, parseFloat(item) * NORMALIZER)
+              break
+            case EVar.POSITIVE:
+            case EVar.NEGATIVE:
+            case EVar.NUMBER:
+              this[dat](i, parseInt(item, 10))
+              break
+            case EVar.STRING:
+            case EVar.VOX:
+              this.text(i, text[item.slice(1)])
+              break
+
+            default:
+              // probably an enum
+              this[dat](i, ks[d][item])
+          }
+          d++
+        }
+      } catch (e) {
+        console.error('LUA', command, e)
+      }
+    }
   }
 
   toJSON(): string {
@@ -207,7 +304,7 @@ export class Fate extends AtomicInt {
     const res = [[]]
     // 1 is for control
     for (let i = 1; i < this.length; i++) {
-      const w = this.invoke(i)
+      const w = this.spell(i)
 
       // by using the buffer in order we can look to see if we can early exit
       if (w === ESpell.NONE) break
@@ -254,10 +351,7 @@ export class Fate extends AtomicInt {
       this.free(i)
     }
     // always reserve 0
-    const r = this.reserve()
-    if (r !== 0) {
-      throw new Error(`tried to reserve 0, got ${r}`)
-    }
+    this.reserve()
   }
 
   reserve() {
@@ -344,7 +438,7 @@ export class Fate extends AtomicInt {
   }
 
   // what event
-  invoke(i: number, e?: ESpell) {
+  spell(i: number, e?: ESpell) {
     return e === undefined
       ? Atomics.load(this, i * Fate.COUNT + 1)
       : Atomics.store(this, i * Fate.COUNT + 1, e)
@@ -374,4 +468,8 @@ export class Fate extends AtomicInt {
       ? Atomics.load(this, i * Fate.COUNT + 5)
       : Atomics.store(this, i * Fate.COUNT + 5, d3)
   }
+}
+
+function splice(str, index, count, add = '') {
+  return `${str.slice(0, index)}${add}${str.slice(index + count)}`
 }

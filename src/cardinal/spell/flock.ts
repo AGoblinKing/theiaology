@@ -11,13 +11,13 @@ export default {
   },
 
   [ESpell.FLOCK_GRID](i: number, $c: ICardinal, $spell: Spell) {
-    $spell.flock.shape = EShape.Plane
+    $spell.flock.shape = EShape.PLANE
     $spell.flock.size = $c.fate.data0(i)
     $spell.flock.step = $c.fate.data1(i)
     $spell.ripple(ERipple.FLOCK, $spell.flock)
   },
   [ESpell.FLOCK_RING](i: number, $c: ICardinal, $spell: Spell) {
-    $spell.flock.shape = EShape.Ring
+    $spell.flock.shape = EShape.RING
     $spell.flock.size = $c.fate.data0(i)
     $spell.flock.step = $c.fate.data1(i)
     $spell.ripple(ERipple.FLOCK, $spell.flock)

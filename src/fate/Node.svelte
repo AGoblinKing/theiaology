@@ -41,7 +41,7 @@
   $: myChildren =  Object.keys(item._).sort((i) => $fate.when(parseInt(i, 10)))
 
   $: item = $fateJSON.flat[i] || { $: [0], _: {} }
-  $: invoke = $fate.invoke(i)
+  $: invoke = $fate.spell(i)
   
   function addTo(index: number) {
     modal_visible.set(false)
@@ -90,7 +90,7 @@
     modal_visible.set((res: string) => {
       const com: number = ESpell[res]
 
-      fate.$.invoke(i, com)
+      fate.$.spell(i, com)
 
       switch (ESpell[res]) {
         case ESpell.TOME:

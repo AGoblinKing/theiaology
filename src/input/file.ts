@@ -42,7 +42,7 @@ export function LoadJSON(json: INode, key = '0', map = {}) {
   // oh hi
   const id = map[key]
   timeline.$.when(id, json.$[0])
-  timeline.$.invoke(id, json.$[1])
+  timeline.$.spell(id, json.$[1])
   // who is special!
   if (map[json.$[2]] === undefined) {
     map[json.$[2]] = json.$[2] === timeline.$.reserve()
@@ -77,6 +77,8 @@ export function ReadFile(file: File | string, buffer: ArrayBufferLike) {
       first.$.fate.$.fromLUA(
         new TextDecoder('utf-8').decode(new Uint8Array(buffer))
       )
+      first.$.fate.poke()
+
       break
     case /vox$/.test(name):
       first.$.voxes.$[name.split('.')[0].slice(0, 12).trim()] =

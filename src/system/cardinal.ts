@@ -155,7 +155,7 @@ class Cardinal extends System implements ICardinal {
       // Check the timing to only apply the right stuff
       if (this.fate.when(i) > sec) continue
 
-      const s = this.fate.invoke(i)
+      const s = this.fate.spell(i)
       if (spells[s]) {
         const r = spells[s](i, this, $spell, sec)
         if (typeof r === 'number') {
@@ -565,7 +565,7 @@ class Cardinal extends System implements ICardinal {
     }
 
     switch (this.universal.idle()) {
-      case EIdle.Randomize:
+      case EIdle.RANDOMIZE:
         this.randomize()
         break
     }

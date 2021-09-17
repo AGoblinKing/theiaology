@@ -46,7 +46,7 @@ export class Spell {
   posvar = new Vector3()
   flock: { shape: EShape; size: number; step: number }
   look = new Vector3()
-  impact = EImpactReaction.None
+  impact = EImpactReaction.NONE
   phase = EPhase.VOID
   vel = new Vector3()
   velvar = new Vector3()
@@ -81,7 +81,7 @@ export class Spell {
 
   reset() {
     this.phase = EPhase.GHOST
-    this.impact = EImpactReaction.None
+    this.impact = EImpactReaction.NONE
     this.vel.set(0, 0, 0)
     this.velvar.set(0, 0, 0)
     this.color.setRGB(1, 1, 1)
@@ -98,7 +98,7 @@ export class Spell {
     this.look.set(0, 0, 0)
 
     this.posvar.set(0, 0, 0)
-    this.flock = { shape: EShape.Plane, size: 1, step: 0 }
+    this.flock = { shape: EShape.PLANE, size: 1, step: 0 }
     this.doLook = false
     this.text = undefined
     this.atoms = []

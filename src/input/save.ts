@@ -9,7 +9,7 @@ export function SaveScript() {
   if (!dbLoaded) return
 
   const blob = new Blob([first.$.fate.$.toLUA()], {
-    type: 'application/json',
+    type: 'application/lua',
   })
   fs.saveAs(blob, first.$.fate.$.text(0) + '.lua')
 }
