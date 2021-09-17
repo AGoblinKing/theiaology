@@ -174,7 +174,7 @@ export class Fate extends AtomicInt {
 
               default:
                 // probably an enum
-                output += `'${e[d]}' `
+                output += `${e[d]} `
             }
           }
         }
@@ -269,7 +269,7 @@ export class Fate extends AtomicInt {
               break
             case EVar.USERNUMBER:
             case EVar.USERPOSITIVE:
-              this[dat](i, parseFloat(item) * 100)
+              this[dat](i, Math.round(parseFloat(item) * 100))
               break
             case EVar.NORMAL:
               this[dat](i, parseFloat(item) * NORMALIZER)
