@@ -33,7 +33,7 @@ export enum ERipple {
 }
 
 export class Spell {
-  role: ERole = ERole.None
+  role: ERole = ERole.NONE
   color = new Color()
   pos = new Vector3()
   rot = new Euler()

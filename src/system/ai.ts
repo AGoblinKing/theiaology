@@ -32,7 +32,7 @@ class AI extends System {
 
     for (let i = 0; i < ATOM_COUNT; i++) {
       switch (this.traits.role(i)) {
-        case ERole.Hunter:
+        case ERole.HUNTER:
           this.hunt(i)
           break
       }
