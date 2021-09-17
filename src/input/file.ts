@@ -75,6 +75,7 @@ export function ReadFile(file: File | string, buffer: ArrayBufferLike) {
       break
     case /lua$/.test(name):
       first.$.fate.$.fromLUA(
+        name.replace('.lua', ''),
         new TextDecoder('utf-8').decode(new Uint8Array(buffer))
       )
       first.$.fate.poke()

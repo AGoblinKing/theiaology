@@ -8,8 +8,21 @@
   import fs from 'file-saver'
 
   import { first } from 'src/realm'
+import { cursor } from './nav';
 
 
+  let display = true
+
+  $: {
+    if($fate) {
+      display = false
+      let c = cursor.$
+      setTimeout(() => {
+        display = true
+        cursor.set(c)
+      }, 1)
+    }
+  }
   $: fate = $first.fate
   $: voxes = $first.voxes
 </script>
@@ -117,7 +130,9 @@
       </div>
     {/each}
 
-    <Node i={$fate ? 0 : 0}/>
+    {#if display}
+    <Node i={0}/>
+    {/if}
   </div>
 </div>
 

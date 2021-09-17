@@ -33,21 +33,21 @@ key_down.on((k) => {
       break
     case 'r':
     case 'ArrowUp':
-    case 'j':
+    case 'h':
       AttemptNav('up')
       break
     case 'f':
     case 'ArrowDown':
-    case 'k':
+    case 'j':
       AttemptNav('down')
       break
     case 'q':
     case 'ArrowLeft':
-    case 'l':
+    case 'k':
       AttemptNav('left')
       break
     case 'ArrowRight':
-    case ';':
+    case 'l':
       AttemptNav('right')
       break
     case 'Tab':

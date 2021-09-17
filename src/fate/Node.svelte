@@ -246,7 +246,7 @@
           down: `${order + 1}-remove|${order + 1}-command`,
         }}
       >
-      {i === 0 ? '>' : '-'}
+      {i === 0 ? '>' : 'x'}
     </Box>
     <Box
       click={inputInvoke}
@@ -363,8 +363,8 @@
           tag: `${order}-add`,
           left: `${order}-data-2|${order}-data-1|${order}-data-0|${order}-command`,
 
-          up: `${order + 1}-add|${up}`,
-          down: ``,
+          up: `${order - 1}-add|${up}`,
+          down: `${order + 1}-add|${order + 1}-data-2|${order + 1}-data-1|${order + 1}-data-0`,
         }}>+</Box
       >
     {:else if item.$[1] !== ESpell.TOME && item.$[1] !== undefined}  

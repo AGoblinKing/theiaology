@@ -194,7 +194,7 @@ export class Fate extends AtomicInt {
     return output
   }
 
-  fromLUA(lua: string) {
+  fromLUA(name: string, lua: string) {
     this.freeAll()
 
     lua = lua.replace(/[\n\t]/g, '')
@@ -209,6 +209,8 @@ export class Fate extends AtomicInt {
 
     // just the commands now
     lua = res[0]
+
+    this.text(0, name)
 
     while ((res = /\(([A-Za-z0-9!.?$#\-+*/'"_ ]*)\)/g.exec(lua))) {
       let txt
