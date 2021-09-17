@@ -260,7 +260,7 @@ export class Fate extends AtomicInt {
           }
 
           // this is a data item
-          if (!evoke || !ks[d]) continue
+          if (!evoke || ks[d] === undefined) continue
 
           const dat = `data${d}`
           switch (ks[d]) {
