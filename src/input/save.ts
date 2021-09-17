@@ -8,10 +8,10 @@ import { dbLoaded, HEADER_START, SIGNATURE } from './load'
 export function SaveScript() {
   if (!dbLoaded) return
 
-  const blob = new Blob([first.$.fate.$.toJSON()], {
+  const blob = new Blob([first.$.fate.$.toLUA()], {
     type: 'application/json',
   })
-  fs.saveAs(blob, first.$.fate.$.text(0) + '.json')
+  fs.saveAs(blob, first.$.fate.$.text(0) + '.lua')
 }
 
 // Save .fate file

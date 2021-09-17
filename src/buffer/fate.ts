@@ -1,9 +1,12 @@
 import { AtomicInt } from 'src/buffer/atomic'
-import { TIMELINE_MAX } from 'src/config'
-import { ESpell, IFate } from 'src/fate/weave'
+import { NORMALIZER, TIMELINE_MAX } from 'src/config'
+import { ESpell, EVar, IFate, INode, Invocations } from 'src/fate/weave'
+import { Color } from 'three'
 
 const strConvertBuffer = new ArrayBuffer(4) // an Int32 takes 4 bytes
 const strView = new DataView(strConvertBuffer)
+
+const $color = new Color()
 
 function CharCode(code: number) {
   switch (code) {
@@ -115,6 +118,83 @@ export class Fate extends AtomicInt {
     }
 
     return root
+  }
+
+  toLUA(): string {
+    const obj = this.toObject()
+
+    let output = '# You have encountered Fate! \n# Load on Theiaology.com\n\n'
+
+    const addChild = (target: INode, t = 0) => {
+      const addT = () => [...new Array(t)].map(() => '\t').join('')
+      // render
+      for (let child of Object.entries(target._)) {
+        // get commmand
+        const [k, v] = child
+        const [when, comm, who] = v.$
+
+        output += `\n${addT()}(`
+
+        const invoke = Invocations[comm]
+
+        if (invoke !== ESpell.TOME && when !== 0) {
+          output += `${when} `
+        }
+
+        output += `${ESpell[comm].toLowerCase()} `
+
+        if (invoke) {
+          // check for data
+          const evarInfo = Object.values(invoke)
+          for (let i = 0; i < evarInfo.length; i++) {
+            const e = evarInfo[i]
+            const d = v.$[3 + i]
+
+            switch (e) {
+              case EVar.VOX:
+              case EVar.STRING:
+                output += `"${this.text(parseInt(k, 10))}" `
+                break
+              case EVar.COLOR:
+                output += `0x${$color.set(d).getHexString()} `
+                break
+              case EVar.NORMAL:
+                output += `${d / NORMALIZER} `
+                break
+              case EVar.USERNUMBER:
+              case EVar.USERPOSITIVE:
+                output += `${d * 0.01} `
+                break
+              case EVar.NEGATIVE:
+              case EVar.POSITIVE:
+              case EVar.NUMBER:
+                output += `${d} `
+                break
+
+              default:
+                // probably an enum
+                output += `'${e[d]}' `
+            }
+          }
+        }
+        // children
+        if (Object.keys(v._).length > 0) {
+          addChild(v, t + 1)
+          output += `\n${addT()}`
+        }
+
+        output += `)`
+      }
+    }
+
+    addChild(obj)
+
+    output += '\n'
+    return output
+  }
+
+  fromLUA(lua: string) {
+    //;/\(.*\)/.search(lua)
   }
 
   toJSON(): string {

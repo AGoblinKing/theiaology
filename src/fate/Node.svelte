@@ -207,7 +207,7 @@
     fate.poke()
   }
 
-  $: label = ESpell[item.$[1]] || 'evoke'
+  $: label = ESpell[item.$[1]] || 'weave'
 
   function NavData(index: number) {
     return {
@@ -251,8 +251,8 @@
     <Box
       click={inputInvoke}
       upper
-      hover={label === 'evoke'
-        ? `Evoke into JSON`
+      hover={label === 'weave'
+        ? `Download the weave as LUA`
         : 'Invocation'}
       tilt={hashcode(label.slice(0, 3)) * 0.05 % 360}
       nav={{

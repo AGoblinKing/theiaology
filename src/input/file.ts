@@ -63,7 +63,7 @@ export function ReadFile(file: File | string, buffer: ArrayBufferLike) {
   const { fate: timeline } = first.$
 
   switch (true) {
-    case name.indexOf('.json') !== -1:
+    case /json$/.test(name):
       try {
         LoadJSON(
           JSON.parse(new TextDecoder('utf-8').decode(new Uint8Array(buffer)))
@@ -73,7 +73,12 @@ export function ReadFile(file: File | string, buffer: ArrayBufferLike) {
         console.log("Couldn't load JSON", file)
       }
       break
-    case name.indexOf('.vox') !== -1:
+    case /lua$/.test(name):
+      first.$.fate.$.fromLUA(
+        new TextDecoder('utf-8').decode(new Uint8Array(buffer))
+      )
+      break
+    case /vox$/.test(name):
       first.$.voxes.$[name.split('.')[0].slice(0, 12).trim()] =
         new MagickaVoxel(buffer)
       first.$.voxes.poke()

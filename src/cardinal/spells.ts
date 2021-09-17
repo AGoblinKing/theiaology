@@ -3,6 +3,7 @@ import flock from './spell/flock'
 import Phys from './spell/phys'
 import pos from './spell/pos'
 import rez from './spell/rez'
+import rot from './spell/rot'
 import shape from './spell/shape'
 import theia from './spell/theia'
 import thrust from './spell/thrust'
@@ -22,5 +23,6 @@ export default Object.assign(
   user,
   shape,
   vox,
-  flock
+  flock,
+  rot
 )

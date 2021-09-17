@@ -169,7 +169,7 @@ delta.on(($dt) => {
     // move us towards the avatar location
     body.$.position.lerp(
       avg.multiplyScalar(9).add(atom).multiplyScalar(0.1),
-      $dt * 4
+      $dt * 2.5
     )
 
     atom.sub(body.$.position).length() > 0.1 &&
