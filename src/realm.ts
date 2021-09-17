@@ -25,7 +25,7 @@ import {
   seconds,
   upperUniform,
 } from 'src/controller/audio'
-import { isVR, mobile, options } from 'src/input/browser'
+import { isVR, mobile, multiplayer, options } from 'src/input/browser'
 import { Load } from 'src/input/load'
 import { left_hand_uniforms, right_hand_uniforms } from 'src/input/xr'
 import { MagickaVoxel } from 'src/magica'
@@ -53,6 +53,8 @@ import {
   Uniform,
   Vector3,
 } from 'three'
+import { LocalSystem } from './system/system'
+import { Yggdrasil } from './system/yggdrasil'
 
 const IDENTITY = new Matrix4().identity()
 
@@ -93,6 +95,8 @@ export class Realm {
   physics: SystemWorker
   cardinal: SystemWorker
   ai: SystemWorker
+
+  yggdrasil: LocalSystem
 
   atoms: InstancedMesh
 
@@ -309,6 +313,10 @@ export class Realm {
         this.velocity,
         this.traits
       )
+      .bind(this.cardinal)
+
+    this.yggdrasil = new Yggdrasil()
+      .send(this.future, this.matter, this.size, multiplayer)
       .bind(this.cardinal)
   }
 

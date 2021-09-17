@@ -1,4 +1,3 @@
-const count = parseInt(location.search.slice(1), 10)
 export const ATOM_COUNT = 256 * 256
 
 // For GamePlay, max impacts for entity, the impacts still happen for velocity purposes
@@ -66,3 +65,5 @@ export function UserUnits(x: number) {
 }
 
 export const TOON_ENABLED = false
+
+export const YGGDRASIL = '/bifrost'

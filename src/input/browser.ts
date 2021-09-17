@@ -13,7 +13,7 @@ export const mobile =
   )
 
 export const options = new Value(
-  new Set(window.location.hash.toUpperCase().slice(1).split('|'))
+  new Set(window.location.search.toUpperCase().slice(1).split('|'))
 )
 
 export const isVR = new Value(false)
@@ -21,3 +21,5 @@ export const isVR = new Value(false)
 navigator.xr?.isSessionSupported('immersive-vr').then(function (supported) {
   isVR.set(supported)
 })
+
+export const multiplayer = window.location.hash.slice(1)

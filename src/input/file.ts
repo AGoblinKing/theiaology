@@ -2,7 +2,7 @@ import { get } from 'idb-keyval'
 import { rootTheia } from 'src/config'
 import { audio, audio_buffer, audio_name } from 'src/controller/audio'
 import { INode } from 'src/fate/weave'
-import { url } from 'src/input/browser'
+import { multiplayer, url } from 'src/input/browser'
 import { MagickaVoxel } from 'src/magica'
 import { first } from 'src/realm'
 import { dbLoaded, Load } from './load'
@@ -117,7 +117,7 @@ export async function ReadURL(url: string) {
 
 if (url.$[0] === '') url.$.pop()
 
-if (window.location.search === '') {
+export function LoadRealm() {
   switch (url.$.length) {
     case 0:
       ReadURL(`/github/${rootTheia}`)
@@ -147,4 +147,8 @@ if (window.location.search === '') {
         dbLoaded.set(true)
       })
   }
+}
+
+if (multiplayer === '') {
+  LoadRealm()
 }

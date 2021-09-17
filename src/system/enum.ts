@@ -25,6 +25,9 @@ export enum EMessage {
   PHYSICS_TICK = -6000,
   CARDINAL_TICK = -7000,
   CARDINAL_AVATAR = -7001,
+  YGG_REALM_UPDATE = -8000,
+  YGG_HOST = -8001,
+  YGG_JOIN = -8002,
 }
 
 export type FRez = () => number

@@ -285,6 +285,7 @@ export class Fate extends AtomicInt {
               break
 
             default:
+              console.log(ks[d], item)
               // probably an enum
               this[dat](i, ks[d][item])
           }

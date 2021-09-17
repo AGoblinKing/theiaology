@@ -40,13 +40,11 @@
   function handleMultiplayer(res) {
     switch (res) {
       case 'Public':
-        window.location.search = `public/${`${Math.floor(
-          Math.random() * Number.MAX_SAFE_INTEGER
-        )}`.slice(0, 8)}`
+        window.location.hash = `public`
   
         break
       case 'Secret':
-        window.location.search = 'private/' + `${Math.floor(
+        window.location.hash = 'private/' + `${Math.floor(
           Math.random() * Number.MAX_SAFE_INTEGER
         )}`.slice(0, 8)
 
@@ -63,6 +61,10 @@
     modal_location.set(
       modal_location.$.set($mouse_page.x - 5, $mouse_page.y - 5)
     )
+
+    setTimeout(() => {
+      window.location.reload()
+    }, 10)
   }
 
   function Multiplayer() {
@@ -181,11 +183,11 @@
     hover="A Goblin King Demands Tribute"
     nav={{ tag: 'sponsor', left: '.fate', right: 'net', down }}
     click={Sponsor}
-    style="border-radius: 0 0 0.5rem 0;"
+
   >
     TRiBuTe
   </Box>
-  <!-- <Box
+  <Box
     tilt={180}
     hover="Host or Join Multiplayer Realms"
     nav={{ tag: 'net', left: 'sponsor', down }}
@@ -193,7 +195,7 @@
     style="border-radius: 0 0 0.5rem 0;"
   >
     MULTIPLAYER
-  </Box> -->
+  </Box>
 </div>
 <Modal />
 {#if $timeline_shown}

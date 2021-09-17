@@ -22,6 +22,8 @@ self.addEventListener('fetch', (e: any) => {
   e.respondWith(
     fetch(request)
       .then((response) => {
+        if (request.method !== 'GET') return response
+
         const copy = response.clone()
         caches.open(CACHE).then((cache) => {
           cache.put(request, copy)
