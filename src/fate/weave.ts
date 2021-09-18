@@ -139,6 +139,48 @@ export enum EConstraint {
   POSITIVE = 1,
 }
 
+export const ESpellHelp = {
+  [ESpell.TOME]: 'A holder of knowledge',
+  [ESpell.MUSIC]: 'A song',
+  [ESpell.FLOCK_GRID]: 'A flock of atoms set in a uniform grid',
+  [ESpell.FLOCK_RING]: 'A flock of atoms set in a ring',
+  [ESpell.FLOCK_TEXT]: 'A flock of atoms set as text',
+
+  [ESpell.SHAPE_COLOR]: 'Atomic color',
+  [ESpell.SHAPE]: 'Atomic Shape/Size',
+  [ESpell.SHAPE_VAR]: 'Atomic Shape/Size Variance',
+  [ESpell.REZ]: 'Rez a Tome',
+  [ESpell.REZ_FREE]: 'Free all atoms in rezzed by this Tome',
+  [ESpell.POS]: 'Atomic Position',
+  [ESpell.POS_TO]: 'Atomic Position to',
+  [ESpell.POS_VAR]: 'Atomic Position Variance',
+  [ESpell.THRUST]: 'Atomic Thrust',
+  [ESpell.THRUST_TO]: 'Atomic Thrust to',
+  [ESpell.THRUST_VAR]: 'Atomic Thrust Variance',
+  [ESpell.ROT]: 'Atomic Rotation',
+  [ESpell.ROT_LOOK]: 'Atomic Rotation to look at',
+  [ESpell.ROT_LOOK_TO]: 'Atomic Rotation to look at to',
+  [ESpell.ROT_VAR]: 'Atomic Rotation Variance',
+  [ESpell.THEIA_RULER]:
+    'SET THE THEIA RULER FOR LOADING FROM GITHUB. MAPS TO GITHUB USER NAME.',
+  [ESpell.THEIA_REALM]: 'SET THE THEIA REALM, MAPS TO FILE NAME WITHOUT .FATE',
+  [ESpell.EVENT]: 'An event',
+  [ESpell.PHYS_CAGE]: 'Cage atoms to these bounds, also sets realm shader cage',
+  [ESpell.PHYS_PHASE]: 'Atomic Phase for physics',
+  [ESpell.AI]: 'Atomic AI routine. HUNTER hunts the avatar',
+  [ESpell.SHAPE_EFFECTS]: 'Atomic Shader Effects, like NOEFFECTS',
+  [ESpell.VOX]:
+    'Atomic Voxel Shape. Forms a pattern at the point of a flock based on a .vox file.',
+  [ESpell.VOX_VAR]: 'Atomic Voxel Shape Variance of position within the vox',
+  [ESpell.USER_AVATAR]: 'Atomic User Avatar designation',
+  [ESpell.USER_POS]: 'Atomic User Position',
+  [ESpell.USER_ROT]: 'Atomic User Rotation',
+  [ESpell.USER_SIZE]: 'Atomic User Size',
+  [ESpell.UNI_IDLE]:
+    'Atomic Idle routine. IDLE_RANDOMIZE randomizes the idle routine',
+  [ESpell.UNI_CLEAR_COLOR]: 'Clear Color',
+}
+
 export const Invocations: { [key: number]: any } = {
   [ESpell.TOME]: { text: EVar.STRING },
 

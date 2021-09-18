@@ -25,7 +25,7 @@ mirror_shown,
 
   import { mouse_page } from 'src/input/mouse'
 
-  import { Invocations, ESpell, EVar } from './weave'
+  import { Invocations, ESpell, EVar, ESpellHelp } from './weave'
 
   import { SaveScript } from 'src/input/save'
   import { NORMALIZER, UserUnits } from 'src/config'
@@ -256,7 +256,7 @@ mirror_shown,
       upper
       hover={label === 'weave'
         ? `Download the weave as LISP`
-        : 'Invocation'}
+        : ESpellHelp[item.$[1]] || 'Invocation'}
       tilt={hashcode(label.slice(0, 3)) * 0.05 % 360}
       nav={{
         i,
