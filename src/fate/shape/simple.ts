@@ -22,12 +22,26 @@ Ring.AtomCount = (size: number, step: number) => {
   return step
 }
 
-export function Rect(i: number, x: number, z: number, step: number) {
-  return $vec3
-    .set((i % x) - x / 2, 0, Math.floor(i / x) - z / 2)
-    .multiplyScalar(step * 10)
+// draw outline of rectangle based on x and y
+export function Rectangle(
+  i: number,
+  width: number,
+  step: number,
+  height: number
+) {
+  const d = width * height * step
+  const c = Rectangle.AtomCount(width, step, height)
+  const h = c / 2
+
+  const w2 = width * 2
+
+  let x = i < w2 ? i % width : i - w2 > height ? width : 0
+  let y = i > w2 ? (i - w2) % height : i < width ? height : 0
+
+  // set a rectangel
+  return $vec3.set(x - width / 2, 0, y - height / 2).multiplyScalar(step * 10)
 }
 
-Rect.AtomCount = (x: number, z: number, step: number) => {
-  return x * z
+Rectangle.AtomCount = (x: number, step: number, z: number) => {
+  return x * 2 + z * 2
 }

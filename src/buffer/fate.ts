@@ -194,36 +194,36 @@ export class Fate extends AtomicInt {
     return output
   }
 
-  fromScript(name: string, lua: string) {
+  fromScript(name: string, script: string) {
     this.freeAll()
 
-    lua = lua.replace(/[\n\t]/g, '')
+    script = script.replace(/[\n\t]/g, '')
 
     const RBLOB = /\(.*\)/
 
     const commands = []
     const text = []
 
-    let res = RBLOB.exec(lua)
+    let res = RBLOB.exec(script)
     if (res === null) return
 
     // just the commands now
-    lua = res[0]
+    script = res[0]
 
     this.text(0, name)
 
-    while ((res = /\(([A-Za-z0-9!.?$#\-+*/'"_ ]*)\)/g.exec(lua))) {
+    while ((res = /\(([A-Za-z0-9!.?$#\-+*/'"_ ]*)\)/g.exec(script))) {
       let txt
       let code = res[1]
 
       // pull out text blobs
-      while ((txt = /['"]([A-Za-z0-9 .!?]*)['"]/g.exec(code))) {
+      while ((txt = /['"]([A-Za-z0-9 .+\\\-!?]*)['"]/g.exec(code))) {
         code = splice(code, txt.index, txt[0].length, `$${text.length}`)
         text.push(txt[1])
       }
 
       commands.push(code)
-      lua = splice(lua, res.index, res[0].length, `#${commands.length} `)
+      script = splice(script, res.index, res[0].length, `#${commands.length} `)
     }
 
     for (let command of commands) {

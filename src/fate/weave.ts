@@ -30,6 +30,7 @@ export enum EImpactReaction {
 export enum EShape {
   PLANE,
   RING,
+  RECT,
   // Sphere,
   // Circle,
 
@@ -318,8 +319,8 @@ export const Invocations: { [key: number]: any } = {
     role: ERole,
   },
   [ESpell.FLOCK_RECT]: {
-    x: EVar.USERPOSITIVE,
-    z: EVar.USERPOSITIVE,
-    seperation: EVar.USERPOSITIVE,
+    x: EVar.POSITIVE,
+    z: EVar.POSITIVE,
+    margin: EVar.USERPOSITIVE,
   },
 }

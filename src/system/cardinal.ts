@@ -193,9 +193,18 @@ class Cardinal extends System implements ICardinal {
       throw new Error("couldn't find shape on shapemap" + $spell.flock.shape)
     }
 
-    const atoms = shape.AtomCount($spell.flock.size, $spell.flock.step)
+    const atoms = shape.AtomCount(
+      $spell.flock.size,
+      $spell.flock.step,
+      $spell.flock.size2
+    )
     for (let i = 0; i < atoms; i++) {
-      const $shape = shape(i, $spell.flock.size, $spell.flock.step)
+      const $shape = shape(
+        i,
+        $spell.flock.size,
+        $spell.flock.step,
+        $spell.flock.size2
+      )
 
       // apply $rez data
 

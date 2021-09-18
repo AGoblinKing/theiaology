@@ -22,6 +22,13 @@ export default {
     $spell.flock.step = $c.fate.data1(i)
     $spell.ripple(ERipple.FLOCK, $spell.flock)
   },
+  [ESpell.FLOCK_RECT](i: number, $c: ICardinal, $spell: Spell) {
+    $spell.flock.shape = EShape.RECT
+    $spell.flock.size = $c.fate.data0(i)
+    $spell.flock.size2 = $c.fate.data1(i)
+    $spell.flock.step = $c.fate.data2(i)
+    $spell.ripple(ERipple.FLOCK, $spell.flock)
+  },
   [ESpell.FLOCK_TEXT](i: number, $c: ICardinal, $spell: Spell) {
     $spell.text = $c.fate.text(i)
     $spell.ripple(ERipple.TEXT, $spell.text)

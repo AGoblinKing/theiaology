@@ -44,7 +44,7 @@ export class Spell {
   voxvar = new Vector3()
   sizevar = new Vector3()
   posvar = new Vector3()
-  flock: { shape: EShape; size: number; step: number }
+  flock: { shape: EShape; size: number; step: number; size2: number }
   look = new Vector3()
   impact = EImpactReaction.NONE
   phase = EPhase.VOID
@@ -98,7 +98,7 @@ export class Spell {
     this.look.set(0, 0, 0)
 
     this.posvar.set(0, 0, 0)
-    this.flock = { shape: EShape.PLANE, size: 1, step: 0 }
+    this.flock = { shape: EShape.PLANE, size: 1, step: 0, size2: 1 }
     this.doLook = false
     this.text = undefined
     this.atoms = []
@@ -163,6 +163,7 @@ export class Spell {
           c.flock.shape = data.shape
           c.flock.size = data.size
           c.flock.step = data.step
+          c.flock.size2 = data.size2
           break
 
         case ERipple.SIZE:
