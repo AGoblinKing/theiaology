@@ -6,7 +6,8 @@
     let mirror = CodeMirror(document.body, {
         value: first.$.fate.$.toScript(),
         mode:  "commonlisp",
-        dragDrop: false
+        dragDrop: false,
+        theme: "midnight"
     });
 
     onDestroy(() => {
@@ -32,5 +33,6 @@
     top: 0;
     height: 100% !important;
     width: 30rem !important;
+    background-color: rgba(15, 25, 42, 0.439) !important;
 }
 </style>
