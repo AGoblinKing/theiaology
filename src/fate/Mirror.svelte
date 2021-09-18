@@ -17,13 +17,25 @@
         mirror.off("changes", update)
         mirror.getWrapperElement().parentNode.removeChild(mirror.getWrapperElement());
         mirror = undefined
+        cancel()
+    })
+
+    let clutch = false
+
+    const cancel = first.$.fate.on(() => {
+        clutch = true
+        mirror.setValue(first.$.fate.$.toScript())
+        clutch = false
     })
 
     const update = () => {
+        if(clutch) return
+
         const f = first.$.fate.$
         f.fromScript(f.text(0), mirror.getValue())
         first.$.fate.poke()
     }
+
 
     mirror.on("changes", update)
 </script>
