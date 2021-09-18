@@ -53,6 +53,6 @@
     top: 0;
     height: 100% !important;
     width: 30rem !important;
-    background-color: rgba(15, 25, 42, 0.439) !important;
+    background-color: rgba(15, 25, 42, 0.7) !important;
 }
 </style>
