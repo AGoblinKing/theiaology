@@ -2,6 +2,7 @@
   // organize-imports-ignore
   import { Save } from 'src/input/save'
   import {
+mirror_shown,
     modal_location,
     modal_options,
     modal_visible,
@@ -18,6 +19,7 @@
   import { key_down, key_map } from 'src/input/keyboard'
   import { Copy, Cut, Paste } from 'src/controller/copypaste'
   import { ReadFile } from 'src/input/file'
+  import Editor from './Editor.svelte'
 
   function Browse() {
     modal_location.set(
@@ -201,7 +203,12 @@
 {#if $timeline_shown}
   <theiaology>
     <Fate />
+   
   </theiaology>
+
+  {#if $mirror_shown}
+    <Editor />
+  {/if}
 {/if}
 
 <style>

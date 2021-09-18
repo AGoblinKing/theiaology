@@ -120,7 +120,7 @@ export class Fate extends AtomicInt {
     return root
   }
 
-  toLUA(): string {
+  toScript(): string {
     const obj = this.toObject()
 
     let output =
@@ -194,7 +194,7 @@ export class Fate extends AtomicInt {
     return output
   }
 
-  fromLUA(name: string, lua: string) {
+  fromScript(name: string, lua: string) {
     this.freeAll()
 
     lua = lua.replace(/[\n\t]/g, '')
@@ -292,7 +292,7 @@ export class Fate extends AtomicInt {
           d++
         }
       } catch (e) {
-        console.error('LUA', command, e)
+        console.error('LISP', command, e)
       }
     }
   }

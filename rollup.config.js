@@ -35,15 +35,15 @@ const rootImport = (options) => ({
   },
 })
 
-let once = true
 const config = (input, dst = '', importThree = false) => {
   const o = {
     input: `src/${input}.ts`,
 
-    external: ['three'],
+    external: ['three', 'codemirror'],
     output: {
       globals: {
         three: 'THREE',
+        codemirror: 'CodeMirror',
       },
       format: 'iife',
       chunkFileNames: '[name].js',
@@ -114,7 +114,7 @@ const config = (input, dst = '', importThree = false) => {
       clearScreen: false,
     },
   }
-  once = false
+
   return o
 }
 

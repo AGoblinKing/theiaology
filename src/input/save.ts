@@ -8,7 +8,7 @@ import { dbLoaded, HEADER_START, SIGNATURE } from './load'
 export function SaveScript() {
   if (!dbLoaded) return
 
-  const blob = new Blob([first.$.fate.$.toLUA()], {
+  const blob = new Blob([first.$.fate.$.toScript()], {
     type: 'application/lisp',
   })
   fs.saveAs(blob, first.$.fate.$.text(0) + '.lisp')

@@ -74,7 +74,7 @@ export function ReadFile(file: File | string, buffer: ArrayBufferLike) {
       }
       break
     case /lisp$/.test(name):
-      first.$.fate.$.fromLUA(
+      first.$.fate.$.fromScript(
         name.replace('.lisp', ''),
         new TextDecoder('utf-8').decode(new Uint8Array(buffer))
       )

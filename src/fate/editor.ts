@@ -6,6 +6,7 @@ import { Vector2 } from 'three'
 import { EVar } from './weave'
 
 export const timeline_shown = new Value(options.$.has('DEV'))
+export const mirror_shown = new Value(true)
 
 export const modal_location = new Value(new Vector2())
 export const modal_options = new Value<string[] | EVar | string>([])

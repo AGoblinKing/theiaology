@@ -15,6 +15,7 @@
   import { fantasy, first } from 'src/realm'
 
   import {
+mirror_shown,
     modal_cursor,
     modal_default,
     modal_location,
@@ -54,8 +55,10 @@
   function remove(index: number) {
     modal_visible.set(false)
 
-    if (index === 0) return
-
+    if (index === 0) {
+      mirror_shown.set(!mirror_shown.$)
+      return
+    }
     for (let child of Object.keys($fateJSON.flat[index]._)) {
       remove(parseInt(child, 10))
     }
@@ -234,7 +237,7 @@
       <Box
         style="opacity: 0.85; font-weight: bold; border-radius: 0.5rem 0 0 0.5rem"
         tilt={40}
-        hover={i === 0 ? 'BOOT ROOT' : 'REMOVE'}
+        hover={i === 0 ? 'TOGGLE MIRROR CODE EDITOR' : 'REMOVE'}
         click={() => remove(i)}
         nav={{
           i,
