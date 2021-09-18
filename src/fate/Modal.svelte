@@ -56,7 +56,7 @@
       : $modal_location.y}px"
   >
     {#if typeof $modal_options === 'string'}
-      <Box span>
+      <Box span tilt={-60}>
         {$modal_options}
       </Box>
     {:else if Array.isArray($modal_options)}
