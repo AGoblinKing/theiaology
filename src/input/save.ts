@@ -32,6 +32,13 @@ export function Save(withFile = true) {
   set(window.location.pathname, buff)
 }
 
+window.addEventListener('keydown', (e) => {
+  if (e.key === 's' && e.ctrlKey) {
+    Save()
+    e.preventDefault()
+  }
+})
+
 export function BuildBuffer() {
   const { fate: timeline } = first.$
   // [THEA, TIME_SIZE, VOX_SIZE, MUSIC_SIZE, 0, 0, ...
