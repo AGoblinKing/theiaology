@@ -19,7 +19,7 @@ mirror_shown,
   import { key_down, key_map } from 'src/input/keyboard'
   import { Copy, Cut, Paste } from 'src/controller/copypaste'
   import { ReadFile } from 'src/input/file'
-  import Editor from './Editor.svelte'
+  import Mirror from './Mirror.svelte'
 
   function Browse() {
     modal_location.set(
@@ -207,7 +207,7 @@ mirror_shown,
   </theiaology>
 
   {#if $mirror_shown}
-    <Editor />
+    <Mirror />
   {/if}
 {/if}
 

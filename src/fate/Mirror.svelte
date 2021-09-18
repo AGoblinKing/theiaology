@@ -5,7 +5,7 @@
     // @ts-ignore
     let mirror = CodeMirror(document.body, {
         value: first.$.fate.$.toScript(),
-        mode:  "text/x-common-lisp",
+        mode:  "commonlisp",
         dragDrop: false
     });
 

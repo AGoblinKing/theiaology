@@ -24,6 +24,7 @@
     "@types/express": "^4.17.13",
     "@types/node": "^16.4.12",
     "@types/three": "^0.130.1",
+    "codemirror": "^5.62.3",
     "express": "^4.17.1",
     "file-saver": "^2.0.5",
     "idb-keyval": "^5.1.3",
