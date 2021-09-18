@@ -7,7 +7,10 @@
         value: first.$.fate.$.toScript(),
         mode:  "commonlisp",
         dragDrop: false,
-        theme: "midnight"
+        theme: "midnight",
+        save: () => {
+            console.log("hlelo")
+        }
     });
 
     onDestroy(() => {
