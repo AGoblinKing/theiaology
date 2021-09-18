@@ -21,8 +21,11 @@
     })
 
     let clutch = false
+    let reverseClutch = false
 
     const cancel = first.$.fate.on(() => {
+        if(reverseClutch) return
+        
         clutch = true
         mirror.setValue(first.$.fate.$.toScript())
         clutch = false
@@ -33,7 +36,9 @@
 
         const f = first.$.fate.$
         f.fromScript(f.text(0), mirror.getValue())
+        reverseClutch = true
         first.$.fate.poke()
+        reverseClutch = false
     }
 
 
