@@ -1,11 +1,11 @@
 import { get } from 'idb-keyval'
 import { rootTheia } from 'src/config'
 import { audio, audio_buffer, audio_name } from 'src/controller/audio'
-import { INode } from 'src/fate/weave'
 import { multiplayer, url } from 'src/input/browser'
 import { MagickaVoxel } from 'src/magica'
 import { first } from 'src/realm'
 import { dbLoaded, Load } from './load'
+import { Save } from './save'
 
 window.addEventListener('dragover', (e) => {
   e.dataTransfer.dropEffect = `copy`
@@ -33,63 +33,30 @@ window.addEventListener('drop', async (e) => {
   }
 })
 
-export function LoadJSON(json: INode, key = '0', map = {}) {
-  const { fate: timeline } = first.$
-  if (map[key] === undefined) {
-    map[key] = timeline.$.reserve()
-  }
-
-  // oh hi
-  const id = map[key]
-  timeline.$.when(id, json.$[0])
-  timeline.$.spell(id, json.$[1])
-  // who is special!
-  if (map[json.$[2]] === undefined) {
-    map[json.$[2]] = json.$[2] === timeline.$.reserve()
-  }
-  timeline.$.who(id, id === 0 ? 0 : map[json.$[2]])
-  timeline.$.data0(id, json.$[3])
-  timeline.$.data1(id, json.$[4])
-  timeline.$.data2(id, json.$[5])
-
-  for (let entry of Object.entries(json._)) {
-    LoadJSON(entry[1], entry[0], map)
-  }
-}
-
 // ReadFile
 export function ReadFile(file: File | string, buffer: ArrayBufferLike) {
   const { name } = typeof file === 'string' ? { name: file } : file
-  const { fate: timeline } = first.$
 
   switch (true) {
-    case /json$/.test(name):
-      try {
-        LoadJSON(
-          JSON.parse(new TextDecoder('utf-8').decode(new Uint8Array(buffer)))
-        )
-        timeline.poke()
-      } catch (ex) {
-        console.log("Couldn't load JSON", file)
-      }
-      break
     case /lisp$/.test(name):
       first.$.fate.$.fromScript(
         name.replace('.lisp', ''),
         new TextDecoder('utf-8').decode(new Uint8Array(buffer))
       )
       first.$.fate.poke()
-
+      Save(false)
       break
     case /vox$/.test(name):
       first.$.voxes.$[name.split('.')[0].slice(0, 12).trim()] =
         new MagickaVoxel(buffer)
       first.$.voxes.poke()
+      Save(false)
       break
     case name.indexOf('.fate') !== -1:
     case name.indexOf('github') !== -1:
     case name.indexOf('.theia') !== -1:
       Load(buffer, first.$)
+      Save(false)
       break
     case name.indexOf('.mp3') != -1:
     case name.indexOf('.wav') != -1:
@@ -100,7 +67,7 @@ export function ReadFile(file: File | string, buffer: ArrayBufferLike) {
       )
       audio.load()
       audio_name.set(name.split('.')[0].slice(0, 12))
-
+      Save(false)
       break
   }
 }
@@ -123,7 +90,15 @@ export function LoadRealm() {
       ReadURL(`/github/${rootTheia}`)
       break
     case 2:
-      ReadURL(`/github/${url.$[0]}/${url.$[1]}`)
+      ReadURL(`/github/${url.$[0]}/${url.$[1]}`).catch(() => {
+        get(window.location.pathname).then((v) => {
+          if (v) {
+            Load(v, first.$)
+          }
+
+          dbLoaded.set(true)
+        })
+      })
       break
     case 1:
       // try reading static file and if it misses load DB

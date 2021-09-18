@@ -130,6 +130,7 @@ export enum ESpell {
   FLOCK_GRID,
   USER_AVATAR,
   VOX_BREAK,
+  FLOCK_RECT,
 }
 
 export enum EConstraint {
@@ -273,5 +274,10 @@ export const Invocations: { [key: number]: any } = {
   [ESpell.VOX_BREAK]: {},
   [ESpell.AI]: {
     role: ERole,
+  },
+  [ESpell.FLOCK_RECT]: {
+    x: EVar.USERPOSITIVE,
+    z: EVar.USERPOSITIVE,
+    seperation: EVar.USERPOSITIVE,
   },
 }

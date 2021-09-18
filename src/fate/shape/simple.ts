@@ -21,3 +21,13 @@ export function Ring(i: number, size: number, step: number) {
 Ring.AtomCount = (size: number, step: number) => {
   return step
 }
+
+export function Rect(i: number, x: number, z: number, step: number) {
+  return $vec3
+    .set((i % x) - x / 2, 0, Math.floor(i / x) - z / 2)
+    .multiplyScalar(step * 10)
+}
+
+Rect.AtomCount = (x: number, z: number, step: number) => {
+  return x * z
+}

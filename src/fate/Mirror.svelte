@@ -7,7 +7,7 @@
         value: first.$.fate.$.toScript(),
         mode:  "commonlisp",
         dragDrop: false,
-        theme: "midnight",
+        theme: "erlang-dark",
         save: () => {
             console.log("hlelo")
         }
@@ -25,7 +25,7 @@
 
     const cancel = first.$.fate.on(() => {
         if(reverseClutch) return
-        
+
         clutch = true
         mirror.setValue(first.$.fate.$.toScript())
         clutch = false
