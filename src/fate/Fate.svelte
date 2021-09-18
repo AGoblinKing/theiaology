@@ -130,9 +130,9 @@ import { cursor } from './nav';
       </div>
     {/each}
 
-    {#if display}
+
     <Node i={0}/>
-    {/if}
+
   </div>
 </div>
 

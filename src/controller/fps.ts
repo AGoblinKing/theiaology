@@ -169,10 +169,10 @@ delta.on(($dt) => {
     // move us towards the avatar location
     body.$.position.lerp(
       avg.multiplyScalar(9).add(atom).multiplyScalar(0.1),
-      $dt * 2.5
+      $dt * 3
     )
 
-    atom.sub(body.$.position).length() > 0.1 &&
+    atom.sub(body.$.position).length() > 0.2 &&
       atom.multiplyScalar(fantasy.$.universal.thrustStrength()).negate()
 
     // update velocity of avatar
