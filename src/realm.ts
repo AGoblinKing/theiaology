@@ -72,6 +72,7 @@ let realmId = 0
 
 Object.assign(window, { realms })
 
+export const fantasy = new Value<Realm>()
 export const first = new Value<Realm>(undefined)
 export class Realm {
   // entity components
@@ -146,12 +147,9 @@ export class Realm {
     this.fate = new Value(new Fate())
     this.initMaterial()
 
-    // delay init so reality is set and other things have settled
-    setTimeout(() => {
-      this.initSystems()
-      this.initAtoms()
-      this.initListeners()
-    }, 0)
+    this.initSystems()
+    this.initAtoms()
+    this.initListeners()
   }
 
   initMaterial() {
@@ -488,10 +486,10 @@ export class Realm {
 
 const cache = {}
 
-export const fantasy = new Value(new Realm())
-
 let cancel
 fantasy.on((realm: Realm) => {
+  if (!realm) return
+
   if (cancel) cancel()
 
   cancel = realm.fate.on(() => {
@@ -506,3 +504,5 @@ fantasy.on((realm: Realm) => {
     }
   })
 })
+
+fantasy.set(new Realm())

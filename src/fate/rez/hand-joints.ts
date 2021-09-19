@@ -20,6 +20,7 @@ const $vec = new Vector3()
 export function RezHands(cardinal: SystemWorker) {
   hand_joints = []
 
+  console.log('reserve hands')
   // request the hands
   // vr_keys is an enum and therefore 2x the length, which is what we want
   // for two hands anyhow
@@ -103,13 +104,13 @@ timing.on(() => {
 let cancel
 first.on(($r) => {
   if (cancel) cancel()
-  cancel = $r.fate.on(() => {
+
+  cancel = $r.cardinal.on((e) => {
     // Rez the player hands
-
-    if (!$r.cardinal) return
-
-    setTimeout(() => {
-      RezHands($r.cardinal)
-    }, 1000)
+    switch (e) {
+      case EMessage.FATE_UPDATE:
+        RezHands($r.cardinal)
+        break
+    }
   })
 })
