@@ -4,7 +4,8 @@
 import { RBush3D } from 'rbush-3d'
 import { Cage } from 'src/buffer/cage'
 import { Impact } from 'src/buffer/impact'
-import { EPhase, Matter } from 'src/buffer/matter'
+import { Matter } from 'src/buffer/matter'
+import { EPhase, Phys } from 'src/buffer/phys'
 import { Size } from 'src/buffer/size'
 import { SpaceTime } from 'src/buffer/spacetime'
 import { Thrust } from 'src/buffer/thrust'
@@ -59,6 +60,7 @@ class Physics extends System {
   universal: Universal
   cage: Cage
   velocity: Velocity
+  phys: Phys
 
   // @ts-ignore
   tree = new RBush3D(0)
@@ -101,7 +103,9 @@ class Physics extends System {
         break
       case this.velocity:
         this.velocity = new Velocity(e.data)
-
+        break
+      case this.phys:
+        this.phys = new Phys(e.data)
         this.init()
         break
 
@@ -156,7 +160,7 @@ class Physics extends System {
     const dx = this.tickrate / 1000
 
     for (let i = 0; i < ATOM_COUNT; i++) {
-      const phase = this.matter.phase(i)
+      const phase = this.phys.phase(i)
       switch (phase) {
         case EPhase.VOID:
           continue
@@ -248,7 +252,7 @@ class Physics extends System {
     }
 
     for (let [k, v] of Object.entries($inserts)) {
-      switch (this.matter.phase(parseInt(k, 10))) {
+      switch (this.phys.phase(parseInt(k, 10))) {
         case EPhase.STUCK:
           continue
       }
@@ -264,7 +268,7 @@ class Physics extends System {
       $vec3v.negate().multiplyScalar(2)
 
       this.size.vec3(v.i, $vec3s)
-      const phase = this.matter.phase(v.i)
+      const phase = this.phys.phase(v.i)
       // reset impact
       this.impact.impact(v.i, 0, -1)
       for (let collide of this.tree.search(v)) {
@@ -288,7 +292,7 @@ class Physics extends System {
             .multiplyScalar(33)
 
           $vec3v.add($vec3o)
-          if (this.matter.phase(collide.i) === EPhase.LIQUID) {
+          if (this.phys.phase(collide.i) === EPhase.LIQUID) {
             this.velocity.addX(collide.i, $vec3v.x * 0.5)
             this.velocity.addY(collide.i, $vec3v.y * 0.5)
             this.velocity.addZ(collide.i, $vec3v.z * 0.5)

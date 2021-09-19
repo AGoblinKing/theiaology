@@ -1,5 +1,5 @@
 import { EAnimation } from 'src/buffer/animation'
-import { EPhase } from 'src/buffer/matter'
+import { EPhase } from 'src/buffer/phys'
 import { ERole } from 'src/buffer/traits'
 import { EMidiChannel } from 'src/controller/midi'
 

@@ -1,5 +1,6 @@
 import { Impact } from 'src/buffer/impact'
 import { Matter } from 'src/buffer/matter'
+import { Phys } from 'src/buffer/phys'
 import { Size } from 'src/buffer/size'
 import { SpaceTime } from 'src/buffer/spacetime'
 import { Thrust } from 'src/buffer/thrust'
@@ -22,6 +23,7 @@ class AI extends System {
   universal: Universal
   velocity: Velocity
   traits: Traits
+  phys: Phys
 
   constructor() {
     super(200)
@@ -84,7 +86,9 @@ class AI extends System {
         break
       case this.traits:
         this.traits = new Traits(e.data)
-
+        break
+      case this.phys:
+        this.phys = new Phys(e.data)
         this.init()
         break
     }

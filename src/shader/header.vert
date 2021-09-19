@@ -18,7 +18,7 @@ attribute int animation;
 attribute ivec3 size;
 attribute ivec4 past;
 attribute ivec4 future;
-attribute ivec4 matter;
+attribute ivec3 matter;
 
 varying vec3 v_pos;
 varying float v_animation;

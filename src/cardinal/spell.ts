@@ -1,4 +1,4 @@
-import { EPhase } from 'src/buffer/matter'
+import { EPhase } from 'src/buffer/phys'
 import { ERole } from 'src/buffer/traits'
 import { EImpactReaction, EShape } from 'src/fate/weave'
 import { Box3, Color, Euler, Vector3 } from 'three'

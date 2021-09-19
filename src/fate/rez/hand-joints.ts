@@ -1,5 +1,5 @@
 import { EAnimation } from 'src/buffer/animation'
-import { EPhase } from 'src/buffer/matter'
+import { EPhase } from 'src/buffer/phys'
 import { NORMALIZER } from 'src/config'
 import { doPose } from 'src/controller/hands'
 import { isVR } from 'src/input/browser'
@@ -75,13 +75,13 @@ timing.on(() => {
 
     const s = Math.floor(rMeta.test(vr_keys[ix]) ? 8 : 5) * 9.5
 
-    const { size, future, matter, past, animation: animation } = first.$
+    const { size, future, phys, matter, past, animation: animation } = first.$
     animation.store(id, EAnimation.OFF)
     size.x(id, s)
     size.y(id, s)
     size.z(id, s)
 
-    matter.phase(id, EPhase.STUCK)
+    phys.phase(id, EPhase.STUCK)
     matter.blue(id, NORMALIZER - (Math.random() * NORMALIZER) / 1000)
 
     if (!isVR.$) {

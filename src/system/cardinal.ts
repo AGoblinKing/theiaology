@@ -3,6 +3,7 @@ import { Cage } from 'src/buffer/cage'
 import { Fate } from 'src/buffer/fate'
 import { Impact } from 'src/buffer/impact'
 import { Matter } from 'src/buffer/matter'
+import { Phys } from 'src/buffer/phys'
 import { Size } from 'src/buffer/size'
 import { SpaceTime } from 'src/buffer/spacetime'
 import { Thrust } from 'src/buffer/thrust'
@@ -45,6 +46,7 @@ class Cardinal extends System implements ICardinal {
   animation: Animation
   traits: Traits
   velocity: Velocity
+  phys: Phys
 
   fate: Fate
   universal: Universal
@@ -106,6 +108,10 @@ class Cardinal extends System implements ICardinal {
 
       case this.velocity:
         this.velocity = new Velocity(e.data)
+        break
+
+      case this.phys:
+        this.phys = new Phys(e.data)
         this.ready = true
         break
 
@@ -466,7 +472,7 @@ class Cardinal extends System implements ICardinal {
     this.matter.green(id, Math.floor(color.g * NORMALIZER))
     this.matter.blue(id, Math.floor(color.b * NORMALIZER))
 
-    this.matter.phase(id, $spell.phase)
+    this.phys.phase(id, $spell.phase)
     this.impact.reaction(id, $spell.impact)
     this.cage.box(id, $spell.cage)
     this.traits.role(id, $spell.role)
@@ -540,6 +546,7 @@ class Cardinal extends System implements ICardinal {
     this.cage.free(i, Cage.COUNT)
     this.velocity.free(i, Velocity.COUNT)
     this.traits.free(i, Traits.COUNT)
+    this.phys.free(i, Phys.COUNT)
   }
 
   available(i: number) {

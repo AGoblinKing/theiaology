@@ -8,7 +8,7 @@ export default {
     $spell.ripple(ERipple.PHASE, $spell.phase)
 
     for (let atom of $spell.all()) {
-      $c.matter.phase(atom, $spell.phase)
+      $c.phys.phase(atom, $spell.phase)
     }
   },
   [ESpell.PHYS_CAGE](i: number, $c: ICardinal, $spell: Spell) {

@@ -53,6 +53,7 @@ import {
   Uniform,
   Vector3,
 } from 'three'
+import { Phys } from './buffer/phys'
 import { LocalSystem } from './system/system'
 import { Yggdrasil } from './system/yggdrasil'
 
@@ -83,6 +84,7 @@ export class Realm {
   impact: Impact
   animation: Animation
   traits: Traits
+  phys: Phys
 
   fate: Value<Fate>
   universal: Universal
@@ -139,6 +141,7 @@ export class Realm {
     this.traits = new Traits()
     this.universal = new Universal()
     this.cage = new Cage()
+    this.phys = new Phys()
 
     this.fate = new Value(new Fate())
     this.initMaterial()
@@ -223,7 +226,8 @@ export class Realm {
         this.fate.$,
         this.universal,
         this.cage,
-        this.velocity
+        this.velocity,
+        this.phys
       )
       .on((e) => {
         const data = e
@@ -297,7 +301,8 @@ export class Realm {
         this.impact,
         this.universal,
         this.cage,
-        this.velocity
+        this.velocity,
+        this.phys
       )
       .bind(this.cardinal)
 
@@ -311,7 +316,8 @@ export class Realm {
         this.impact,
         this.universal,
         this.velocity,
-        this.traits
+        this.traits,
+        this.phys
       )
       .bind(this.cardinal)
 
