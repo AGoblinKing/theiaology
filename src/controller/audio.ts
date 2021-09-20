@@ -13,13 +13,13 @@ let started = false
 
 export const synth = new Value<WebAudioTinySynth>(undefined)
 
-// window.addEventListener(
-//   'mousedown',
-//   () => {
-//     synth.set(new WebAudioTinySynth())
-//   },
-//   { once: true }
-// )
+window.addEventListener(
+  'mousedown',
+  () => {
+    synth.set(new WebAudioTinySynth())
+  },
+  { once: true }
+)
 
 audio.onplay = function () {
   if (started) return

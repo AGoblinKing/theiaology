@@ -49,7 +49,8 @@ vec4 AnimationFrag(in vec4 col) {
 		}
 	}
 
-	col.xyz += (sin(time * 0.00001 + v_pos * 0.05))  * 0.05 + (sin(time * 0.00001 + v_pos * 0.01))  * 0.05;
+	col.xyz += (sin(time * 0.00001 + v_pos * 0.05))  * 0.1 + 
+	(sin(time * 0.00001 + v_pos * 0.01))  * 0.1;
 
 	// col.xyz = max(min(col.xyz, 1.0), 0.);
 	return col;
