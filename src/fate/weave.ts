@@ -349,7 +349,7 @@ export const Invocations: { [key: number]: any } = {
     margin: EVar.USERPOSITIVE,
   },
   [ESpell.TRAP_TIME]: {
-    time: EVar.POSITIVE,
+    timeout: EVar.POSITIVE,
     repeat: EVar.BOOL,
   },
   [ESpell.TRAP_CLEAR]: {},
