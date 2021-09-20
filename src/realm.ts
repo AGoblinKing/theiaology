@@ -9,23 +9,17 @@ import { Thrust } from 'src/buffer/thrust'
 import { Traits } from 'src/buffer/traits'
 import { Universal } from 'src/buffer/universal'
 import { Velocity } from 'src/buffer/velocity'
-import {
-  ATOM_COUNT,
-  FACES,
-  INFRINGEMENT,
-  NORMALIZER,
-  SIZE,
-  TOON_ENABLED,
-} from 'src/config'
+import { ATOM_COUNT, FACES, INFRINGEMENT, NORMALIZER, SIZE } from 'src/config'
 import {
   audio,
   audio_buffer,
   audio_name,
   lowerUniform,
+  midi,
   seconds,
   upperUniform,
 } from 'src/controller/audio'
-import { isVR, mobile, multiplayer, options } from 'src/input/browser'
+import { isVR, multiplayer, options } from 'src/input/browser'
 import { Load } from 'src/input/load'
 import { left_hand_uniforms, right_hand_uniforms } from 'src/input/xr'
 import { MagickaVoxel } from 'src/magica'
@@ -49,7 +43,6 @@ import {
   Material,
   Matrix4,
   MeshBasicMaterial,
-  MeshToonMaterial,
   Uniform,
   Vector3,
 } from 'three'
@@ -153,8 +146,7 @@ export class Realm {
   }
 
   initMaterial() {
-    this.material =
-      !mobile && TOON_ENABLED ? new MeshToonMaterial() : new MeshBasicMaterial()
+    this.material = new MeshBasicMaterial()
 
     const commonVertChunk = [
       '#include <common>',
@@ -285,6 +277,13 @@ export class Realm {
             if (!this.fantasy) return
             renderer.setClearColor(this.universal.clearColor())
             break
+
+          case EMessage.CARDINAL_MIDI:
+            if (!this.fantasy) return
+
+            // @ts-ignore
+            midi(...data.data)
+            break
         }
       })
 
@@ -391,7 +390,7 @@ export class Realm {
       )
         .setAttribute(
           'animation',
-          new InstancedBufferAttribute(this.animation, 1)
+          new InstancedBufferAttribute(this.animation, Animation.COUNT)
         )
         .setAttribute(
           'past',

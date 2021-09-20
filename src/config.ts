@@ -64,6 +64,4 @@ export function UserUnits(x: number) {
   return x / USER_SCALE
 }
 
-export const TOON_ENABLED = false
-
 export const YGGDRASIL = '/bifrost'

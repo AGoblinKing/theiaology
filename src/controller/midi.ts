@@ -1,3 +1,9 @@
 export enum EMidiChannel {
-  Default = 0x90,
+  DEFAULT = 0x90,
+}
+
+export enum EMidiFlourish {
+  NOTE = 0,
+  ARPEGGIO,
+  CHORD,
 }

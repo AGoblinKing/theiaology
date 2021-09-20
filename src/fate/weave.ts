@@ -1,7 +1,7 @@
 import { EAnimation } from 'src/buffer/animation'
 import { EPhase } from 'src/buffer/phys'
 import { ERole } from 'src/buffer/traits'
-import { EMidiChannel } from 'src/controller/midi'
+import { EMidiChannel, EMidiFlourish } from 'src/controller/midi'
 
 export interface IMarkers {
   [markerID: number]: string
@@ -153,6 +153,7 @@ export enum ESpell {
   TRAP_FILTER,
   TRAP_TIME,
   TRAP_CLEAR,
+  MIDI_INSTRUMENT,
 }
 
 export enum EConstraint {
@@ -303,9 +304,15 @@ export const Invocations: { [key: number]: any } = {
   [ESpell.THEIA_REALM]: { theia: EVar.STRING },
   [ESpell.THEIA_GATE]: { theia: EVar.STRING },
   [ESpell.DO_MIDI]: {
-    instrument: EMidiChannel,
     note: EVar.POSITIVE,
-    velocity: EVar.NORMAL,
+    flourish: EMidiFlourish,
+    timing: EVar.USERPOSITIVE,
+  },
+
+  [ESpell.MIDI_INSTRUMENT]: {
+    instrument: EMidiChannel,
+    volume: EVar.NORMAL,
+    pan: EVar.NORMAL,
   },
 
   [ESpell.FLOCK_RING]: {
@@ -349,7 +356,7 @@ export const Invocations: { [key: number]: any } = {
     margin: EVar.USERPOSITIVE,
   },
   [ESpell.TRAP_TIME]: {
-    timeout: EVar.POSITIVE,
+    timeout: EVar.USERPOSITIVE,
     repeat: EVar.BOOL,
   },
   [ESpell.TRAP_CLEAR]: {},

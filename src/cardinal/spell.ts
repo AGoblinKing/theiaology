@@ -63,6 +63,8 @@ export class Spell {
   atoms: number[] = []
   lands: number = 0
 
+  midi = { instrument: 0x90, volume: 1, pan: 0.5 }
+
   // subdefines
   _: Spell[] = []
   dirty: Set<ERipple>
@@ -106,6 +108,9 @@ export class Spell {
     this.dirty = new Set()
     this.lands = 0
     this.velvarconstraint.set(0, 0, 0)
+    this.midi.instrument = 0x90
+    this.midi.volume = 1
+    this.midi.pan = 0.5
 
     delete this.gate
     delete this.land

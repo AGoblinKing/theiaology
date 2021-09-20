@@ -15,8 +15,10 @@ export const synth = new Value<WebAudioTinySynth>(undefined)
 
 window.addEventListener(
   'mousedown',
-  () => {
-    synth.set(new WebAudioTinySynth())
+  async () => {
+    const s = new WebAudioTinySynth()
+    await s.ready()
+    synth.set(s)
   },
   { once: true }
 )
@@ -81,18 +83,12 @@ tick.on(() => {
 })
 
 const $midi = [0, 0, 0]
-export const midi = async (
-  channel: EMidiChannel,
-  note: number,
-  velocity: number
-) => {
-  if (!synth.$) return
+export const midi = (channel: EMidiChannel, note: number, velocity: number) => {
+  if (synth.$ === undefined) return
 
-  midi[0] = channel
-  midi[1] = note
-  midi[2] = velocity
-
-  await synth.$.ready
+  $midi[0] = channel
+  $midi[1] = note
+  $midi[2] = velocity
 
   synth.$.send($midi)
 }

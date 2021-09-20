@@ -1,6 +1,7 @@
 import AI from './spell/ai'
 import Doing from './spell/do'
 import flock from './spell/flock'
+import midi from './spell/midi'
 import Phys from './spell/phys'
 import pos from './spell/pos'
 import rot from './spell/rot'
@@ -24,5 +25,6 @@ export default Object.assign(
   vox,
   flock,
   rot,
-  pos
+  pos,
+  midi
 )
