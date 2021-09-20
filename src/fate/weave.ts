@@ -84,8 +84,8 @@ export enum ESpell {
   SHAPE_COLOR,
   SHAPE,
   SHAPE_VAR,
-  REZ,
-  REZ_FREE,
+  DO_REZ,
+  DO_FREE,
   POS,
   POS_TO,
   POS_VAR,
@@ -132,6 +132,8 @@ export enum ESpell {
   USER_AVATAR,
   VOX_BREAK,
   FLOCK_RECT,
+  DO_SCORE,
+  DO_MIDI,
 }
 
 export enum EConstraint {
@@ -150,8 +152,8 @@ export const ESpellHelp = {
   [ESpell.SHAPE_COLOR]: 'Atomic color',
   [ESpell.SHAPE]: 'Atomic Shape/Size',
   [ESpell.SHAPE_VAR]: 'Atomic Shape/Size Variance',
-  [ESpell.REZ]: 'Rez a Tome',
-  [ESpell.REZ_FREE]: 'Free all atoms in rezzed by this Tome',
+  [ESpell.DO_REZ]: 'Rez a Tome',
+  [ESpell.DO_FREE]: 'Free all atoms in rezzed by this Tome',
   [ESpell.POS]: 'Atomic Position',
   [ESpell.POS_TO]: 'Atomic Position to',
   [ESpell.POS_VAR]: 'Atomic Position Variance',
@@ -210,10 +212,10 @@ export const Invocations: { [key: number]: any } = {
   [ESpell.ROT]: { x: EVar.NORMAL, y: EVar.NORMAL, z: EVar.NORMAL },
   [ESpell.ROT_VAR]: { x: EVar.NORMAL, y: EVar.NORMAL, z: EVar.NORMAL },
 
-  [ESpell.REZ]: {
+  [ESpell.DO_REZ]: {
     count: EVar.NUMBER,
   },
-  [ESpell.REZ_FREE]: {},
+  [ESpell.DO_FREE]: {},
 
   [ESpell.POS]: {
     x: EVar.USERNUMBER,
@@ -281,26 +283,12 @@ export const Invocations: { [key: number]: any } = {
   [ESpell.THEIA_RULER]: { githubUser: EVar.STRING },
   [ESpell.THEIA_REALM]: { theia: EVar.STRING },
   [ESpell.THEIA_GATE]: { theia: EVar.STRING },
-  [ESpell.SOUND_MIDI]: {
+  [ESpell.DO_MIDI]: {
     instrument: EMidiChannel,
     note: EVar.POSITIVE,
     velocity: EVar.NORMAL,
   },
-  [ESpell.SOUND]: {
-    duration: EVar.NORMAL,
-    modulo: EVar.POSITIVE,
-    step: EVar.POSITIVE,
-  },
-  [ESpell.SOUND_POS]: {
-    x: EVar.USERNUMBER,
-    y: EVar.USERNUMBER,
-    z: EVar.USERNUMBER,
-  },
-  // like a triggered rez by hand
-  [ESpell.REZ_POSE]: {
-    // hand data
-    hand: EVar.FIVEFINGERS,
-  },
+
   [ESpell.FLOCK_RING]: {
     radius: EVar.USERPOSITIVE,
     count: EVar.POSITIVE,
@@ -314,7 +302,6 @@ export const Invocations: { [key: number]: any } = {
     thrustStrength: EVar.USERNUMBER,
   },
 
-  [ESpell.VOX_BREAK]: {},
   [ESpell.AI]: {
     role: ERole,
   },

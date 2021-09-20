@@ -3,10 +3,10 @@ import { EMessage, ICardinal } from 'src/system/enum'
 import { Spell } from '../spell'
 
 export default {
-  [ESpell.REZ](i: number, $c: ICardinal, $spell: Spell) {
+  [ESpell.DO_REZ](i: number, $c: ICardinal, $spell: Spell) {
     return i
   },
-  [ESpell.REZ_FREE](i: number, $c: ICardinal, $spell: Spell) {
+  [ESpell.DO_FREE](i: number, $c: ICardinal, $spell: Spell) {
     for (let atom of $spell.atoms) {
       $c.free(atom)
     }
