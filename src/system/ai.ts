@@ -53,7 +53,9 @@ class AI extends System {
     $vec3
       .negate()
       .normalize()
-      .multiplyScalar(dst < 1000000 && this.impact.impact(i, 0) !== -1 ? 7 : 1)
+      .multiplyScalar(
+        dst < 1000000 && this.impact.impact(i, 0) !== -1 ? 10 : 0.4
+      )
       .multiplyScalar(Math.abs(this.thrust.y(i)))
     this.velocity.addX(i, $vec3.x)
     this.velocity.addY(i, $vec3.y)

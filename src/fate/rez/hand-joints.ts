@@ -20,7 +20,6 @@ const $vec = new Vector3()
 export function RezHands(cardinal: SystemWorker) {
   hand_joints = []
 
-  console.log('reserve hands')
   // request the hands
   // vr_keys is an enum and therefore 2x the length, which is what we want
   // for two hands anyhow
