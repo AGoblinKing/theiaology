@@ -1,7 +1,8 @@
 import AI from './spell/ai'
-import { default as pos, default as rez } from './spell/do'
+import Doing from './spell/do'
 import flock from './spell/flock'
 import Phys from './spell/phys'
+import pos from './spell/pos'
 import rot from './spell/rot'
 import shape from './spell/shape'
 import theia from './spell/theia'
@@ -14,8 +15,7 @@ export default Object.assign(
   {},
   AI,
   Phys,
-  pos,
-  rez,
+  Doing,
   theia,
   thrust,
   uni,
@@ -23,5 +23,6 @@ export default Object.assign(
   shape,
   vox,
   flock,
-  rot
+  rot,
+  pos
 )
