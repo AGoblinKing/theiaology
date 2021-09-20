@@ -185,11 +185,12 @@ mirror_shown,
     hover="A Goblin King Demands Tribute"
     nav={{ tag: 'sponsor', left: '.fate', right: 'net', down }}
     click={Sponsor}
+    style="border-radius: 0 0 0.5rem 0;"
 
   >
     TRiBuTe
   </Box>
-  <Box
+  <!-- <Box
     tilt={180}
     hover="Host or Join Multiplayer Realms"
     nav={{ tag: 'net', left: 'sponsor', down }}
@@ -197,7 +198,7 @@ mirror_shown,
     style="border-radius: 0 0 0.5rem 0;"
   >
     MULTIPLAYER
-  </Box>
+  </Box> -->
 </div>
 <Modal />
 {#if $timeline_shown}
