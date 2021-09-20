@@ -65,6 +65,10 @@ audio::-webkit-media-controls-time-remaining-display {
   font-size: 0.75rem;
 }
 
+input {
+  cursor: pointer;
+}
+
 input[type="file"] {
   display: none;
 }

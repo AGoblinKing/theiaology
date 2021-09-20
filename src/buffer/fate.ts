@@ -152,6 +152,9 @@ export class Fate extends AtomicInt {
             const d = v.$[3 + i]
 
             switch (e) {
+              case EVar.BOOL:
+                output += `${d ? 'true' : 'false'} `
+                break
               case EVar.VOX:
               case EVar.STRING:
                 output += `"${this.text(parseInt(k, 10))}" `
@@ -284,6 +287,9 @@ export class Fate extends AtomicInt {
               this.text(i, text[item.slice(1)])
               break
 
+            case EVar.BOOL:
+              this[dat](i, item === 'true')
+              break
             default:
               // probably an enum
               this[dat](i, ks[d][item])

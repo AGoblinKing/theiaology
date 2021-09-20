@@ -67,6 +67,7 @@ export enum EVar {
   USERNUMBER,
   USERPOSITIVE,
   FIVEFINGERS,
+  BOOL,
 }
 
 export enum EIdle {
@@ -74,12 +75,24 @@ export enum EIdle {
   NONE,
 }
 
+export enum EGameStatus {
+  NOT_STARTED,
+  INIT,
+  PLAYING,
+  WIN,
+  LOST,
+  DRAW,
+  END,
+}
+
 // ETimeline events are reversable transactions that allow for time travel
 // WARNING: Safe to add new events to end but not remove/reorder existing ones
 export enum ESpell {
   NONE = 0,
   TOME,
+  // unused
   MUSIC,
+  // deprecated
   FLOCK,
   SHAPE_COLOR,
   SHAPE,
@@ -134,6 +147,12 @@ export enum ESpell {
   FLOCK_RECT,
   DO_SCORE,
   DO_MIDI,
+  DO_STATUS,
+  TRAP_IMPACT,
+  TRAP_DISTANCE,
+  TRAP_FILTER,
+  TRAP_TIME,
+  TRAP_CLEAR,
 }
 
 export enum EConstraint {
@@ -310,4 +329,28 @@ export const Invocations: { [key: number]: any } = {
     z: EVar.POSITIVE,
     margin: EVar.USERPOSITIVE,
   },
+
+  [ESpell.DO_SCORE]: {
+    score: EVar.NUMBER,
+  },
+
+  [ESpell.DO_STATUS]: {
+    game_status: EGameStatus,
+  },
+  [ESpell.TRAP_IMPACT]: {
+    prefix_whom: EVar.STRING,
+  },
+  [ESpell.TRAP_FILTER]: {
+    prefix: EVar.STRING,
+  },
+  [ESpell.TRAP_DISTANCE]: {
+    near: EVar.USERPOSITIVE,
+    far: EVar.USERPOSITIVE,
+    margin: EVar.USERPOSITIVE,
+  },
+  [ESpell.TRAP_TIME]: {
+    time: EVar.POSITIVE,
+    repeat: EVar.BOOL,
+  },
+  [ESpell.TRAP_CLEAR]: {},
 }

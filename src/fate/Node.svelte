@@ -31,7 +31,7 @@ mirror_shown,
   import { NORMALIZER, UserUnits } from 'src/config'
   import { hashcode } from './color'
   import { seconds } from 'src/controller/audio';
-  
+
   $: voxes = $first.voxes
   $: fate = $first.fate
   $: fateJSON = $first.fateJSON
@@ -339,6 +339,15 @@ mirror_shown,
               ($fate[`data${index}`](i) / NORMALIZER) * 100
             ).toFixed(0)}%
           </Box>
+
+        {:else if value === EVar.BOOL} 
+        <Box flex nav={NavData(index)} hover={key} click={() => {
+          // @ts-ignore
+          $fate[`data${index}`](i, $fate[`data${index}`](i) ? 0 : 1)
+          fate.poke()
+        }}>
+          <input type="checkbox" checked={$fate[`data${index}`](i)}/>
+        </Box>
         {:else}
           <Box flex nav={NavData(index)} hover="{key} - Not Implemented" />
         {/if}
