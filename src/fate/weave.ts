@@ -68,6 +68,7 @@ export enum EVar {
   USERPOSITIVE,
   FIVEFINGERS,
   BOOL,
+  LONGSTRING,
 }
 
 export enum EIdle {

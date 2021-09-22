@@ -14,8 +14,24 @@ export function SaveScript() {
   fs.saveAs(blob, first.$.fate.$.text(0) + '.lisp')
 }
 
+export function Publish(name: string, tags: string[], description: string) {
+  // save screenshot
+  const canvas = document.getElementById('three')
+  const id = `${name}_${Math.round(Math.random() * 10000)}`
+  // @ts-ignore
+  canvas.toBlob(function (blob) {
+    fs.saveAs(blob, `${id}.png`)
+  })
+  Save(true, `${id}`)
+
+  setTimeout(() => {
+    // open publish
+    window.open('', ['publish', id, name, description].join(':'))
+  }, 2000)
+}
+
 // Save .fate file
-export function Save(withFile = true) {
+export function Save(withFile = true, id?: string) {
   const name = first.$.fate.$.text(0)
   const buff = BuildBuffer()
 
@@ -24,7 +40,7 @@ export function Save(withFile = true) {
       new Blob([buff], {
         type: 'application/octet-stream',
       }),
-      `${name}.fate`
+      `${id === undefined ? name : id}.fate`
     )
   }
 

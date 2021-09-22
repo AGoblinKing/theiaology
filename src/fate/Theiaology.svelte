@@ -1,8 +1,9 @@
 <script lang="ts">
   // organize-imports-ignore
-  import { Save } from 'src/input/save'
+  import { Publish, Save } from 'src/input/save'
   import {
     mirror_shown,
+    modal_default,
     modal_location,
     modal_options,
     modal_visible,
@@ -20,27 +21,50 @@
   import { Copy, Cut, Paste } from 'src/controller/copypaste'
   import { ReadFile, ReadURL } from 'src/input/file'
   import Mirror from './Mirror.svelte'
+  import { first } from 'src/realm'
+  import { EVar } from './weave'
+import Numbah from './evar/Number.svelte';
 
   function Browse() {
     modal_location.set(
       modal_location.$.set($mouse_page.x - 5, $mouse_page.y - 5)
     )
 
-    modal_options.set(['GITHUB', 'STEAM'])
+    modal_options.set(['DEMOS', 'STEAM'])
 
     // if this is in steam offer to publish
     // @ts-ignore
     if (window.$team) {
       // @ts-ignore
-      modal_options.$.push('PUBLISH', 'SAVES')
+      modal_options.$.push('PUBLISH', 'SAVES', 'OWNED')
     }
 
     modal_visible.set((res) => {
       switch (res) {
-        case 'SAVES':
-        window.open('/saves/', 'saves')
+      case "OWNED":
+
+      window.open('/owned/', 'shop')
+        // @ts-ignore
+        break
+        case 'PUBLISH':
+          setTimeout(() => {
+            modal_location.set(
+              modal_location.$.set($mouse_page.x - 5, $mouse_page.y - 5)
+            )
+            modal_default.set('description')
+            modal_options.set(EVar.LONGSTRING)
+            modal_visible.set((prompt) => {
+              const f = first.$.fate.$
+              Publish(f.text(0), ['fate'], prompt)
+              modal_visible.set(false)
+            })
+          })
+
           break
-        case 'GITHUB':
+        case 'SAVES':
+          window.open('/saves/', 'saves')
+          break
+        case 'DEMOS':
           setTimeout(() => {
             modal_location.set(
               modal_location.$.set($mouse_page.x - 5, $mouse_page.y - 5)
@@ -159,6 +183,20 @@
     }}>> FATE</Box
   >
 
+  <Box
+    tilt={-45}
+    hover="Clear into a new workspace"
+    click={() => { 
+
+      // @ts-ignore
+      window.location = `/workspace/for/${Math.random() * Number.MAX_SAFE_INTEGER}`
+
+    }}
+    nav={{ tag: 'clear', left: 'workspace|theiaology', right: 'save', down }}
+    >
+    Clear
+  </Box
+  >
   <Box
     tilt={-90}
     hover="Load a Fate"

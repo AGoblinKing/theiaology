@@ -1,6 +1,7 @@
 <script lang="ts">
   import { modal_default, modal_visible } from '../editor'
 
+  export let length = 12
   // organize-imports-ignore
 
   function submit() {
@@ -11,6 +12,7 @@
   }
 
   function keydown(e: KeyboardEvent) {
+
     switch (e.key) {
       case 'Escape':
         modal_visible.set(false)
@@ -38,7 +40,7 @@
   bind:this={ele}
   bind:value={val}
   autofocus
-  maxlength="12"
+  maxlength={length}
   on:keydown={keydown}
   class="modal"
 />

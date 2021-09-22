@@ -8,7 +8,7 @@
     "watch": "rollup -c -w",
     "test": "node ./public/build/test.js",
     "start": "node dev-server.js",
-    "dev": "run-p watch start steam:watch",
+    "dev": "run-p watch start",
     
     "steam:watch": "nodemon -q --delay 2.5 --watch ./public -x \"npm run steam\"",
     "steam": "run-s steam:clean steam:copy",

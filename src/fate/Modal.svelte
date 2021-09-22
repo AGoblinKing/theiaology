@@ -82,8 +82,8 @@
       <Time />
     {:else if $modal_options === EVar.NORMAL}
       <Normal />
-    {:else if $modal_options === EVar.STRING}
-      <String />
+    {:else if $modal_options === EVar.STRING || $modal_options === EVar.LONGSTRING}
+      <String length={$modal_options === EVar.LONGSTRING ? 30 : 12} />
     {:else if $modal_options === EVar.USERNUMBER}
       <Number scale={USER_SCALE} />
     {:else if $modal_options === EVar.NUMBER}
