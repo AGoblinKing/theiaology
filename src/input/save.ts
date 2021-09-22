@@ -17,7 +17,7 @@ export function SaveScript() {
 export function Publish(name: string, tags: string[], description: string) {
   // save screenshot
   const canvas = document.getElementById('three')
-  const id = `${name}_${Math.round(Math.random() * 10000)}`
+  const id = `${name}_${Math.round(Math.random() * 1000000)}`
   // @ts-ignore
   canvas.toBlob(function (blob) {
     fs.saveAs(blob, `${id}.png`)
