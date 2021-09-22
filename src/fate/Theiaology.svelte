@@ -26,11 +26,31 @@ mirror_shown,
       modal_location.$.set($mouse_page.x - 5, $mouse_page.y - 5)
     )
 
-    modal_options.set(dotTheia)
+    modal_options.set(['GITHUB', 'STEAM', ])
+
+    // if this is in steam offer to publish
+          // @ts-ignore
+    if(window.$team) {
+      // @ts-ignore
+      modal_options.$.push('STEAM PUBLISH')
+    }
 
     modal_visible.set((res) => {
-      window.open(`/${res}`, '_self')
-      modal_visible.set(false)
+      switch(res) {
+        case 'GITHUB':
+          setTimeout(() => {
+        modal_options.set(dotTheia)
+        modal_visible.set(() => {
+          window.open(`/${res}`, key_map.$['Control'] ? '_overlay' : '_self')
+          modal_visible.set(false)
+        })
+      })
+        break
+        case 'STEAM':
+          window.open('https://steamcommunity.com/app/1752690/workshop/', '_new')
+          break
+      }
+
     })
   }
 
@@ -118,11 +138,11 @@ mirror_shown,
   }
 </script>
 
-<a
+<!-- <a
   class="ribbon github"
   href="https://github.com/agoblinking/theiaology"
   target="_new">GITHUB</a
->
+> -->
 
 <div class="commands">
   <Box
@@ -176,9 +196,9 @@ mirror_shown,
   >
   <Box
     tilt={290}
-    hover="Play theiaologian demos"
+    hover="Find FATEs to play!"
     nav={{ tag: '.fate', left: 'save', right: 'sponsor', down }}
-    click={Browse}>DEMOS</Box
+    click={Browse}>YGGDRASIL</Box
   >
   <Box
     tilt={110}

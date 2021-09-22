@@ -22,7 +22,8 @@ self.addEventListener('fetch', (e: any) => {
   e.respondWith(
     fetch(request)
       .then((response) => {
-        if (request.method !== 'GET') return response
+        if (request.method !== 'GET' || !/^http/.test(request.scheme))
+          return response
 
         const copy = response.clone()
         caches.open(CACHE).then((cache) => {
@@ -31,7 +32,7 @@ self.addEventListener('fetch', (e: any) => {
         return response
       })
       .catch((e) => {
-        console.log(e)
+        console.error(e)
         return caches.match(request).then((resp) => {
           return resp || caches.match('/index.html')
         })

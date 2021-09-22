@@ -1,7 +1,7 @@
 import { EAnimation } from 'src/buffer/animation'
 import { EPhase } from 'src/buffer/phys'
 import { ERole } from 'src/buffer/traits'
-import { EMidiChannel, EMidiFlourish } from 'src/controller/midi'
+import { EMidiFlourish } from 'src/controller/midi'
 
 export interface IMarkers {
   [markerID: number]: string
@@ -310,7 +310,7 @@ export const Invocations: { [key: number]: any } = {
   },
 
   [ESpell.MIDI_INSTRUMENT]: {
-    instrument: EMidiChannel,
+    instrument: EVar.NUMBER,
     volume: EVar.NORMAL,
     pan: EVar.NORMAL,
   },
