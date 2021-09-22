@@ -70,7 +70,7 @@ import Numbah from './evar/Number.svelte';
               modal_location.$.set($mouse_page.x - 5, $mouse_page.y - 5)
             )
             modal_options.set(dotTheia)
-            modal_visible.set(() => {
+            modal_visible.set((res) => {
               window.open(
                 `/${res}`,
                 key_map.$['Control'] ? '_overlay' : '_self'
