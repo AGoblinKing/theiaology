@@ -2,7 +2,7 @@
   // organize-imports-ignore
   import { Save } from 'src/input/save'
   import {
-mirror_shown,
+    mirror_shown,
     modal_location,
     modal_options,
     modal_visible,
@@ -18,7 +18,7 @@ mirror_shown,
   import { Redo, Undo } from 'src/controller/undoredo'
   import { key_down, key_map } from 'src/input/keyboard'
   import { Copy, Cut, Paste } from 'src/controller/copypaste'
-  import { ReadFile } from 'src/input/file'
+  import { ReadFile, ReadURL } from 'src/input/file'
   import Mirror from './Mirror.svelte'
 
   function Browse() {
@@ -26,31 +26,41 @@ mirror_shown,
       modal_location.$.set($mouse_page.x - 5, $mouse_page.y - 5)
     )
 
-    modal_options.set(['GITHUB', 'STEAM', ])
+    modal_options.set(['GITHUB', 'STEAM'])
 
     // if this is in steam offer to publish
-          // @ts-ignore
-    if(window.$team) {
+    // @ts-ignore
+    if (window.$team) {
       // @ts-ignore
-      modal_options.$.push('STEAM PUBLISH')
+      modal_options.$.push('PUBLISH', 'SAVES')
     }
 
     modal_visible.set((res) => {
-      switch(res) {
+      switch (res) {
+        case 'SAVES':
+        window.open('/saves/', 'saves')
+          break
         case 'GITHUB':
           setTimeout(() => {
-        modal_options.set(dotTheia)
-        modal_visible.set(() => {
-          window.open(`/${res}`, key_map.$['Control'] ? '_overlay' : '_self')
-          modal_visible.set(false)
-        })
-      })
-        break
+            modal_location.set(
+              modal_location.$.set($mouse_page.x - 5, $mouse_page.y - 5)
+            )
+            modal_options.set(dotTheia)
+            modal_visible.set(() => {
+              window.open(
+                `/${res}`,
+                key_map.$['Control'] ? '_overlay' : '_self'
+              )
+            })
+          })
+          break
         case 'STEAM':
-          window.open('https://steamcommunity.com/app/1752690/workshop/', '_new')
+          window.open(
+            'https://steamcommunity.com/app/1752690/workshop/',
+            '_new'
+          )
           break
       }
-
     })
   }
 
@@ -63,12 +73,12 @@ mirror_shown,
     switch (res) {
       case 'Public':
         window.location.hash = `public`
-  
+
         break
       case 'Secret':
-        window.location.hash = 'private/' + `${Math.floor(
-          Math.random() * Number.MAX_SAFE_INTEGER
-        )}`.slice(0, 8)
+        window.location.hash =
+          'private/' +
+          `${Math.floor(Math.random() * Number.MAX_SAFE_INTEGER)}`.slice(0, 8)
 
         break
 
@@ -138,12 +148,6 @@ mirror_shown,
   }
 </script>
 
-<!-- <a
-  class="ribbon github"
-  href="https://github.com/agoblinking/theiaology"
-  target="_new">GITHUB</a
-> -->
-
 <div class="commands">
   <Box
     hover="Weave FATE"
@@ -155,26 +159,6 @@ mirror_shown,
     }}>> FATE</Box
   >
 
-  <!-- <Box
-    tilt={220}
-    hover="The workspace, click to change"
-    nav={{
-      tag: 'workspace',
-      right: 'load',
-      left: 'theiaology',
-      down,
-    }}
-    click={() => {
-      modal_location.$.set(mouse_page.$.x - 5, mouse_page.$.y - 5)
-      modal_default.set($url)
-      modal_options.set(EVar.STRING)
-      modal_visible.set((r) => {
-        window.open(r, '_self')
-      })
-    }}
-  >
-    {$url}
-  </Box> -->
   <Box
     tilt={-90}
     hover="Load a Fate"
@@ -206,7 +190,6 @@ mirror_shown,
     nav={{ tag: 'sponsor', left: '.fate', right: 'net', down }}
     click={Sponsor}
     style="border-radius: 0 0 0.5rem 0;"
-
   >
     TRiBuTe
   </Box>
@@ -224,7 +207,6 @@ mirror_shown,
 {#if $timeline_shown}
   <theiaology>
     <Fate />
-   
   </theiaology>
 
   {#if $mirror_shown}
@@ -237,35 +219,6 @@ mirror_shown,
     position: absolute;
     pointer-events: all;
     display: flex;
-  }
-
-  .ribbon {
-    transition: all 0.2s ease-in-out;
-    cursor: pointer;
-    position: absolute;
-    z-index: 1;
-    padding: 0.5rem 5rem;
-    color: white;
-    text-decoration: none;
-    text-align: center;
-    transform: rotate(45deg);
-    text-shadow: rgb(0, 0, 0) 0.075rem 0.075rem 0rem;
-  }
-
-  .ribbon:hover {
-    background-color: rgb(7, 136, 179);
-  }
-
-  .github {
-    top: 1rem;
-    text-shadow: rgb(0, 0, 0) 0.075rem 0.075rem 0rem;
-    pointer-events: all;
-    right: -5.5rem;
-    font-size: 0.75rem;
-    border: 0.25rem solid white;
-
-    padding: 0.25rem 5rem;
-    background-color: darkslategray;
   }
 
   theiaology {

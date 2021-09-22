@@ -1,3 +1,4 @@
+import 'src/$team'
 import 'src/controller/audio'
 import 'src/controller/player'
 import 'src/fate/rez/hand-joints'
