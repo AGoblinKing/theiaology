@@ -55,6 +55,7 @@ export function ReadFile(file: File | string, buffer: ArrayBufferLike) {
     case name.indexOf('.fate') !== -1:
     case name.indexOf('github') !== -1:
     case name.indexOf('.theia') !== -1:
+      first.$.clearRealms()
       Load(buffer, first.$)
       Save(false)
       break
