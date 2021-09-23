@@ -17,6 +17,7 @@ import { Velocity } from 'src/buffer/velocity'
 export enum EMessage {
   REZ = -1,
   FREE_ALL = -404,
+  UNI_SCORE = -1000,
   FATE_UPDATE = -2000,
   CLEAR_COLOR_UPDATE = -2002,
   USER_POS_UPDATE = -2003,

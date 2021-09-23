@@ -25,6 +25,9 @@
   import { EVar } from './weave'
 import Numbah from './evar/Number.svelte';
 
+
+   $: score = $first.score
+
   function Browse() {
     modal_location.set(
       modal_location.$.set($mouse_page.x - 5, $mouse_page.y - 5)
@@ -252,6 +255,11 @@ import Numbah from './evar/Number.svelte';
   {/if}
 {/if}
 
+{#if $score !== 0} 
+  <Box style="position: absolute; right: 0; top: 0;z-index: 10000;"> 
+    {$first}
+  </Box>
+{/if}
 <style>
   .commands {
     position: absolute;

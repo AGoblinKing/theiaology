@@ -16,6 +16,10 @@ export default {
       })
     })
   },
+  [ESpell.DO_SCORE](i: number, $c: ICardinal, $spell: Spell) {
+    // do this unless trapped
+    $c.universal.score($c.universal.score() + $c.fate.data0(i))
+  },
   [ESpell.DO_REZ](i: number, $c: ICardinal, $spell: Spell) {
     return i
   },

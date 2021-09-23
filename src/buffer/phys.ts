@@ -27,7 +27,7 @@ export class Phys extends AtomicInt {
       : Atomics.load(this, i * Phys.COUNT)
   }
 
-  group(i: number, g?: number) {
+  core(i: number, g?: number) {
     return g !== undefined
       ? Atomics.store(this, i * Phys.COUNT + 1, g)
       : Atomics.load(this, i * Phys.COUNT + 1)

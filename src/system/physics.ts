@@ -161,6 +161,8 @@ class Physics extends System {
 
     for (let i = 0; i < ATOM_COUNT; i++) {
       const phase = this.phys.phase(i)
+      const group = this.phys.core(i)
+
       switch (phase) {
         case EPhase.VOID:
           continue
@@ -175,13 +177,15 @@ class Physics extends System {
         }
       }
 
-      let tx = this.thrust.x(i),
-        ty = this.thrust.y(i),
-        tz = this.thrust.z(i)
+      const ci = group !== 0 && i !== group ? group : i
 
-      let vx = this.velocity.x(i) + tx * dx,
-        vy = this.velocity.y(i) + ty * dx,
-        vz = this.velocity.z(i) + tz * dx
+      let tx = this.thrust.x(ci),
+        ty = this.thrust.y(ci),
+        tz = this.thrust.z(ci)
+
+      let vx = this.velocity.x(ci) + tx * dx,
+        vy = this.velocity.y(ci) + ty * dx,
+        vz = this.velocity.z(ci) + tz * dx
 
       if (vx !== 0 || vy !== 0 || vz !== 0) {
         moves.add(i)
@@ -246,9 +250,11 @@ class Physics extends System {
         }
       }
 
-      this.velocity.x(i, vx * DECAY)
-      this.velocity.y(i, vy * DECAY)
-      this.velocity.z(i, vz * DECAY)
+      if (ci === i) {
+        this.velocity.x(i, vx * DECAY)
+        this.velocity.y(i, vy * DECAY)
+        this.velocity.z(i, vz * DECAY)
+      }
     }
 
     for (let [k, v] of Object.entries($inserts)) {
@@ -292,6 +298,8 @@ class Physics extends System {
             .multiplyScalar(33)
 
           $vec3v.add($vec3o)
+
+          // TODO: this could mess up phys groups
           if (this.phys.phase(collide.i) === EPhase.LIQUID) {
             this.velocity.addX(collide.i, $vec3v.x * 0.5)
             this.velocity.addY(collide.i, $vec3v.y * 0.5)

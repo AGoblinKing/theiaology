@@ -361,4 +361,7 @@ export const Invocations: { [key: number]: any } = {
     repeat: EVar.BOOL,
   },
   [ESpell.TRAP_CLEAR]: {},
+  [ESpell.VOX_BREAK]: {
+    Percentage: EVar.NORMAL,
+  },
 }

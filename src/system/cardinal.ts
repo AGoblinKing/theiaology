@@ -316,7 +316,7 @@ class Cardinal extends System implements ICardinal {
         this.velocity.y(id, $spell.vel.y)
         this.velocity.z(id, $spell.vel.z)
 
-        this.core(id, color, $spell)
+        this.shared(id, color, $spell)
       }
 
       x += sx * 5
@@ -367,7 +367,7 @@ class Cardinal extends System implements ICardinal {
     this.velocity.y(id, this.thrust.y(id))
     this.velocity.z(id, this.thrust.z(id))
 
-    this.core(id, $col, $spell)
+    this.shared(id, $col, $spell)
   }
 
   vox($spell: Spell, $hsl, t, x, y, z, sx, sy, sz) {
@@ -409,8 +409,11 @@ class Cardinal extends System implements ICardinal {
       $spell.velvar.z / 2 +
       ($spell.velvarconstraint.z * $spell.velvar.z) / 2
 
+    let core
+
     for (let i = 0; i < voxDef.xyzi.length / 4; i++) {
       const id = this.reserve()
+      if (core === undefined) core = id
       $spell.atoms.push(id)
       const ix = i * 4
 
@@ -456,18 +459,24 @@ class Cardinal extends System implements ICardinal {
       this.size.x(id, sx)
       this.size.y(id, sy)
       this.size.z(id, sz)
-      this.thrust.x(id, $spell.vel.x + rtx)
-      this.thrust.y(id, $spell.vel.y + rty)
-      this.thrust.z(id, $spell.vel.z + rtz)
-      this.velocity.x(id, this.thrust.x(id))
-      this.velocity.y(id, this.thrust.y(id))
-      this.velocity.z(id, this.thrust.z(id))
 
-      this.core(id, $col2, $spell)
+      if (id === core) {
+        this.thrust.x(id, $spell.vel.x + rtx)
+        this.thrust.y(id, $spell.vel.y + rty)
+        this.thrust.z(id, $spell.vel.z + rtz)
+        this.velocity.x(id, this.thrust.x(id))
+        this.velocity.y(id, this.thrust.y(id))
+        this.velocity.z(id, this.thrust.z(id))
+      }
+
+      // set the group so they behave the same way
+      this.phys.core(id, core)
+
+      this.shared(id, $col2, $spell)
     }
   }
 
-  core(id: number, color: Color, $spell: Spell) {
+  shared(id: number, color: Color, $spell: Spell) {
     this.matter.red(id, Math.floor(color.r * NORMALIZER))
     this.matter.green(id, Math.floor(color.g * NORMALIZER))
     this.matter.blue(id, Math.floor(color.b * NORMALIZER))

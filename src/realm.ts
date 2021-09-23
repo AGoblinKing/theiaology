@@ -116,6 +116,8 @@ export class Realm {
   slowFantasy = i++
   id = realmId++
 
+  score = new Value(0)
+
   // the id of the atom that is the user's avatar
   avatar = new Value<number>()
 
@@ -226,6 +228,9 @@ export class Realm {
         }
 
         switch (e) {
+          case EMessage.UNI_SCORE:
+            this.score.set(this.universal.score())
+            break
           case EMessage.LAND_REMOVE:
             if (!this.first || !realms[data.id]) return
 
@@ -366,6 +371,7 @@ export class Realm {
 
         this.cardinal.send(EMessage.FATE_UPDATE)
         this.cardinal._queue = []
+        this.score.set(0)
 
         if (!this.first) return
 
