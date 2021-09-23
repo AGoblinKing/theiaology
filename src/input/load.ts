@@ -1,6 +1,6 @@
 import { Fate } from 'src/buffer/fate'
 import { MagickaVoxel } from 'src/magica'
-import type { Realm } from 'src/realm'
+import { first, Realm } from 'src/realm'
 import { Value } from 'src/value'
 
 // Load .fate file into the timePline
@@ -12,6 +12,7 @@ export const HEADER_END = HEADER_START + 4 * 4
 // map json ID to timeline ID
 
 export function Load(bytes: ArrayBuffer, realm: Realm) {
+  first.$.clearRealms()
   const { fate: timeline } = realm
 
   try {

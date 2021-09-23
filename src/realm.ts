@@ -481,6 +481,13 @@ export class Realm {
   get first() {
     return first.$ === this
   }
+
+  clearRealms() {
+    Object.entries(realms).forEach(([k, r]) => {
+      delete realms[k]
+      r.destroy()
+    })
+  }
 }
 
 const cache = {}
