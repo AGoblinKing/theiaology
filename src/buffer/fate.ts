@@ -16,6 +16,24 @@ function CharCode(code: number) {
       return String.fromCharCode(code)
   }
 }
+
+// 60^n
+const timeEscalation = [1, 60, 60 * 60]
+function FromDateString(str: string) {
+  return str
+    .split(':')
+    .reverse()
+    .reduce((s, t, i) => {
+      return s + parseInt(t, 10) * timeEscalation[i]
+    }, 0)
+}
+
+function ToDateString(seconds: number) {
+  const s = seconds % 60
+  const h = Math.floor(seconds / (60 * 60))
+  const m = Math.floor(seconds / 60) % 60
+  return `${h > 0 ? `${h}:` : ``}${m > 0 ? `${m}:` : ``}${s}`
+}
 // Authoring Buffer - Generally shouldn't be updating the timeline unless during development
 export class Fate extends AtomicInt {
   static COUNT = 6
@@ -139,7 +157,7 @@ export class Fate extends AtomicInt {
         const invoke = Invocations[comm]
 
         if (invoke !== ESpell.TOME && when !== 0) {
-          output += `${when} `
+          output += `${ToDateString(when)} `
         }
 
         output += `${ESpell[comm].toLowerCase()} `
@@ -215,12 +233,12 @@ export class Fate extends AtomicInt {
 
     this.text(0, name)
 
-    while ((res = /\(([A-Za-z0-9!.?$#\-+*/'"_ ]*)\)/g.exec(script))) {
+    while ((res = /\(([A-Za-z0-9!.?$#\-+*/':"_ ]*)\)/g.exec(script))) {
       let txt
       let code = res[1]
 
       // pull out text blobs
-      while ((txt = /['"]([A-Za-z0-9 .+\\\-!?]*)['"]/g.exec(code))) {
+      while ((txt = /['"]([A-Za-z0-9 .+\\:\-!?]*)['"]/g.exec(code))) {
         code = splice(code, txt.index, txt[0].length, `$${text.length}`)
         text.push(txt[1])
       }
@@ -242,7 +260,7 @@ export class Fate extends AtomicInt {
           if (item.length === 0) continue
           if (spell === undefined) {
             // parse to see if this is a time
-            const t = parseInt(item, 10)
+            const t = FromDateString(item)
             if (isNaN(t)) {
               // @ts-ignore
               spell = ESpell[item.toUpperCase()]
