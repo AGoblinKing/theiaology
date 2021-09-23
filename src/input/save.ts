@@ -2,19 +2,23 @@ import fs from 'file-saver'
 import { set } from 'idb-keyval'
 import { audio_buffer, audio_name } from 'src/controller/audio'
 import { timeline_shown } from 'src/fate/editor'
+import { Notify } from 'src/notify'
 import { first } from 'src/realm'
 import { dbLoaded, HEADER_START, SIGNATURE } from './load'
 
 export function SaveScript() {
   if (!dbLoaded) return
+  const name = first.$.fate.$.text(0)
+  Notify(`Keeping ${name}.lisp`, `Another twist in the Weave.`)
 
   const blob = new Blob([first.$.fate.$.toScript()], {
     type: 'application/lisp',
   })
-  fs.saveAs(blob, first.$.fate.$.text(0) + '.lisp')
+  fs.saveAs(blob, name + '.lisp')
 }
 
 export function Publish(name: string, tags: string[], description: string) {
+  Notify(`Publishing ${name} to Steam Workshop`, `This may take a bit!`)
   // save screenshot
   const canvas = document.getElementById('three')
   const id = `${name}_${Math.round(Math.random() * 1000000)}`
@@ -27,7 +31,7 @@ export function Publish(name: string, tags: string[], description: string) {
   setTimeout(() => {
     // open publish
     window.open('', ['publish', id, name, description].join(':'))
-  }, 2000)
+  }, 1000)
 }
 
 // Save .fate file
@@ -36,6 +40,10 @@ export function Save(withFile = true, id?: string) {
   const buff = BuildBuffer()
 
   if (withFile) {
+    Notify(
+      `Keeping ${name}.fate`,
+      `Drag n' Drop or Load! Share on Workshop and GitHub.`
+    )
     fs.saveAs(
       new Blob([buff], {
         type: 'application/octet-stream',
