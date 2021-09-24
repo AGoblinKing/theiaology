@@ -2,7 +2,7 @@ import { Uniform } from 'three'
 import WebAudioTinySynth from 'webaudio-tinysynth'
 import { tick } from '../shader/time'
 import { Value } from '../value'
-import { EMidiChannel } from './midi'
+import { EMidiInstrument } from './midi'
 
 export const audio = document.getElementById('bgm') as HTMLAudioElement
 export const audio_buffer = new Value<ArrayBufferLike | DataView>()
@@ -13,15 +13,25 @@ let started = false
 
 export const synth = new Value<WebAudioTinySynth>(undefined)
 
-window.addEventListener(
-  'mousedown',
-  async () => {
-    const s = new WebAudioTinySynth()
-    await s.ready()
-    synth.set(s)
-  },
-  { once: true }
-)
+const makeReady = async () => {
+  if (synth.$ !== undefined) return
+
+  const s = new WebAudioTinySynth({
+    quality: 0,
+    voices: 1024,
+    useReverb: 0,
+  })
+  await s.ready()
+  synth.set(s)
+}
+
+// @ts-ignore
+if (window.$team) {
+  // $team!
+  makeReady()
+} else {
+  window.addEventListener('mousedown', makeReady, { once: true })
+}
 
 audio.onplay = function () {
   if (started) return
@@ -82,13 +92,29 @@ tick.on(() => {
   }
 })
 
-const $midi = [0, 0, 0]
-export const midi = (channel: EMidiChannel, note: number, velocity: number) => {
-  if (synth.$ === undefined) return
+const $midi = [0x90, 0, 0]
+let attempt = false
+export const MIDI = (
+  instrument: EMidiInstrument,
+  note: number,
+  velocity: number
+) => {
+  if (synth.$ === undefined) {
+    // @ts-ignore
+    if (!attempt && window.$team) {
+      attempt = true
+      makeReady()
+    }
+    return
+  }
+  // ensure channel has that instrument set
+  synth.$.setProgram(0, instrument)
 
-  $midi[0] = channel
   $midi[1] = note
-  $midi[2] = velocity
+  $midi[2] = velocity * 100
 
+  synth.$.send($midi)
+
+  $midi[2] = 0
   synth.$.send($midi)
 }

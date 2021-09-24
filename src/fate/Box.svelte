@@ -1,6 +1,9 @@
 <script lang="ts" context="module">
   const vec2 = new Vector2()
   const offset = new Vector2(1, 1).multiplyScalar(25)
+
+  let audio_i = 0
+
 </script>
 
 <script lang="ts">
@@ -13,6 +16,8 @@
   import type { INav } from './nav'
   import { mouse_page } from 'src/input/mouse'
   import { Vector2 } from 'three'
+
+import { MIDI } from 'src/controller/audio';
 
   export let nav: INav = {
     left: '',
@@ -77,8 +82,12 @@
 
   function doClick() {
     if (nav.tag !== '') cursor.set(nav)
-
+    MIDI(88, 43 + ((nav.i % 40) || 0), 0.5)
     click()
+  }
+
+  function mouseOver() {
+    MIDI(100, 60 + ((nav.i % 40) || 0), 0.5)
   }
 </script>
 
@@ -97,11 +106,13 @@
   class:notilt
   on:focus={() => {}}
   on:mouseover={() => {
+      mouseOver()
     if (hover === '') return
 
     modal_location.set(vec2.copy(mouse_page.$).add(offset))
     modal_visible.set(() => {})
     modal_options.set(hover)
+  
   }}
   style="filter: hue-rotate({selected ? 90 : tilt}deg);{style}"
 >
@@ -138,7 +149,7 @@
     filter: none !important;
   }
   .box:hover {
-    filter: sepia(0.5) hue-rotate(-90deg) !important;
+    filter: sepia(0.5) hue-rotate(-90deg) brightness(2) !important;
   }
 
   .selected {

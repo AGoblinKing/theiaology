@@ -15,7 +15,7 @@ import {
   audio_buffer,
   audio_name,
   lowerUniform,
-  midi,
+  MIDI,
   seconds,
   upperUniform,
 } from 'src/controller/audio'
@@ -290,7 +290,7 @@ export class Realm {
             if (!this.fantasy) return
 
             // @ts-ignore
-            midi(...data.data)
+            MIDI(...data.data)
             break
         }
       })

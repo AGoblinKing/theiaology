@@ -1,4 +1,4 @@
-export enum EMidiChannel {
+export enum EMidiInstrument {
   PIANO = 0x01,
   DEFAULT = 0x90,
 }

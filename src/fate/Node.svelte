@@ -15,7 +15,7 @@
   import { fantasy, first } from 'src/realm'
 
   import {
-mirror_shown,
+    mirror_shown,
     modal_cursor,
     modal_default,
     modal_location,
@@ -98,7 +98,7 @@ mirror_shown,
       switch (ESpell[res]) {
         case ESpell.TOME:
           break
-        case ESpell.REZ:
+        case ESpell.DO_REZ:
         case ESpell.FLOCK:
         case ESpell.SHAPE:
           fate.$.data0(i, 1)
