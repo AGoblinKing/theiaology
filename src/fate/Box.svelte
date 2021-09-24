@@ -154,6 +154,7 @@ import { MIDI } from 'src/controller/audio';
 
   .selected {
     animation: bleep 1s ease-in-out infinite alternate;
+    filter: sepia(0.5) hue-rotate(-90deg) brightness(2) !important;
   }
 
   @keyframes bleep {

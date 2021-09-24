@@ -99,6 +99,8 @@ export const MIDI = (
   note: number,
   velocity: number
 ) => {
+  if (audio.muted) return
+
   if (synth.$ === undefined) {
     // @ts-ignore
     if (!attempt && window.$team) {
@@ -111,7 +113,7 @@ export const MIDI = (
   synth.$.setProgram(0, instrument)
 
   $midi[1] = note
-  $midi[2] = velocity * 100
+  $midi[2] = velocity * 100 * audio.volume
 
   synth.$.send($midi)
 
