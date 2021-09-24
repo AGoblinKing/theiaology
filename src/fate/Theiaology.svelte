@@ -15,18 +15,16 @@
   import Box from './Box.svelte'
 
   import { mouse_page } from 'src/input/mouse'
-  import { dotTheia, SPONSOR } from 'src/config'
+  import { dotTheia} from 'src/config'
   import { Redo, Undo } from 'src/controller/undoredo'
   import { key_down, key_map } from 'src/input/keyboard'
   import { Copy, Cut, Paste } from 'src/controller/copypaste'
-  import { ReadFile, ReadURL } from 'src/input/file'
+  import { ReadFile } from 'src/input/file'
   import Mirror from './Mirror.svelte'
   import { first } from 'src/realm'
   import { EVar } from './weave'
-import Numbah from './evar/Number.svelte';
 
-
-   $: score = $first.score
+  import Score from './Score.svelte'
 
   function Browse() {
     modal_location.set(
@@ -44,11 +42,10 @@ import Numbah from './evar/Number.svelte';
 
     modal_visible.set((res) => {
       switch (res) {
-      case "OWNED":
-
-      window.open('/owned/', 'shop')
-        // @ts-ignore
-        break
+        case 'OWNED':
+          window.open('/owned/', 'shop')
+          // @ts-ignore
+          break
         case 'PUBLISH':
           setTimeout(() => {
             modal_location.set(
@@ -189,17 +186,16 @@ import Numbah from './evar/Number.svelte';
   <Box
     tilt={-45}
     hover="Clear into a new workspace"
-    click={() => { 
-
+    click={() => {
       // @ts-ignore
-      window.location = `/workspace/for/${Math.random() * Number.MAX_SAFE_INTEGER}`
-
+      window.location = `/workspace/for/${
+        Math.random() * Number.MAX_SAFE_INTEGER
+      }`
     }}
     nav={{ tag: 'clear', left: 'workspace|theiaology', right: 'save', down }}
-    >
-    Clear
-  </Box
   >
+    Clear
+  </Box>
   <Box
     tilt={-90}
     hover="Load a Fate"
@@ -255,11 +251,8 @@ import Numbah from './evar/Number.svelte';
   {/if}
 {/if}
 
-{#if $score !== 0} 
-  <Box style="position: absolute; right: 0; top: 0;z-index: 10000;"> 
-    {$score}
-  </Box>
-{/if}
+<Score />
+
 <style>
   .commands {
     position: absolute;
@@ -280,6 +273,6 @@ import Numbah from './evar/Number.svelte';
   }
 
   label {
-    cursor: url("/sprite/pointer.png") 0 0, pointer;
+    cursor: url('/sprite/pointer.png') 0 0, pointer;
   }
 </style>

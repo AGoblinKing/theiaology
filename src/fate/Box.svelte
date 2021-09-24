@@ -87,7 +87,7 @@ import { MIDI } from 'src/controller/audio';
   }
 
   function mouseOver() {
-    MIDI(100, 60 + ((nav.i % 40) || 0), 0.5)
+    MIDI(100, 90 + ((nav.i % 8) || 0), 0.25)
   }
 </script>
 

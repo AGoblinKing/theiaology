@@ -99,7 +99,7 @@ export const MIDI = (
   note: number,
   velocity: number
 ) => {
-  if (audio.muted) return
+  if (audio.muted) return false
 
   if (synth.$ === undefined) {
     // @ts-ignore
@@ -107,7 +107,7 @@ export const MIDI = (
       attempt = true
       makeReady()
     }
-    return
+    return false
   }
   // ensure channel has that instrument set
   synth.$.setProgram(0, instrument)
@@ -119,4 +119,8 @@ export const MIDI = (
 
   $midi[2] = 0
   synth.$.send($midi)
+
+  return false
 }
+
+Object.assign(window, { MIDI })
