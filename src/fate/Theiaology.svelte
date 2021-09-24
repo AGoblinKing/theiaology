@@ -257,7 +257,7 @@ import Numbah from './evar/Number.svelte';
 
 {#if $score !== 0} 
   <Box style="position: absolute; right: 0; top: 0;z-index: 10000;"> 
-    {$first}
+    {$score}
   </Box>
 {/if}
 <style>

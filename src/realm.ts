@@ -67,6 +67,9 @@ Object.assign(window, { realms })
 
 export const fantasy = new Value<Realm>()
 export const first = new Value<Realm>(undefined)
+
+// @ts-ignore
+window.first = first
 export class Realm {
   // entity components
   past: SpaceTime

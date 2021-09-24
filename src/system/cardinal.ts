@@ -529,7 +529,7 @@ class Cardinal extends System implements ICardinal {
     // clear it
     this.timing = {}
     this.forms = {}
-
+    this.universal.score(0)
     this.post(EMessage.CLEAR_COLOR_UPDATE)
 
     this.process()
