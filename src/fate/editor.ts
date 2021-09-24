@@ -1,3 +1,4 @@
+import { MIDI } from 'src/controller/audio'
 import { options } from 'src/input/browser'
 import { key_down } from 'src/input/keyboard'
 import { mouse_wheel } from 'src/input/mouse'
@@ -15,6 +16,17 @@ export const modal_visible = new Value<false | ((result: any) => void)>(false)
 
 export const modal_cursor = new Value<number>(0)
 
+let last = false
+
+modal_visible.on((v) => {
+  if (v) {
+    last = true
+    return
+  }
+  if (v === last) return
+  last = false
+  MIDI(80, 100, 0.5)
+})
 key_down.on((k) => {
   switch (k) {
     case '`':
