@@ -19,7 +19,7 @@ const makeReady = async () => {
   const s = new WebAudioTinySynth({
     quality: 0,
     voices: 1024,
-    useReverb: 0,
+    useReverb: 1,
   })
   await s.ready()
   synth.set(s)

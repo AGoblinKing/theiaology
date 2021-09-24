@@ -82,12 +82,13 @@ import { MIDI } from 'src/controller/audio';
 
   function doClick() {
     if (nav.tag !== '') cursor.set(nav)
-    MIDI(88, 43 + ((nav.i % 40) || 0), 0.5)
+    MIDI(80, 40 + ((nav.i % 40) || 50), 0.5)
+    setTimeout(() => MIDI(80, 40 + ((nav.i % 40) || 50), 0.5), 100)
     click()
   }
 
   function mouseOver() {
-    MIDI(80, 90 + ((nav.i % 8) || 0), 0.25)
+    MIDI(80, 90 + ((nav.i % 8) || Math.round(Math.random() * 8)), 0.25)
   }
 </script>
 
