@@ -280,6 +280,6 @@ import Numbah from './evar/Number.svelte';
   }
 
   label {
-    cursor: pointer;
+    cursor: url("/sprite/pointer.png") 0 0, pointer;
   }
 </style>

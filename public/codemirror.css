@@ -234,7 +234,7 @@ div.CodeMirror span.CodeMirror-nonmatchingbracket {color: #a22;}
 .CodeMirror-gutter-wrapper ::-moz-selection { background-color: transparent }
 
 .CodeMirror-lines {
-  cursor: text;
+  cursor:  url("/sprite/pointerkeyboard.png") 10 0, text;
   min-height: 1px; /* prevents collapsing before first draw */
 }
 .CodeMirror pre.CodeMirror-line,

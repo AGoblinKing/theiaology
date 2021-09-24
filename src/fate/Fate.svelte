@@ -161,16 +161,5 @@ import { cursor } from './nav';
     padding-bottom: 50rem;
   }
 
-  .timeline::-webkit-scrollbar {
-    width: 1rem;
-    background-color: rgb(72, 2, 75, 0.9);
-  }
-
-  .timeline::-webkit-scrollbar-thumb {
-    background: rgba(153, 4, 158, 0.9);
-   ;
-    border-radius: 1rem;
-    max-height: 5rem;
-  }
 
 </style>

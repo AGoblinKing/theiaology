@@ -416,7 +416,7 @@ mirror_shown,
   }
 
   .node {
-    cursor: pointer;
+    cursor: url("/sprite/pointer.png") 0 0, pointer;
     margin-left: 1.5rem;
   }
 

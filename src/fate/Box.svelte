@@ -127,7 +127,7 @@
     text-align: center;
     pointer-events: all;
     min-width: 0.5rem;
-    cursor: pointer;
+    cursor: url("/sprite/pointer.png")0 0, pointer;
 
     display: flex;
     justify-content: center;
