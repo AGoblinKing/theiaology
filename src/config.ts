@@ -43,14 +43,15 @@ export const UNIVERSALS = [
 export const CACHE = 'v1'
 
 export const dotTheia = [
-  'agoblinking/aero',
-  'agoblinking/rpg',
-  'agoblinking/overworld',
-  'agoblinking/starvoyage',
-  'agoblinking/forest',
-  'agoblinking/flood',
-  'agoblinking/birthday',
-  'agoblinking/city',
+  'aero',
+  'rpg',
+  'overworld',
+  'starvoyage',
+  'forest',
+  'flood',
+  'birthday',
+  'city',
+  'flappy',
 ]
 export const rootTheia = 'agoblinking/overworld'
 
