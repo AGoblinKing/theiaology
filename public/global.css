@@ -22,16 +22,17 @@ body {
   top: 1rem;
   bottom: auto !important;
   opacity: 1 !important;
-background: rgba(0, 28, 189, 0.849) !important;
-  border: solid 0.25rem white !important;
+background: rgb(72, 2, 75, 0.9) !important;
+  border: solid 0.15rem white !important;
   font-family: pixel !important;
 }
 
 audio::-webkit-media-controls-enclosure {
   cursor: url("/sprite/pointer.png") 0 0, pointer !important;
-  border-radius: 1rem;
-  border: solid 0.25rem rgba(255, 255, 255, 0.5) !important;
-  background-color: rgba(0, 28, 189, 0.842);
+  border-radius: 0.5rem 0.5rem 0 0;
+  border: solid 0.15rem rgba(255, 255, 255, 0.5) !important;
+  border-bottom: none  !important;
+  background-color: rgb(72, 2, 75, 0.9);
 }
 
 #bgm {
@@ -39,18 +40,19 @@ audio::-webkit-media-controls-enclosure {
   width: 50%;
   position: absolute;
   left: 50%;
-  bottom: 1rem;
+  bottom: -0.5rem;
   transform: translate(-50%, 0);
-  border-radius: 1rem;
+
+  border-bottom: none !important;
   z-index: 1001;
   outline: none;
 }
 audio::-webkit-media-controls-play-button,
 audio::-webkit-media-controls-volume-control-container {
   background-color: rgba(255, 255, 255, 0.75);
-  border-radius: 0.5rem;
+  border-radius: 0.5rem 0.5rem 0 0;
   cursor: url("/sprite/pointer.png") 0 0, pointer !important;
-  border-radius: 1rem;
+ 
 }  
 
 
