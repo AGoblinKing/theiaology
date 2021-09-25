@@ -10,12 +10,12 @@ import { Thrust } from 'src/buffer/thrust'
 import { EStatus, Traits } from 'src/buffer/traits'
 import { ERealmState, Universal } from 'src/buffer/universal'
 import { Velocity } from 'src/buffer/velocity'
-import { Spell } from 'src/cardinal/spell'
-import spells from 'src/cardinal/spells'
 import { ATOM_COUNT, NORMALIZER } from 'src/config'
 import { ShapeMap } from 'src/fate/shape'
 import { ALPHABET } from 'src/fate/shape/text'
 import { EIdle } from 'src/fate/weave'
+import { Spell } from 'src/grimoire/spell'
+import spells from 'src/grimoire/spells'
 import { MagickaVoxel } from 'src/magica'
 import { Value } from 'src/value'
 import { Color, Euler, Object3D, Vector3 } from 'three'
@@ -35,7 +35,6 @@ const voxes = new Value<{ [name: string]: MagickaVoxel }>({})
 // Deal out entity IDs, execute timeline events
 class Cardinal extends System implements ICardinal {
   _available: number[] = [...new Array(ATOM_COUNT)].map((_, i) => i)
-
   // entity components
   past: SpaceTime
   future: SpaceTime
@@ -59,6 +58,7 @@ class Cardinal extends System implements ICardinal {
   ready = false
 
   lastTime = 0
+  clutchFate = false
 
   constructor() {
     // Music Timing works off seconds
@@ -128,6 +128,9 @@ class Cardinal extends System implements ICardinal {
 
           case 'number':
             switch (e.data) {
+              case EMessage.CARD_SEEKED:
+                this.clutchFate = false
+                break
               case EMessage.REZ:
                 this.post(this.reserve())
                 break
@@ -181,7 +184,7 @@ class Cardinal extends System implements ICardinal {
       def.dirty.clear()
     }
 
-    this.post(EMessage.CARDINAL_TICK)
+    this.post(EMessage.CARD_TICK)
   }
 
   // Entity ID number to init
@@ -490,7 +493,7 @@ class Cardinal extends System implements ICardinal {
     if ($spell.avatar) {
       this.universal.avatar(id)
       this.universal.thrustStrength($spell.avatarThrust)
-      this.post(EMessage.CARDINAL_AVATAR)
+      this.post(EMessage.CARD_AVATAR)
     }
   }
 
@@ -575,7 +578,7 @@ class Cardinal extends System implements ICardinal {
     if (!this.ready || this.universal.state() !== ERealmState.RUNNING) return
 
     const t = this.universal.musicTime()
-    if (t > this.lastTime) {
+    if (t > this.lastTime || this.clutchFate) {
       let lt = this.lastTime
       while (lt < t) {
         lt++

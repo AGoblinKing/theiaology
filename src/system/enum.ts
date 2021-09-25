@@ -24,10 +24,12 @@ export enum EMessage {
   USER_ROT_UPDATE = -2004,
   LAND_ADD = -5001,
   LAND_REMOVE = -5002,
-  PHYSICS_TICK = -6000,
-  CARDINAL_TICK = -7000,
-  CARDINAL_AVATAR = -7001,
-  CARDINAL_MIDI = -7002,
+  PHYS_TICK = -6000,
+  CARD_TICK = -7000,
+  CARD_AVATAR = -7001,
+  CARD_MIDI = -7002,
+  CARD_SEEK = -7003,
+  CARD_SEEKED = -7004,
   YGG_REALM_UPDATE = -8000,
   YGG_HOST = -8001,
   YGG_JOIN = -8002,
@@ -55,6 +57,7 @@ export interface ICardinal {
   ready: boolean
 
   lastTime: number
+  clutchFate: boolean
 
   free(i: number)
   post(message: any)

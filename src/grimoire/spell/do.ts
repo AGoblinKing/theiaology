@@ -11,7 +11,7 @@ export default {
       const note = $c.fate.data0(i)
 
       $c.post({
-        message: EMessage.CARDINAL_MIDI,
+        message: EMessage.CARD_MIDI,
         data: [$spell.midi.instrument, note, $spell.midi.volume * 100],
       })
     })
@@ -38,5 +38,17 @@ export default {
 
       $spell.lands = 0
     }
+  },
+
+  [ESpell.DO_SEEK](i: number, $c: ICardinal, $spell: Spell) {
+    const t = $c.fate.data0(i)
+
+    $c.lastTime = t
+    $c.clutchFate = true
+    $c.universal.musicTime(t)
+    $c.post({
+      message: EMessage.CARD_SEEK,
+      time: t,
+    })
   },
 }

@@ -170,6 +170,9 @@ export class Fate extends AtomicInt {
             const d = v.$[3 + i]
 
             switch (e) {
+              case EVar.TIME:
+                output += `${ToDateString(d)} `
+                break
               case EVar.BOOL:
                 output += `${d ? 'true' : 'false'} `
                 break
@@ -285,6 +288,9 @@ export class Fate extends AtomicInt {
 
           const dat = `data${d}`
           switch (ks[d]) {
+            case EVar.TIME:
+              this[dat](i, FromDateString(item))
+              break
             case EVar.COLOR:
               this[dat](i, parseInt(item, 16))
               break

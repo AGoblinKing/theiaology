@@ -202,6 +202,16 @@
       modal_visible.set(false)
     })
   }
+  function inputDataTime(di) {
+    updateModal()
+    modal_options.set(EVar.TIME)
+    modal_default.set(fate.$[`data${di}`](i))
+    modal_visible.set((res) => {
+      fate.$[`data${di}`](i, res)
+      fate.poke()
+      modal_visible.set(false)
+    })
+  }
   function d0(t) {
     return `00${Math.floor(t)}`.slice(-2)
   }
@@ -348,6 +358,15 @@
         }}>
           <input type="checkbox" checked={$fate[`data${index}`](i)}/>
         </Box>
+
+        {:else if value === EVar.TIME}
+        <Box  
+        flex
+        nav={NavData(index)} hover={key} 
+        click={() => inputDataTime(index)}
+      >
+        {d0( $fate[`data${index}`](i) / 60)}:{d0($fate[`data${index}`](i) % 60)}
+      </Box>
         {:else}
           <Box flex nav={NavData(index)} hover="{key} - Not Implemented" />
         {/if}

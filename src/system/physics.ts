@@ -315,7 +315,7 @@ class Physics extends System {
       }
     }
 
-    this.post(EMessage.PHYSICS_TICK)
+    this.post(EMessage.PHYS_TICK)
 
     isInsert && this.tree.clear()
     // collision phase

@@ -155,6 +155,7 @@ export enum ESpell {
   TRAP_TIME,
   TRAP_CLEAR,
   MIDI_INSTRUMENT,
+  DO_SEEK,
 }
 
 export enum EConstraint {
@@ -203,6 +204,7 @@ export const ESpellHelp = {
   [ESpell.UNI_IDLE]:
     'Atomic Idle routine. IDLE_RANDOMIZE randomizes the idle routine',
   [ESpell.UNI_CLEAR_COLOR]: 'Clear Color',
+  [ESpell.DO_SEEK]: 'Seek to a position in the track without causing a reset',
 }
 
 export const Invocations: { [key: number]: any } = {
@@ -363,5 +365,8 @@ export const Invocations: { [key: number]: any } = {
   [ESpell.TRAP_CLEAR]: {},
   [ESpell.VOX_BREAK]: {
     Percentage: EVar.NORMAL,
+  },
+  [ESpell.DO_SEEK]: {
+    when: EVar.TIME,
   },
 }

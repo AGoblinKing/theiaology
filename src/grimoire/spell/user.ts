@@ -12,7 +12,7 @@ export default {
     const id = $spell.atoms[0]
     $c.universal.avatar(id)
     $c.universal.thrustStrength($spell.avatarThrust)
-    $c.post(EMessage.CARDINAL_AVATAR)
+    $c.post(EMessage.CARD_AVATAR)
   },
   [ESpell.USER_POS](i: number, $c: ICardinal, $spell: Spell) {
     $c.universal.userX($c.fate.data0(i))

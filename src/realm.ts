@@ -231,6 +231,13 @@ export class Realm {
         }
 
         switch (e) {
+          case EMessage.CARD_SEEK:
+            audio.currentTime = data.time
+            setTimeout(
+              () => this.cardinal.postMessage(EMessage.CARD_SEEKED),
+              500
+            )
+            break
           case EMessage.UNI_SCORE:
             this.score.set(this.universal.score())
             break
@@ -262,7 +269,7 @@ export class Realm {
             )
 
             break
-          case EMessage.CARDINAL_TICK:
+          case EMessage.CARD_TICK:
             const { atoms } = this
             atoms.geometry.getAttribute('animation').needsUpdate = true
             atoms.geometry.getAttribute('matter').needsUpdate = true
@@ -286,7 +293,7 @@ export class Realm {
             renderer.setClearColor(this.universal.clearColor())
             break
 
-          case EMessage.CARDINAL_MIDI:
+          case EMessage.CARD_MIDI:
             if (!this.fantasy) return
 
             // @ts-ignore
@@ -511,9 +518,10 @@ fantasy.on((realm: Realm) => {
     if (!realm.musicBuffer) return
 
     const playing = !audio.paused
-    audio.src = realm.musicString
 
-    audio.currentTime = realm.universal.musicTime()
+    audio.src = realm.musicString
+    timeUniform.value = audio.currentTime = realm.universal.musicTime()
+
     playing && audio.play()
 
     if (realm.first) {
