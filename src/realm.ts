@@ -510,8 +510,11 @@ fantasy.on((realm: Realm) => {
   cancel = realm.fate.on(() => {
     if (!realm.musicBuffer) return
 
+    const playing = !audio.paused
     audio.src = realm.musicString
-    audio.load()
+
+    audio.currentTime = realm.universal.musicTime()
+    playing && audio.play()
 
     if (realm.first) {
       audio_name.set(realm.musicName)
