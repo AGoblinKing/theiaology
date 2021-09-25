@@ -218,18 +218,11 @@
   <Box
     tilt={290}
     hover="Find FATEs to play!"
+    style="border-radius: 0 0 0.5rem 0;"
     nav={{ tag: '.fate', left: 'save', right: 'sponsor', down }}
     click={Browse}>YGGDRASIL</Box
   >
-  <Box
-    tilt={110}
-    hover="A Goblin King Demands Tribute"
-    nav={{ tag: 'sponsor', left: '.fate', right: 'net', down }}
-    click={Sponsor}
-    style="border-radius: 0 0 0.5rem 0;"
-  >
-    TRiBuTe
-  </Box>
+
   <!-- <Box
     tilt={180}
     hover="Host or Join Multiplayer Realms"
