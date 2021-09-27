@@ -47,19 +47,17 @@
           // @ts-ignore
           break
         case 'PUBLISH':
+          const f = first.$.fate.$
+          Publish(f.text(0), ['fate'], "")
           setTimeout(() => {
             modal_location.set(
               modal_location.$.set($mouse_page.x - 5, $mouse_page.y - 5)
             )
-            modal_default.set('description')
-            modal_options.set(EVar.LONGSTRING)
-            modal_visible.set((prompt) => {
-              const f = first.$.fate.$
-              Publish(f.text(0), ['fate'], prompt)
-              modal_visible.set(false)
+            modal_options.set(["Uploading to Steam...", "Will open in overlay once complete."])
+            modal_visible.set((res) => {
+            
             })
           })
-
           break
         case 'SAVES':
           window.open('/saves/', 'saves')
