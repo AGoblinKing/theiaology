@@ -31,22 +31,22 @@
       modal_location.$.set($mouse_page.x - 5, $mouse_page.y - 5)
     )
 
-    modal_options.set(['DEMOS', 'STEAM'])
+    modal_options.set(['DEMOS', 'SHOP_VISIT'])
 
     // if this is in steam offer to publish
     // @ts-ignore
     if (window.$team) {
       // @ts-ignore
-      modal_options.$.push('PUBLISH', 'SAVES', 'OWNED')
+      modal_options.$.push('SHOP_PUBLISH', 'LOCAL_SAVES', 'LOCAL_SHOP')
     }
 
     modal_visible.set((res) => {
       switch (res) {
-        case 'OWNED':
+        case 'LOCAL_SHOP':
           window.open('/owned/', 'shop')
           // @ts-ignore
           break
-        case 'PUBLISH':
+        case 'SHOP_PUBLISH':
           const f = first.$.fate.$
           Publish(f.text(0), ['fate'], "")
           setTimeout(() => {
@@ -59,7 +59,7 @@
             })
           })
           break
-        case 'SAVES':
+        case 'LOCAL_SAVES':
           window.open('/saves/', 'saves')
           break
         case 'DEMOS':
@@ -76,7 +76,7 @@
             })
           })
           break
-        case 'STEAM':
+        case 'SHOP_VISIT':
           window.open(
             'https://steamcommunity.com/app/1752690/workshop/',
             '_new'
