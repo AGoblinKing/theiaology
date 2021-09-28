@@ -40,7 +40,7 @@ vec4 Animation(in vec4 pos) {
 		vec3 target = pts[i];
 		float dist = length(v_pos - target);
 		if(dist < HAND_DST) {
-			pos.xyz = mix(target, pos.xyz, dist / HAND_DST * 0.5);
+			pos.xyz = mix(target, pos.xyz, dist / HAND_DST);
 		}
 	}
 

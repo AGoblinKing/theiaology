@@ -2,7 +2,6 @@ import { EAnimation } from 'src/buffer/animation'
 import { EPhase } from 'src/buffer/phys'
 import { NORMALIZER } from 'src/config'
 import { doPose } from 'src/controller/hands'
-import { isVR } from 'src/input/browser'
 import { vr_keys } from 'src/input/joints'
 import { hands, left_hand_uniforms, right_hand_uniforms } from 'src/input/xr'
 import { first } from 'src/realm'
@@ -37,8 +36,10 @@ const rMeta = /metacarpal$|proximal$/
 timing.on(() => {
   // no hands, nothing to do
 
-  if (hands.$.length === 0) return
-
+  if (hands.$.length === 0) {
+    RezHands(first.$.cardinal)
+    return
+  }
   for (let i = 0; i < hand_joints.length; i++) {
     const ix = i % 25
     const iy = Math.floor(i / 25)
@@ -84,9 +85,6 @@ timing.on(() => {
     // matter.red(id, NORMALIZER - (Math.random() * NORMALIZER) / 5)
     matter.blue(id, Math.round(NORMALIZER - (Math.random() * NORMALIZER) / 5))
 
-    if (!isVR.$) {
-      $vec.y -= 1
-    }
     $vec.multiplyScalar(1000)
     future.x(id, Math.floor($vec.x))
     future.y(id, Math.floor($vec.y))
@@ -108,7 +106,7 @@ first.on(($r) => {
     // Rez the player hands
     switch (e) {
       case EMessage.FATE_UPDATE:
-        setTimeout(() => RezHands($r.cardinal))
+        RezHands($r.cardinal)
         break
     }
   })
