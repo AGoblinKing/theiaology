@@ -11,7 +11,6 @@ import { timing } from 'src/shader/time'
 import { EMessage } from 'src/system/enum'
 import { SystemWorker } from 'src/system/sys'
 import { Vector3 } from 'three'
-import './phony'
 
 let hand_joints: number[] = []
 const $vec = new Vector3()
@@ -82,7 +81,8 @@ timing.on(() => {
     size.z(id, s)
 
     phys.phase(id, EPhase.STUCK)
-    matter.blue(id, NORMALIZER - (Math.random() * NORMALIZER) / 1000)
+    matter.red(id, NORMALIZER - (Math.random() * NORMALIZER) / 5)
+    matter.blue(id, NORMALIZER - (Math.random() * NORMALIZER) / 5)
 
     if (!isVR.$) {
       $vec.y -= 1
@@ -108,7 +108,7 @@ first.on(($r) => {
     // Rez the player hands
     switch (e) {
       case EMessage.FATE_UPDATE:
-        RezHands($r.cardinal)
+        setTimeout(() => RezHands($r.cardinal))
         break
     }
   })

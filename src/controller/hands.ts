@@ -33,25 +33,50 @@ button.addEventListener('click', () => {
   for (let i = 0; i < 2; i++) {
     const hand = renderer.xr.getHand(i) as any
 
-    if (!hand) continue
+    if (hand) {
+      scene.$.add(hand)
 
-    scene.$.add(hand)
+      hand.addEventListener('connected', (e) => {
+        hand.handedness = e.data.handedness
+        switch (hand.handedness) {
+          case 'left':
+            left_hand.set(hand)
+            break
+          case 'right':
+            right_hand.set(hand)
+            break
+        }
+      })
 
-    hand.addEventListener('connected', (e) => {
-      hand.handedness = e.data.handedness
-      switch (hand.handedness) {
-        case 'left':
-          left_hand.set(hand)
-          break
-        case 'right':
-          right_hand.set(hand)
-          break
-      }
-    })
+      hands.$[i] = hand
 
-    hands.$[i] = hand
+      hands.poke()
+      return
+    }
 
-    hands.poke()
+    // no hand, maybe controller?
+
+    const controller = renderer.xr.getController(i) as any
+
+    if (controller) {
+      scene.$.add(controller)
+
+      controller.addEventListener('connected', (e) => {
+        controller.handedness = e.data.handedness
+        switch (controller.handedness) {
+          case 'left':
+            left_hand.set(controller)
+            break
+          case 'right':
+            right_hand.set(controller)
+            break
+        }
+      })
+
+      hands.$[i] = controller
+
+      hands.poke()
+    }
   }
 
   audio.play()

@@ -8,12 +8,7 @@
     "watch": "rollup -c -w",
     "test": "node ./public/build/test.js",
     "start": "node dev-server.js",
-    "dev": "run-p watch start",
-    
-    "steam:watch": "nodemon -q --delay 2.5 --watch ./public -x \"npm run steam\"",
-    "steam": "run-s steam:clean steam:copy",
-    "steam:clean": "rm -rf 'C:/Users/games dean/Projects/theiaology-native/www/*'",
-    "steam:copy": "cp -rf ./public/* 'C:/Users/games dean/Projects/theiaology-native/www'"
+    "dev": "run-p watch start"
   },
   "author": "king@goblin.life",
   "license": "MIT",
@@ -34,7 +29,6 @@
     "file-saver": "^2.0.5",
     "idb-keyval": "^5.1.3",
     "node-fetch": "^2.6.1",
-    "nodemon": "^2.0.12",
     "npm-run-all": "^4.1.5",
     "prettier": "^2.3.2",
     "prettier-plugin-organize-imports": "^2.3.3",

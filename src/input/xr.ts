@@ -1,6 +1,7 @@
 import { Value } from 'src/value'
 import { Uniform, Vector3 } from 'three'
 import { IJointGroup } from './joints'
+import { left, Phony, right } from './phony'
 
 export const last_pose = new Value({
   left: '',
@@ -12,10 +13,13 @@ export const pose = new Value({
   right: '',
 })
 
-export const hands = new Value<IJointGroup[]>([])
+export const hands = new Value<IJointGroup[]>([
+  new Phony(left),
+  new Phony(right, 'right'),
+])
 
-export const left_hand = new Value<IJointGroup>()
-export const right_hand = new Value<IJointGroup>()
+export const left_hand = new Value<IJointGroup>(hands.$[0])
+export const right_hand = new Value<IJointGroup>(hands.$[1])
 export const VRInit = new Value(false)
 
 export const left_hand_uniforms = {

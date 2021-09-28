@@ -157,7 +157,7 @@ delta.on(($dt) => {
     return
   } else if (vr_mucked) {
     vr_mucked = false
-
+    camera.quaternion.identity()
     camera.position.set(0, 0, 0)
   }
 

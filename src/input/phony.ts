@@ -1,7 +1,7 @@
 import { IJointGroup, vr_keys } from 'src/input/joints'
-import { hands, left_hand, right_hand } from 'src/input/xr'
+import { body } from 'src/render'
 import { tick } from 'src/shader/time'
-import { Group } from 'three'
+import { Group, Vector3 } from 'three'
 
 export const left = [
   0.18681570887565613, 1.382739543914795, -0.18258269131183624,
@@ -59,31 +59,22 @@ export const right = [
   -0.08862950652837753, 1.4469671249389648, -0.20587250590324402,
 ]
 
+const $vec3 = new Vector3()
+
 export class Phony extends Group implements IJointGroup {
   handedness: 'left' | 'right' = 'left'
+  handData: number[]
 
   joints: { [key: string]: Group }
   constructor(handData: number[], handedness: 'left' | 'right' = 'left') {
     super()
+    this.handData = handData
     this.handedness = handedness
-
-    switch (handedness) {
-      case 'left':
-        left_hand.set(this)
-        break
-      default:
-        right_hand.set(this)
-    }
 
     this.joints = {}
 
     for (let i = 0; i < handData.length / 3; i++) {
       const hand = new Group()
-      hand.position.set(
-        handData[i * 3],
-        handData[i * 3 + 1],
-        handData[i * 3 + 2]
-      )
       this.joints[vr_keys[i]] = hand
       this.add(hand)
     }
@@ -91,8 +82,20 @@ export class Phony extends Group implements IJointGroup {
     tick.on(this.tick.bind(this))
   }
 
-  tick() {}
-}
+  // keep them up to date w/  the body position
+  tick() {
+    $vec3.copy(body.$.position).multiplyScalar(0.005)
 
-// phony hands time
-hands.set([new Phony(left), new Phony(right, 'right')])
+    for (let i = 0; i < this.handData.length / 3; i++) {
+      const hand = this.joints[vr_keys[i]]
+
+      hand.position
+        .set(
+          this.handData[i * 3],
+          this.handData[i * 3 + 1] - 1.6,
+          this.handData[i * 3 + 2] - 0.15
+        )
+        .add($vec3)
+    }
+  }
+}
