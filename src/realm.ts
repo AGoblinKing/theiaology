@@ -19,7 +19,7 @@ import {
   seconds,
   upperUniform,
 } from 'src/controller/audio'
-import { isVR, multiplayer, options } from 'src/input/browser'
+import { isQuest, multiplayer, options } from 'src/input/browser'
 import { Load } from 'src/input/load'
 import { left_hand_uniforms, right_hand_uniforms } from 'src/input/xr'
 import { MagickaVoxel } from 'src/magica'
@@ -248,7 +248,7 @@ export class Realm {
             // remove all lands with that id
             break
           case EMessage.LAND_ADD:
-            if (!this.first || isVR.$ || options.$.has('ISOLATE')) return
+            if (!this.first || isQuest || options.$.has('ISOLATE')) return
             if (!realms[data.id]) {
               realms[data.id] = new Realm()
             }

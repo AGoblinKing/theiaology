@@ -88,7 +88,7 @@ import { MIDI } from 'src/controller/audio';
   }
 
   function mouseOver() {
-    MIDI(80, 90 + ((nav.i % 8) || Math.round(Math.random() * 8)), 0.25)
+    MIDI(80, 90 + ((nav.i % 8) || Math.round(Math.random() * 8)), 0.4)
   }
 </script>
 

@@ -23,3 +23,5 @@ navigator.xr?.isSessionSupported('immersive-vr').then(function (supported) {
 })
 
 export const multiplayer = window.location.hash.slice(1)
+
+export const isQuest = navigator.userAgent.indexOf('OculusBrowser') !== -1

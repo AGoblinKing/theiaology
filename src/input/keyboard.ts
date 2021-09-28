@@ -7,7 +7,10 @@ export const key_map = new Value({})
 function bounce(e: KeyboardEvent) {
   return (
     // @ts-ignore
-    e.target.tagName === 'INPUT' || e.target.closest('.CodeMirror') !== null
+    e.target.tagName === 'INPUT' ||
+    // @ts-ignore
+    e.target.closest('.CodeMirror') !== null ||
+    e.key === 'F12'
   )
 }
 

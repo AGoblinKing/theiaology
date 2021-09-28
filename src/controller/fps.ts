@@ -7,7 +7,7 @@ import {
   mouse_wheel,
 } from 'src/input/mouse'
 import { fantasy } from 'src/realm'
-import { body, renderer } from 'src/render'
+import { body, camera, renderer } from 'src/render'
 import { delta } from 'src/shader/time'
 import { Value } from 'src/value'
 import { MathUtils, Vector2, Vector3 } from 'three'
@@ -145,14 +145,20 @@ mouse_wheel.on(($wheel) => {
 
 const avg = new Vector3()
 
+let vr_mucked = false
 delta.on(($dt) => {
   // only run not in VR
   if (renderer.xr.isPresenting) {
+    vr_mucked = true
     if (camera_mucked) {
       camera_mucked = false
       body.$.quaternion.identity()
     }
     return
+  } else if (vr_mucked) {
+    vr_mucked = false
+
+    camera.position.set(0, 0, 0)
   }
 
   if (move_inputs.$.length() !== 0 || mouse_right.$) {
