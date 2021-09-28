@@ -1,6 +1,7 @@
 import { IJointGroup, vr_keys } from 'src/input/joints'
 import { tick } from 'src/shader/time'
 import { Group, Vector3 } from 'three'
+import { mouse_left, mouse_right } from './mouse'
 
 export const left = [
   0.18681570887565613, 1.382739543914795, -0.18258269131183624,
@@ -88,12 +89,20 @@ export class Phony extends Group implements IJointGroup {
     for (let i = 0; i < this.handData.length / 3; i++) {
       const hand = this.joints[vr_keys[i]]
 
+      const forward =
+        this.handedness !== 'left'
+          ? mouse_left.$
+            ? -1
+            : 0
+          : mouse_right.$
+          ? -1
+          : 0
       hand.position.set(
         this.handData[i * 3] +
           (this.handedness === 'left' ? 0.1 : -0.1) +
           Math.cos(t * 0.01) * 0.01 * (this.handedness === 'left' ? 1 : -1),
         this.handData[i * 3 + 1] - 1.6 + Math.sin(t * 0.01) * 0.01,
-        this.handData[i * 3 + 2] - 0.15
+        this.handData[i * 3 + 2] - 0.15 + forward * 0.15
       )
     }
   }
