@@ -81,8 +81,8 @@ timing.on(() => {
     size.z(id, s)
 
     phys.phase(id, EPhase.STUCK)
-    matter.red(id, NORMALIZER - (Math.random() * NORMALIZER) / 5)
-    matter.blue(id, NORMALIZER - (Math.random() * NORMALIZER) / 5)
+    // matter.red(id, NORMALIZER - (Math.random() * NORMALIZER) / 5)
+    matter.blue(id, Math.round(NORMALIZER - (Math.random() * NORMALIZER) / 5))
 
     if (!isVR.$) {
       $vec.y -= 1

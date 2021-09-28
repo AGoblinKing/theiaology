@@ -1,5 +1,4 @@
 import { IJointGroup, vr_keys } from 'src/input/joints'
-import { body } from 'src/render'
 import { tick } from 'src/shader/time'
 import { Group, Vector3 } from 'three'
 
@@ -84,18 +83,16 @@ export class Phony extends Group implements IJointGroup {
 
   // keep them up to date w/  the body position
   tick() {
-    $vec3.copy(body.$.position).multiplyScalar(0.005)
+    //$vec3.copy(body.$.position).multiplyScalar(0.0005)
 
     for (let i = 0; i < this.handData.length / 3; i++) {
       const hand = this.joints[vr_keys[i]]
 
-      hand.position
-        .set(
-          this.handData[i * 3],
-          this.handData[i * 3 + 1] - 1.6,
-          this.handData[i * 3 + 2] - 0.15
-        )
-        .add($vec3)
+      hand.position.set(
+        this.handData[i * 3],
+        this.handData[i * 3 + 1] - 1.6,
+        this.handData[i * 3 + 2] - 0.15
+      )
     }
   }
 }
