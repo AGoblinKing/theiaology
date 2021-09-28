@@ -82,15 +82,17 @@ export class Phony extends Group implements IJointGroup {
   }
 
   // keep them up to date w/  the body position
-  tick() {
+  tick(t) {
     //$vec3.copy(body.$.position).multiplyScalar(0.0005)
 
     for (let i = 0; i < this.handData.length / 3; i++) {
       const hand = this.joints[vr_keys[i]]
 
       hand.position.set(
-        this.handData[i * 3],
-        this.handData[i * 3 + 1] - 1.6,
+        this.handData[i * 3] +
+          (this.handedness === 'left' ? 0.1 : -0.1) +
+          Math.cos(t * 0.01) * 0.01 * (this.handedness === 'left' ? 1 : -1),
+        this.handData[i * 3 + 1] - 1.6 + Math.sin(t * 0.01) * 0.01,
         this.handData[i * 3 + 2] - 0.15
       )
     }
