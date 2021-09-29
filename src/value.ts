@@ -46,4 +46,16 @@ export class Value<T> {
 
     return this
   }
+
+  do(fn: () => void) {
+    // do the fn later
+    setTimeout(() => fn())
+    return this
+  }
+  re(fn: (value: T) => void) {
+    // never gonna give you up
+    this.on(fn)
+
+    return this
+  }
 }

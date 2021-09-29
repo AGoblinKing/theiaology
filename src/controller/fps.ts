@@ -1,7 +1,6 @@
 import { AXIS, pad_axes } from 'src/input/gamepad'
 import { key_down, key_up } from 'src/input/keyboard'
 import {
-  middle_mouse_toggle,
   mouse_left,
   mouse_pos,
   mouse_right,
@@ -12,6 +11,7 @@ import { body, camera, renderer } from 'src/render'
 import { delta } from 'src/shader/time'
 import { Value } from 'src/value'
 import { MathUtils, Vector2, Vector3 } from 'three'
+import { looking } from './controls'
 import { velocity } from './smooth'
 
 export const move_inputs = new Value(new Vector3(0, 0, 0))
@@ -166,7 +166,7 @@ delta.on(($dt) => {
     velocity.$.add($vec3.copy(move_inputs.$).multiplyScalar($dt * 3))
   }
 
-  if (middle_mouse_toggle.$) {
+  if (looking.$) {
     UpdateCamera($dt)
   }
 

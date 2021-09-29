@@ -135,6 +135,14 @@ body::-webkit-scrollbar-track {
   }
 }
 
+.looking canvas {
+  cursor: url("/sprite/target.png") 0 0, move;
+}
+
+.loading canvas {
+  cursor: url("/sprite/loading.png") 0 0, wait;
+}
+
 canvas {
   cursor: url("/sprite/grab.png") 0 0, grab;
 }

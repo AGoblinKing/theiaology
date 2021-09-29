@@ -25,6 +25,7 @@
   import { EVar } from './weave'
 
   import Score from './Score.svelte'
+import { loading, looking } from 'src/controller/controls';
 
   function Browse() {
     modal_location.set(
@@ -49,13 +50,14 @@
         case 'SHOP_PUBLISH':
           const f = first.$.fate.$
           Publish(f.text(0), ['fate'], "")
+          loading.set(true)
           setTimeout(() => {
             modal_location.set(
               modal_location.$.set($mouse_page.x - 5, $mouse_page.y - 5)
             )
             modal_options.set(["Uploading to Steam...", "Will open in overlay once complete."])
             modal_visible.set((res) => {
-            
+              
             })
           })
           break
@@ -215,11 +217,11 @@
   >
   <Box
   tilt={350}
-  hover="Track Mouse to Look. Toggle with Middle Mouse as well!"
+  hover="Track Mouse to Look. Toggle with Middle Mouse Clicks as well!"
 
   nav={{ tag: '.fate', left: 'save', right: 'sponsor', down }}
   click={() => {
-    middle_mouse_toggle.set(!middle_mouse_toggle.$)
+    looking.set(!looking.$)
   }}>LOOK</Box
 >
 
