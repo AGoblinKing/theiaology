@@ -66,6 +66,9 @@ export class Phony extends Group implements IJointGroup {
   handData: number[]
 
   joints: { [key: string]: Group }
+  lastLeft = new Vector3()
+  lastRight = new Vector3()
+
   constructor(handData: number[], handedness: 'left' | 'right' = 'left') {
     super()
     this.handData = handData
@@ -107,22 +110,30 @@ export class Phony extends Group implements IJointGroup {
       )
       let effect = 0.05
 
-      switch (this.handedness) {
-        case 'left':
-          if (mouse_pos.$.x > 0) {
-            effect = 0.5
-          }
+      switch (true) {
+        case this.handedness === 'left' && mouse_pos.$.x > 0.25:
+          effect = 0.075
+
           break
-        default:
-          if (mouse_pos.$.x < 0) {
-            effect = 0.5
-          }
+        case this.handedness !== 'left' && mouse_pos.$.x < -0.25:
+          effect = 0.075
+          break
+
+        case this.handedness === 'left' && mouse_pos.$.x > -0.25:
+          effect = 0.055
+
+          break
+        case this.handedness !== 'left' && mouse_pos.$.x < 0.25:
+          effect = 0.055
+          break
       }
 
-      hand.position.lerp(
-        $vec3.set(mouse_pos.$.x * 2 * effect, mouse_pos.$.y, 0),
-        0.05
-      )
+      $vec3.set(mouse_pos.$.x, mouse_pos.$.y, 0).multiplyScalar(effect * 2)
+
+      const target = this.handedness === 'left' ? this.lastLeft : this.lastRight
+      target.multiplyScalar(4).add($vec3).divideScalar(5)
+
+      hand.position.add(target)
       // lerp towards mouse a little
     }
   }
