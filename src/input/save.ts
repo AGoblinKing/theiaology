@@ -4,6 +4,7 @@ import { audio_buffer, audio_name } from 'src/controller/audio'
 import { timeline_shown } from 'src/fate/editor'
 import { Notify } from 'src/notify'
 import { first } from 'src/realm'
+import { browserOpen } from './browser'
 import { dbLoaded, HEADER_START, SIGNATURE } from './load'
 
 export function SaveScript() {
@@ -30,7 +31,7 @@ export function Publish(name: string, tags: string[], description: string) {
 
   setTimeout(() => {
     // open publish
-    window.open('', ['publish', id, name, description].join(':'))
+    browserOpen.set(['', ['publish', id, name, description].join(':')])
   }, 1000)
 }
 

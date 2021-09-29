@@ -119,11 +119,11 @@ export class Phony extends Group implements IJointGroup {
           effect = 0.075
           break
 
-        case this.handedness === 'left' && mouse_pos.$.x > -0.25:
+        case this.handedness === 'left' && mouse_pos.$.x > -0.75:
           effect = 0.055
 
           break
-        case this.handedness !== 'left' && mouse_pos.$.x < 0.25:
+        case this.handedness !== 'left' && mouse_pos.$.x < 0.75:
           effect = 0.055
           break
       }

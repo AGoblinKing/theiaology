@@ -14,10 +14,10 @@
         "purpose": "any maskable"
       }
     ],
-    "start_url": "/?source=pwa",
+    "start_url": "/?pwa",
     "theme_color": "navy",
     "background_color": "navy",
     "scope": "/",
-    "description": "Undock your Imagination.",
+    "description": "Undock the Imagination.",
     "display": "standalone"
   }

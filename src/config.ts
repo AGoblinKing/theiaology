@@ -40,7 +40,7 @@ export const UNIVERSALS = [
   0, // SCORE
 ]
 
-export const CACHE = 'v1'
+export const CACHE = 'v2'
 
 export const dotTheia = [
   'aero',

@@ -8,15 +8,34 @@ self.addEventListener('install', (event: any) => {
         '/global.css',
         '/favicon.png',
         '/font/MajorMonoDisplay-Regular.ttf',
+        '/build/ai.js',
         '/build/cardinal.js',
         '/build/physics.js',
         '/build/bundle.css',
         '/build/main.js',
+        '/service.js',
+        '/codemirror.js',
+        '/codemirror.css',
+        '/mode/commonlisp.js',
+        '/favicon_smol.png',
+        '/three.js',
+        '/sprite/grab.png',
+        '/sprite/grabbing.png',
+        '/sprite/hold.png',
+        '/sprite/keyboard.png',
+        '/sprite/loading.png',
+        '/sprite/pointerdown.png',
+        '/sprite/pointerkeyboard.png',
+        '/sprite/pointerleft.png',
+        '/sprite/pointerpad.png',
+        '/sprite/pointerright.png',
+        '/sprite/target.png',
+        '/image/interaction.gif',
+        '/manifest.json',
       ])
     })
   )
 })
-
 self.addEventListener('fetch', (e: any) => {
   const { request } = e
   e.respondWith(

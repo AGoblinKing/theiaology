@@ -3,7 +3,7 @@
   import { Publish, Save } from 'src/input/save'
   import {
     mirror_shown,
-    modal_default,
+   
     modal_location,
     modal_options,
     modal_visible,
@@ -14,7 +14,7 @@
 
   import Box from './Box.svelte'
 
-  import { middle_mouse_toggle, mouse_page } from 'src/input/mouse'
+  import {mouse_page } from 'src/input/mouse'
   import { dotTheia} from 'src/config'
   import { Redo, Undo } from 'src/controller/undoredo'
   import { key_down, key_map } from 'src/input/keyboard'
@@ -22,10 +22,11 @@
   import { ReadFile } from 'src/input/file'
   import Mirror from './Mirror.svelte'
   import { first } from 'src/realm'
-  import { EVar } from './weave'
 
   import Score from './Score.svelte'
 import { loading, looking } from 'src/controller/controls';
+import { steam } from 'src/steam';
+import { browserOpen } from 'src/input/browser';
 
   function Browse() {
     modal_location.set(
@@ -36,7 +37,7 @@ import { loading, looking } from 'src/controller/controls';
 
     // if this is in steam offer to publish
     // @ts-ignore
-    if (window.$team) {
+    if (steam.$) {
       // @ts-ignore
       modal_options.$.push('SHOP_PUBLISH', 'LOCAL_SAVES', 'LOCAL_SHOP')
     }
@@ -44,7 +45,7 @@ import { loading, looking } from 'src/controller/controls';
     modal_visible.set((res) => {
       switch (res) {
         case 'LOCAL_SHOP':
-          window.open('/owned/', 'shop')
+          browserOpen.set(['/owned/', 'shop'])
           // @ts-ignore
           break
         case 'SHOP_PUBLISH':
@@ -62,7 +63,7 @@ import { loading, looking } from 'src/controller/controls';
           })
           break
         case 'LOCAL_SAVES':
-          window.open('/saves/', 'saves')
+        browserOpen.set(['/saves/', 'saves'])
           break
         case 'DEMOS':
           setTimeout(() => {
@@ -71,26 +72,21 @@ import { loading, looking } from 'src/controller/controls';
             )
             modal_options.set(dotTheia)
             modal_visible.set((res) => {
-              window.open(
+              browserOpen.set([
                 `/${res}`,
                 key_map.$['Control'] ? '_overlay' : '_self'
-              )
+            ])
             })
           })
           break
         case 'SHOP_VISIT':
-          window.open(
+        browserOpen.set([
             'https://steamcommunity.com/app/1752690/workshop/',
             '_new'
-          )
+        ])
           break
       }
     })
-  }
-
-  function Sponsor() {
-    window.open('https://github.com/sponsors/AGoblinKing', '_new')
-    return
   }
 
   function handleMultiplayer(res) {

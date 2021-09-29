@@ -1,3 +1,4 @@
+import { steam } from 'src/steam'
 import { Uniform } from 'three'
 import WebAudioTinySynth from 'webaudio-tinysynth'
 import { tick } from '../shader/time'
@@ -25,9 +26,7 @@ const makeReady = async () => {
   synth.set(s)
 }
 
-// @ts-ignore
-if (window.$team) {
-  // $team!
+if (steam.$) {
   makeReady()
 } else {
   window.addEventListener('mousedown', makeReady, { once: true })
@@ -103,7 +102,7 @@ export const MIDI = (
 
   if (synth.$ === undefined) {
     // @ts-ignore
-    if (!attempt && window.$team) {
+    if (!attempt && steam.$) {
       attempt = true
       makeReady()
     }

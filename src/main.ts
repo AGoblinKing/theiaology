@@ -1,4 +1,3 @@
-import 'src/$team'
 import 'src/controller/audio'
 import 'src/controller/player'
 import 'src/fate/rez/hand-joints'
@@ -6,6 +5,7 @@ import 'src/fate/rez/hand-joints'
 import Theiaology from 'src/fate/Theiaology.svelte'
 import 'src/input/file'
 import * as render from 'src/render'
+import 'src/steam'
 
 // startup editor
 const theiaology = new Theiaology({
@@ -19,3 +19,5 @@ if ('serviceWorker' in navigator) {
 }
 
 Object.assign(window, { render })
+
+document.getElementById('warning').remove()

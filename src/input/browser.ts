@@ -1,3 +1,4 @@
+import { steam, steam_open } from 'src/steam'
 import { Value } from 'src/value'
 
 export const url = new Value(window.location.pathname.slice(1).split('/'))
@@ -25,3 +26,12 @@ navigator.xr?.isSessionSupported('immersive-vr').then(function (supported) {
 export const multiplayer = window.location.hash.slice(1)
 
 export const isQuest = navigator.userAgent.indexOf('OculusBrowser') !== -1
+
+export const browserOpen = new Value<string[]>().re((arr) => {
+  if (!arr) return
+
+  const [url, where] = arr
+
+  if (steam.$) steam_open.set([url, where])
+  else window.open(url, where)
+})

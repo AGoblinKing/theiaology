@@ -48,13 +48,43 @@ export class Value<T> {
   }
 
   do(fn: () => void) {
-    // do the fn later
-    setTimeout(() => fn())
+    // never gonna make you cry
+    fn()
     return this
   }
   re(fn: (value: T) => void) {
     // never gonna give you up
     this.on(fn)
+
+    return this
+  }
+  fa<TT>(
+    v: Value<TT>,
+    transform?: (value: TT) => T,
+    filter?: (value: TT) => boolean
+  ) {
+    // let you down
+
+    v.on((state) => {
+      if (filter) {
+        if (!filter(state)) return
+      }
+      if (transform) {
+        this.set(transform(state))
+      } else {
+        // @ts-ignore
+        this.set(state)
+      }
+    })
+
+    return this
+  }
+  la(timing: number, fn: (i: number) => void) {
+    // never gonna turn around
+    let i = 0
+    setInterval(() => {
+      fn(i++)
+    }, timing)
 
     return this
   }
