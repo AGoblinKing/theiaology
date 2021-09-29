@@ -1,6 +1,7 @@
 import { AXIS, pad_axes } from 'src/input/gamepad'
 import { key_down, key_up } from 'src/input/keyboard'
 import {
+  middle_mouse_toggle,
   mouse_left,
   mouse_pos,
   mouse_right,
@@ -165,7 +166,9 @@ delta.on(($dt) => {
     velocity.$.add($vec3.copy(move_inputs.$).multiplyScalar($dt * 3))
   }
 
-  if (mouse_right.$ || mouse_left.$) UpdateCamera($dt)
+  if (middle_mouse_toggle.$) {
+    UpdateCamera($dt)
+  }
 
   const avatar = fantasy.$.universal.avatar()
   if (avatar !== -1) {

@@ -8,10 +8,15 @@ export const mouse_world = new Value(new Vector3())
 export const mouse_left = new Value(false)
 export const mouse_right = new Value(false)
 export const mouse_page = new Value(new Vector2())
+export const middle_mouse_toggle = new Value(false)
 
 function Down(e) {
   switch (e.button) {
     case undefined && e.touches.length === 1:
+    case 1:
+      middle_mouse_toggle.set(!middle_mouse_toggle.$)
+      e.preventDefault()
+      break
     case 0:
       mouse_left.set(true)
       break

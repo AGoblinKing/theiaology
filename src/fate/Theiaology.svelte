@@ -14,7 +14,7 @@
 
   import Box from './Box.svelte'
 
-  import { mouse_page } from 'src/input/mouse'
+  import { middle_mouse_toggle, mouse_page } from 'src/input/mouse'
   import { dotTheia} from 'src/config'
   import { Redo, Undo } from 'src/controller/undoredo'
   import { key_down, key_map } from 'src/input/keyboard'
@@ -213,6 +213,16 @@
     nav={{ tag: 'save', right: '.fate', left: 'load', down }}
     click={Save}>SAVE</Box
   >
+  <Box
+  tilt={350}
+  hover="Track Mouse to Look. Toggle with Middle Mouse as well!"
+
+  nav={{ tag: '.fate', left: 'save', right: 'sponsor', down }}
+  click={() => {
+    middle_mouse_toggle.set(!middle_mouse_toggle.$)
+  }}>LOOK</Box
+>
+
   <Box
     tilt={290}
     hover="Find FATEs to play!"
