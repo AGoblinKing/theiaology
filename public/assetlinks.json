@@ -1,0 +1,6 @@
+[{
+        "relation": ["delegate_permission/common.handle_all_urls"],
+        "target" : { "namespace": "android_app", "package_name": "com.theiaology.twa",
+                     "sha256_cert_fingerprints": ["F5:8D:88:84:44:53:19:3E:D3:AA:4A:2C:10:98:63:06:D7:B7:FD:3D:4C:D3:8E:D2:E9:4B:AD:63:5B:51:01:C1"] }
+      }
+]
