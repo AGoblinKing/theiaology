@@ -1,3 +1,4 @@
+import { loading } from './controller/controls'
 import { Value } from './value'
 
 interface IGreenworks extends EventTarget {
@@ -19,3 +20,16 @@ export const steam_open = new Value<string[]>([]).re((arr) => {
 
   steam.$.post(`open|${url}|${where}`)
 })
+
+if (steam.$) {
+  steam.$.addEventListener('message', (e) => {
+    const [command, ...args] = e.data.split('|')
+    switch (command) {
+      case 'ugcResult':
+        loading.set(false)
+        break
+    }
+
+    console.log(e.data)
+  })
+}

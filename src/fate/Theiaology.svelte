@@ -45,13 +45,13 @@ import { browserOpen } from 'src/input/browser';
     modal_visible.set((res) => {
       switch (res) {
         case 'LOCAL_SHOP':
-          browserOpen.set(['/owned/', 'shop'])
-          // @ts-ignore
+          steam.$.post("dir|shop")
+     
           break
         case 'SHOP_PUBLISH':
           const f = first.$.fate.$
-          Publish(f.text(0), ['fate'], "")
-          loading.set(true)
+          Publish(f.text(0), ['fate'])
+     
           setTimeout(() => {
             modal_location.set(
               modal_location.$.set($mouse_page.x - 5, $mouse_page.y - 5)
@@ -63,7 +63,7 @@ import { browserOpen } from 'src/input/browser';
           })
           break
         case 'LOCAL_SAVES':
-        browserOpen.set(['/saves/', 'saves'])
+          steam.$.post("dir|saves")
           break
         case 'DEMOS':
           setTimeout(() => {

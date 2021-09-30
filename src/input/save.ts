@@ -1,10 +1,11 @@
 import fs from 'file-saver'
 import { set } from 'idb-keyval'
 import { audio_buffer, audio_name } from 'src/controller/audio'
+import { loading } from 'src/controller/controls'
 import { timeline_shown } from 'src/fate/editor'
 import { Notify } from 'src/notify'
 import { first } from 'src/realm'
-import { browserOpen } from './browser'
+import { steam } from 'src/steam'
 import { dbLoaded, HEADER_START, SIGNATURE } from './load'
 
 export function SaveScript() {
@@ -18,20 +19,26 @@ export function SaveScript() {
   fs.saveAs(blob, name + '.lisp')
 }
 
-export function Publish(name: string, tags: string[], description: string) {
+export function Publish(name: string, tags: string[]) {
+  loading.set(true)
   Notify(`Publishing ${name} to Steam Workshop`, `This may take a bit!`)
   // save screenshot
   const canvas = document.getElementById('three')
-  const id = `${name}_${Math.round(Math.random() * 1000000)}`
+
   // @ts-ignore
-  canvas.toBlob(function (blob) {
-    fs.saveAs(blob, `${id}.png`)
-  })
-  Save(true, `${id}`)
+  canvas.toBlob(
+    function (blob) {
+      fs.saveAs(blob, `${name}.jpg`)
+    },
+    'image/jpeg',
+    0.75
+  )
+
+  Save(true, `${name}`)
 
   setTimeout(() => {
     // open publish
-    browserOpen.set(['', ['publish', id, name, description].join(':')])
+    steam.$.post(['publish', name, ...tags].join('|'))
   }, 1000)
 }
 

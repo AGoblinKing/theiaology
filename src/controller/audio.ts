@@ -1,4 +1,3 @@
-import { steam } from 'src/steam'
 import { Uniform } from 'three'
 import WebAudioTinySynth from 'webaudio-tinysynth'
 import { tick } from '../shader/time'
@@ -14,7 +13,7 @@ let started = false
 
 export const synth = new Value<WebAudioTinySynth>(undefined)
 
-const makeReady = async () => {
+export const makeAudioReady = async () => {
   if (synth.$ !== undefined) return
 
   const s = new WebAudioTinySynth({
@@ -24,12 +23,6 @@ const makeReady = async () => {
   })
   await s.ready()
   synth.set(s)
-}
-
-if (steam.$) {
-  makeReady()
-} else {
-  window.addEventListener('mousedown', makeReady, { once: true })
 }
 
 audio.onplay = function () {
@@ -101,11 +94,6 @@ export const MIDI = (
   if (audio.muted) return false
 
   if (synth.$ === undefined) {
-    // @ts-ignore
-    if (!attempt && steam.$) {
-      attempt = true
-      makeReady()
-    }
     return false
   }
   // ensure channel has that instrument set

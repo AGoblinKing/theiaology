@@ -1,4 +1,5 @@
 import 'src/controller/audio'
+import { makeAudioReady } from 'src/controller/audio'
 import 'src/controller/player'
 import 'src/fate/rez/hand-joints'
 // @ts-ignore - tots is a module
@@ -6,6 +7,7 @@ import Theiaology from 'src/fate/Theiaology.svelte'
 import 'src/input/file'
 import * as render from 'src/render'
 import 'src/steam'
+import { steam } from 'src/steam'
 
 // startup editor
 const theiaology = new Theiaology({
@@ -21,3 +23,8 @@ if ('serviceWorker' in navigator) {
 Object.assign(window, { render })
 
 document.getElementById('warning').remove()
+if (steam.$) {
+  makeAudioReady()
+} else {
+  window.addEventListener('mousedown', makeAudioReady, { once: true })
+}
