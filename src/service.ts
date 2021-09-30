@@ -37,20 +37,10 @@ self.addEventListener('install', (event: any) => {
   )
 })
 
-async function fetchout(resource, timeout = 1000) {
-  const controller = new AbortController()
-  const id = setTimeout(() => controller.abort(), timeout)
-  const response = await fetch(resource, {
-    signal: controller.signal,
-  })
-  clearTimeout(id)
-  return response
-}
-
 self.addEventListener('fetch', (e: any) => {
   const { request } = e
   e.respondWith(
-    fetchout(request)
+    fetch(request)
       .then((response) => {
         if (request.method !== 'GET' || !/^http/.test(request.scheme))
           return response
