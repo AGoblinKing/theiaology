@@ -9,7 +9,7 @@ import * as render from 'src/render'
 import 'src/steam'
 import { steam } from 'src/steam'
 import { modal_location, modal_options, modal_visible } from './fate/editor'
-import { key_down } from './input/keyboard'
+import { key_down, key_map } from './input/keyboard'
 import { mouse_page } from './input/mouse'
 
 // startup editor
@@ -34,6 +34,8 @@ if (steam.$) {
 
 key_down.on((k) => {
   switch (k) {
+    case 'p':
+      if (!key_map.$['Control']) return
     case 'F12':
       steam.$?.post('screenshot')
       Tune(25, 15, (i) => {

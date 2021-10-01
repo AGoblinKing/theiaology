@@ -1,12 +1,29 @@
+import { get, set } from 'idb-keyval'
 import { Uniform } from 'three'
 import WebAudioTinySynth from 'webaudio-tinysynth'
 import { tick } from '../shader/time'
 import { Value } from '../value'
 import { EMidiInstrument } from './midi'
 
+let lastVolume = 1
+
 export const audio = document.getElementById('bgm') as HTMLAudioElement
 export const audio_buffer = new Value<ArrayBufferLike | DataView>()
 export const audio_name = new Value('')
+export const volume = new Value(1)
+  .do(async () => {
+    get('$audio_volume').then((v) => {
+      volume.set(v)
+    })
+  })
+  .re((v) => {
+    if (v === undefined) return
+
+    set('$audio_volume', v)
+
+    lastVolume = v
+    audio.volume = v
+  })
 
 export const context = new Value<AudioContext>()
 let started = false
@@ -79,6 +96,10 @@ export const lowerAvg = new Value(0)
 lowerAvg.on(($la) => (lowerUniform.value = $la))
 
 tick.on(() => {
+  if (lastVolume !== audio.volume) {
+    lastVolume = audio.volume
+    volume.set(lastVolume)
+  }
   if (seconds.$ !== audio.currentTime) {
     seconds.set(audio.currentTime)
   }

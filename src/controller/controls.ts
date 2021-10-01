@@ -5,7 +5,7 @@ import { MIDI } from './audio'
 export const looking = new Value(false).fa(middle_mouse_toggle).re((state) => {
   if (state) document.body.classList.add('looking')
   else document.body.classList.remove('looking')
-  MIDI(90, 60 - (state ? 10 : 0), 0.5)
+  MIDI(90, 60 - (state ? 10 : 0), 0.25)
 })
 // TODO: add me, fa, la, te
 
