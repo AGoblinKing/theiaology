@@ -39,24 +39,27 @@ import { browserOpen } from 'src/input/browser';
     // @ts-ignore
     if (steam.$) {
       // @ts-ignore
-      modal_options.$.push('SHOP_PUBLISH', 'LOCAL_SAVES', 'LOCAL_SHOP')
+      modal_options.$.push('SHOP_SELL','SHOP_SHARE', 'LOCAL_SAVES', 'LOCAL_SHOP')
     }
 
     modal_visible.set((res) => {
+      let selling = false;
       switch (res) {
         case 'LOCAL_SHOP':
           steam.$.post("dir|shop")
      
           break
-        case 'SHOP_PUBLISH':
+        case 'SHOP_SELL':
+          selling = true
+        case 'SHOP_SHARE':
           const f = first.$.fate.$
-          Publish(f.text(0), ['fate'])
+          Publish(f.text(0), selling ? "sell" : "share")
      
           setTimeout(() => {
             modal_location.set(
               modal_location.$.set($mouse_page.x - 5, $mouse_page.y - 5)
             )
-            modal_options.set(["Uploading to Steam...", "Will open in overlay once complete."])
+            modal_options.set(["Uploading to Steam...", "Will open once complete."])
             modal_visible.set((res) => {
               
             })

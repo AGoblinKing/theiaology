@@ -19,7 +19,7 @@ export function SaveScript() {
   fs.saveAs(blob, name + '.lisp')
 }
 
-export function Publish(name: string, tags: string[]) {
+export function Publish(name: string, selling: 'sell' | 'share') {
   loading.set(true)
   Notify(`Publishing ${name} to Steam Workshop`, `This may take a bit!`)
   // save screenshot
@@ -38,7 +38,7 @@ export function Publish(name: string, tags: string[]) {
 
   setTimeout(() => {
     // open publish
-    steam.$.post(['publish', name, ...tags].join('|'))
+    steam.$.post(['publish', name, selling].join('|'))
   }, 1000)
 }
 
