@@ -111,3 +111,14 @@ export const MIDI = (
 }
 
 Object.assign(window, { MIDI })
+
+export function Tune(timer: number, count: number, skip: (i) => void) {
+  let i = 0
+  const intv = setInterval(() => {
+    if (i >= count) {
+      clearInterval(intv)
+      return
+    }
+    skip(i++)
+  }, timer)
+}

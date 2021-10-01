@@ -9,8 +9,7 @@ function bounce(e: KeyboardEvent) {
     // @ts-ignore
     e.target.tagName === 'INPUT' ||
     // @ts-ignore
-    e.target.closest('.CodeMirror') !== null ||
-    e.key === 'F12'
+    e.target.closest('.CodeMirror') !== null
   )
 }
 
