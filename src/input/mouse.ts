@@ -27,6 +27,8 @@ function Down(e) {
 
       break
   }
+
+  e.preventDefault()
 }
 
 function Up(e) {
@@ -42,6 +44,7 @@ function Up(e) {
 
       break
   }
+  e.preventDefault()
 }
 
 function Move(e: MouseEvent) {
