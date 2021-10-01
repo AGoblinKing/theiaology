@@ -8,6 +8,8 @@ interface ISteam extends EventTarget {
 }
 
 // @ts-ignore
+if (window.require) window.steam = window.require('./steam.js')
+// @ts-ignore
 export const steam = new Value<ISteam>(window.steam)
 
 export const steam_open = new Value<string[]>([]).re((arr) => {
@@ -15,8 +17,8 @@ export const steam_open = new Value<string[]>([]).re((arr) => {
   const [url, where] = arr
   if (!url) return
 
-  if (where === '_self' || true) {
-    window.open(url, '_self')
+  if (where === '_self') {
+    window.open(url, where)
     return
   }
 
