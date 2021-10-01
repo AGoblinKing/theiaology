@@ -21,7 +21,6 @@ express()
   })
   .use(express.static('public'))
   .get('/github*', Proxy('https://theiaology.com'))
-  .get('/bifrost*', Proxy('http://localhost:8081'))
   .get('*', (req, res) => {
     res.sendFile(`${__dirname}/public/index.html`)
   })

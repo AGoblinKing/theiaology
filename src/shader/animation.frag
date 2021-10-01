@@ -44,8 +44,8 @@ vec4 AnimationFrag(in vec4 col) {
 		vec3 target = pts[i];
 
 		float dist = length(v_pos - target );
-		if(dist < 0.4) {
-			col.xyz += sin(dist * 200. - time * 0.025 )* 0.01;
+		if(dist < 0.5) {
+			col.xyz += sin(dist * 200. - time * 0.05 )* 0.01;
 		}
 	}
 

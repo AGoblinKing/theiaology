@@ -8,9 +8,12 @@ import 'src/input/file'
 import * as render from 'src/render'
 import 'src/steam'
 import { steam } from 'src/steam'
+import { loading } from './controller/controls'
 import { modal_location, modal_options, modal_visible } from './fate/editor'
 import { key_down, key_map } from './input/keyboard'
+import { Load } from './input/load'
 import { mouse_page } from './input/mouse'
+import { first } from './realm'
 
 // startup editor
 const theiaology = new Theiaology({
@@ -48,3 +51,34 @@ key_down.on((k) => {
       modal_options.set(['SCREENSHOT TAKEN', 'UPLOADING TO STEAM'])
   }
 })
+
+if (steam.$) {
+  steam.$.addEventListener('message', (e) => {
+    const [command, ...args] = e.data.split('|')
+    switch (command) {
+      case 'fate':
+        const b = args.join('|')
+        const buf = new ArrayBuffer(b.length)
+        for (let i = 0; i < b.length; i++) {
+          buf[i] = b.charCodeAt(i)
+        }
+
+        Load(buf, first.$)
+
+        break
+      case 'list':
+        modal_options.set(args)
+        modal_visible.set((opt) => {
+          steam.$.post(`fate|${opt}`)
+        })
+        modal_location.$.copy(mouse_page.$)
+
+        break
+      case 'ugcResult':
+        loading.set(false)
+        break
+      default:
+        console.log(e.data)
+    }
+  })
+}
