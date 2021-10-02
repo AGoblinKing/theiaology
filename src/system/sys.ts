@@ -80,6 +80,15 @@ export class SystemWorker extends Worker {
     return this
   }
 
+  onCancel(e: (data: any) => void) {
+    const f = this.msg.on(e)
+    this.cancels.push(f)
+
+    return () => {
+      this.cancels.splice(this.cancels.indexOf(f), 1)
+      f()
+    }
+  }
   on(e: (data: any) => void) {
     this.cancels.push(this.msg.on(e))
 

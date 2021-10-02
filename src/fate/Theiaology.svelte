@@ -16,7 +16,7 @@
 
   import {mouse_page } from 'src/input/mouse'
   import { dotTheia} from 'src/config'
-  import { Redo, Undo } from 'src/controller/undoredo'
+
   import { key_down, key_map } from 'src/input/keyboard'
   import { Copy, Cut, Paste } from 'src/controller/copypaste'
   import { ReadFile } from 'src/input/file'
@@ -138,9 +138,7 @@ import { browserOpen } from 'src/input/browser';
     if (!$timeline_shown) return
 
     switch (c.toLowerCase()) {
-      case 'y':
-        Redo()
-        break
+
       case 'x':
         Cut()
         break
@@ -150,13 +148,7 @@ import { browserOpen } from 'src/input/browser';
       case 'v':
         Paste()
         break
-      case 'z':
-        if (key_map.$['Control']) {
-          Redo()
-        } else {
-          Undo()
-        }
-        break
+
     }
   })
 

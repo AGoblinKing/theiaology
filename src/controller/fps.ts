@@ -1,12 +1,7 @@
 import { AXIS, pad_axes } from 'src/input/gamepad'
 import { key_down, key_up } from 'src/input/keyboard'
-import {
-  mouse_left,
-  mouse_pos,
-  mouse_right,
-  mouse_wheel,
-} from 'src/input/mouse'
-import { fantasy } from 'src/realm'
+import { mouse_left, mouse_pos, mouse_right } from 'src/input/mouse'
+import { first } from 'src/realm'
 import { body, camera, renderer } from 'src/render'
 import { delta } from 'src/shader/time'
 import { Value } from 'src/value'
@@ -82,7 +77,7 @@ let timer
 function ClearMouse() {
   mouse_left.set(false)
 }
-let first = true
+let firstAx = true
 // emulate mouse_pos updates
 pad_axes.on(($axis) => {
   if (timer) {
@@ -90,8 +85,8 @@ pad_axes.on(($axis) => {
     timer = undefined
   }
 
-  if (first) {
-    first = false
+  if (firstAx) {
+    firstAx = false
     return
   }
 
@@ -139,11 +134,6 @@ function UpdateCamera($dt: number) {
   body.$.lookAt(targetPosition)
 }
 
-mouse_wheel.on(($wheel) => {
-  const { universal } = fantasy.$
-  universal.userSize(Math.max(1, universal.userSize() + Math.sign($wheel)))
-})
-
 const avg = new Vector3()
 
 let vr_mucked = false
@@ -170,10 +160,10 @@ delta.on(($dt) => {
     UpdateCamera($dt)
   }
 
-  const avatar = fantasy.$.universal.avatar()
-  if (avatar !== -1) {
-    const atom = fantasy.$.future.vec3(avatar).multiplyScalar(0.0005)
-    atom.y += fantasy.$.size.y(avatar) * 0.0005 + 0.1
+  const avatar = first.$.universal.avatar()
+  if (avatar > 0) {
+    const atom = first.$.future.vec3(avatar).multiplyScalar(0.0005)
+    atom.y += first.$.size.y(avatar) * 0.0005 + 0.1
 
     // move us towards the avatar location
     body.$.position.lerp(
@@ -182,10 +172,10 @@ delta.on(($dt) => {
     )
 
     atom.sub(body.$.position).length() > 0.2 &&
-      atom.multiplyScalar(fantasy.$.universal.thrustStrength()).negate()
+      atom.multiplyScalar(first.$.universal.thrustStrength()).negate()
 
     // update velocity of avatar
-    const { velocity } = fantasy.$
+    const { velocity } = first.$
     velocity.addX(avatar, atom.x)
     velocity.addY(avatar, atom.y)
     velocity.addZ(avatar, atom.z)

@@ -1,3 +1,4 @@
+import { key_down, key_up } from 'src/input/keyboard'
 import { middle_mouse_toggle, mouse_left, mouse_right } from 'src/input/mouse'
 import { Value } from 'src/value'
 import { MIDI } from './audio'
@@ -26,3 +27,42 @@ export const right_forward = new Value(false)
   .fa(mouse_right)
 
 export const forward = new Value(false).la(300, (i) => {})
+
+export const left_grab = new Value(false)
+export const right_grab = new Value(false)
+export const left_use = new Value(false)
+export const right_use = new Value(false)
+
+key_down.on((k) => {
+  switch (k) {
+    case '1':
+      left_grab.set(true)
+      break
+    case '3':
+      right_grab.set(true)
+      break
+    case 'q':
+      left_use.set(true)
+      break
+    case 'e':
+      right_use.set(true)
+      break
+  }
+})
+
+key_up.on((k) => {
+  switch (k) {
+    case '1':
+      left_grab.set(false)
+      break
+    case '3':
+      right_grab.set(false)
+      break
+    case 'q':
+      left_use.set(false)
+      break
+    case 'e':
+      right_use.set(false)
+      break
+  }
+})

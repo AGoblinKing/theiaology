@@ -75,7 +75,16 @@ timing.on(() => {
 
     const s = Math.floor(rMeta.test(vr_keys[ix]) ? 8 : 5) * 9.5
 
-    const { size, future, phys, matter, past, animation: animation } = first.$
+    const {
+      size,
+      future,
+      phys,
+      matter,
+      past,
+      animation: animation,
+      cage,
+    } = first.$
+
     animation.store(id, EAnimation.OFF)
     size.x(id, s)
     size.y(id, s)
@@ -95,14 +104,25 @@ timing.on(() => {
     past.z(id, future.z(id))
     past.time(id, Math.floor(timing.$))
     future.time(id, Math.floor(timing.$ + 200))
+
+    cage.mX(id, 0)
+    cage.mY(id, 0)
+    cage.mZ(id, 0)
+    cage.x(id, 0)
+    cage.y(id, 0)
+    cage.z(id, 0)
+
+    // if it has collisions and we're grabbing attach it
   }
+
+  // move user based on hand attachment
 })
 
 let cancel
 first.on(($r) => {
   if (cancel) cancel()
 
-  cancel = $r.cardinal.on((e) => {
+  cancel = $r.cardinal.onCancel((e) => {
     // Rez the player hands
     switch (e) {
       case EMessage.FATE_UPDATE:
