@@ -38,7 +38,7 @@ vec4 Animation(in vec4 pos) {
 
 	for(int i = 0; i < 10; i++) {
 		vec3 target = pts[i];
-		float dist = length(v_pos - target);
+		float dist = length(v_pos - target) - sin(time * 0.05) * 0.01;
 		if(dist < HAND_DST) {
 			pos.xyz = mix(target, pos.xyz, dist / HAND_DST);
 		}
