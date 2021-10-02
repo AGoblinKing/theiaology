@@ -13,7 +13,8 @@ class VRButton {
 
       async function onSessionStarted(session) {
         session.addEventListener('end', onSessionEnded)
-
+        // @ts-ignore
+        renderer.xr.setReferenceSpaceType('local')
         await renderer.xr.setSession(session)
         button.textContent = 'EXIT VR'
 
@@ -56,12 +57,7 @@ class VRButton {
           // be requested separately.)
 
           const sessionInit = {
-            optionalFeatures: [
-              'local-floor',
-              'bounded-floor',
-              'hand-tracking',
-              'layers',
-            ],
+            optionalFeatures: ['local-floor', 'bounded-floor', 'hand-tracking'],
           }
 
           // @ts-ignore

@@ -1,6 +1,8 @@
 import { IJointGroup, vr_keys } from 'src/input/joints'
+import { renderer } from 'src/render'
 import { tick } from 'src/shader/time'
-import { Group, Vector3 } from 'three'
+import { Value } from 'src/value'
+import { Group, Object3D, Vector3 } from 'three'
 import { mouse_left, mouse_pos, mouse_right } from './mouse'
 
 export const left = [
@@ -61,6 +63,9 @@ export const right = [
 
 const $vec3 = new Vector3()
 
+export const left_controller = new Value<Object3D>().re(console.log)
+export const right_controller = new Value<Object3D>().re(console.log)
+
 export class Phony extends Group implements IJointGroup {
   handedness: 'left' | 'right' = 'left'
   handData: number[]
@@ -68,6 +73,8 @@ export class Phony extends Group implements IJointGroup {
   joints: { [key: string]: Group }
   lastLeft = new Vector3()
   lastRight = new Vector3()
+
+  controllerOffset = new Vector3()
 
   constructor(handData: number[], handedness: 'left' | 'right' = 'left') {
     super()
@@ -83,15 +90,30 @@ export class Phony extends Group implements IJointGroup {
     }
 
     tick.on(this.tick.bind(this))
+    // reset controller after XR done
+    renderer.xr.addEventListener('sessionend', () => {
+      this.controllerOffset.set(0, 0, 0)
+    })
   }
 
-  // keep them up to date w/  the body position
   tick(t) {
-    //$vec3.copy(body.$.position).multiplyScalar(0.0005)
+    // determine controller position
+    let controller
+    switch (this.handedness) {
+      case 'left':
+        if (!left_controller.$) break
+        this.controllerOffset.copy(left_controller.$.position)
+        controller = left_controller.$
+        break
+      case 'right':
+        if (!right_controller.$) break
+        this.controllerOffset.copy(right_controller.$.position)
+        controller = right_controller.$
+        break
+    }
 
     for (let i = 0; i < this.handData.length / 3; i++) {
       const hand = this.joints[vr_keys[i]]
-
       const forward =
         this.handedness !== 'left'
           ? mouse_left.$
@@ -102,12 +124,28 @@ export class Phony extends Group implements IJointGroup {
           : 0
 
       hand.position.set(
-        this.handData[i * 3] +
-          (this.handedness === 'left' ? 0.1 : -0.1) +
-          Math.cos(t * 0.01) * 0.01 * (this.handedness === 'left' ? 1 : -1),
-        this.handData[i * 3 + 1] - 1.6 + Math.sin(t * 0.01) * 0.01,
-        this.handData[i * 3 + 2] - 0.15
+        this.handData[i * 3],
+        this.handData[i * 3 + 1] - 1.6,
+        this.handData[i * 3 + 2]
       )
+
+      // controller is moving
+      if (this.controllerOffset.length() > 0) {
+        hand.position
+          .applyQuaternion(controller.quaternion)
+          .add(this.controllerOffset)
+        continue
+      }
+
+      // move hand left or right
+      hand.position.x +=
+        (this.handedness === 'left' ? 0.1 : -0.1) +
+        Math.cos(t * 0.01) * 0.01 * (this.handedness === 'left' ? 1 : -1)
+
+      hand.position.y += Math.sin(t * 0.01) * 0.01
+
+      hand.position.z += -0.15
+
       let effect = 0.01
 
       switch (true) {

@@ -3,6 +3,8 @@ import { Uniform, Vector3 } from 'three'
 import { IJointGroup } from './joints'
 import { left, Phony, right } from './phony'
 
+export { left_controller, right_controller } from './phony'
+
 export const last_pose = new Value({
   left: '',
   right: '',

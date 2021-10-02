@@ -1,13 +1,14 @@
 import { AXIS, pad_axes } from 'src/input/gamepad'
 import { key_down, key_up } from 'src/input/keyboard'
 import { mouse_left, mouse_pos, mouse_right } from 'src/input/mouse'
+import { left_controller, right_controller } from 'src/input/phony'
 import { first } from 'src/realm'
 import { body, camera, renderer } from 'src/render'
 import { delta } from 'src/shader/time'
 import { Value } from 'src/value'
 import { MathUtils, Vector2, Vector3 } from 'three'
 import { looking } from './controls'
-import { velocity } from './smooth'
+import { angular, velocity } from './smooth'
 
 export const move_inputs = new Value(new Vector3(0, 0, 0))
 export const fly_engaged = new Value(false)
@@ -145,6 +146,18 @@ delta.on(($dt) => {
       camera_mucked = false
       body.$.quaternion.identity()
     }
+    if (right_controller.$) {
+      const [y, yn, x, z] = right_controller.$.userData.axes
+
+      velocity.$.add($vec3.set(x, y - yn, z).multiplyScalar($dt * 10))
+    }
+
+    if (left_controller.$) {
+      const [, x] = left_controller.$.userData.axes
+
+      angular.$ += x * $dt * 100
+    }
+
     return
   } else if (vr_mucked) {
     vr_mucked = false

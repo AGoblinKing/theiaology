@@ -1,16 +1,11 @@
 import { MIN_POSE_VALUE } from 'src/config'
+import { left_controller, right_controller } from 'src/input/phony'
 import { poses, poseValue } from 'src/input/poses'
-import { renderer, scene } from 'src/render'
+import { renderer } from 'src/render'
+import { Timer } from 'src/shader/time'
 import { VRButton } from 'src/VRButton'
 import { IJointGroup } from '../input/joints'
-import {
-  hands,
-  last_pose,
-  left_hand,
-  pose,
-  right_hand,
-  VRInit,
-} from '../input/xr'
+import { last_pose, pose, VRInit } from '../input/xr'
 import { Value } from '../value'
 import { audio } from './audio'
 import * as Spells from './spell'
@@ -25,59 +20,49 @@ document.body.appendChild(button)
 
 export const onVRClick = new Value(false)
 
+Timer(200, () => {
+  if (!VRInit.$) return
+
+  const session = renderer.xr.getSession()
+  let i = 0
+
+  if (!session || !session.inputSources) return
+
+  for (const source of session.inputSources) {
+    switch (true) {
+      case source.gamepad !== undefined: {
+        const pad = renderer.xr.getController(i)
+        pad.userData = source.gamepad
+        switch (source.handedness) {
+          case 'right':
+            left_controller.$ = pad
+            break
+          default:
+            right_controller.$ = pad
+            break
+        }
+        break
+      }
+      case source.hand !== undefined: {
+        const pad = renderer.xr.getHand(i)
+        switch (source.handedness) {
+          case 'left':
+            left_controller.$ = pad
+            break
+          default:
+            right_controller.$ = pad
+            break
+        }
+        break
+      }
+    }
+
+    i++
+  }
+})
+
 button.addEventListener('click', () => {
   onVRClick.set(true)
-
-  if (VRInit.$) return
-
-  for (let i = 0; i < 2; i++) {
-    const hand = renderer.xr.getHand(i) as any
-
-    if (hand) {
-      scene.$.add(hand)
-
-      hand.addEventListener('connected', (e) => {
-        hand.handedness = e.data.handedness
-        switch (hand.handedness) {
-          case 'left':
-            left_hand.set(hand)
-            break
-          case 'right':
-            right_hand.set(hand)
-            break
-        }
-      })
-
-      hands.$[i] = hand
-
-      hands.poke()
-      return
-    }
-
-    // no hand, maybe controller?
-
-    const controller = renderer.xr.getController(i) as any
-
-    if (controller) {
-      scene.$.add(controller)
-
-      controller.addEventListener('connected', (e) => {
-        controller.handedness = e.data.handedness
-        switch (controller.handedness) {
-          case 'left':
-            left_hand.set(controller)
-            break
-          case 'right':
-            right_hand.set(controller)
-            break
-        }
-      })
-
-      hands.$[i] = controller
-
-      hands.poke()
-    }
-  }
 
   audio.play()
 
