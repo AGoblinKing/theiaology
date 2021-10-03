@@ -39,11 +39,13 @@ import { ICancel, Value } from 'src/value'
 import {
   Box3,
   BoxBufferGeometry,
+  FrontSide,
   InstancedBufferAttribute,
   InstancedMesh,
   Material,
   Matrix4,
   MeshBasicMaterial,
+  MeshToonMaterial,
   Uniform,
   Vector3,
 } from 'three'
@@ -152,8 +154,11 @@ export class Realm {
   }
 
   initMaterial() {
-    this.material = new MeshBasicMaterial()
+    this.material = isQuest ? new MeshBasicMaterial() : new MeshToonMaterial({})
 
+    if (!isQuest) {
+      this.material.shadowSide = FrontSide
+    }
     const commonVertChunk = [
       '#include <common>',
       HeaderVert,

@@ -8,6 +8,7 @@ import {
   Scene,
   WebGLRenderer,
 } from 'three'
+import { isQuest } from './input/browser'
 
 export const scene = new Value(new Scene())
 export const camera = new PerspectiveCamera(
@@ -20,13 +21,15 @@ export const camera = new PerspectiveCamera(
 export const body = new Value(new Group())
 
 body.$.position.set(0, 0.15, 2.5)
-const sun = new DirectionalLight(0xffffff, 0.75)
+const sun = new DirectionalLight(0xffffff, 0.5)
 sun.position.set(1, 1, 1)
-scene.$.add(body.$.add(camera), new AmbientLight(0xffffff, 0.5), sun)
+const sun2 = sun.clone()
+sun.position.set(-1, 1, -1)
+scene.$.add(body.$.add(camera), new AmbientLight(0xffffff, 0.5), sun, sun2)
 
 export const renderer = new WebGLRenderer({
-  antialias: false,
-  preserveDrawingBuffer: true,
+  antialias: !isQuest,
+  preserveDrawingBuffer: !isQuest,
 })
 
 renderer.domElement.id = 'three'
