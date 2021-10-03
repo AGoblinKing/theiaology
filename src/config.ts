@@ -41,8 +41,8 @@ export const UNIVERSALS = [
   0,
   0,
   0, // gravity
-  0xff0011, // user color
-  0.1 * NORMALIZER, // user hue variance
+  0x55aaff, // user color
+  0.15 * NORMALIZER, // user hue variance
 ]
 
 export const CACHE = 'v2'

@@ -1,3 +1,9 @@
+import {
+  left_grab,
+  left_use,
+  right_grab,
+  right_use,
+} from 'src/controller/controls'
 import { IJointGroup, vr_keys } from 'src/input/joints'
 import { renderer } from 'src/render'
 import { tick } from 'src/shader/time'
@@ -128,6 +134,29 @@ export class Phony extends Group implements IJointGroup {
         this.handData[i * 3 + 1] - 1.6,
         this.handData[i * 3 + 2]
       )
+
+      switch (true) {
+        case this.handedness === 'left' && right_use.$:
+          if (
+            vr_keys[i].indexOf('thumb') !== -1 ||
+            vr_keys[i].indexOf('index') !== -1
+          )
+            hand.position.x *= 0.9
+          break
+        case this.handedness === 'right' && left_use.$:
+          if (
+            vr_keys[i].indexOf('thumb') !== -1 ||
+            vr_keys[i].indexOf('index') !== -1
+          )
+            hand.position.x *= 0.9
+          break
+        case this.handedness === 'right' && left_grab.$:
+          hand.position.multiplyScalar(0.6)
+          break
+        case this.handedness === 'left' && right_grab.$:
+          hand.position.multiplyScalar(0.6)
+          break
+      }
 
       // controller is moving
       if (this.controllerOffset.length() > 0) {

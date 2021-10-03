@@ -78,8 +78,10 @@ timing.on(() => {
       target[vr_keys[ix]].value.copy($vec)
     }
 
-    const s = Math.floor(rMeta.test(vr_keys[ix]) ? 7 : 5) * 9
-
+    let s = Math.floor(rMeta.test(vr_keys[ix]) ? 8 : 5) * 9.5
+    if (vr_keys[ix].indexOf('meta') !== -1) {
+      s *= 0.75
+    }
     const {
       size,
       future,
@@ -98,22 +100,39 @@ timing.on(() => {
 
     phys.phase(id, EPhase.DIVINE)
     phys.core(id, gid)
-    const vari = universal.userHueVariance()
+    const vari = universal.userHueVariance() / NORMALIZER
     const universalColor = $color.set(universal.userHue())
 
     // matter.red(id, NORMALIZER - (Math.random() * NORMALIZER) / 5)
-    matter.red(
-      id,
-      Math.round(universalColor.r * NORMALIZER * (1 - Math.random() * 0.15))
-    )
-    matter.green(
-      id,
-      Math.round(universalColor.g * NORMALIZER * (1 - Math.random() * 0.15))
-    )
-    matter.blue(
-      id,
-      Math.round(universalColor.b * NORMALIZER * (1 - Math.random() * 0.15))
-    )
+
+    switch (true) {
+      case vr_keys[ix] === 'wrist':
+        matter.red(id, NORMALIZER)
+        matter.green(id, NORMALIZER)
+        matter.blue(id, NORMALIZER)
+        break
+
+      case vr_keys[ix].indexOf('tip') !== -1 ||
+        vr_keys[ix].indexOf('thumb') !== -1:
+        matter.red(id, Math.min(1, universalColor.r * 1.15) * NORMALIZER)
+        matter.green(id, Math.min(1, universalColor.g * 1.15) * NORMALIZER)
+        matter.blue(id, Math.min(1, universalColor.b * 1.5) * NORMALIZER)
+        break
+      default:
+        matter.red(
+          id,
+          Math.round(universalColor.r * NORMALIZER * (1 - Math.random() * vari))
+        )
+        matter.green(
+          id,
+          Math.round(universalColor.g * NORMALIZER * (1 - Math.random() * vari))
+        )
+        matter.blue(
+          id,
+          Math.round(universalColor.b * NORMALIZER * (1 - Math.random() * vari))
+        )
+    }
+
     $vec.multiplyScalar(1000)
     future.x(id, Math.floor($vec.x))
     future.y(id, Math.floor($vec.y))
