@@ -37,8 +37,21 @@ class AI extends System {
         case ERole.HUNTER:
           this.hunt(i)
           break
+        case ERole.SEEKER:
+          this.seek(i)
+          break
       }
     }
+  }
+
+  seek(i: number) {
+    $vec3.set(Math.random() - 0.5, 0, Math.random() - 0.5).multiplyScalar(300)
+    this.velocity.addX(i, $vec3.x)
+    this.velocity.addZ(i, $vec3.z)
+
+    if (Math.random() < 0.99) return
+
+    this.velocity.addY(i, Math.random() * 5 + 5)
   }
 
   hunt(i: number) {

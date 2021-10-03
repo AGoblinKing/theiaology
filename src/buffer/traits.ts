@@ -9,6 +9,7 @@ export enum EStatus {
 export enum ERole {
   NONE = 0,
   HUNTER,
+  SEEKER,
 }
 
 export class Traits extends AtomicByte {

@@ -29,9 +29,12 @@ export const right_forward = new Value(false)
 export const forward = new Value(false).la(300, (i) => {})
 
 export const left_grabbed = new Value<number>(undefined)
-export const left_grab = new Value(false).re(() => {})
+export const left_grab = new Value(false).re((state) => {
+  // like a gripping noise
+})
 export const right_grab = new Value(false)
-export const left_use = new Value(false)
+export const left_use = new Value(false).re((state) => {})
+
 export const right_use = new Value(false)
 
 key_down.on((k) => {
