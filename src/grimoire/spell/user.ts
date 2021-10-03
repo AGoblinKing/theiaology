@@ -26,4 +26,13 @@ export default {
     $c.universal.userRZ($c.fate.data2(i))
     $c.post(EMessage.USER_ROT_UPDATE)
   },
+  [ESpell.UNI_GRAVITY](i: number, $c: ICardinal, $spell: Spell) {
+    $c.universal.gravityX($c.fate.data0(i))
+    $c.universal.gravityY($c.fate.data1(i))
+    $c.universal.gravityZ($c.fate.data2(i))
+  },
+  [ESpell.USER_COLOR](i: number, $c: ICardinal, $spell: Spell) {
+    $c.universal.userHue($c.fate.data0(i))
+    $c.universal.userHueVariance($c.fate.data1(i))
+  },
 }

@@ -9,7 +9,7 @@ import { body } from 'src/render'
 import { timing } from 'src/shader/time'
 import { EMessage } from 'src/system/enum'
 import { SystemWorker } from 'src/system/sys'
-import { Vector3 } from 'three'
+import { Color, Vector3 } from 'three'
 
 let hand_joints: number[] = []
 const $vec = new Vector3()
@@ -31,6 +31,8 @@ export function RezHands(cardinal: SystemWorker) {
 
 const rTip = /tip$/
 const rMeta = /metacarpal$|proximal$/
+
+const $color = new Color()
 
 // update hand rezes if they exist
 timing.on(() => {
@@ -76,7 +78,7 @@ timing.on(() => {
       target[vr_keys[ix]].value.copy($vec)
     }
 
-    const s = Math.floor(rMeta.test(vr_keys[ix]) ? 8 : 5) * 9.5
+    const s = Math.floor(rMeta.test(vr_keys[ix]) ? 7 : 5) * 9
 
     const {
       size,
@@ -86,6 +88,7 @@ timing.on(() => {
       past,
       animation: animation,
       cage,
+      universal,
     } = first.$
 
     animation.store(id, EAnimation.OFF)
@@ -95,10 +98,22 @@ timing.on(() => {
 
     phys.phase(id, EPhase.DIVINE)
     phys.core(id, gid)
+    const vari = universal.userHueVariance()
+    const universalColor = $color.set(universal.userHue())
 
     // matter.red(id, NORMALIZER - (Math.random() * NORMALIZER) / 5)
-    matter.blue(id, Math.round(NORMALIZER - (Math.random() * NORMALIZER) / 5))
-
+    matter.red(
+      id,
+      Math.round(universalColor.r * NORMALIZER * (1 - Math.random() * 0.15))
+    )
+    matter.green(
+      id,
+      Math.round(universalColor.g * NORMALIZER * (1 - Math.random() * 0.15))
+    )
+    matter.blue(
+      id,
+      Math.round(universalColor.b * NORMALIZER * (1 - Math.random() * 0.15))
+    )
     $vec.multiplyScalar(1000)
     future.x(id, Math.floor($vec.x))
     future.y(id, Math.floor($vec.y))

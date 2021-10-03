@@ -143,7 +143,6 @@ export class Phony extends Group implements IJointGroup {
         Math.cos(t * 0.01) * 0.01 * (this.handedness === 'left' ? 1 : -1)
 
       hand.position.y += Math.sin(t * 0.01) * 0.01
-
       hand.position.z += -0.15
 
       let effect = 0.01
@@ -167,7 +166,7 @@ export class Phony extends Group implements IJointGroup {
       }
 
       $vec3
-        .set(mouse_pos.$.x, mouse_pos.$.y, forward)
+        .set(mouse_pos.$.x, mouse_pos.$.y, forward * 2)
         .multiplyScalar(effect * 2)
 
       const target = this.handedness === 'left' ? this.lastLeft : this.lastRight

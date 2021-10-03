@@ -156,6 +156,8 @@ export enum ESpell {
   TRAP_CLEAR,
   MIDI_INSTRUMENT,
   DO_SEEK,
+  UNI_GRAVITY,
+  USER_COLOR,
 }
 
 export enum EConstraint {
@@ -368,5 +370,14 @@ export const Invocations: { [key: number]: any } = {
   },
   [ESpell.DO_SEEK]: {
     when: EVar.TIME,
+  },
+  [ESpell.UNI_GRAVITY]: {
+    x: EVar.USERNUMBER,
+    y: EVar.USERNUMBER,
+    z: EVar.USERNUMBER,
+  },
+  [ESpell.USER_COLOR]: {
+    color: EVar.COLOR,
+    hueVariance: EVar.NORMAL,
   },
 }

@@ -157,11 +157,17 @@ class Physics extends System {
     // rip through matter, update their grid_past/futures
 
     const moves = new Set()
+    const carries = []
     const dx = this.tickrate / 1000
+
+    const gx = this.universal.gravityX(),
+      gy = this.universal.gravityY(),
+      gz = this.universal.gravityZ()
 
     for (let i = 0; i < ATOM_COUNT; i++) {
       const phase = this.phys.phase(i)
       const group = this.phys.core(i)
+      const carried = this.phys.carried(i)
 
       switch (phase) {
         case EPhase.VOID:
@@ -181,13 +187,19 @@ class Physics extends System {
 
       const ci = group !== 0 && i !== group ? group : i
 
+      if (carried !== 0) {
+        // set this past and future to the carrier later
+        carries.push(i)
+        return
+      }
+
       let tx = this.thrust.x(ci),
         ty = this.thrust.y(ci),
         tz = this.thrust.z(ci)
 
-      let vx = this.velocity.x(ci) + tx * dx,
-        vy = this.velocity.y(ci) + ty * dx,
-        vz = this.velocity.z(ci) + tz * dx
+      let vx = this.velocity.x(ci) + tx * dx + gx * dx,
+        vy = this.velocity.y(ci) + ty * dx + gy * dx,
+        vz = this.velocity.z(ci) + tz * dx + gz * dx
 
       if (vx !== 0 || vy !== 0 || vz !== 0) {
         moves.add(i)
@@ -257,6 +269,10 @@ class Physics extends System {
         this.velocity.y(i, vy * DECAY)
         this.velocity.z(i, vz * DECAY)
       }
+    }
+
+    for (let carry of carries) {
+      this.future.vec3(carry, this.future.vec3(this.phys.carried(carry)))
     }
     // collision phase
     isInsert && this.tree.load(Object.values($inserts))

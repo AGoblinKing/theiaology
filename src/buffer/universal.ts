@@ -12,7 +12,7 @@ export enum ERealmState {
 }
 
 export class Universal extends AtomicInt {
-  static COUNT = 24
+  static COUNT = 29
   _init = false
 
   constructor(shared = new SharedArrayBuffer(4 * Universal.COUNT)) {
@@ -164,5 +164,32 @@ export class Universal extends AtomicInt {
     return score === undefined
       ? Atomics.load(this, 23)
       : Atomics.store(this, 23, score)
+  }
+
+  gravityX(gravity?: number) {
+    return gravity === undefined
+      ? Atomics.load(this, 24)
+      : Atomics.store(this, 24, gravity)
+  }
+
+  gravityY(gravity?: number) {
+    return gravity === undefined
+      ? Atomics.load(this, 25)
+      : Atomics.store(this, 25, gravity)
+  }
+  gravityZ(gravity?: number) {
+    return gravity === undefined
+      ? Atomics.load(this, 26)
+      : Atomics.store(this, 26, gravity)
+  }
+  userHue(color?: number) {
+    return color === undefined
+      ? Atomics.load(this, 27)
+      : Atomics.store(this, 27, color)
+  }
+  userHueVariance(variance?: number) {
+    return variance === undefined
+      ? Atomics.load(this, 28)
+      : Atomics.store(this, 28, variance)
   }
 }

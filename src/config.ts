@@ -38,6 +38,11 @@ export const UNIVERSALS = [
   -1, // no avatar
   1, // thrust strength is 1 normally
   0, // SCORE
+  0,
+  0,
+  0, // gravity
+  0xff00ff, // user color
+  0.1 * NORMALIZER, // user hue variance
 ]
 
 export const CACHE = 'v2'
