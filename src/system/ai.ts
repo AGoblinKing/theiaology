@@ -51,7 +51,7 @@ class AI extends System {
 
     if (Math.random() < 0.99) return
 
-    this.velocity.addY(i, Math.random() * 5 + 5)
+    this.velocity.addY(i, Math.random() * 500 + 500)
   }
 
   hunt(i: number) {

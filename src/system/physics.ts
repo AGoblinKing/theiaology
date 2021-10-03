@@ -151,7 +151,7 @@ class Physics extends System {
 
   tick() {
     if (!this.ready || this.universal.state() !== ERealmState.RUNNING) return
-    const isInsert = this.count % 2 === 0
+    const isInsert = true
     this.count++
     const t = this.universal.time()
 
