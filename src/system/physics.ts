@@ -150,7 +150,7 @@ class Physics extends System {
 
   tick() {
     if (!this.ready || this.universal.state() !== ERealmState.RUNNING) return
-    const isInsert = this.count % 20 === 0
+    const isInsert = this.count % 2 === 0
     this.count++
     const t = this.universal.time()
 
@@ -166,6 +166,8 @@ class Physics extends System {
       switch (phase) {
         case EPhase.VOID:
           continue
+        case EPhase.DIVINE:
+          moves.add(i)
         case EPhase.STUCK: {
           isInsert && this.insert(i)
 
@@ -256,6 +258,8 @@ class Physics extends System {
         this.velocity.z(i, vz * DECAY)
       }
     }
+    // collision phase
+    isInsert && this.tree.load(Object.values($inserts))
 
     for (let [k, v] of Object.entries($inserts)) {
       switch (this.phys.phase(parseInt(k, 10))) {
@@ -277,9 +281,15 @@ class Physics extends System {
       const phase = this.phys.phase(v.i)
       // reset impact
       this.impact.impact(v.i, 0, -1)
+      const baseCore = this.phys.core(v.i)
       for (let collide of this.tree.search(v)) {
         // richocet off collides
-        if (collide.i === v.i) continue
+        if (
+          collide.i === v.i ||
+          (baseCore !== 0 && baseCore === this.phys.core(collide.i))
+        )
+          continue
+
         collision = true
         this.impact.impact(v.i, 0, collide.i)
 
@@ -301,9 +311,9 @@ class Physics extends System {
 
           // TODO: this could mess up phys groups
           if (this.phys.phase(collide.i) === EPhase.LIQUID) {
-            this.velocity.addX(collide.i, $vec3v.x * 0.5)
-            this.velocity.addY(collide.i, $vec3v.y * 0.5)
-            this.velocity.addZ(collide.i, $vec3v.z * 0.5)
+            this.velocity.addX(collide.i, $vec3v.x * 0.25)
+            this.velocity.addY(collide.i, $vec3v.y * 0.25)
+            this.velocity.addZ(collide.i, $vec3v.z * 0.25)
           }
         }
       }
@@ -318,8 +328,6 @@ class Physics extends System {
     this.post(EMessage.PHYS_TICK)
 
     isInsert && this.tree.clear()
-    // collision phase
-    isInsert && this.tree.load(Object.values($inserts))
   }
 }
 

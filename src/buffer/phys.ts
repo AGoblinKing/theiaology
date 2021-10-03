@@ -12,6 +12,7 @@ export enum EPhase {
   // Doesn't move, but exists
   STUCK,
   NORMAL,
+  DIVINE,
 }
 
 export class Phys extends AtomicInt {

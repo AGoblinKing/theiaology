@@ -25,6 +25,20 @@ export const volume = new Value(1)
     audio.volume = v
   })
 
+export const mute = new Value(false)
+  .do(async () => {
+    get('$audio_mute').then((v) => {
+      mute.set(v)
+    })
+  })
+  .re((v) => {
+    if (v === undefined) return
+
+    set('$audio_mute', v)
+
+    audio.muted = v
+  })
+
 export const context = new Value<AudioContext>()
 let started = false
 
@@ -100,6 +114,10 @@ tick.on(() => {
     lastVolume = audio.volume
     volume.set(lastVolume)
   }
+  if (audio.muted !== mute.$) {
+    mute.set(audio.muted)
+  }
+
   if (seconds.$ !== audio.currentTime) {
     seconds.set(audio.currentTime)
   }

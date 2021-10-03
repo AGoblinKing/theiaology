@@ -40,12 +40,15 @@ timing.on(() => {
     RezHands(first.$.cardinal)
     return
   }
+  let gid
   for (let i = 0; i < hand_joints.length; i++) {
     const ix = i % 25
     const iy = Math.floor(i / 25)
     const id = hand_joints[i]
 
     const j = hands.$[iy]?.joints[vr_keys[ix]]
+
+    if (ix == 0) gid = j
 
     if (!j) continue
 
@@ -90,7 +93,9 @@ timing.on(() => {
     size.y(id, s)
     size.z(id, s)
 
-    phys.phase(id, EPhase.STUCK)
+    phys.phase(id, EPhase.DIVINE)
+    phys.core(id, gid)
+
     // matter.red(id, NORMALIZER - (Math.random() * NORMALIZER) / 5)
     matter.blue(id, Math.round(NORMALIZER - (Math.random() * NORMALIZER) / 5))
 
@@ -104,7 +109,6 @@ timing.on(() => {
     past.z(id, future.z(id))
     past.time(id, Math.floor(timing.$))
     future.time(id, Math.floor(timing.$ + 200))
-
     cage.mX(id, 0)
     cage.mY(id, 0)
     cage.mZ(id, 0)
