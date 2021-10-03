@@ -161,3 +161,10 @@ export function Tune(timer: number, count: number, skip: (i) => void) {
     skip(i++)
   }, timer)
 }
+
+export function Chirp(ins = 81, note = 90, volume = 0.5) {
+  Tune(25, 15, (i) => {
+    if (i % 3 === 0) return
+    MIDI(ins, note + (i % 5), volume)
+  })
+}

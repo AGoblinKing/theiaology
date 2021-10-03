@@ -1,5 +1,5 @@
 import 'src/controller/audio'
-import { makeAudioReady, MIDI, Tune } from 'src/controller/audio'
+import { Chirp, makeAudioReady } from 'src/controller/audio'
 import 'src/controller/player'
 import 'src/fate/rez/hand-joints'
 // @ts-ignore - tots is a module
@@ -48,10 +48,7 @@ key_down.on((k) => {
         Screenshot()
       }
 
-      Tune(25, 15, (i) => {
-        if (i % 3 === 0) return
-        MIDI(81, 90 + (i % 5), 0.5)
-      })
+      Chirp()
 
       modal_location.$.set(mouse_page.$.x, mouse_page.$.y)
       modal_visible.set(() => {})

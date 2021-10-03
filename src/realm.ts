@@ -14,6 +14,7 @@ import {
   audio,
   audio_buffer,
   audio_name,
+  Chirp,
   lowerUniform,
   MIDI,
   seconds,
@@ -291,6 +292,11 @@ export class Realm {
           case EMessage.CLEAR_COLOR_UPDATE:
             if (!this.fantasy) return
             renderer.setClearColor(this.universal.clearColor())
+            break
+
+          case EMessage.CARD_MIDI_CHIRP:
+            if (!this.fantasy) return
+            Chirp(...data.data)
             break
 
           case EMessage.CARD_MIDI:

@@ -13,6 +13,9 @@
         }
     });
 
+    // @ts-ignore
+    window.mirror = mirror;
+
     onDestroy(() => {
         mirror.off("changes", update)
         mirror.getWrapperElement().parentNode.removeChild(mirror.getWrapperElement());

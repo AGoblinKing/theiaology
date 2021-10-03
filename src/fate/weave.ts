@@ -146,8 +146,8 @@ export enum ESpell {
   USER_AVATAR,
   VOX_BREAK,
   FLOCK_RECT,
-  DO_SCORE,
-  DO_MIDI,
+  GAME_SCORE,
+  MIDI,
   DO_STATUS,
   TRAP_IMPACT,
   TRAP_DISTANCE,
@@ -158,6 +158,7 @@ export enum ESpell {
   DO_SEEK,
   UNI_GRAVITY,
   USER_COLOR,
+  MIDI_CHIRP,
 }
 
 export enum EConstraint {
@@ -308,7 +309,7 @@ export const Invocations: { [key: number]: any } = {
   [ESpell.THEIA_RULER]: { githubUser: EVar.STRING },
   [ESpell.THEIA_REALM]: { theia: EVar.STRING },
   [ESpell.THEIA_GATE]: { theia: EVar.STRING },
-  [ESpell.DO_MIDI]: {
+  [ESpell.MIDI]: {
     note: EVar.POSITIVE,
     flourish: EMidiFlourish,
     timing: EVar.USERPOSITIVE,
@@ -342,7 +343,7 @@ export const Invocations: { [key: number]: any } = {
     margin: EVar.USERPOSITIVE,
   },
 
-  [ESpell.DO_SCORE]: {
+  [ESpell.GAME_SCORE]: {
     score: EVar.NUMBER,
   },
 
@@ -379,5 +380,10 @@ export const Invocations: { [key: number]: any } = {
   [ESpell.USER_COLOR]: {
     color: EVar.COLOR,
     hueVariance: EVar.NORMAL,
+  },
+  [ESpell.MIDI_CHIRP]: {
+    instrument: EVar.NUMBER,
+    note: EVar.NUMBER,
+    volume: EVar.NORMAL,
   },
 }
