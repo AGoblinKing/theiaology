@@ -14,6 +14,7 @@ import { modal_location, modal_options, modal_visible } from './fate/editor'
 import { key_down, key_map } from './input/keyboard'
 import { Load } from './input/load'
 import { mouse_page } from './input/mouse'
+import { Screenshot } from './input/save'
 import { first } from './realm'
 
 // startup editor
@@ -41,7 +42,12 @@ key_down.on((k) => {
     case 'p':
       if (!key_map.$['Control']) return
     case 'F12':
-      steam.$?.post('screenshot')
+      if (steam.$) {
+        steam.$.post('screenshot')
+      } else {
+        Screenshot()
+      }
+
       Tune(25, 15, (i) => {
         if (i % 3 === 0) return
         MIDI(81, 90 + (i % 5), 0.5)
@@ -49,7 +55,10 @@ key_down.on((k) => {
 
       modal_location.$.set(mouse_page.$.x, mouse_page.$.y)
       modal_visible.set(() => {})
-      modal_options.set(['SCREENSHOT TAKEN', 'UPLOADING TO STEAM'])
+      modal_options.set([
+        'SCREENSHOT TAKEN',
+        steam.$ ? 'UPLOADING TO STEAM' : 'DOWNLOADING',
+      ])
   }
 })
 

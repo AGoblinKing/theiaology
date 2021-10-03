@@ -19,6 +19,17 @@ export function SaveScript() {
   fs.saveAs(blob, name + '.lisp')
 }
 
+export function Screenshot() {
+  const canvas = document.getElementById('three')
+  // @ts-ignore
+  canvas.toBlob(
+    function (blob) {
+      fs.saveAs(blob, `theiaology-${first.$.fate.$.text(0)}.jpg`)
+    },
+    'image/jpeg',
+    0.95
+  )
+}
 export function Publish(name: string, selling: 'sell' | 'share') {
   loading.set(true)
   Notify(`Publishing ${name} to Steam Workshop`, `This may take a bit!`)
