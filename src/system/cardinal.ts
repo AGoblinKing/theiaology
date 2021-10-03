@@ -197,7 +197,8 @@ class Cardinal extends System implements ICardinal {
 
     // now we rez
     // determine voxel count, for loop over them
-    const shape = ShapeMap[$spell.flock.shape]
+    const shape =
+      ShapeMap[$spell.flock.shape === undefined ? 0 : $spell.flock.shape]
     if (!shape) {
       throw new Error("couldn't find shape on shapemap" + $spell.flock.shape)
     }
@@ -533,6 +534,10 @@ class Cardinal extends System implements ICardinal {
     this.timing = {}
     this.forms = {}
     this.universal.score(0)
+    this.universal.gravityX(0)
+    this.universal.gravityY(0)
+    this.universal.gravityZ(0)
+
     this.post(EMessage.CLEAR_COLOR_UPDATE)
 
     this.process()

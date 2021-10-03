@@ -18,6 +18,7 @@ import { System } from './system'
 
 const DECAY = 0.95
 const $vec3 = new Vector3()
+const $vec3r = new Vector3()
 
 class BBox extends Box3 {
   i: number
@@ -310,33 +311,49 @@ class Physics extends System {
         this.impact.impact(v.i, 0, collide.i)
 
         collide.getCenter($vec3o).sub($vec3)
-        if (phase === EPhase.LIQUID) {
-          $vec3o
-            .normalize()
-            .negate()
-            .multiply(
-              $vec3t.set(
-                3 + Math.random(),
-                3 + Math.random(),
-                3 + Math.random()
-              )
-            )
-            .multiplyScalar(33)
 
-          $vec3v.add($vec3o)
+        switch (phase) {
+          case EPhase.NORMAL: {
+            $vec3o
+              .normalize()
+              .negate()
+              .add($vec3t)
+              .sub($vec3v)
+              .multiplyScalar(dx)
 
-          // TODO: this could mess up phys groups
-          if (this.phys.phase(collide.i) === EPhase.LIQUID) {
-            this.velocity.addX(collide.i, $vec3v.x * 0.25)
-            this.velocity.addY(collide.i, $vec3v.y * 0.25)
-            this.velocity.addZ(collide.i, $vec3v.z * 0.25)
+            $vec3v.add($vec3o)
+            break
           }
+          case EPhase.LIQUID:
+            {
+              $vec3o
+                .normalize()
+                .negate()
+                .multiply(
+                  $vec3r.set(
+                    3 + Math.random(),
+                    3 + Math.random(),
+                    3 + Math.random()
+                  )
+                )
+                .multiplyScalar(33)
+
+              $vec3v.add($vec3o)
+
+              // TODO: this could mess up phys groups
+              if (this.phys.phase(collide.i) === EPhase.LIQUID) {
+                this.velocity.addX(collide.i, $vec3v.x * 0.25)
+                this.velocity.addY(collide.i, $vec3v.y * 0.25)
+                this.velocity.addZ(collide.i, $vec3v.z * 0.25)
+              }
+            }
+            break
         }
       }
 
       if (collision) {
         this.velocity.addX(v.i, $vec3v.x)
-        this.velocity.addY(v.i, $vec3v.y + $vec3t.y * 200)
+        this.velocity.addY(v.i, $vec3v.y)
         this.velocity.addZ(v.i, $vec3v.z)
       }
     }
