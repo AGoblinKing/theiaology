@@ -31,7 +31,7 @@ self.addEventListener('install', (event: any) => {
         '/sprite/pointerright.png',
         '/sprite/target.png',
         '/image/interaction.gif',
-        '/manifest.json',
+        '/manifest.webmanifest',
       ])
     })
   )
