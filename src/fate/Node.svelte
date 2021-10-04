@@ -28,7 +28,7 @@
   import { Invocations, ESpell, EVar, ESpellHelp } from './weave'
 
   import { SaveScript } from 'src/input/save'
-  import { NORMALIZER, UserUnits } from 'src/config'
+  import { NORMALIZER, FaeUnits } from 'src/config'
   import { hashcode } from './color'
   import { seconds } from 'src/controller/audio';
 
@@ -168,9 +168,9 @@
     })
   }
 
-  function inputUserNumber(cursor: number) {
+  function inputFaeNumber(cursor: number) {
     updateModal()
-    modal_options.set(EVar.USERNUMBER)
+    modal_options.set(EVar.FAENUMBER)
     modal_cursor.set(cursor)
     modal_default.set(fate.$[`data${cursor}`](i))
     modal_visible.set((res) => {
@@ -301,14 +301,14 @@
           >
             {$fate[`data${index}`](i)}
           </Box>
-        {:else if value === EVar.USERNUMBER || value === EVar.USERPOSITIVE}
+        {:else if value === EVar.FAENUMBER || value === EVar.FAEPOSITIVE}
           <Box
             flex
             hover={key}
-            click={() => inputUserNumber(index)}
+            click={() => inputFaeNumber(index)}
             nav={NavData(index)}
           >
-            {UserUnits($fate[`data${index}`](i))}
+            {FaeUnits($fate[`data${index}`](i))}
           </Box>
         {:else if value == EVar.VOX}
           <Box

@@ -9,7 +9,7 @@
         dragDrop: false,
         theme: "erlang-dark",
         save: () => {
-            console.log("hlelo")
+          
         }
     });
 

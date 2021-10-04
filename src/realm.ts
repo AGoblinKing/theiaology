@@ -124,7 +124,7 @@ export class Realm {
 
   score = new Value(0)
 
-  // the id of the atom that is the user's avatar
+  // the id of the atom that is the fae's avatar
   avatar = new Value<number>()
 
   constructor() {
@@ -266,12 +266,12 @@ export class Realm {
             // now to load a timeline
             realms[data.id].load(data.ruler, data.land)
             break
-          case EMessage.USER_ROT_UPDATE:
+          case EMessage.FAE_ROT_UPDATE:
             if (!this.fantasy) return
             body.$.rotation.set(
-              (this.universal.userRX() / NORMALIZER) * Math.PI * 2,
-              (this.universal.userRY() / NORMALIZER) * Math.PI * 2,
-              (this.universal.userRZ() / NORMALIZER) * Math.PI * 2
+              (this.universal.faeRX() / NORMALIZER) * Math.PI * 2,
+              (this.universal.faeRY() / NORMALIZER) * Math.PI * 2,
+              (this.universal.faeRZ() / NORMALIZER) * Math.PI * 2
             )
 
             break
@@ -281,14 +281,14 @@ export class Realm {
             atoms.geometry.getAttribute('matter').needsUpdate = true
             atoms.geometry.getAttribute('size').needsUpdate = true
             break
-          case EMessage.USER_POS_UPDATE:
+          case EMessage.FAE_POS_UPDATE:
             if (!this.fantasy) return
             body.$.position.copy(
               $vec3
                 .set(
-                  this.universal.userX(),
-                  this.universal.userY(),
-                  this.universal.userZ()
+                  this.universal.faeX(),
+                  this.universal.faeY(),
+                  this.universal.faeZ()
                 )
                 .multiplyScalar(0.01)
                 .add(this.universal.offset().multiplyScalar(0.005))

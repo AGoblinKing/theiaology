@@ -11,7 +11,7 @@
     "dev": "run-p watch start"
   },
   "author": "king@goblin.life",
-  "license": "Copyright 2021 king@goblin.life",
+  "license": "GPL-3.0-only",
   "prettier": {
     "semi": false,
     "singleQuote": true

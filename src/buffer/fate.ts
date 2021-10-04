@@ -186,8 +186,8 @@ export class Fate extends AtomicInt {
               case EVar.NORMAL:
                 output += `${d / NORMALIZER} `
                 break
-              case EVar.USERNUMBER:
-              case EVar.USERPOSITIVE:
+              case EVar.FAENUMBER:
+              case EVar.FAEPOSITIVE:
                 output += `${d * 0.01} `
                 break
               case EVar.NEGATIVE:
@@ -294,8 +294,8 @@ export class Fate extends AtomicInt {
             case EVar.COLOR:
               this[dat](i, parseInt(item, 16))
               break
-            case EVar.USERNUMBER:
-            case EVar.USERPOSITIVE:
+            case EVar.FAENUMBER:
+            case EVar.FAEPOSITIVE:
               this[dat](i, Math.round(parseFloat(item) * 100))
               break
             case EVar.NORMAL:

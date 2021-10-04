@@ -69,8 +69,8 @@ export const right = [
 
 const $vec3 = new Vector3()
 
-export const left_controller = new Value<Object3D>().re(console.log)
-export const right_controller = new Value<Object3D>().re(console.log)
+export const left_controller = new Value<Object3D>()
+export const right_controller = new Value<Object3D>()
 
 export class Phony extends Group implements IJointGroup {
   handedness: 'left' | 'right' = 'left'

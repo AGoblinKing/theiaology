@@ -12,7 +12,7 @@
   import { EVar } from './weave'
   import Box from 'src/fate/Box.svelte'
   import { hashcode } from './color'
-  import { USER_SCALE } from 'src/config';
+  import { FAE_SCALE } from 'src/config';
 
   // modal is a singleton so Aok, but weird
   mouse_left.on(() => {
@@ -84,8 +84,8 @@
       <Normal />
     {:else if $modal_options === EVar.STRING || $modal_options === EVar.LONGSTRING}
       <String length={$modal_options === EVar.LONGSTRING ? 30 : 12} />
-    {:else if $modal_options === EVar.USERNUMBER}
-      <Number scale={USER_SCALE} />
+    {:else if $modal_options === EVar.FAENUMBER}
+      <Number scale={FAE_SCALE} />
     {:else if $modal_options === EVar.NUMBER}
       <Number />
     {/if}

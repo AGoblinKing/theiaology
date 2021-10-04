@@ -64,8 +64,8 @@ export enum EVar {
   // -1 0 1
   SIGN,
   TIME,
-  USERNUMBER,
-  USERPOSITIVE,
+  FAENUMBER,
+  FAEPOSITIVE,
   FIVEFINGERS,
   BOOL,
   LONGSTRING,
@@ -125,9 +125,9 @@ export enum ESpell {
   ROT_VAR,
   IMPACT,
   VOX_VAR,
-  USER_POS,
-  USER_ROT,
-  USER_SIZE,
+  FAE_POS,
+  FAE_ROT,
+  FAE_SIZE,
   UNI_IDLE,
   FLOCK_TEXT,
   UNI_CLEAR_COLOR,
@@ -143,7 +143,7 @@ export enum ESpell {
   TRIGGER,
   FLOCK_RING,
   FLOCK_GRID,
-  USER_AVATAR,
+  FAE_AVATAR,
   VOX_BREAK,
   FLOCK_RECT,
   GAME_SCORE,
@@ -157,7 +157,7 @@ export enum ESpell {
   MIDI_INSTRUMENT,
   DO_SEEK,
   UNI_GRAVITY,
-  USER_COLOR,
+  FAE_COLOR,
   MIDI_CHIRP,
 }
 
@@ -190,7 +190,7 @@ export const ESpellHelp = {
   [ESpell.ROT_LOOK_TO]: 'Atomic Rotation to look at to',
   [ESpell.ROT_VAR]: 'Atomic Rotation Variance',
   [ESpell.THEIA_RULER]:
-    'SET THE THEIA RULER FOR LOADING FROM GITHUB. MAPS TO GITHUB USER NAME.',
+    'SET THE THEIA RULER FOR LOADING FROM GITHUB. MAPS TO GITHUB FAE NAME.',
   [ESpell.THEIA_REALM]: 'SET THE THEIA REALM, MAPS TO FILE NAME WITHOUT .FATE',
   [ESpell.EVENT]: 'An event',
   [ESpell.PHYS_CAGE]: 'Cage atoms to these bounds, also sets realm shader cage',
@@ -200,10 +200,10 @@ export const ESpellHelp = {
   [ESpell.VOX]:
     'Atomic Voxel Shape. Forms a pattern at the point of a flock based on a .vox file.',
   [ESpell.VOX_VAR]: 'Atomic Voxel Shape Variance of position within the vox',
-  [ESpell.USER_AVATAR]: 'Atomic User Avatar designation',
-  [ESpell.USER_POS]: 'Atomic User Position',
-  [ESpell.USER_ROT]: 'Atomic User Rotation',
-  [ESpell.USER_SIZE]: 'Atomic User Size',
+  [ESpell.FAE_AVATAR]: 'Atomic Fae Avatar designation',
+  [ESpell.FAE_POS]: 'Atomic Fae Position',
+  [ESpell.FAE_ROT]: 'Atomic Fae Rotation',
+  [ESpell.FAE_SIZE]: 'Atomic Fae Size',
   [ESpell.UNI_IDLE]:
     'Atomic Idle routine. IDLE_RANDOMIZE randomizes the idle routine',
   [ESpell.UNI_CLEAR_COLOR]: 'Clear Color',
@@ -225,15 +225,15 @@ export const Invocations: { [key: number]: any } = {
     variance: EVar.NORMAL,
   },
   [ESpell.SHAPE]: {
-    x: EVar.USERPOSITIVE,
-    y: EVar.USERPOSITIVE,
-    z: EVar.USERPOSITIVE,
+    x: EVar.FAEPOSITIVE,
+    y: EVar.FAEPOSITIVE,
+    z: EVar.FAEPOSITIVE,
   },
   //   [ETimeline.MUSIC]: { audio: EVar.AUDIO },
   [ESpell.SHAPE_VAR]: {
-    x: EVar.USERPOSITIVE,
-    y: EVar.USERPOSITIVE,
-    z: EVar.USERPOSITIVE,
+    x: EVar.FAEPOSITIVE,
+    y: EVar.FAEPOSITIVE,
+    z: EVar.FAEPOSITIVE,
   },
   [ESpell.ROT]: { x: EVar.NORMAL, y: EVar.NORMAL, z: EVar.NORMAL },
   [ESpell.ROT_VAR]: { x: EVar.NORMAL, y: EVar.NORMAL, z: EVar.NORMAL },
@@ -244,31 +244,31 @@ export const Invocations: { [key: number]: any } = {
   [ESpell.DO_FREE]: {},
 
   [ESpell.POS]: {
-    x: EVar.USERNUMBER,
-    y: EVar.USERNUMBER,
-    z: EVar.USERNUMBER,
+    x: EVar.FAENUMBER,
+    y: EVar.FAENUMBER,
+    z: EVar.FAENUMBER,
   },
   [ESpell.POS_VAR]: {
-    x: EVar.USERNUMBER,
-    y: EVar.USERNUMBER,
-    z: EVar.USERNUMBER,
+    x: EVar.FAENUMBER,
+    y: EVar.FAENUMBER,
+    z: EVar.FAENUMBER,
   },
   [ESpell.THRUST]: {
-    x: EVar.USERNUMBER,
-    y: EVar.USERNUMBER,
-    z: EVar.USERNUMBER,
+    x: EVar.FAENUMBER,
+    y: EVar.FAENUMBER,
+    z: EVar.FAENUMBER,
   },
 
   [ESpell.THRUST_VAR]: {
     axis: EAxis,
-    thrust: EVar.USERPOSITIVE,
+    thrust: EVar.FAEPOSITIVE,
     constraint: EConstraint,
   },
 
   [ESpell.ROT_LOOK]: {
-    x: EVar.USERNUMBER,
-    y: EVar.USERNUMBER,
-    z: EVar.USERNUMBER,
+    x: EVar.FAENUMBER,
+    y: EVar.FAENUMBER,
+    z: EVar.FAENUMBER,
   },
   // [ETimeline.POSTO]: { tag: EVar.TAGID },
   // [ETimeline.LOOKTO]: { tag: EVar.TAGID },
@@ -280,39 +280,39 @@ export const Invocations: { [key: number]: any } = {
   // [ETimeline.IMPACT]: { reaction: EImpactReaction },
   [ESpell.PHYS_CAGE]: {
     axis: EAxis,
-    min: EVar.USERNUMBER,
-    max: EVar.USERNUMBER,
+    min: EVar.FAENUMBER,
+    max: EVar.FAENUMBER,
   },
 
   [ESpell.UNI_IDLE]: { idle: EIdle },
-  [ESpell.USER_POS]: {
-    x: EVar.USERNUMBER,
-    y: EVar.USERNUMBER,
-    z: EVar.USERNUMBER,
+  [ESpell.FAE_POS]: {
+    x: EVar.FAENUMBER,
+    y: EVar.FAENUMBER,
+    z: EVar.FAENUMBER,
   },
-  // [ETimeline.USERROT]: { x: EVar.NUMBER, y: EVar.NUMBER, z: EVar.NUMBER },
-  [ESpell.USER_SIZE]: { size: EVar.USERPOSITIVE },
+  // [ETimeline.FAEROT]: { x: EVar.NUMBER, y: EVar.NUMBER, z: EVar.NUMBER },
+  [ESpell.FAE_SIZE]: { size: EVar.FAEPOSITIVE },
   [ESpell.FLOCK_TEXT]: { text: EVar.STRING },
   [ESpell.UNI_CLEAR_COLOR]: { rgb: EVar.COLOR },
-  [ESpell.USER_ROT]: { x: EVar.NORMAL, y: EVar.NORMAL, z: EVar.NORMAL },
+  [ESpell.FAE_ROT]: { x: EVar.NORMAL, y: EVar.NORMAL, z: EVar.NORMAL },
   [ESpell.POS_ADD]: {
-    x: EVar.USERNUMBER,
-    y: EVar.USERNUMBER,
-    z: EVar.USERNUMBER,
+    x: EVar.FAENUMBER,
+    y: EVar.FAENUMBER,
+    z: EVar.FAENUMBER,
   },
   [ESpell.THRUST_ADD]: {
-    x: EVar.USERNUMBER,
-    y: EVar.USERNUMBER,
-    z: EVar.USERNUMBER,
+    x: EVar.FAENUMBER,
+    y: EVar.FAENUMBER,
+    z: EVar.FAENUMBER,
   },
 
-  [ESpell.THEIA_RULER]: { githubUser: EVar.STRING },
+  [ESpell.THEIA_RULER]: { githubFae: EVar.STRING },
   [ESpell.THEIA_REALM]: { theia: EVar.STRING },
   [ESpell.THEIA_GATE]: { theia: EVar.STRING },
   [ESpell.MIDI]: {
     note: EVar.POSITIVE,
     flourish: EMidiFlourish,
-    timing: EVar.USERPOSITIVE,
+    timing: EVar.FAEPOSITIVE,
   },
 
   [ESpell.MIDI_INSTRUMENT]: {
@@ -322,16 +322,16 @@ export const Invocations: { [key: number]: any } = {
   },
 
   [ESpell.FLOCK_RING]: {
-    radius: EVar.USERPOSITIVE,
+    radius: EVar.FAEPOSITIVE,
     count: EVar.POSITIVE,
   },
   [ESpell.FLOCK_GRID]: {
     birds_squared: EVar.POSITIVE,
-    margin: EVar.USERPOSITIVE,
+    margin: EVar.FAEPOSITIVE,
   },
 
-  [ESpell.USER_AVATAR]: {
-    thrustStrength: EVar.USERNUMBER,
+  [ESpell.FAE_AVATAR]: {
+    thrustStrength: EVar.FAENUMBER,
   },
 
   [ESpell.AI]: {
@@ -340,7 +340,7 @@ export const Invocations: { [key: number]: any } = {
   [ESpell.FLOCK_RECT]: {
     x: EVar.POSITIVE,
     z: EVar.POSITIVE,
-    margin: EVar.USERPOSITIVE,
+    margin: EVar.FAEPOSITIVE,
   },
 
   [ESpell.GAME_SCORE]: {
@@ -357,12 +357,12 @@ export const Invocations: { [key: number]: any } = {
     prefix: EVar.STRING,
   },
   [ESpell.TRAP_DISTANCE]: {
-    near: EVar.USERPOSITIVE,
-    far: EVar.USERPOSITIVE,
-    margin: EVar.USERPOSITIVE,
+    near: EVar.FAEPOSITIVE,
+    far: EVar.FAEPOSITIVE,
+    margin: EVar.FAEPOSITIVE,
   },
   [ESpell.TRAP_TIME]: {
-    timeout: EVar.USERPOSITIVE,
+    timeout: EVar.FAEPOSITIVE,
     repeat: EVar.BOOL,
   },
   [ESpell.TRAP_CLEAR]: {},
@@ -373,11 +373,11 @@ export const Invocations: { [key: number]: any } = {
     when: EVar.TIME,
   },
   [ESpell.UNI_GRAVITY]: {
-    x: EVar.USERNUMBER,
-    y: EVar.USERNUMBER,
-    z: EVar.USERNUMBER,
+    x: EVar.FAENUMBER,
+    y: EVar.FAENUMBER,
+    z: EVar.FAENUMBER,
   },
-  [ESpell.USER_COLOR]: {
+  [ESpell.FAE_COLOR]: {
     color: EVar.COLOR,
     hueVariance: EVar.NORMAL,
   },

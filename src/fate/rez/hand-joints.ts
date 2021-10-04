@@ -100,8 +100,8 @@ timing.on(() => {
 
     phys.phase(id, EPhase.DIVINE)
     phys.core(id, gid)
-    const vari = universal.userHueVariance() / NORMALIZER
-    const universalColor = $color.set(universal.userHue())
+    const vari = universal.faeHueVariance() / NORMALIZER
+    const universalColor = $color.set(universal.faeHue())
 
     // matter.red(id, NORMALIZER - (Math.random() * NORMALIZER) / 5)
 
@@ -153,7 +153,7 @@ timing.on(() => {
     // if it has collisions and we're grabbing attach it
   }
 
-  // move user based on hand attachment
+  // move fae based on hand attachment
 })
 
 let cancel

@@ -18,7 +18,7 @@ export class Animation extends AtomicInt {
 
   animation(i: number, animation?: EAnimation): EAnimation {
     return animation === undefined
-      ? Atomics.load(this, Animation.COUNT)
-      : Atomics.store(this, Animation.COUNT, animation)
+      ? Atomics.load(this, Animation.COUNT * i)
+      : Atomics.store(this, Animation.COUNT * i, animation)
   }
 }

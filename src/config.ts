@@ -15,9 +15,9 @@ export const UNIVERSALS = [
   10, // player size
   0, // idle
   0x0055ff, //clear color
-  0, // user startx
-  0, // user starty
-  0, // user startz
+  0, // fae startx
+  0, // fae starty
+  0, // fae startz
   0, // music start time
   0, // rot x
   0, // rot y
@@ -41,8 +41,8 @@ export const UNIVERSALS = [
   0,
   0,
   0, // gravity
-  0x55aaff, // user color
-  0.15 * NORMALIZER, // user hue variance
+  0x55aaff, // fae color
+  0.15 * NORMALIZER, // fae hue variance
 ]
 
 export const CACHE = 'v2'
@@ -64,10 +64,10 @@ export const PAD_SPEED = 0.5
 
 export const SPONSOR = ['ETHEREUM', 'ETH-QR-CODE', 'GITHUB']
 
-export const USER_SCALE = 100
+export const FAE_SCALE = 100
 
-export function UserUnits(x: number) {
-  return x / USER_SCALE
+export function FaeUnits(x: number) {
+  return x / FAE_SCALE
 }
 
 export const YGGDRASIL = '/bifrost'

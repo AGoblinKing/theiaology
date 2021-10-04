@@ -32,7 +32,7 @@ export class Universal extends AtomicInt {
     return t === undefined ? Atomics.load(this, 0) : Atomics.store(this, 0, t)
   }
 
-  userSize(size?: number) {
+  faeSize(size?: number) {
     return size === undefined
       ? Atomics.load(this, 1)
       : Atomics.store(this, 1, size)
@@ -50,15 +50,15 @@ export class Universal extends AtomicInt {
       : Atomics.store(this, 3, color)
   }
 
-  userX(x?: number) {
+  faeX(x?: number) {
     return x === undefined ? Atomics.load(this, 4) : Atomics.store(this, 4, x)
   }
 
-  userY(y?: number) {
+  faeY(y?: number) {
     return y === undefined ? Atomics.load(this, 5) : Atomics.store(this, 5, y)
   }
 
-  userZ(z?: number) {
+  faeZ(z?: number) {
     return z === undefined ? Atomics.load(this, 6) : Atomics.store(this, 6, z)
   }
 
@@ -66,14 +66,14 @@ export class Universal extends AtomicInt {
     return t === undefined ? Atomics.load(this, 7) : Atomics.store(this, 7, t)
   }
 
-  userRX(rx?: number) {
+  faeRX(rx?: number) {
     return rx === undefined ? Atomics.load(this, 8) : Atomics.store(this, 8, rx)
   }
 
-  userRY(ry?: number) {
+  faeRY(ry?: number) {
     return ry === undefined ? Atomics.load(this, 9) : Atomics.store(this, 9, ry)
   }
-  userRZ(rz?: number) {
+  faeRZ(rz?: number) {
     return rz === undefined
       ? Atomics.load(this, 10)
       : Atomics.store(this, 10, rz)
@@ -182,12 +182,12 @@ export class Universal extends AtomicInt {
       ? Atomics.load(this, 26)
       : Atomics.store(this, 26, gravity)
   }
-  userHue(color?: number) {
+  faeHue(color?: number) {
     return color === undefined
       ? Atomics.load(this, 27)
       : Atomics.store(this, 27, color)
   }
-  userHueVariance(variance?: number) {
+  faeHueVariance(variance?: number) {
     return variance === undefined
       ? Atomics.load(this, 28)
       : Atomics.store(this, 28, variance)

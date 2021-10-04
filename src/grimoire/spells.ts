@@ -1,5 +1,6 @@
 import AI from './spell/ai'
 import Doing from './spell/do'
+import fae from './spell/fae'
 import flock from './spell/flock'
 import game from './spell/game'
 import midi from './spell/midi'
@@ -10,7 +11,6 @@ import shape from './spell/shape'
 import theia from './spell/theia'
 import thrust from './spell/thrust'
 import uni from './spell/uni'
-import user from './spell/user'
 import vox from './spell/vox'
 
 export default Object.assign(
@@ -21,7 +21,7 @@ export default Object.assign(
   theia,
   thrust,
   uni,
-  user,
+  fae,
   shape,
   vox,
   flock,
