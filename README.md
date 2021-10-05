@@ -1,6 +1,6 @@
 # `THEIAOLOGY`
 
-[![Itch](https://github.com/AGoblinKing/theiaology/actions/workflows/itch.yml/badge.svg)](https://corporate-entity.itch.io/theiagames)
+[Steam](https://steam.theiaology.com)
 | [Discord](https://discord.gg/bPq8U3zhvy)
 
 _Undock your imagination._
