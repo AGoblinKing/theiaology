@@ -5,10 +5,10 @@ export enum SENSES {
   NONE = 0,
   SIGHT = 0xf,
   HEAR = 0xf0,
-  FEEL = 0xf00,
-  FELT = 0xf000,
-  TASTE = 0xf0000,
-  SMELL = 0xf00000,
+  FEEL_RIGHT = 0xf00,
+  FEEL_LEFT = 0xf000,
+  FELT = 0xf0000,
+  TASTE = 0xf00000,
 }
 
 export class Sensed extends AtomicInt {

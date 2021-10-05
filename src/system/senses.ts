@@ -10,6 +10,7 @@ import { Vector3 } from 'three'
 import { System } from './system'
 
 const $vec3 = new Vector3()
+const $hand = new Vector3()
 const myBox = new BBox()
 
 class Senses extends System {
@@ -55,11 +56,18 @@ class Senses extends System {
       const them = this.size.box(i, this.future)
       if (myBox.intersectsBox(them)) {
         // we intersected them!
-        sensed += 0xf000
+        sensed += 0xf0000
         // are any of our hands touching them
       }
-      // are touching our body
-      // are touching our hands
+
+      for (let i = 0; i < 10; i++) {
+        const hand = this.universal.faeHandVec3(i, $hand)
+        if (them.containsPoint(hand)) {
+          sensed += i < 5 ? 0xf00 : 0xf000
+          break
+        }
+      }
+
       let entry = si++
       this.sensed.id(entry, i)
       this.sensed.sense(entry, sensed)

@@ -20,6 +20,7 @@ const DECAY = 0.95
 const $vec3 = new Vector3()
 const $vec3r = new Vector3()
 const $other = new BBox(-1)
+const $me = new BBox()
 
 let $inserts: { [key: number]: BBox } = {}
 
@@ -268,17 +269,16 @@ class Physics extends System {
 
         switch (phase) {
           case EPhase.NORMAL: {
+            $me.copy(v)
             this.size.box(collide.i, this.future, $other)
-            $other.intersect(v)
-            $other.max.sub($other.min)
-            //this.future.addX(v.i, $other.maxX)
+            $me.intersect($other)
+            $me.min.sub($me.max)
+            const t = baseCore !== 0 ? baseCore : v.i
+            //this.velocity.addX(t, Math.max(-100, Math.min(100, $me.maxX)))
 
-            if (baseCore !== 0) {
-              this.velocity.addY(baseCore, $other.maxY)
-            } else {
-              this.velocity.addY(v.i, $other.maxY)
-            }
-            //this.future.addZ(v.i, $other.maxZ)
+            this.velocity.addY(t, Math.max(-5000, Math.min(5000, -$me.minY)))
+
+            //this.velocity.addZ(t, Math.max(-100, Math.min(100, $me.maxZ)))
             break
           }
 
@@ -295,7 +295,7 @@ class Physics extends System {
                   )
                 )
                 .multiplyScalar(dx)
-                .clampLength(-500, 500)
+                .clampLength(-5000, 5000)
 
               $vec3v.add($vec3o)
 

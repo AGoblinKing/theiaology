@@ -166,6 +166,9 @@ delta.on(($dt) => {
   }
 
   if (move_inputs.$.length() !== 0 || mouse_right.$) {
+    if (!fly_engaged.$) {
+      move_inputs.$.y = 0
+    }
     velocity.$.add($vec3.copy(move_inputs.$).multiplyScalar($dt * 3))
   }
 
@@ -176,7 +179,7 @@ delta.on(($dt) => {
   const avatar = first.$.universal.avatar()
   if (avatar > 0) {
     const atom = first.$.future.vec3(avatar).multiplyScalar(0.0005)
-    atom.y += first.$.size.y(avatar) * 0.0005 + 0.1
+    atom.y += first.$.size.y(avatar) * 0.0005 + 0.4
 
     // move us towards the avatar location
     body.$.position.lerp(
@@ -190,7 +193,7 @@ delta.on(($dt) => {
     // update velocity of avatar
     const { velocity } = first.$
     velocity.addX(avatar, atom.x)
-    velocity.addY(avatar, atom.y)
+    //velocity.addY(avatar, atom.y)
     velocity.addZ(avatar, atom.z)
   }
 })

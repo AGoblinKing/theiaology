@@ -34,14 +34,21 @@
         clutch = false
     })
 
+    let tcancel 
     const update = () => {
         if(clutch) return
+        if(tcancel) {
+            clearTimeout(tcancel)
+        }
 
-        const f = first.$.fate.$
-        f.fromScript(f.text(0), mirror.getValue())
-        reverseClutch = true
-        first.$.fate.poke()
-        reverseClutch = false
+        tcancel = setTimeout(() => {
+
+            const f = first.$.fate.$
+            f.fromScript(f.text(0), mirror.getValue())
+            reverseClutch = true
+            first.$.fate.poke()
+            reverseClutch = false
+        }, 500)
     }
 
 
