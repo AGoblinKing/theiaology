@@ -42,7 +42,19 @@ timing.on(() => {
     RezHands(first.$.cardinal)
     return
   }
+  const {
+    size,
+    future,
+    phys,
+    matter,
+    past,
+    animation: animation,
+    cage,
+    universal,
+  } = first.$
+
   let gid
+  let tipi = 0
   for (let i = 0; i < hand_joints.length; i++) {
     const ix = i % 25
     const iy = Math.floor(i / 25)
@@ -76,22 +88,16 @@ timing.on(() => {
       }
 
       target[vr_keys[ix]].value.copy($vec)
+      $vec.multiplyScalar(1000)
+      universal.faeHandVec3(tipi++, $vec)
+    } else {
+      $vec.multiplyScalar(1000)
     }
 
     let s = Math.floor(rMeta.test(vr_keys[ix]) ? 8 : 5) * 9.5
     if (vr_keys[ix].indexOf('meta') !== -1) {
       s *= 0.75
     }
-    const {
-      size,
-      future,
-      phys,
-      matter,
-      past,
-      animation: animation,
-      cage,
-      universal,
-    } = first.$
 
     animation.store(id, EAnimation.OFF)
     size.x(id, s)
@@ -133,7 +139,6 @@ timing.on(() => {
         )
     }
 
-    $vec.multiplyScalar(1000)
     future.x(id, Math.floor($vec.x))
     future.y(id, Math.floor($vec.y))
     future.z(id, Math.floor($vec.z))

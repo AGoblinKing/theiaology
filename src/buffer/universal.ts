@@ -5,6 +5,7 @@ import { Box3, Vector3 } from 'three'
 
 const $cage = new Box3()
 const $offset = new Vector3()
+const $vec = new Vector3()
 
 export enum ERealmState {
   PAUSED = 0,
@@ -12,7 +13,8 @@ export enum ERealmState {
 }
 
 export class Universal extends AtomicInt {
-  static COUNT = 29
+  // 3 * 10 for the hand vectors
+  static COUNT = 29 + 3 * 10
   _init = false
 
   constructor(shared = new SharedArrayBuffer(4 * Universal.COUNT)) {
@@ -191,5 +193,21 @@ export class Universal extends AtomicInt {
     return variance === undefined
       ? Atomics.load(this, 28)
       : Atomics.store(this, 28, variance)
+  }
+
+  faeHandVec3(hand: number, vec?: Vector3) {
+    if (vec === undefined) {
+      $vec.set(
+        Atomics.load(this, 29 + hand * 3),
+        Atomics.load(this, 30 + hand * 3),
+        Atomics.load(this, 31 + hand * 3)
+      )
+      return $vec
+    } else {
+      Atomics.store(this, 29 + hand * 3, vec.x)
+      Atomics.store(this, 30 + hand * 3, vec.y)
+      Atomics.store(this, 31 + hand * 3, vec.z)
+      return vec
+    }
   }
 }

@@ -50,6 +50,7 @@ import {
   Vector3,
 } from 'three'
 import { Phys } from './buffer/phys'
+import { Sensed } from './buffer/sensed'
 import { LocalSystem } from './system/system'
 import { Yggdrasil } from './system/yggdrasil'
 
@@ -85,6 +86,7 @@ export class Realm {
   animation: Animation
   traits: Traits
   phys: Phys
+  sensed: Sensed
 
   fate: Value<Fate>
   universal: Universal
@@ -97,6 +99,7 @@ export class Realm {
   physics: SystemWorker
   cardinal: SystemWorker
   ai: SystemWorker
+  senses: SystemWorker
 
   yggdrasil: LocalSystem
 
@@ -144,6 +147,7 @@ export class Realm {
     this.universal = new Universal()
     this.cage = new Cage()
     this.phys = new Phys()
+    this.sensed = new Sensed()
 
     this.fate = new Value(new Fate())
     this.initMaterial()
@@ -347,6 +351,17 @@ export class Realm {
     this.yggdrasil = new Yggdrasil()
       .send(this.future, this.matter, this.size, multiplayer)
       .bind(this.cardinal)
+
+    this.senses = sys
+      .start('senses')
+      .send(
+        this.future,
+        this.matter,
+        this.size,
+        this.universal,
+        this.traits,
+        this.sensed
+      )
   }
 
   universalCage(cage: Box3) {

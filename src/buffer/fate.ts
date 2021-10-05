@@ -141,8 +141,7 @@ export class Fate extends AtomicInt {
   toScript(): string {
     const obj = this.toObject()
 
-    let output =
-      '# You have encountered Fate! \n# Load on https://theiaology.com\n\n'
+    let output = '# You have encountered Fate! \n# Load on thEiAoLoGy.com\n\n'
 
     const addChild = (target: INode, t = 0) => {
       const addT = () => [...new Array(t)].map(() => '\t').join('')
@@ -150,7 +149,7 @@ export class Fate extends AtomicInt {
       for (let child of Object.entries(target._)) {
         // get commmand
         const [k, v] = child
-        const [when, comm, who] = v.$
+        const [when, comm] = v.$
 
         output += `\n${addT()}(`
 

@@ -16,7 +16,7 @@ export enum EPhase {
 }
 
 export class Phys extends AtomicInt {
-  static COUNT = 4
+  static COUNT = 5
 
   constructor(shared = new SharedArrayBuffer(ATOM_COUNT * Phys.COUNT * 4)) {
     super(shared)
@@ -44,5 +44,11 @@ export class Phys extends AtomicInt {
     return c !== undefined
       ? Atomics.store(this, i * Phys.COUNT + 3, c)
       : Atomics.load(this, i * Phys.COUNT + 3)
+  }
+
+  distanceToFae(i: number, d?: number) {
+    return d !== undefined
+      ? Atomics.store(this, i * Phys.COUNT + 4, d)
+      : Atomics.load(this, i * Phys.COUNT + 4)
   }
 }

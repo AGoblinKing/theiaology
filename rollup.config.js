@@ -124,4 +124,5 @@ export default [
   config('system/physics', '', true),
   config('system/cardinal', '', true),
   config('system/ai', '', true),
+  config('system/senses', '', true),
 ]

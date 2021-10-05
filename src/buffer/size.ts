@@ -3,7 +3,7 @@ import { Vec3 } from './vec3'
 
 export class BBox extends Box3 {
   i: number
-  constructor(i: number) {
+  constructor(i: number = 0) {
     super()
     this.i = i
   }

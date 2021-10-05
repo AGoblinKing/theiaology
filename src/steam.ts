@@ -7,8 +7,6 @@ interface ISteam extends EventTarget {
 }
 
 // @ts-ignore
-if (window.require) window.steam = window.require('./steam.js')
-// @ts-ignore
 export const steam = new Value<ISteam>(window.steam)
 
 export const steam_open = new Value<string[]>([]).re((arr) => {

@@ -13,6 +13,7 @@ self.addEventListener('install', (event: any) => {
         '/build/physics.js',
         '/build/bundle.css',
         '/build/main.js',
+        '/build/senses.js',
         '/service.js',
         '/codemirror.js',
         '/codemirror.css',

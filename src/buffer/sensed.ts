@@ -1,7 +1,7 @@
 import { ATOM_COUNT } from 'src/config'
 import { AtomicInt } from './atomic'
 
-export enum Senses {
+export enum SENSES {
   NONE = 0,
   SIGHT = 0xf,
   HEAR = 0xf0,

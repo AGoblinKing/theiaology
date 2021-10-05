@@ -58,13 +58,15 @@ export class Value<T> {
 
     return this
   }
+  me() {
+    return new Value(this.$)
+  }
   fa<TT>(
     v: Value<TT>,
     transform?: (value: TT) => T,
     filter?: (value: TT) => boolean
   ) {
     // let you down
-
     v.on((state) => {
       if (filter) {
         if (!filter(state)) return
