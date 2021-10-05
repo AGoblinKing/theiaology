@@ -384,7 +384,8 @@ export class Realm {
       timing.on(($t) => {
         this.universal.time(timeUniform.value)
         // only need to check if first
-        if (!this.first && !this.fantasy && this.slowFantasy++ % 5 !== 0) return
+        if (!this.first && !this.fantasy && this.slowFantasy++ % 10 !== 0)
+          return
 
         const { atoms } = this
         atoms.geometry.getAttribute('past').needsUpdate = true

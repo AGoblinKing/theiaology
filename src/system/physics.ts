@@ -120,9 +120,10 @@ class Physics extends System {
       gy = this.universal.gravityY(),
       gz = this.universal.gravityZ()
 
+    const cores = {}
     for (let i = 0; i < ATOM_COUNT; i++) {
       const phase = this.phys.phase(i)
-      const group = this.phys.core(i)
+      const core = this.phys.core(i)
       const carried = this.phys.carried(i)
 
       switch (phase) {
@@ -141,7 +142,7 @@ class Physics extends System {
         }
       }
 
-      const ci = group !== 0 && i !== group ? group : i
+      const ci = core !== 0 && i !== core ? core : i
 
       if (carried !== 0) {
         // set this past and future to the carrier later
@@ -271,7 +272,12 @@ class Physics extends System {
             $other.intersect(v)
             $other.max.sub($other.min)
             //this.future.addX(v.i, $other.maxX)
-            this.future.addY(v.i, $other.maxY)
+
+            if (baseCore !== 0) {
+              this.velocity.addY(baseCore, $other.maxY)
+            } else {
+              this.velocity.addY(v.i, $other.maxY)
+            }
             //this.future.addZ(v.i, $other.maxZ)
             break
           }
