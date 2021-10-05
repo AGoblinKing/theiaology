@@ -26,8 +26,10 @@ class Senses extends System {
 
     for (let i = 0; i < ATOM_COUNT; i++) {
       // check to see if they're close enough to "hear"
-      // close enough to "touch"
-      // then go through hands to see if they're colliding
+      //  close enough to "touch"
+      // are touching our body
+      // are touching our hands
+      // alert the main thread of it so it can take action
     }
   }
 

@@ -6,48 +6,20 @@ import { Cage } from 'src/buffer/cage'
 import { Impact } from 'src/buffer/impact'
 import { Matter } from 'src/buffer/matter'
 import { EPhase, Phys } from 'src/buffer/phys'
-import { Size } from 'src/buffer/size'
+import { BBox, Size } from 'src/buffer/size'
 import { SpaceTime } from 'src/buffer/spacetime'
 import { Thrust } from 'src/buffer/thrust'
 import { ERealmState, Universal } from 'src/buffer/universal'
 import { Velocity } from 'src/buffer/velocity'
 import { ATOM_COUNT } from 'src/config'
-import { Box3, Vector3 } from 'three'
+import { Vector3 } from 'three'
 import { EMessage } from './enum'
 import { System } from './system'
 
 const DECAY = 0.95
 const $vec3 = new Vector3()
 const $vec3r = new Vector3()
-
-class BBox extends Box3 {
-  i: number
-  constructor(i: number) {
-    super()
-    this.i = i
-  }
-
-  get minX() {
-    return this.min.x
-  }
-  get minY() {
-    return this.min.y
-  }
-  get minZ() {
-    return this.min.z
-  }
-  get maxX() {
-    return this.max.x
-  }
-  get maxY() {
-    return this.max.y
-  }
-  get maxZ() {
-    return this.max.z
-  }
-}
-
-const $box = new BBox(0)
+const $other = new BBox(-1)
 
 let $inserts: { [key: number]: BBox } = {}
 
@@ -72,7 +44,7 @@ class Physics extends System {
   count = 0
 
   constructor() {
-    super((1 / 5) * 1000)
+    super((1 / 10) * 1000)
   }
 
   onmessage(e: MessageEvent) {
@@ -124,29 +96,12 @@ class Physics extends System {
     this.ready = true
   }
 
-  // these numbers change a bunch so better to just assign them to a tmp
-  box(i: number, $bb: BBox = $box) {
-    const sx = this.size.x(i) / 2,
-      sy = this.size.y(i) / 2,
-      sz = this.size.z(i) / 2,
-      x = this.future.x(i),
-      y = this.future.y(i),
-      z = this.future.z(i)
-
-    // update their sector while you have their data
-
-    $bb.min.set(x - sx, y - sy, z - sz), $bb.max.set(x + sx, y + sy, z + sz)
-
-    return $bb
-  }
-
   insert(i: number) {
     if (!$inserts[i]) {
       $inserts[i] = new BBox(i)
-      $inserts[i].expandByScalar(1000)
     }
 
-    return this.box(i, $inserts[i])
+    return this.size.box(i, this.future, $inserts[i])
   }
 
   tick() {
@@ -289,10 +244,10 @@ class Physics extends System {
       let collision = false
 
       this.future.vec3(v.i, $vec3)
-      this.velocity.vec3(v.i, $vec3v)
-      this.thrust.vec3(v.i, $vec3t).negate().multiplyScalar(2)
+      this.thrust.vec3(v.i, $vec3t).negate()
 
-      $vec3v.negate().multiplyScalar(2)
+      this.velocity.vec3(v.i, $vec3v)
+      $vec3v.negate()
 
       this.size.vec3(v.i, $vec3s)
       const phase = this.phys.phase(v.i)
@@ -310,33 +265,31 @@ class Physics extends System {
         collision = true
         this.impact.impact(v.i, 0, collide.i)
 
-        collide.getCenter($vec3o).sub($vec3)
-
         switch (phase) {
           case EPhase.NORMAL: {
-            $vec3o
-              .normalize()
-              .negate()
-              .add($vec3t)
-              .sub($vec3v)
-              .multiplyScalar(dx)
-
-            $vec3v.add($vec3o)
+            this.size.box(collide.i, this.future, $other)
+            $other.intersect(v)
+            $other.max.sub($other.min)
+            //this.future.addX(v.i, $other.maxX)
+            this.future.addY(v.i, $other.maxY)
+            //this.future.addZ(v.i, $other.maxZ)
             break
           }
+
           case EPhase.LIQUID:
             {
+              collide.getCenter($vec3o).sub($vec3)
               $vec3o
-                .normalize()
                 .negate()
                 .multiply(
                   $vec3r.set(
-                    3 + Math.random(),
-                    3 + Math.random(),
-                    3 + Math.random()
+                    4 + Math.random(),
+                    4 + Math.random(),
+                    4 + Math.random()
                   )
                 )
-                .multiplyScalar(33)
+                .multiplyScalar(dx)
+                .clampLength(-500, 500)
 
               $vec3v.add($vec3o)
 
