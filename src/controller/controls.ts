@@ -26,8 +26,6 @@ export const right_forward = new Value(false)
   })
   .fa(mouse_right)
 
-export const forward = new Value(false).la(300, (i) => {})
-
 export const left_grabbed = new Value<number>(undefined)
 const MGrab = (state) => {
   // like a gripping noise
