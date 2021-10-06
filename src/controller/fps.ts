@@ -183,7 +183,10 @@ delta.on(($dt) => {
 
     // move us towards the avatar location
     body.$.position.lerp(
-      avg.multiplyScalar(9).add(atom).multiplyScalar(0.1),
+      avg
+        .multiplyScalar(49)
+        .add(atom)
+        .multiplyScalar(1 / 50),
       $dt * 3
     )
 
@@ -193,7 +196,7 @@ delta.on(($dt) => {
     // update velocity of avatar
     const { velocity } = first.$
     velocity.addX(avatar, atom.x)
-    //velocity.addY(avatar, atom.y)
+    // velocity.addY(avatar, atom.y)
     velocity.addZ(avatar, atom.z)
   }
 })

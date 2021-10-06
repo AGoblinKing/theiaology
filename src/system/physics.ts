@@ -264,11 +264,10 @@ class Physics extends System {
         )
           continue
 
-        collision = true
-        this.impact.impact(v.i, 0, collide.i)
-
         switch (phase) {
           case EPhase.NORMAL: {
+            if (this.phys.phase(collide.i) === EPhase.DIVINE) continue
+
             $me.copy(v)
             this.size.box(collide.i, this.future, $other)
             $me.intersect($other)
@@ -276,7 +275,7 @@ class Physics extends System {
             const t = baseCore !== 0 ? baseCore : v.i
             //this.velocity.addX(t, Math.max(-100, Math.min(100, $me.maxX)))
 
-            this.velocity.addY(t, Math.max(-5000, Math.min(5000, -$me.minY)))
+            this.velocity.addY(t, Math.max(-500, Math.min(500, -$me.minY)))
 
             //this.velocity.addZ(t, Math.max(-100, Math.min(100, $me.maxZ)))
             break
@@ -295,7 +294,7 @@ class Physics extends System {
                   )
                 )
                 .multiplyScalar(dx)
-                .clampLength(-5000, 5000)
+                .clampLength(-500, 500)
 
               $vec3v.add($vec3o)
 
@@ -308,6 +307,8 @@ class Physics extends System {
             }
             break
         }
+        collision = true
+        this.impact.impact(v.i, 0, collide.i)
       }
 
       if (collision) {
