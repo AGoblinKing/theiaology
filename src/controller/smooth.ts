@@ -33,7 +33,7 @@ timing.on(($t) => {
   }
 
   if (Math.abs(angular.$) > MIN_VELOCITY) {
-    const angleta = angular.$ * delta.$
+    const angleta = angular.$ * delta.$ * 2
 
     body.$.rotateY(angleta)
 

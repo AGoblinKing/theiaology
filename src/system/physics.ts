@@ -265,9 +265,11 @@ class Physics extends System {
         )
           continue
 
-        if (isAvatar && this.phys.phase(collide.i) === EPhase.DIVINE) continue
+        const cPhase = this.phys.phase(collide.i)
+        if (isAvatar && cPhase === EPhase.DIVINE) continue
         switch (phase) {
           case EPhase.NORMAL: {
+            if (cPhase === EPhase.LIQUID) continue
             $me.copy(v)
             this.size.box(collide.i, this.future, $other)
             $me.intersect($other)

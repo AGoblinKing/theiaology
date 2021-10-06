@@ -195,7 +195,11 @@ export class Phony extends Group implements IJointGroup {
       }
 
       $vec3
-        .set(mouse_pos.$.x, mouse_pos.$.y * 3, forward * 2)
+        .set(
+          mouse_pos.$.x * 2 * (forward !== 0 ? 2 : 1),
+          mouse_pos.$.y * 3 * (forward !== 0 ? 2 : 1),
+          forward * 2
+        )
         .multiplyScalar(effect * 2)
 
       const target = this.handedness === 'left' ? this.lastLeft : this.lastRight
