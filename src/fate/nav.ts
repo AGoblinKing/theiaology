@@ -26,7 +26,6 @@ key_down.on((k) => {
   if (!timeline_shown.$) return
 
   switch (k) {
-    case 'e':
     case 'Enter':
     case 'i':
       doclick.set(true)
