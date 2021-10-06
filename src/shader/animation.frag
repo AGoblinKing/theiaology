@@ -47,7 +47,9 @@ vec4 AnimationFrag(in vec4 col) {
 		if(dist < 1.5) {
 			col.xyz += (2.5 - dist * dist )/2.5 * 0.01;
 		}
-
+if(dist < 3.) {
+			col.xyz -= (2.5 - dist * dist )/2.5 * 0.001;
+		}
 			if(dist < 15.) {
 			col.xyz -= (15. - dist * dist )/15.* 0.0001;
 		}
