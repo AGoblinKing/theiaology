@@ -255,6 +255,7 @@ class Physics extends System {
       const phase = this.phys.phase(v.i)
       // reset impact
       this.impact.impact(v.i, 0, -1)
+      const isAvatar = this.universal.avatar() === v.i
       const baseCore = this.phys.core(v.i)
       for (let collide of this.tree.search(v)) {
         // richocet off collides
@@ -264,10 +265,9 @@ class Physics extends System {
         )
           continue
 
+        if (isAvatar && this.phys.phase(collide.i) === EPhase.DIVINE) continue
         switch (phase) {
           case EPhase.NORMAL: {
-            if (this.phys.phase(collide.i) === EPhase.DIVINE) continue
-
             $me.copy(v)
             this.size.box(collide.i, this.future, $other)
             $me.intersect($other)
