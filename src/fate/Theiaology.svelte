@@ -32,7 +32,7 @@
       modal_location.$.set($mouse_page.x - 5, $mouse_page.y - 5)
     )
 
-    modal_options.set(['DEMOS', 'SHOP_VISIT', 'SOURCE CODE', 'SOC_TWITTER', 'SOC_YOUTUBE', 'SOC_TIKTOK'])
+    modal_options.set(['DEMOS', 'SHOP_VISIT', 'SOURCE_CODE', 'SOC_TWITTER', 'SOC_YOUTUBE', 'SOC_TIKTOK'])
 
     // if this is in steam offer to publish
     // @ts-ignore
