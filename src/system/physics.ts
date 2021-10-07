@@ -44,8 +44,10 @@ class Physics extends System {
 
   count = 0
 
+  insertTick = []
+
   constructor() {
-    super((1 / 10) * 1000)
+    super((1 / 5) * 1000)
   }
 
   onmessage(e: MessageEvent) {
@@ -102,6 +104,7 @@ class Physics extends System {
       $inserts[i] = new BBox(i)
     }
 
+    this.insertTick.push($inserts[i])
     return this.size.box(i, this.future, $inserts[i])
   }
 
@@ -113,7 +116,7 @@ class Physics extends System {
 
     // rip through matter, update their grid_past/futures
 
-    const moves = new Set()
+    const moves = new Set<number>()
     const carries = []
     const dx = this.tickrate / 1000
 
@@ -121,7 +124,6 @@ class Physics extends System {
       gy = this.universal.gravityY(),
       gz = this.universal.gravityZ()
 
-    const cores = {}
     for (let i = 0; i < ATOM_COUNT; i++) {
       const phase = this.phys.phase(i)
       const core = this.phys.core(i)
@@ -232,11 +234,18 @@ class Physics extends System {
     for (let carry of carries) {
       this.future.vec3(carry, this.future.vec3(this.phys.carried(carry)))
     }
-    // collision phase
-    isInsert && this.tree.load(Object.values($inserts))
 
-    for (let [k, v] of Object.entries($inserts)) {
-      switch (this.phys.phase(parseInt(k, 10))) {
+    isInsert && this.collisions(dx, moves)
+
+    this.post(EMessage.PHYS_TICK)
+  }
+
+  collisions(dx: number, moves: Set<number>) {
+    // collision phase
+    this.tree.load(this.insertTick)
+
+    for (let v of this.insertTick) {
+      switch (this.phys.phase(v.i)) {
         case EPhase.STUCK:
           continue
       }
@@ -320,9 +329,8 @@ class Physics extends System {
       }
     }
 
-    this.post(EMessage.PHYS_TICK)
-
-    isInsert && this.tree.clear()
+    this.tree.clear()
+    this.insertTick = []
   }
 }
 

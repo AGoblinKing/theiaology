@@ -179,7 +179,7 @@ delta.on(($dt) => {
   const avatar = first.$.universal.avatar()
   if (avatar > 0) {
     const atom = first.$.future.vec3(avatar).multiplyScalar(0.0005)
-    atom.y += first.$.size.y(avatar) * 0.0005 + 0.4
+    atom.y += first.$.size.y(avatar) * 0.0005 + 1
 
     // move us towards the avatar location
     body.$.position.lerp(
@@ -187,7 +187,7 @@ delta.on(($dt) => {
         .multiplyScalar(49)
         .add(atom)
         .multiplyScalar(1 / 50),
-      $dt * 3
+      $dt * 4
     )
 
     atom.sub(body.$.position).length() > 0.2 &&
