@@ -73,6 +73,6 @@ export function FaeUnits(x: number) {
 export const YGGDRASIL = '/bifrost'
 
 export const SENSE_DISTANCE = {
-  hear: 1000,
+  hear: 30000,
   felt: 100,
 }

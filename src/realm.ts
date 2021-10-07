@@ -49,6 +49,7 @@ import {
   Uniform,
   Vector3,
 } from 'three'
+import { Input } from './buffer/input'
 import { Phys } from './buffer/phys'
 import { Sensed } from './buffer/sensed'
 import { LocalSystem } from './system/system'
@@ -90,6 +91,7 @@ export class Realm {
 
   fate: Value<Fate>
   universal: Universal
+  input: Input
   cage: Cage
 
   musicName: string
@@ -148,6 +150,7 @@ export class Realm {
     this.cage = new Cage()
     this.phys = new Phys()
     this.sensed = new Sensed()
+    this.input = new Input()
 
     this.fate = new Value(new Fate())
     this.initMaterial()

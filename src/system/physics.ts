@@ -232,6 +232,7 @@ class Physics extends System {
     }
 
     for (let carry of carries) {
+      // TODO: Support cores
       this.future.vec3(carry, this.future.vec3(this.phys.carried(carry)))
     }
 

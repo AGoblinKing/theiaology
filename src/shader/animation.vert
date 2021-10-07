@@ -12,7 +12,7 @@ mat4 rotationY(in float angle) {
 mat4 rotationZ(in float angle) {
 	return mat4(cos(angle), -sin(angle), 0, 0, sin(angle), cos(angle), 0, 0, 0, 0, 1, 0, 0, 0, 0, 1);
 }
-const float HAND_DST = 0.2;
+const float HAND_DST = 0.5;
 float modulator(float x, float y) {
 	return x - y * floor(x / y);
 }

@@ -71,6 +71,12 @@ export enum EVar {
   LONGSTRING,
 }
 
+export enum ECarriers {
+  NONE,
+  HAND_LEFT,
+  HAND_RIGHT,
+}
+
 export enum EIdle {
   RANDOMIZE,
   NONE,
@@ -159,6 +165,7 @@ export enum ESpell {
   UNI_GRAVITY,
   FAE_COLOR,
   MIDI_CHIRP,
+  PHYS_CARRIED,
 }
 
 export enum EConstraint {
@@ -173,7 +180,6 @@ export const ESpellHelp = {
   [ESpell.FLOCK_GRID]: 'A flock of atoms set in a uniform grid',
   [ESpell.FLOCK_RING]: 'A flock of atoms set in a ring',
   [ESpell.FLOCK_TEXT]: 'A flock of atoms set as text',
-
   [ESpell.SHAPE_COLOR]: 'Atomic color',
   [ESpell.SHAPE]: 'Atomic Shape/Size',
   [ESpell.SHAPE_VAR]: 'Atomic Shape/Size Variance',
@@ -208,6 +214,7 @@ export const ESpellHelp = {
     'Atomic Idle routine. IDLE_RANDOMIZE randomizes the idle routine',
   [ESpell.UNI_CLEAR_COLOR]: 'Clear Color',
   [ESpell.DO_SEEK]: 'Seek to a position in the track without causing a reset',
+  [ESpell.PHYS_CARRIED]: 'Use the targets position as the base position',
 }
 
 export const Invocations: { [key: number]: any } = {
@@ -385,5 +392,8 @@ export const Invocations: { [key: number]: any } = {
     instrument: EVar.NUMBER,
     note: EVar.NUMBER,
     volume: EVar.NORMAL,
+  },
+  [ESpell.PHYS_CARRIED]: {
+    whom: ECarriers,
   },
 }
