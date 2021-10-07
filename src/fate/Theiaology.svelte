@@ -3,7 +3,6 @@
   import { Publish, Save } from 'src/input/save'
   import {
     mirror_shown,
-   
     modal_location,
     modal_options,
     modal_visible,
@@ -14,8 +13,8 @@
 
   import Box from './Box.svelte'
 
-  import {mouse_page } from 'src/input/mouse'
-  import { dotTheia} from 'src/config'
+  import { mouse_page } from 'src/input/mouse'
+  import { dotTheia } from 'src/config'
 
   import { key_down, key_map } from 'src/input/keyboard'
   import { Copy, Cut, Paste } from 'src/controller/copypaste'
@@ -24,49 +23,55 @@
   import { first } from 'src/realm'
 
   import Score from './Score.svelte'
-import { loading, looking } from 'src/controller/controls';
-import { steam } from 'src/steam';
-import { browserOpen } from 'src/input/browser';
+  import { loading, looking } from 'src/controller/controls'
+  import { steam } from 'src/steam'
+  import { browserOpen } from 'src/input/browser'
 
   function Browse() {
     modal_location.set(
       modal_location.$.set($mouse_page.x - 5, $mouse_page.y - 5)
     )
 
-    modal_options.set(['DEMOS', 'SHOP_VISIT'])
+    modal_options.set(['DEMOS', 'SHOP_VISIT', 'SOURCE CODE', 'SOC_TWITTER', 'SOC_YOUTUBE', 'SOC_TIKTOK'])
 
     // if this is in steam offer to publish
     // @ts-ignore
     if (steam.$) {
       // @ts-ignore
-      modal_options.$.push('SHOP_SELL','SHOP_SHARE', 'LOCAL_SAVES', 'LOCAL_SHOP')
+      modal_options.$.push(
+        'SHOP_SELL',
+        'SHOP_SHARE',
+        'LOCAL_SAVES',
+        'LOCAL_SHOP'
+      )
     }
 
     modal_visible.set((res) => {
-      let selling = false;
+      let selling = false
       switch (res) {
         case 'LOCAL_SHOP':
-          steam.$.post("dir|shop")
-     
+          steam.$.post('dir|shop')
+
           break
         case 'SHOP_SELL':
           selling = true
         case 'SHOP_SHARE':
           const f = first.$.fate.$
-          Publish(f.text(0), selling ? "sell" : "share")
-     
+          Publish(f.text(0), selling ? 'sell' : 'share')
+
           setTimeout(() => {
             modal_location.set(
               modal_location.$.set($mouse_page.x - 5, $mouse_page.y - 5)
             )
-            modal_options.set(["Uploading to Steam...", "Will open once complete."])
-            modal_visible.set((res) => {
-              
-            })
+            modal_options.set([
+              'Uploading to Steam...',
+              'Will open once complete.',
+            ])
+            modal_visible.set((res) => {})
           })
           break
         case 'LOCAL_SAVES':
-          steam.$.post("dir|saves")
+          steam.$.post('dir|saves')
           break
         case 'DEMOS':
           setTimeout(() => {
@@ -77,16 +82,28 @@ import { browserOpen } from 'src/input/browser';
             modal_visible.set((res) => {
               browserOpen.set([
                 `/${res}`,
-                key_map.$['Control'] ? '_overlay' : '_self'
-            ])
+                key_map.$['Control'] ? '_overlay' : '_self',
+              ])
             })
           })
           break
+        case 'SOURCE_CODE':
+          browserOpen.set(['https://github.com/AGoblinKing/theiaology', '_new'])
+          break
+        case 'SOC_TIKTOK':
+        browserOpen.set(['https://www.tiktok.com/@theiaology', '_new'])
+          break
+        case 'SOC_YOUTUBE':
+        browserOpen.set(['https://www.youtube.com/channel/UClRu-J3abd4hr68t5txyrvA', '_new'])
+          break
+        case 'SOC_TWITTER':
+        browserOpen.set(['https://twitter.com/thEiAoLoGy', '_new'])
+          break
         case 'SHOP_VISIT':
-        browserOpen.set([
+          browserOpen.set([
             'https://steamcommunity.com/app/1752690/workshop/',
-            '_new'
-        ])
+            '_new',
+          ])
           break
       }
     })
@@ -138,7 +155,6 @@ import { browserOpen } from 'src/input/browser';
     if (!$timeline_shown) return
 
     switch (c.toLowerCase()) {
-
       case 'x':
         Cut()
         break
@@ -148,7 +164,6 @@ import { browserOpen } from 'src/input/browser';
       case 'v':
         Paste()
         break
-
     }
   })
 
@@ -207,14 +222,13 @@ import { browserOpen } from 'src/input/browser';
     click={Save}>SAVE</Box
   >
   <Box
-  tilt={350}
-  hover="Track Mouse to Look. Toggle with Middle Mouse Clicks as well!"
-
-  nav={{ tag: '.fate', left: 'save', right: 'sponsor', down }}
-  click={() => {
-    looking.set(!looking.$)
-  }}>LOOK</Box
->
+    tilt={350}
+    hover="Track Mouse to Look. Toggle with Middle Mouse Clicks as well!"
+    nav={{ tag: '.fate', left: 'save', right: 'sponsor', down }}
+    click={() => {
+      looking.set(!looking.$)
+    }}>LOOK</Box
+  >
 
   <Box
     tilt={290}
