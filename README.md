@@ -27,7 +27,7 @@ _Undock your imagination._
 
 ## Quickest Start
 
-https://theiaology.com/sandbox#dev
+https://theiaology.com/sandbox?dev
 
 Share your .fate files in a public GitHub repository called theiaology.com and you can load .fate files from it.
 
