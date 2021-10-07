@@ -33,10 +33,9 @@ export const renderer = new WebGLRenderer({
 })
 
 renderer.domElement.id = 'three'
-renderer.domElement.addEventListener('click', () => {
+renderer.domElement.addEventListener('mousedown', () => {
   // @ts-ignore
   document.activeElement.blur()
-
   renderer.domElement.focus()
 })
 renderer.setClearColor(0x0055ff, 1)
