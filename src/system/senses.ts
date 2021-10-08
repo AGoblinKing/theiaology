@@ -1,12 +1,15 @@
+import { Input } from 'src/buffer/input'
 import { Matter } from 'src/buffer/matter'
-import { Phys } from 'src/buffer/phys'
-import { Sensed } from 'src/buffer/sensed'
+import { EPhase, Phys } from 'src/buffer/phys'
+import { Sensed, SENSES } from 'src/buffer/sensed'
 import { BBox, Size } from 'src/buffer/size'
 import { SpaceTime } from 'src/buffer/spacetime'
-import { Traits } from 'src/buffer/traits'
+import { EStatus, Traits } from 'src/buffer/traits'
 import { Universal } from 'src/buffer/universal'
+import { Velocity } from 'src/buffer/velocity'
 import { ATOM_COUNT, SENSE_DISTANCE } from 'src/config'
 import { Vector3 } from 'three'
+import { EMessage } from './enum'
 import { System } from './system'
 
 const $vec3 = new Vector3()
@@ -22,6 +25,8 @@ class Senses extends System {
   traits: Traits
   sensed: Sensed
   phys: Phys
+  velocity: Velocity
+  input: Input
 
   constructor() {
     super(200)
@@ -37,34 +42,76 @@ class Senses extends System {
     )
 
     let si = 0
-    const { felt, hear } = SENSE_DISTANCE
-    myBox.min.set(pos.x - felt, pos.y - felt * 5, pos.z - felt)
-    myBox.max.set(pos.x + felt, pos.y + felt * 5, pos.z + felt)
+    const { felt, hear, see } = SENSE_DISTANCE
+    myBox.min.set(pos.x - felt, pos.y - felt, pos.z - felt)
+    myBox.max.set(pos.x + felt, pos.y + felt, pos.z + felt)
 
     for (let i = 0; i < ATOM_COUNT; i++) {
+      if (this.traits.status(i) === EStatus.Unassigned) continue
       // check to see if they're close enough to "hear"
-      const dist = pos.distanceTo(this.future.vec3(i))
+      const loc = this.future.vec3(i)
+      const dist = pos.distanceTo(loc)
       this.phys.distanceToFae(i, dist)
 
-      if (dist > hear) {
-        continue
-      }
-      // hear and see
-      let sensed = 0xff
+      if (dist > see) continue
+      let sensed = SENSES.SIGHT
 
-      //  close enough to "touch"
-      const them = this.size.box(i, this.future)
-      if (myBox.intersectsBox(them)) {
-        // we intersected them!
-        sensed += 0xf0000
-        // are any of our hands touching them
-      }
+      if (dist < hear) {
+        const phase = this.phys.phase(i)
+        // hear
+        sensed += SENSES.HEAR
+        //  close enough to "touch"
+        const them = this.size.box(i, this.future)
+        if (myBox.intersectsBox(them)) {
+          // we intersected them!
+          sensed += SENSES.FELT
+          // are any of our hands touching them
+        }
 
-      for (let i = 0; i < 10; i++) {
-        const hand = this.universal.faeHandVec3(i, $hand)
-        if (them.containsPoint(hand)) {
-          sensed += i < 5 ? 0xf00 : 0xf000
-          break
+        for (let hi = 0; hi < 10; hi++) {
+          const hand = this.universal.faeHandVec3(hi)
+
+          if (them.containsPoint(hand)) {
+            switch (phase) {
+              case EPhase.STUCK:
+                loc.sub(pos).multiplyScalar(0.1)
+                // punch em
+                if (this.input.grabbingRight() || this.input.grabbing()) {
+                  this.future.addX(
+                    i,
+                    Math.round(Math.random() * 10 - 5) + loc.x
+                  )
+                  this.future.addY(
+                    i,
+                    Math.round(Math.random() * 10 - 5) + loc.y
+                  )
+                  this.future.addZ(
+                    i,
+                    Math.round(Math.random() * 10 - 5) + loc.z
+                  )
+                }
+
+                break
+              case EPhase.NORMAL:
+              case EPhase.LIQUID:
+                {
+                  if (this.input.pinchingRight() || this.input.pinching()) {
+                    // attach
+                  }
+
+                  if (this.input.grabbingRight() || this.input.grabbing()) {
+                    // repel them away from hand if grabbing (punch)
+                    const core = this.phys.core(i)
+                    this.velocity
+                      .vec3(core || i)
+                      .add(loc.sub(pos).multiplyScalar(1000))
+                  }
+                }
+                break
+            }
+            sensed += hi < 5 ? SENSES.FEEL_LEFT : SENSES.FEEL_RIGHT
+            break
+          }
         }
       }
 
@@ -74,10 +121,13 @@ class Senses extends System {
     }
 
     // clear out old ones
-    while (this.sensed.id(si++) !== 0) {
+    let id = 0
+    while ((id = this.sensed.id(si++)) !== 0) {
       this.sensed.sense(si, 0)
       this.sensed.id(si, 0)
     }
+
+    this.post(EMessage.SNS_UPDATE)
   }
 
   onmessage(e: MessageEvent) {
@@ -105,13 +155,18 @@ class Senses extends System {
         break
       case this.phys:
         this.phys = new Phys(e.data)
-        this.init()
+
+        break
+
+      case this.velocity:
+        this.velocity = new Velocity(e.data)
+
+        break
+      case this.input:
+        this.input = new Input(e.data)
+        this.ready = true
         break
     }
-  }
-
-  init() {
-    this.ready = true
   }
 }
 

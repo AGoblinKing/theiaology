@@ -1,5 +1,5 @@
 import 'src/controller/audio'
-import { Chirp, makeAudioReady } from 'src/controller/audio'
+import { Chirp, makeAudioReady, MIDI, Tune } from 'src/controller/audio'
 import 'src/controller/player'
 import 'src/fate/rez/hand-joints'
 // @ts-ignore - tots is a module
@@ -9,7 +9,13 @@ import 'src/input/phony'
 import * as render from 'src/render'
 import 'src/steam'
 import { steam } from 'src/steam'
-import { loading } from './controller/controls'
+import {
+  left_grab,
+  left_use,
+  loading,
+  right_grab,
+  right_use,
+} from './controller/controls'
 import { modal_location, modal_options, modal_visible } from './fate/editor'
 import { key_down, key_map } from './input/keyboard'
 import { Load } from './input/load'
@@ -93,3 +99,36 @@ if (steam.$) {
     steam.$.post('update')
   }, 5 * 60 * 1000)
 }
+
+const MGrab = (state) => {
+  // like a gripping noise
+  Tune(100, 5, (i) => {
+    if (i % 3 === 2) return
+    MIDI(81, 40 + (i % 5), 0.6)
+  })
+}
+const MUse = (state) => {
+  // like a gripping noise
+  Tune(50, 5, (i) => {
+    if (i % 3 === 1) return
+    MIDI(81, 100 + (i % 5), 0.4)
+  })
+}
+left_grab.re((state) => {
+  MGrab(state)
+  first.$.input.grabbing(state)
+})
+
+right_grab.re((state) => {
+  MGrab(state)
+  first.$.input.grabbingRight(state)
+})
+left_use.re((state) => {
+  MUse(state)
+  first.$.input.pinching(state)
+})
+
+right_use.re((state) => {
+  MUse(state)
+  first.$.input.pinchingRight(state)
+})

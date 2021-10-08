@@ -204,9 +204,9 @@ export class Universal extends AtomicInt {
       )
       return $vec
     } else {
-      Atomics.store(this, 29 + hand * 3, vec.x)
-      Atomics.store(this, 30 + hand * 3, vec.y)
-      Atomics.store(this, 31 + hand * 3, vec.z)
+      Atomics.store(this, 29 + hand * 3, Math.round(vec.x))
+      Atomics.store(this, 30 + hand * 3, Math.round(vec.y))
+      Atomics.store(this, 31 + hand * 3, Math.round(vec.z))
       return vec
     }
   }

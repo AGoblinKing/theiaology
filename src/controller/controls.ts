@@ -1,7 +1,7 @@
 import { key_down, key_up } from 'src/input/keyboard'
 import { middle_mouse_toggle, mouse_left, mouse_right } from 'src/input/mouse'
 import { Value } from 'src/value'
-import { MIDI, Tune } from './audio'
+import { MIDI } from './audio'
 
 export const looking = new Value(false).fa(middle_mouse_toggle).re((state) => {
   if (state) document.body.classList.add('looking')
@@ -27,25 +27,12 @@ export const right_forward = new Value(false)
   .fa(mouse_right)
 
 export const left_grabbed = new Value<number>(undefined)
-const MGrab = (state) => {
-  // like a gripping noise
-  Tune(100, 5, (i) => {
-    if (i % 3 === 2) return
-    MIDI(81, 40 + (i % 5), 0.6)
-  })
-}
-const MUse = (state) => {
-  // like a gripping noise
-  Tune(50, 5, (i) => {
-    if (i % 3 === 1) return
-    MIDI(81, 100 + (i % 5), 0.4)
-  })
-}
 
-export const left_grab = new Value(false).re(MGrab)
-export const right_grab = new Value(false).re(MGrab)
-export const left_use = new Value(false).re(MUse)
-export const right_use = new Value(false).re(MUse)
+export const left_grab = new Value(false)
+
+export const right_grab = new Value(false)
+export const left_use = new Value(false)
+export const right_use = new Value(false)
 
 key_down.on((k) => {
   switch (k) {

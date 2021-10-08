@@ -183,8 +183,6 @@ class Cardinal extends System implements ICardinal {
     for (let def of Object.values(this.forms)) {
       def.dirty.clear()
     }
-
-    this.post(EMessage.CARD_TICK)
   }
 
   // Entity ID number to init
@@ -602,6 +600,7 @@ class Cardinal extends System implements ICardinal {
         this.randomize()
         break
     }
+    this.post(EMessage.CARD_TICK)
   }
 
   randomize() {

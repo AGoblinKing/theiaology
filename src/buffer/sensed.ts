@@ -14,7 +14,7 @@ export enum SENSES {
 export class Sensed extends AtomicInt {
   static COUNT = 2
 
-  constructor(buffer = new SharedArrayBuffer(ATOM_COUNT * Sensed.COUNT)) {
+  constructor(buffer = new SharedArrayBuffer(ATOM_COUNT * Sensed.COUNT * 4)) {
     super(buffer)
   }
 

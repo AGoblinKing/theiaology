@@ -72,6 +72,7 @@ Object.assign(window, { realms })
 
 export const fantasy = new Value<Realm>()
 export const first = new Value<Realm>(undefined)
+export const fantasies = new Value<Realm[]>([])
 
 // @ts-ignore
 window.first = first
@@ -135,6 +136,7 @@ export class Realm {
   constructor() {
     if (first.$ === undefined) first.set(this)
 
+    fantasies.$.push(this)
     this.thrust = new Thrust()
     this.velocity = new Velocity()
 
@@ -158,6 +160,8 @@ export class Realm {
     this.initSystems()
     this.initAtoms()
     this.initListeners()
+
+    fantasies.poke()
   }
 
   initMaterial() {
@@ -363,7 +367,10 @@ export class Realm {
         this.size,
         this.universal,
         this.traits,
-        this.sensed
+        this.sensed,
+        this.phys,
+        this.velocity,
+        this.input
       )
   }
 
@@ -482,7 +489,11 @@ export class Realm {
     delete this.physics
 
     scene.$.remove(this.atoms)
+
     this.atoms.dispose()
+
+    fantasies.$.slice(fantasies.$.indexOf(this), 1)
+    fantasies.poke()
     this.destroyed = true
   }
 

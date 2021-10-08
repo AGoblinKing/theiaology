@@ -1,7 +1,9 @@
 // move body smoothly
 
+import { fantasies, first, Realm } from 'src/realm'
 import { body, camera, renderer } from 'src/render'
 import { delta, Timer, timing } from 'src/shader/time'
+import { EMessage } from 'src/system/enum'
 import { Value } from 'src/value'
 import { Vector3 } from 'three'
 import { MIDI } from './audio'
@@ -27,6 +29,12 @@ timing.on(($t) => {
         renderer.xr.isPresenting ? camera.quaternion : body.$.quaternion
       )
     )
+
+    fantasies.$.forEach((f) => {
+      f.universal.faeX(body.$.position.x * 2000)
+      f.universal.faeY(body.$.position.y * 2000)
+      f.universal.faeZ(body.$.position.z * 2000)
+    })
   }
 
   if (Math.abs(angular.$) > MIN_VELOCITY) {
@@ -38,6 +46,25 @@ timing.on(($t) => {
   }
 })
 
+first.$.senses.on((e) => {
+  switch (e) {
+    case EMessage.SNS_UPDATE:
+      ReactToSenses(first.$)
+      break
+  }
+})
+
+function ReactToSenses(realm: Realm) {
+  // if we're feeling things then we need to move away from them
+  // if the fingers are collide then see if we're grabbing or pinching
+  // also limit the distance from the grab to prevent moving from it
+  // if we're grabbing then move towards the hand / do attachment if possible
+  // if we're pinching push away from the hand collision
+  let i = -1
+  while (realm.sensed.id(++i) !== 0) {}
+}
+
+// Sound stuff for movement
 Timer(500, () => {
   if (i++ % 2 === 0) return
 

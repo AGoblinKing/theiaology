@@ -23,6 +23,7 @@ export enum EMessage {
   FAE_POS_UPDATE = -2003,
   FAE_ROT_UPDATE = -2004,
   PHYS_COLLIDE = -3000,
+  SNS_UPDATE = -4000,
   LAND_ADD = -5001,
   LAND_REMOVE = -5002,
   PHYS_TICK = -6000,
