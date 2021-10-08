@@ -49,7 +49,7 @@ class Physics extends System {
   insertTick = []
 
   constructor() {
-    super((1 / 5) * 1000)
+    super((1 / 6) * 1000)
   }
 
   onmessage(e: MessageEvent) {
