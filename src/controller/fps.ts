@@ -152,7 +152,7 @@ delta.on(($dt) => {
   }
 
   if (fly_engaged.$) {
-    move_inputs.$.multiplyScalar(CAPS_SPEED)
+    // move_inputs.$.multiplyScalar(CAPS_SPEED)
   } else {
     move_inputs.$.y = 0
   }
@@ -168,7 +168,6 @@ delta.on(($dt) => {
   if (avatar > 0) {
     const atom = first.$.future.vec3(avatar).multiplyScalar(0.0005)
     atom.y += first.$.size.y(avatar) * 0.0005 + 1
-
     // move us towards the avatar location
     body.$.position.lerp(
       avg
@@ -178,11 +177,13 @@ delta.on(($dt) => {
       $dt * 4
     )
 
-    atom.sub(body.$.position).length() > 0.2 &&
-      atom.multiplyScalar(first.$.universal.thrustStrength()).negate()
+    atom.sub(body.$.position).length()
+    atom.multiplyScalar(first.$.universal.thrustStrength()).negate()
 
     // update velocity of avatar
     const { velocity } = first.$
+
+    // wait for them
     velocity.addX(avatar, atom.x)
     // velocity.addY(avatar, atom.y)
     velocity.addZ(avatar, atom.z)

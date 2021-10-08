@@ -322,19 +322,19 @@ class Physics extends System {
             $me.intersect($other)
             $me.min.sub($me.max)
             const t = baseCore !== 0 ? baseCore : v.i
-
-            this.velocity.addX(
-              t,
-              Math.max(-MAX_NORMAL_FORCE, Math.min(MAX_NORMAL_FORCE, $me.minX))
-            )
+            // this.velocity.addX(
+            //   t,
+            //   Math.max(-MAX_NORMAL_FORCE, Math.min(MAX_NORMAL_FORCE, -$me.minX))
+            // )
             this.velocity.addY(
               t,
               Math.max(-MAX_NORMAL_FORCE, Math.min(MAX_NORMAL_FORCE, -$me.minY))
             )
-            this.velocity.addZ(
-              t,
-              Math.max(-MAX_NORMAL_FORCE, Math.min(MAX_NORMAL_FORCE, $me.minZ))
-            )
+            // this.velocity.addZ(
+            //   t,
+            //   Math.max(-MAX_NORMAL_FORCE, Math.min(MAX_NORMAL_FORCE, -$me.minZ))
+            // )
+
             break
           }
 
