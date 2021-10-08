@@ -88,4 +88,8 @@ if (steam.$) {
         console.log(e.data)
     }
   })
+  steam.$.post('update')
+  setInterval(() => {
+    steam.$.post('update')
+  }, 5 * 60 * 1000)
 }

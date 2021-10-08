@@ -39,13 +39,15 @@ vec4 AnimationFrag(in vec4 col) {
 	if(v_animation == float(ANIM_NO_EFFECT)) {
 		return col;
 	}
+   
+   float outro = 1. + sin(time * 0.001) * 0.01;
 
 	for(int i = 0; i < 10; i++) {
 		vec3 target = pts[i];
 
-		float dist = length(v_pos - target );
+		float dist = length(v_pos - target ) * outro;
 		if(dist < 1.5) {
-			col.xyz += (2.5 - dist * dist )/2.5 * 0.01;
+			col.xyz += (2.5 - dist * dist ) /2.5 * 0.01;
 		}
 		if(dist < 3.) {
 			col.xyz -= (2.5 - dist * dist )/2.5 * 0.001;

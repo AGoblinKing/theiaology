@@ -50,7 +50,7 @@ export function Publish(name: string, selling: 'sell' | 'share') {
   setTimeout(() => {
     // open publish
     steam.$.post(['publish', name, selling].join('|'))
-  }, 1000)
+  }, 3000)
 }
 
 // Save .fate file

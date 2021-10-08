@@ -101,7 +101,7 @@
           break
         case 'SHOP_VISIT':
           browserOpen.set([
-            'https://steamcommunity.com/app/1752690/workshop/',
+             'https://steamcommunity.com/app/1752690/workshop/',
             '_new',
           ])
           break
