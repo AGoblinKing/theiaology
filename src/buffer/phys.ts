@@ -15,6 +15,10 @@ export enum EPhase {
   DIVINE,
 }
 
+export enum ECarries {
+  LEFT_HAND = -1,
+  RIGHT_HAND = -2,
+}
 export class Phys extends AtomicInt {
   static COUNT = 5
 
@@ -34,7 +38,7 @@ export class Phys extends AtomicInt {
       : Atomics.load(this, i * Phys.COUNT + 1)
   }
 
-  carried(i: number, c?: number) {
+  carried(i: number, c?: number | ECarries) {
     return c !== undefined
       ? Atomics.store(this, i * Phys.COUNT + 2, c)
       : Atomics.load(this, i * Phys.COUNT + 2)

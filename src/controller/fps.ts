@@ -17,23 +17,9 @@ const CAPS_SPEED = 8
 const SPEED = 3
 
 key_down.on(($k) => {
-  switch ($k) {
-    case 'Capslock':
+  switch ($k.toLowerCase()) {
+    case 'capslock':
       fly_engaged.set(!fly_engaged.$)
-      break
-
-    case 'A':
-      move_inputs.$.x = -CAPS_SPEED
-      break
-
-    case 'D':
-      move_inputs.$.x = CAPS_SPEED
-      break
-    case 'W':
-      move_inputs.$.z = -CAPS_SPEED
-      break
-    case 'S':
-      move_inputs.$.z = CAPS_SPEED
       break
     case 'a':
       move_inputs.$.x = -SPEED
@@ -165,10 +151,12 @@ delta.on(($dt) => {
     camera.position.set(0, 0, 0)
   }
 
+  if (fly_engaged.$) {
+    move_inputs.$.multiplyScalar(CAPS_SPEED)
+  } else {
+    move_inputs.$.y = 0
+  }
   if (move_inputs.$.length() !== 0 || mouse_right.$) {
-    if (!fly_engaged.$) {
-      move_inputs.$.y = 0
-    }
     velocity.$.add($vec3.copy(move_inputs.$).multiplyScalar($dt * 3))
   }
 

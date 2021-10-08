@@ -336,7 +336,8 @@ export class Realm {
         this.universal,
         this.cage,
         this.velocity,
-        this.phys
+        this.phys,
+        this.input
       )
       .bind(this.cardinal)
 
@@ -356,7 +357,7 @@ export class Realm {
       .bind(this.cardinal)
 
     this.yggdrasil = new Yggdrasil()
-      .send(this.future, this.matter, this.size, multiplayer)
+      .send(this.future, this.matter, this.size, multiplayer, this.input)
       .bind(this.cardinal)
 
     this.senses = sys

@@ -1,3 +1,4 @@
+import { Input } from 'src/buffer/input'
 import { Matter } from 'src/buffer/matter'
 import { Size } from 'src/buffer/size'
 import { SpaceTime } from 'src/buffer/spacetime'
@@ -12,6 +13,7 @@ export class Yggdrasil extends LocalSystem {
   future: SpaceTime
   matter: Matter
   size: Size
+  input: Input
   realm: string
 
   host = false
@@ -36,6 +38,10 @@ export class Yggdrasil extends LocalSystem {
 
       case this.realm:
         this.realm = e.data
+
+        break
+      case this.input:
+        this.input = new Input(e.data)
         this.init()
         break
     }

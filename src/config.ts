@@ -77,3 +77,5 @@ export const SENSE_DISTANCE = {
   hear: 30000,
   felt: 100,
 }
+
+export const MAX_NORMAL_FORCE = 100000

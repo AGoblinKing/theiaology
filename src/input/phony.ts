@@ -177,30 +177,32 @@ export class Phony extends Group implements IJointGroup {
       let effect = 0.01
 
       switch (true) {
-        case this.handedness === 'left' && mouse_pos.$.x > 0.25:
+        case this.handedness === 'left' && mouse_pos.$.x > 0.4:
           effect = 0.075
 
           break
-        case this.handedness !== 'left' && mouse_pos.$.x < -0.25:
+        case this.handedness !== 'left' && mouse_pos.$.x < -0.4:
           effect = 0.075
           break
 
-        case this.handedness === 'left' && mouse_pos.$.x > -0.75:
+        case this.handedness === 'left' && mouse_pos.$.x > -0.65:
           effect = 0.055
 
           break
-        case this.handedness !== 'left' && mouse_pos.$.x < 0.75:
+        case this.handedness !== 'left' && mouse_pos.$.x < 0.65:
           effect = 0.055
           break
       }
 
-      $vec3
-        .set(
-          mouse_pos.$.x * 2 * (forward !== 0 ? 2 : 1),
-          mouse_pos.$.y * 3 * (forward !== 0 ? 2 : 1),
-          forward * 2
-        )
-        .multiplyScalar(effect * 2)
+      $vec3.set(
+        mouse_pos.$.x * 2 * (forward !== 0 ? 2 : 1),
+        mouse_pos.$.y * 3 * (forward !== 0 ? 2 : 1),
+        forward * 2
+      )
+
+      $vec3.z *= 2 * effect
+      $vec3.x *= effect * 2
+      $vec3.y *= effect * 2
 
       const target = this.handedness === 'left' ? this.lastLeft : this.lastRight
       target.multiplyScalar(4).add($vec3).divideScalar(5)

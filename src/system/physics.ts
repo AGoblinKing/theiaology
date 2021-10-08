@@ -4,6 +4,7 @@
 import { RBush3D } from 'rbush-3d'
 import { Cage } from 'src/buffer/cage'
 import { Impact } from 'src/buffer/impact'
+import { Input } from 'src/buffer/input'
 import { Matter } from 'src/buffer/matter'
 import { EPhase, Phys } from 'src/buffer/phys'
 import { BBox, Size } from 'src/buffer/size'
@@ -11,7 +12,7 @@ import { SpaceTime } from 'src/buffer/spacetime'
 import { Thrust } from 'src/buffer/thrust'
 import { ERealmState, Universal } from 'src/buffer/universal'
 import { Velocity } from 'src/buffer/velocity'
-import { ATOM_COUNT } from 'src/config'
+import { ATOM_COUNT, MAX_NORMAL_FORCE } from 'src/config'
 import { Vector3 } from 'three'
 import { EMessage } from './enum'
 import { System } from './system'
@@ -35,6 +36,7 @@ class Physics extends System {
   cage: Cage
   velocity: Velocity
   phys: Phys
+  input: Input
 
   // @ts-ignore
   tree = new RBush3D(0)
@@ -82,6 +84,9 @@ class Physics extends System {
         break
       case this.phys:
         this.phys = new Phys(e.data)
+        break
+      case this.input:
+        this.input = new Input(e.data)
         this.init()
         break
 
@@ -276,20 +281,60 @@ class Physics extends System {
           continue
 
         const cPhase = this.phys.phase(collide.i)
+
+        // dont' collide avatar and divine things
         if (isAvatar && cPhase === EPhase.DIVINE) continue
+
+        // switch based on source phase
         switch (phase) {
+          case EPhase.DIVINE: {
+            switch (cPhase) {
+              // pick up
+              case EPhase.LIQUID:
+              case EPhase.NORMAL:
+              case EPhase.STUCK:
+                if (this.input.pinching() || this.input.pinchingRight()) {
+                }
+
+                if (!(this.input.grabbing() || this.input.grabbingRight()))
+                  continue
+                $me.copy(v)
+                this.size.box(collide.i, this.future, $other)
+                $me.intersect($other)
+                $me.min.sub($me.max).multiplyScalar(0.1)
+
+                this.future.addX(collide.i, $me.min.x)
+                this.future.addY(collide.i, $me.min.y)
+                this.future.addZ(collide.i, $me.min.z)
+                break
+            }
+
+            // not grabbing don't push it
+
+            break
+          }
           case EPhase.NORMAL: {
+            // ignore liquid
             if (cPhase === EPhase.LIQUID) continue
+
             $me.copy(v)
             this.size.box(collide.i, this.future, $other)
             $me.intersect($other)
             $me.min.sub($me.max)
             const t = baseCore !== 0 ? baseCore : v.i
-            //this.velocity.addX(t, Math.max(-100, Math.min(100, $me.maxX)))
 
-            this.velocity.addY(t, Math.max(-500, Math.min(500, -$me.minY)))
-
-            //this.velocity.addZ(t, Math.max(-100, Math.min(100, $me.maxZ)))
+            this.velocity.addX(
+              t,
+              Math.max(-MAX_NORMAL_FORCE, Math.min(MAX_NORMAL_FORCE, $me.minX))
+            )
+            this.velocity.addY(
+              t,
+              Math.max(-MAX_NORMAL_FORCE, Math.min(MAX_NORMAL_FORCE, -$me.minY))
+            )
+            this.velocity.addZ(
+              t,
+              Math.max(-MAX_NORMAL_FORCE, Math.min(MAX_NORMAL_FORCE, $me.minZ))
+            )
             break
           }
 

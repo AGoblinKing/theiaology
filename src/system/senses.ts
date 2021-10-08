@@ -1,6 +1,6 @@
 import { Input } from 'src/buffer/input'
 import { Matter } from 'src/buffer/matter'
-import { EPhase, Phys } from 'src/buffer/phys'
+import { Phys } from 'src/buffer/phys'
 import { Sensed, SENSES } from 'src/buffer/sensed'
 import { BBox, Size } from 'src/buffer/size'
 import { SpaceTime } from 'src/buffer/spacetime'
@@ -13,7 +13,6 @@ import { EMessage } from './enum'
 import { System } from './system'
 
 const $vec3 = new Vector3()
-const $hand = new Vector3()
 const myBox = new BBox()
 
 class Senses extends System {
@@ -57,7 +56,6 @@ class Senses extends System {
       let sensed = SENSES.SIGHT
 
       if (dist < hear) {
-        const phase = this.phys.phase(i)
         // hear
         sensed += SENSES.HEAR
         //  close enough to "touch"
@@ -67,54 +65,7 @@ class Senses extends System {
           sensed += SENSES.FELT
           // are any of our hands touching them
         }
-
-        for (let hi = 0; hi < 10; hi++) {
-          const hand = this.universal.faeHandVec3(hi)
-
-          if (them.containsPoint(hand)) {
-            switch (phase) {
-              case EPhase.STUCK:
-                loc.sub(pos).multiplyScalar(0.1)
-                // punch em
-                if (this.input.grabbingRight() || this.input.grabbing()) {
-                  this.future.addX(
-                    i,
-                    Math.round(Math.random() * 10 - 5) + loc.x
-                  )
-                  this.future.addY(
-                    i,
-                    Math.round(Math.random() * 10 - 5) + loc.y
-                  )
-                  this.future.addZ(
-                    i,
-                    Math.round(Math.random() * 10 - 5) + loc.z
-                  )
-                }
-
-                break
-              case EPhase.NORMAL:
-              case EPhase.LIQUID:
-                {
-                  if (this.input.pinchingRight() || this.input.pinching()) {
-                    // attach
-                  }
-
-                  if (this.input.grabbingRight() || this.input.grabbing()) {
-                    // repel them away from hand if grabbing (punch)
-                    const core = this.phys.core(i)
-                    this.velocity
-                      .vec3(core || i)
-                      .add(loc.sub(pos).multiplyScalar(1000))
-                  }
-                }
-                break
-            }
-            sensed += hi < 5 ? SENSES.FEEL_LEFT : SENSES.FEEL_RIGHT
-            break
-          }
-        }
       }
-
       let entry = si++
       this.sensed.id(entry, i)
       this.sensed.sense(entry, sensed)

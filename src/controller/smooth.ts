@@ -65,15 +65,15 @@ function ReactToSenses(realm: Realm) {
 }
 
 // Sound stuff for movement
-Timer(500, () => {
+Timer(200, () => {
   if (i++ % 2 === 0) return
 
   const l = Math.abs(velocity.$.length())
   if (l < MIN_VELOCITY) return
 
   // heart
-  MIDI(81, 30 + ((i % 2) + (i % 5)), 0.25 + l * 0.01)
+  MIDI(9, 25 + ((i % 2) + (i % 5)), 0.25 + l * 0.01)
   setTimeout(() => {
-    MIDI(81, 30 + ((i % 2) + (i % 5)), 0.25 + l * 0.01)
-  }, 100)
+    MIDI(9, 25 + ((i % 2) + (i % 5)), 0.25 + l * 0.01)
+  }, 50)
 })

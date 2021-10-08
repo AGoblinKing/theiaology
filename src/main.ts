@@ -104,14 +104,14 @@ const MGrab = (state) => {
   // like a gripping noise
   Tune(100, 5, (i) => {
     if (i % 3 === 2) return
-    MIDI(81, 40 + (i % 5), 0.6)
+    MIDI(81, 40 + (i % 5), 0.32)
   })
 }
 const MUse = (state) => {
   // like a gripping noise
   Tune(50, 5, (i) => {
     if (i % 3 === 1) return
-    MIDI(81, 100 + (i % 5), 0.4)
+    MIDI(81, 100 + (i % 5), 0.31)
   })
 }
 left_grab.re((state) => {
