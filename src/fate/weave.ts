@@ -18,6 +18,15 @@ export interface IFate extends INode {
   flat: { [key: number]: INode }
 }
 
+export enum ETomeRipple {
+  RIPPLE = 0,
+  SINK,
+}
+export enum ETomeLive {
+  LIVE = 0,
+  ETHEREAL,
+}
+
 export enum EImpactReaction {
   NONE = 0,
   DESTROY,
@@ -75,6 +84,7 @@ export enum ECarriers {
   NONE,
   HAND_LEFT,
   HAND_RIGHT,
+  HAND_BETWEEN,
 }
 
 export enum EIdle {
@@ -166,6 +176,7 @@ export enum ESpell {
   FAE_COLOR,
   MIDI_CHIRP,
   PHYS_CARRIED,
+  TOME_OPTIONS,
 }
 
 export enum EConstraint {
@@ -215,6 +226,7 @@ export const ESpellHelp = {
   [ESpell.UNI_CLEAR_COLOR]: 'Clear Color',
   [ESpell.DO_SEEK]: 'Seek to a position in the track without causing a reset',
   [ESpell.PHYS_CARRIED]: 'Use the targets position as the base position',
+  [ESpell.TOME_OPTIONS]: 'Turn on/off the ripple and live tome options',
 }
 
 export const Invocations: { [key: number]: any } = {
@@ -395,5 +407,9 @@ export const Invocations: { [key: number]: any } = {
   },
   [ESpell.PHYS_CARRIED]: {
     whom: ECarriers,
+  },
+  [ESpell.TOME_OPTIONS]: {
+    ripple: ETomeRipple,
+    liveliness: ETomeLive,
   },
 }

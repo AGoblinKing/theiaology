@@ -40,7 +40,7 @@ export enum EMessage {
 }
 
 export enum ENotifyPosition {
-  CENTER_BOTTOM = 0,
+  BETWEEN_HANDS = 0,
   LEFT_HAND,
   RIGHT_HAND,
 }

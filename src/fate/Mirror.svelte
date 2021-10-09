@@ -48,7 +48,7 @@
             reverseClutch = true
             first.$.fate.poke()
             reverseClutch = false
-        }, 500)
+        }, 5000)
     }
 
 

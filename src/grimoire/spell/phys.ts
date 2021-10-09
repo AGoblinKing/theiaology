@@ -7,7 +7,7 @@ export default {
     $spell.phase = $c.fate.data0(i)
     $spell.ripple(ERipple.PHASE, $spell.phase)
 
-    for (let atom of $spell.all()) {
+    for (let atom of $spell.live()) {
       $c.phys.phase(atom, $spell.phase)
     }
   },
@@ -53,7 +53,7 @@ export default {
 
     $spell.ripple(ERipple.CAGE, $spell.cage)
 
-    for (let atom of $spell.all()) {
+    for (let atom of $spell.live()) {
       switch ($c.fate.data0(i)) {
         case EAxis.XYZ:
           $c.cage.z(atom, min)

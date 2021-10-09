@@ -9,7 +9,7 @@ import { EMessage, ENotifyPosition } from 'src/system/enum'
 // Notify using rez'd cubes that'll auto release
 export function Notify(
   msg: string,
-  loc: ENotifyPosition = ENotifyPosition.CENTER_BOTTOM
+  loc: ENotifyPosition = ENotifyPosition.BETWEEN_HANDS
 ) {
   // just send cardinal a message asking them to do it
   first.$.cardinal.send({

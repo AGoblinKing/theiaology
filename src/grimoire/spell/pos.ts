@@ -11,7 +11,7 @@ export default {
     $spell.pos.y = $c.fate.data1(i)
     $spell.pos.z = $c.fate.data2(i)
 
-    for (let atom of $spell.all()) {
+    for (let atom of $spell.live()) {
       $c.future.x(atom, $spell.pos.x)
       $c.future.y(atom, $spell.pos.y)
       $c.future.z(atom, $spell.pos.z)
@@ -27,7 +27,7 @@ export default {
 
     $spell.ripple(ERipple.POSADD, $vec3)
 
-    for (let atom of $spell.all()) {
+    for (let atom of $spell.live()) {
       $c.future.addX(atom, $vec3.x)
       $c.future.addY(atom, $vec3.y)
       $c.future.addZ(atom, $vec3.z)

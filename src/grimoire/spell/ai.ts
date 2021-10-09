@@ -6,7 +6,7 @@ export default {
   [ESpell.AI](i: number, $c: ICardinal, $spell: Spell) {
     $spell.role = $c.fate.data0(i)
 
-    for (let a of $spell.all()) {
+    for (let a of $spell.live()) {
       $c.traits.role(a, $spell.role)
     }
   },

@@ -25,7 +25,7 @@ export default {
     $spell.effect = $c.fate.data0(i)
     $spell.ripple(ERipple.EFFECT, $spell.effect)
 
-    for (const atom of $spell.all()) {
+    for (const atom of $spell.live()) {
       $c.animation.animation(atom, $spell.effect)
     }
   },

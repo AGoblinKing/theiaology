@@ -9,7 +9,7 @@ export default {
   [ESpell.THRUST](i: number, $c: ICardinal, $spell: Spell) {
     $spell.vel.set($c.fate.data0(i), $c.fate.data1(i), $c.fate.data2(i))
 
-    for (let atom of $spell.all()) {
+    for (let atom of $spell.live()) {
       $c.thrust.x(atom, $spell.vel.x)
       $c.thrust.y(atom, $spell.vel.y)
       $c.thrust.z(atom, $spell.vel.z)
@@ -28,7 +28,7 @@ export default {
 
     $spell.ripple(ERipple.VELADD, $vec3)
 
-    for (let atom of $spell.all()) {
+    for (let atom of $spell.live()) {
       $c.thrust.addX(atom, $vec3.x)
       $c.thrust.addY(atom, $vec3.y)
       $c.thrust.addZ(atom, $vec3.z)
@@ -79,7 +79,7 @@ export default {
         break
     }
 
-    for (let atom of $spell.all()) {
+    for (let atom of $spell.live()) {
       $c.thrust.x(
         atom,
         $spell.vel.x +

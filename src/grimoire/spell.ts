@@ -74,14 +74,17 @@ export class Spell {
   avatar = false
   avatarThrust = 1.0
   effect = EAnimation.NORMAL
+  doRipple = true
+  doLive = true
 
   constructor(id) {
     this.id = id
     this.reset()
   }
 
-  all(): number[] {
-    return [...this.atoms, ...this._.reduce((a) => [...a, ...this.atoms], [])]
+  live(): number[] {
+    if (!this.doLive) return
+    return [...this.atoms, ...this._.reduce((a, b) => [...a, ...b.live()], [])]
   }
 
   reset() {
@@ -121,6 +124,8 @@ export class Spell {
   }
 
   ripple(what: ERipple, data: any, mark = true) {
+    if (!this.doRipple) return
+
     if (mark) this.dirty.add(what)
 
     for (let c of this._) {
