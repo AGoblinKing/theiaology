@@ -40,6 +40,7 @@ import { MIDI } from 'src/controller/audio';
   export let upper = false
   export let style = ''
   export let click = () => {}
+  export let over = () => {}
 
   let tags = []
   if (nav.tag) {
@@ -88,6 +89,7 @@ import { MIDI } from 'src/controller/audio';
   }
 
   function mouseOver() {
+    over()
     MIDI(80, 90 + ((nav.i % 8) || Math.round(Math.random() * 8)), 0.4)
   }
 </script>

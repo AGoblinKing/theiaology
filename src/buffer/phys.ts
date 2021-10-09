@@ -19,6 +19,7 @@ export enum ECarries {
   LEFT_HAND = -1,
   RIGHT_HAND = -2,
 }
+
 export class Phys extends AtomicInt {
   static COUNT = 5
 
@@ -50,7 +51,7 @@ export class Phys extends AtomicInt {
       : Atomics.load(this, i * Phys.COUNT + 3)
   }
 
-  distanceToFae(i: number, d?: number) {
+  distance(i: number, d?: number) {
     return d !== undefined
       ? Atomics.store(this, i * Phys.COUNT + 4, d)
       : Atomics.load(this, i * Phys.COUNT + 4)

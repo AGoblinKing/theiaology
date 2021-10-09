@@ -50,6 +50,7 @@ import {
   Vector3,
 } from 'three'
 import { Input } from './buffer/input'
+import { Noise } from './buffer/noise'
 import { Phys } from './buffer/phys'
 import { Sensed } from './buffer/sensed'
 import { LocalSystem } from './system/system'
@@ -89,6 +90,7 @@ export class Realm {
   traits: Traits
   phys: Phys
   sensed: Sensed
+  noise: Noise
 
   fate: Value<Fate>
   universal: Universal
@@ -153,6 +155,7 @@ export class Realm {
     this.phys = new Phys()
     this.sensed = new Sensed()
     this.input = new Input()
+    this.noise = new Noise()
 
     this.fate = new Value(new Fate())
     this.initMaterial()
@@ -239,7 +242,8 @@ export class Realm {
         this.universal,
         this.cage,
         this.velocity,
-        this.phys
+        this.phys,
+        this.noise
       )
       .on((e) => {
         const data = e

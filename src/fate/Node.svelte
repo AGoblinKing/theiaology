@@ -133,6 +133,18 @@
     })
   }
 
+  function inputNoise(cursor: number) {
+    updateModal()
+    modal_options.set(EVar.NOISE)
+    modal_cursor.set(cursor)
+    modal_default.set(fate.$[`data${cursor}`](i))
+    modal_visible.set((res) => {
+      fate.$[`data${cursor}`](i, res)
+      fate.poke()
+      modal_visible.set(false)
+    })
+  }
+
   function inputVox() {
     updateModal()
 
@@ -367,6 +379,15 @@
       >
         {d0( $fate[`data${index}`](i) / 60)}:{d0($fate[`data${index}`](i) % 60)}
       </Box>
+
+      {:else if value === EVar.NOISE}
+      <Box  
+      flex
+      nav={NavData(index)} hover={key} 
+      click={() => inputNoise(index)}
+    >
+    🎵
+    </Box>
         {:else}
           <Box flex nav={NavData(index)} hover="{key} - Not Implemented" />
         {/if}

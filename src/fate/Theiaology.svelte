@@ -218,13 +218,13 @@
   <Box
     tilt={-180}
     hover="Download Fate files.  Drag + Drop or load!"
-    nav={{ tag: 'save', right: '.fate', left: 'load', down }}
+    nav={{ tag: 'save', right: 'look', left: 'load', down }}
     click={Save}>SAVE</Box
   >
   <Box
     tilt={350}
     hover="Track Mouse to Look. Toggle with Middle Mouse Clicks as well!"
-    nav={{ tag: '.fate', left: 'save', right: 'sponsor', down }}
+    nav={{ tag: 'look', left: 'save', right: 'look', down }}
     click={() => {
       looking.set(!looking.$)
     }}>LOOK</Box
@@ -234,7 +234,7 @@
     tilt={290}
     hover="Find FATEs to play!"
     style="border-radius: 0 0 0.5rem 0;"
-    nav={{ tag: '.fate', left: 'save', right: 'sponsor', down }}
+    nav={{ tag: '.fate', left: 'look', right: 'sponsor', down }}
     click={Browse}>YGGDRASIL</Box
   >
 

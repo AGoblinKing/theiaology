@@ -88,6 +88,14 @@ audio::-webkit-media-controls-time-remaining-display {
   font-size: 0.75rem;
 }
 
+input[type="checkbox"] ~ .checkmark {
+  background:rgba(153, 4, 158, 0.9);
+}
+input[type="checkbox"]:checked ~ .checkmark {
+
+	background-color: #00aaff;
+}
+
 input {
   cursor: url("/sprite/pointer.png") 0 0, pointer;
 }

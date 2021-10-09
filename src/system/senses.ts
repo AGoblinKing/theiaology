@@ -50,7 +50,7 @@ class Senses extends System {
       // check to see if they're close enough to "hear"
       const loc = this.future.vec3(i)
       const dist = pos.distanceTo(loc)
-      this.phys.distanceToFae(i, dist)
+      this.phys.distance(i, dist)
 
       if (dist > see) continue
       let sensed = SENSES.SIGHT

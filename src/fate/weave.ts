@@ -1,7 +1,6 @@
 import { EAnimation } from 'src/buffer/animation'
 import { EPhase } from 'src/buffer/phys'
 import { ERole } from 'src/buffer/traits'
-import { EMidiFlourish } from 'src/controller/midi'
 
 export interface IMarkers {
   [markerID: number]: string
@@ -69,7 +68,7 @@ export enum EVar {
   VOX,
   // think 0 - 1 but like 0 - MAX_SAFE_INTEGER
   NORMAL,
-  AUDIO,
+  NOISE,
   // -1 0 1
   SIGN,
   TIME,
@@ -164,7 +163,7 @@ export enum ESpell {
   FLOCK_RECT,
   GAME_SCORE,
   MIDI,
-  DO_STATUS,
+  GAME_STATUS,
   TRAP_IMPACT,
   TRAP_DISTANCE,
   TRAP_FILTER,
@@ -177,6 +176,7 @@ export enum ESpell {
   MIDI_CHIRP,
   PHYS_CARRIED,
   TOME_OPTIONS,
+  NOISE,
 }
 
 export enum EConstraint {
@@ -187,7 +187,6 @@ export enum EConstraint {
 
 export const ESpellHelp = {
   [ESpell.TOME]: 'A holder of knowledge',
-  [ESpell.MUSIC]: 'A song',
   [ESpell.FLOCK_GRID]: 'A flock of atoms set in a uniform grid',
   [ESpell.FLOCK_RING]: 'A flock of atoms set in a ring',
   [ESpell.FLOCK_TEXT]: 'A flock of atoms set as text',
@@ -227,6 +226,7 @@ export const ESpellHelp = {
   [ESpell.DO_SEEK]: 'Seek to a position in the track without causing a reset',
   [ESpell.PHYS_CARRIED]: 'Use the targets position as the base position',
   [ESpell.TOME_OPTIONS]: 'Turn on/off the ripple and live tome options',
+  [ESpell.NOISE]: 'The vibe, beat, jive of the atom',
 }
 
 export const Invocations: { [key: number]: any } = {
@@ -328,17 +328,6 @@ export const Invocations: { [key: number]: any } = {
   [ESpell.THEIA_RULER]: { githubFae: EVar.STRING },
   [ESpell.THEIA_REALM]: { theia: EVar.STRING },
   [ESpell.THEIA_GATE]: { theia: EVar.STRING },
-  [ESpell.MIDI]: {
-    note: EVar.POSITIVE,
-    flourish: EMidiFlourish,
-    timing: EVar.FAEPOSITIVE,
-  },
-
-  [ESpell.MIDI_INSTRUMENT]: {
-    instrument: EVar.NUMBER,
-    volume: EVar.NORMAL,
-    pan: EVar.NORMAL,
-  },
 
   [ESpell.FLOCK_RING]: {
     radius: EVar.FAEPOSITIVE,
@@ -366,7 +355,7 @@ export const Invocations: { [key: number]: any } = {
     score: EVar.NUMBER,
   },
 
-  [ESpell.DO_STATUS]: {
+  [ESpell.GAME_STATUS]: {
     game_status: EGameStatus,
   },
   [ESpell.TRAP_IMPACT]: {
@@ -400,16 +389,16 @@ export const Invocations: { [key: number]: any } = {
     color: EVar.COLOR,
     hueVariance: EVar.NORMAL,
   },
-  [ESpell.MIDI_CHIRP]: {
-    instrument: EVar.NUMBER,
-    note: EVar.NUMBER,
-    volume: EVar.NORMAL,
-  },
+
   [ESpell.PHYS_CARRIED]: {
     whom: ECarriers,
   },
   [ESpell.TOME_OPTIONS]: {
     ripple: ETomeRipple,
     liveliness: ETomeLive,
+  },
+  [ESpell.NOISE]: {
+    noise: EVar.NOISE,
+    interval: EVar.NORMAL,
   },
 }

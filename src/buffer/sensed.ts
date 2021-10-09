@@ -11,8 +11,9 @@ export enum SENSES {
   TASTE = 0xf00000,
 }
 
+// distance is on phys since its calced for every atom anyhow
 export class Sensed extends AtomicInt {
-  static COUNT = 2
+  static COUNT = 3
 
   constructor(buffer = new SharedArrayBuffer(ATOM_COUNT * Sensed.COUNT * 4)) {
     super(buffer)
@@ -28,5 +29,11 @@ export class Sensed extends AtomicInt {
     return sense === undefined
       ? Atomics.load(this, Sensed.COUNT * i + 1)
       : Atomics.store(this, Sensed.COUNT * i + 1, sense)
+  }
+
+  pan(i: number, pan?: number): number {
+    return pan === undefined
+      ? Atomics.load(this, Sensed.COUNT * i + 2)
+      : Atomics.store(this, Sensed.COUNT * i + 2, pan)
   }
 }

@@ -3,6 +3,7 @@ import { Cage } from 'src/buffer/cage'
 import { Fate } from 'src/buffer/fate'
 import { Impact } from 'src/buffer/impact'
 import { Matter } from 'src/buffer/matter'
+import { Noise } from 'src/buffer/noise'
 import { Phys } from 'src/buffer/phys'
 import { Size } from 'src/buffer/size'
 import { SpaceTime } from 'src/buffer/spacetime'
@@ -46,6 +47,7 @@ class Cardinal extends System implements ICardinal {
   traits: Traits
   velocity: Velocity
   phys: Phys
+  noise: Noise
 
   fate: Fate
   universal: Universal
@@ -112,6 +114,10 @@ class Cardinal extends System implements ICardinal {
 
       case this.phys:
         this.phys = new Phys(e.data)
+        break
+
+      case this.noise:
+        this.noise = new Noise(e.data)
         this.ready = true
         break
 
@@ -576,6 +582,7 @@ class Cardinal extends System implements ICardinal {
     this.velocity.free(i, Velocity.COUNT)
     this.traits.free(i, Traits.COUNT)
     this.phys.free(i, Phys.COUNT)
+    this.noise.free(i, Noise.COUNT)
   }
 
   available(i: number) {

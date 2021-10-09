@@ -13,6 +13,7 @@
   import Box from 'src/fate/Box.svelte'
   import { hashcode } from './color'
   import { FAE_SCALE } from 'src/config';
+import Noise from './evar/Noise.svelte';
 
   // modal is a singleton so Aok, but weird
   mouse_left.on(() => {
@@ -88,6 +89,9 @@
       <Number scale={FAE_SCALE} />
     {:else if $modal_options === EVar.NUMBER}
       <Number />
+    {:else if $modal_options === EVar.NOISE}
+      <Noise />
+    
     {/if}
   </div>
 {/if}

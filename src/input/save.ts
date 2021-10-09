@@ -27,7 +27,7 @@ export function Screenshot() {
       fs.saveAs(blob, `theiaology-${first.$.fate.$.text(0)}.jpg`)
     },
     'image/jpeg',
-    0.95
+    0.98
   )
 }
 export function Publish(name: string, selling: 'sell' | 'share') {
