@@ -1,3 +1,4 @@
+import { EAnimation } from 'src/buffer/animation'
 import { EPhase } from 'src/buffer/phys'
 import { ERole } from 'src/buffer/traits'
 import { EImpactReaction, EShape } from 'src/fate/weave'
@@ -30,6 +31,7 @@ export enum ERipple {
   LAND,
   VELVARCONSTRAINT,
   AI,
+  EFFECT,
 }
 
 export class Spell {
@@ -71,13 +73,14 @@ export class Spell {
   id: number
   avatar = false
   avatarThrust = 1.0
+  effect = EAnimation.NORMAL
 
   constructor(id) {
     this.id = id
     this.reset()
   }
 
-  all() {
+  all(): number[] {
     return [...this.atoms, ...this._.reduce((a) => [...a, ...this.atoms], [])]
   }
 
@@ -209,6 +212,9 @@ export class Spell {
           break
         case ERipple.LAND:
           c.land = data
+          break
+        case ERipple.EFFECT:
+          c.effect = data
           break
       }
     }

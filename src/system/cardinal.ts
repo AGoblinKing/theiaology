@@ -488,6 +488,8 @@ class Cardinal extends System implements ICardinal {
     this.cage.box(id, $spell.cage)
     this.traits.role(id, $spell.role)
 
+    this.animation.animation(id, $spell.effect)
+
     // TODO: handle voxes better
     if ($spell.avatar) {
       this.universal.avatar(id)

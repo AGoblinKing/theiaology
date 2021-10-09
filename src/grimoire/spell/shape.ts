@@ -21,4 +21,12 @@ export default {
     $spell.size.z = $c.fate.data2(i)
     $spell.ripple(ERipple.SIZE, $spell.size)
   },
+  [ESpell.SHAPE_EFFECTS](i: number, $c: ICardinal, $spell: Spell) {
+    $spell.effect = $c.fate.data0(i)
+    $spell.ripple(ERipple.EFFECT, $spell.effect)
+
+    for (const atom of $spell.all()) {
+      $c.animation.animation(atom, $spell.effect)
+    }
+  },
 }

@@ -5,6 +5,7 @@ export enum EAnimation {
   NORMAL = 0,
   OFF,
   FIRE,
+  DISCARD,
 }
 
 export class Animation extends AtomicInt {

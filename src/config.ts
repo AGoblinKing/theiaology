@@ -41,7 +41,7 @@ export const UNIVERSALS = [
   0,
   0,
   0, // gravity
-  0x22cc11, // fae color
+  0x5522ff, // fae color
   0.15 * NORMALIZER, // fae hue variance
 ]
 

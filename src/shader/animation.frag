@@ -35,8 +35,12 @@ vec4 AnimationFrag(in vec4 col) {
 
     col.xyz *= 1. + (sin(xz * 10.) + cos(10. * xz))* 0.01;
 
+	if(v_animation == 3.) {
+		discard;
+		return col;
+	}
 
-	if(v_animation == float(ANIM_NO_EFFECT)) {
+	if(v_animation == 1.) {
 		return col;
 	}
    
