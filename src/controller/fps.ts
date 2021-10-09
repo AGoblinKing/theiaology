@@ -1,17 +1,19 @@
 import { AXIS, pad_axes } from 'src/input/gamepad'
-import { key_down, key_up } from 'src/input/keyboard'
+import { key_down, key_map, key_up } from 'src/input/keyboard'
 import { mouse_left, mouse_pos, mouse_right } from 'src/input/mouse'
 import { left_controller, right_controller } from 'src/input/phony'
 import { first } from 'src/realm'
 import { body, camera, renderer } from 'src/render'
 import { delta } from 'src/shader/time'
 import { Value } from 'src/value'
-import { MathUtils, Vector2, Vector3 } from 'three'
+import { MathUtils, Quaternion, Vector2, Vector3 } from 'three'
 import { looking } from './controls'
 import { angular, velocity } from './smooth'
 
 export const move_inputs = new Value(new Vector3(0, 0, 0))
 export const fly_engaged = new Value(false)
+
+const IDENTITY = new Quaternion().identity()
 
 const CAPS_SPEED = 8
 const SPEED = 3
@@ -119,6 +121,11 @@ function UpdateCamera($dt: number) {
     .add(body.$.position)
 
   body.$.lookAt(targetPosition)
+
+  camera.quaternion.slerp(
+    key_map.$['Shift'] ? body.$.quaternion : IDENTITY,
+    0.1
+  )
 }
 
 const avg = new Vector3()
