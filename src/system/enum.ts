@@ -22,6 +22,7 @@ export enum EMessage {
   CLEAR_COLOR_UPDATE = -2002,
   FAE_POS_UPDATE = -2003,
   FAE_ROT_UPDATE = -2004,
+  FAE_NOTIFY = -2005,
   PHYS_COLLIDE = -3000,
   SNS_UPDATE = -4000,
   LAND_ADD = -5001,
@@ -36,6 +37,12 @@ export enum EMessage {
   YGG_REALM_UPDATE = -8000,
   YGG_HOST = -8001,
   YGG_JOIN = -8002,
+}
+
+export enum ENotifyPosition {
+  CENTER_BOTTOM = 0,
+  LEFT_HAND,
+  RIGHT_HAND,
 }
 
 export type FRez = () => number

@@ -67,8 +67,8 @@ vec4 AnimationFrag(in vec4 col) {
 				if(dist < 60.) {
 			col.xyz -= (60. - dist * dist )/60.* 0.00005;
 		}
-		if(dist < 0.5) {
-			col.xyz += sin(dist * 200. - time * 0.05 )* 0.01;
+		if(dist < .5) {
+			col.xyz += sin(dist * 200. - time * 0.05 )* 0.005;
 		}
 	}
 

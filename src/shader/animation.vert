@@ -12,7 +12,7 @@ mat4 rotationY(in float angle) {
 mat4 rotationZ(in float angle) {
 	return mat4(cos(angle), -sin(angle), 0, 0, sin(angle), cos(angle), 0, 0, 0, 0, 1, 0, 0, 0, 0, 1);
 }
-const float HAND_DST = 0.5;
+const float HAND_DST = 0.15;
 float modulator(float x, float y) {
 	return x - y * floor(x / y);
 }
@@ -38,7 +38,7 @@ vec4 Animation(in vec4 pos) {
 
 	for(int i = 0; i < 10; i++) {
 		vec3 target = pts[i];
-		float dist = length(v_pos - target) - sin(time * 0.05) * 0.01;
+		float dist = length(v_pos - target) - sin(time * 0.05) * 0.001;
 		if(dist < HAND_DST) {
 			pos.xyz = mix(target, pos.xyz, dist / HAND_DST);
 		}

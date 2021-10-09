@@ -19,7 +19,7 @@ import spells from 'src/grimoire/spells'
 import { MagickaVoxel } from 'src/magica'
 import { Value } from 'src/value'
 import { Color, Euler, Object3D, Vector3 } from 'three'
-import { EMessage, FRez, ICardinal } from './enum'
+import { EMessage, ENotifyPosition, FRez, ICardinal } from './enum'
 import { System } from './system'
 
 const $hsl = { h: 0, s: 0, l: 0 }
@@ -119,6 +119,14 @@ class Cardinal extends System implements ICardinal {
       default:
         switch (typeof e.data) {
           case 'object':
+            if (typeof e.data.message === 'number') {
+              switch (e.data.message) {
+                case EMessage.FAE_NOTIFY:
+                  this.onFaeNotify(e.data)
+                  break
+              }
+              return
+            }
             // this is voxes data
             voxes.set(e.data)
 
@@ -147,6 +155,10 @@ class Cardinal extends System implements ICardinal {
             return
         }
     }
+  }
+
+  onFaeNotify(msg: { loc: ENotifyPosition; data: string }) {
+    // create a spell for this message and execute it
   }
 
   doTurn(sec?: number) {
