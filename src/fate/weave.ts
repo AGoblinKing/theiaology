@@ -399,6 +399,6 @@ export const Invocations: { [key: number]: any } = {
   },
   [ESpell.NOISE]: {
     noise: EVar.NOISE,
-    interval: EVar.NORMAL,
+    options: EVar.NOISE,
   },
 }

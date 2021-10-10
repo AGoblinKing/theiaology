@@ -389,7 +389,7 @@
       nav={NavData(index)} hover={key} 
       click={() => inputNoise(index)}
     >
-    🎵 {viewer.setInt32(0, $fate[`data${index}`](i)) || viewer.getUint8(0).toString(16)} {$fate && viewer.getUint8(1).toString(16)} {$fate && viewer.getUint8(2).toString(16)} {$fate && viewer.getUint8(3).toString(16)}
+    🎰 {viewer.setInt32(0, $fate[`data${index}`](i)) || viewer.getUint8(0).toString(16)} {$fate && viewer.getUint8(1).toString(16)} {$fate && viewer.getUint8(2).toString(16)} {$fate && viewer.getUint8(3).toString(16)}
     </Box>
         {:else}
           <Box flex nav={NavData(index)} hover="{key} - Not Implemented" />

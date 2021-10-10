@@ -172,11 +172,11 @@ export class Fate extends AtomicInt {
             switch (e) {
               case EVar.NOISE:
                 viewer.setInt32(0, d)
-                output += `0x${viewer.getUint8(0).toString(16)}${viewer
-                  .getUint8(1)
-                  .toString(16)}${viewer.getUint8(2).toString(16)}${viewer
-                  .getUint8(3)
-                  .toString(16)} `
+                output += `0x${[...new Array(4)]
+                  .map((_, i) =>
+                    `00${viewer.getUint8(i).toString(16)}`.slice(-2)
+                  )
+                  .join('')} `
                 break
               case EVar.TIME:
                 output += `${ToDateString(d)} `
