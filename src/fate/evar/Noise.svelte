@@ -48,7 +48,7 @@ import { onDestroy } from 'svelte';
             if(!left) return
             Click(i, ip)()
         }} click={Click(i, ip)}>
-        {($pads[ip] & (1 << i)) ? 'X' : '_'}
+        {($pads[ip] & (1 << i)) ? 'O' : 'X'}
         </Box>
     {/each}
 
