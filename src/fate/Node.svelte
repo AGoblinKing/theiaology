@@ -52,6 +52,8 @@
 
   $: order = $fate && order_count++
 
+  const viewer = new DataView(new ArrayBuffer(4))
+
   function remove(index: number) {
     modal_visible.set(false)
 
@@ -139,9 +141,10 @@
     modal_cursor.set(cursor)
     modal_default.set(fate.$[`data${cursor}`](i))
     modal_visible.set((res) => {
+  
       fate.$[`data${cursor}`](i, res)
-      fate.poke()
-      modal_visible.set(false)
+    
+
     })
   }
 
@@ -386,7 +389,7 @@
       nav={NavData(index)} hover={key} 
       click={() => inputNoise(index)}
     >
-    🎵
+    🎵 {viewer.setInt32(0, $fate[`data${index}`](i)) || viewer.getUint8(0).toString(16)} {$fate && viewer.getUint8(1).toString(16)} {$fate && viewer.getUint8(2).toString(16)} {$fate && viewer.getUint8(3).toString(16)}
     </Box>
         {:else}
           <Box flex nav={NavData(index)} hover="{key} - Not Implemented" />

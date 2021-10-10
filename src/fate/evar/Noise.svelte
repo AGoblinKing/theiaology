@@ -1,7 +1,9 @@
 <script>
-import { mouse_left } from 'src/input/mouse';
+import { first } from 'src/realm';
+
 
 import { Value } from 'src/value';
+import { onDestroy } from 'svelte';
 
   import Box from '../Box.svelte'
 
@@ -25,9 +27,17 @@ import { Value } from 'src/value';
   function Click(i, ip) {
     return () => {
         pads.$[ip] ^= 1 << i
+        for(let ix = 0; ix < 4; ix++) {
+            buffer.setUint8(ix, pads.$[ix])
+        }
+        modal_visible.$(buffer.getInt32())
         pads.poke()
     }
   }
+
+  onDestroy(() => {
+    first.$.fate.poke()
+  })
 </script>
 
 <Box tilt={-159} style="padding: 0.4rem; display: grid; grid-template-rows: repeat(4, 1fr);">

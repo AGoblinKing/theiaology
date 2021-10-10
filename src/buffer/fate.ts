@@ -27,6 +27,7 @@ function FromDateString(str: string) {
       return s + parseInt(t, 10) * timeEscalation[i]
     }, 0)
 }
+const viewer = new DataView(new ArrayBuffer(4))
 
 function ToDateString(seconds: number) {
   const s = seconds % 60
@@ -169,6 +170,14 @@ export class Fate extends AtomicInt {
             const d = v.$[3 + i]
 
             switch (e) {
+              case EVar.NOISE:
+                viewer.setInt32(0, d)
+                output += `0x${viewer.getUint8(0).toString(16)}${viewer
+                  .getUint8(1)
+                  .toString(16)}${viewer.getUint8(2).toString(16)}${viewer
+                  .getUint8(3)
+                  .toString(16)} `
+                break
               case EVar.TIME:
                 output += `${ToDateString(d)} `
                 break
@@ -287,6 +296,9 @@ export class Fate extends AtomicInt {
 
           const dat = `data${d}`
           switch (ks[d]) {
+            case EVar.NOISE:
+              this[dat](i, parseInt(item, 16))
+              break
             case EVar.TIME:
               this[dat](i, FromDateString(item))
               break
