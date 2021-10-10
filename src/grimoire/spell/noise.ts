@@ -39,4 +39,11 @@ export default {
     $spell.midi.volume = volume
     $spell.midi.pan = pan
   },
+  [ESpell.NOISE](i: number, $c: ICardinal, $spell: Spell) {
+    $spell.noise = $c.fate.data0(i)
+
+    for (const atom of $spell.live()) {
+      $c.noise.noise(atom, $spell.noise)
+    }
+  },
 }

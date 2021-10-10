@@ -66,6 +66,7 @@ export class Spell {
   lands: number = 0
 
   midi = { instrument: 0x90, volume: 1, pan: 0.5 }
+  noise = 0
 
   // subdefines
   _: Spell[] = []

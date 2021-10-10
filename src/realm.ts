@@ -12,8 +12,6 @@ import { Velocity } from 'src/buffer/velocity'
 import { ATOM_COUNT, FACES, INFRINGEMENT, NORMALIZER, SIZE } from 'src/config'
 import {
   audio,
-  audio_buffer,
-  audio_name,
   Chirp,
   lowerUniform,
   MIDI,
@@ -55,8 +53,8 @@ import { Phys } from './buffer/phys'
 import { Sensed } from './buffer/sensed'
 import { LocalSystem } from './system/system'
 import { Yggdrasil } from './system/yggdrasil'
-
 const IDENTITY = new Matrix4().identity()
+const cache = {}
 
 export const realms: { [key: number]: Realm } = {}
 
@@ -551,30 +549,5 @@ export class Realm {
     })
   }
 }
-
-const cache = {}
-
-let cancel
-fantasy.on((realm: Realm) => {
-  if (!realm) return
-
-  if (cancel) cancel()
-
-  cancel = realm.fate.on(() => {
-    if (!realm.musicBuffer) return
-
-    const playing = !audio.paused
-
-    audio.src = realm.musicString
-    timeUniform.value = audio.currentTime = realm.universal.musicTime()
-
-    playing && audio.play()
-
-    if (realm.first) {
-      audio_name.set(realm.musicName)
-      audio_buffer.set(realm.musicBuffer)
-    }
-  })
-})
 
 fantasy.set(new Realm())

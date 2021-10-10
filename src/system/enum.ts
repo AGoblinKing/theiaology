@@ -6,6 +6,7 @@ import { Cage } from 'src/buffer/cage'
 import { Fate } from 'src/buffer/fate'
 import { Impact } from 'src/buffer/impact'
 import { Matter } from 'src/buffer/matter'
+import { Noise } from 'src/buffer/noise'
 import { Phys } from 'src/buffer/phys'
 import { Size } from 'src/buffer/size'
 import { SpaceTime } from 'src/buffer/spacetime'
@@ -59,6 +60,7 @@ export interface ICardinal {
   traits: Traits
   velocity: Velocity
   phys: Phys
+  noise: Noise
 
   fate: Fate
   universal: Universal

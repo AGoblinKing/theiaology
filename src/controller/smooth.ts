@@ -46,6 +46,7 @@ timing.on(($t) => {
   }
 })
 
+// physical reaction to senses
 first.$.senses.on((e) => {
   switch (e) {
     case EMessage.SNS_UPDATE:

@@ -38,6 +38,9 @@ export class Noise extends AtomicByte {
       : Atomics.store(this, Noise.COUNT * i + 4, interval)
   }
 
+  noise(i: number, value?: number): number {
+    return this.int32(i, 0, value)
+  }
   // bitwise is generally slow on javascript
   int32(i: number, section: number, value?: number): number {
     const start = i * Noise.COUNT

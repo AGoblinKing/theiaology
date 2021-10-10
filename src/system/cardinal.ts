@@ -507,8 +507,9 @@ class Cardinal extends System implements ICardinal {
     this.traits.role(id, $spell.role)
 
     this.animation.animation(id, $spell.effect)
+    $spell.noise !== 0 && this.noise.noise(id, $spell.noise)
 
-    // TODO: handle voxes better
+    // TODO: handle voxes betterps
     if ($spell.avatar) {
       this.universal.avatar(id)
       this.universal.thrustStrength($spell.avatarThrust)

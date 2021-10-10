@@ -23,14 +23,12 @@ vec4 Animation(in vec4 pos) {
 
 	v_animation = float(animation);
 	v_matter = vec3(float(matter.x) / NORMALIZER, float(matter.y) / NORMALIZER, float(matter.z) / NORMALIZER);
-
 	if(animation == ANIM_NO_EFFECT) {
 		return pos;
 	}
-
-	float xyz = pos.x * pos.y * pos.z * 0.01;
+	float xyz = pos.x * pos.y * pos.z * 0.001;
 	// vibrate sin(xyz  + time  ) * 0.0002 +
-	float tes = sin(xyz * 0.01) * 0.01 + sin(xyz + time * 0.0001) * 0.001 + cos(xyz * 10000.) * 0.0025;
+	float tes = sin(xyz * 0.01) * 0.01 + sin(xyz * time * 0.0001) * 0.01 + cos(xyz * 10000.) * 0.01;
 
 	pos.x += tes;
 	pos.y += tes + 0.05 * (-audioHigh / 2000.);
