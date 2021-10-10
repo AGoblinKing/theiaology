@@ -21,6 +21,7 @@ attribute ivec4 future;
 attribute ivec3 matter;
 
 varying vec3 v_pos;
+varying vec3 a_pos;
 varying float v_animation;
 varying vec3 v_matter;
 

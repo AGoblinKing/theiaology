@@ -14,6 +14,8 @@ uniform vec3 rightring;
 uniform vec3 rightpinky;
 
 varying vec3 v_pos;
+varying vec3 a_pos;
+
 varying float v_animation;
 
 float modu(float x, float y) {
@@ -46,10 +48,12 @@ vec4 AnimationFrag(in vec4 col) {
    
    float outro = 1. + sin(time * 0.001) * 0.01;
 
+// allow some room for lightening
+		col.xyz *= 0.99 + 0.01 * v_pos.y;
 	for(int i = 0; i < 10; i++) {
 		vec3 target = pts[i];
 
-		float dist = length(v_pos - target ) * outro;
+		float dist = length(a_pos - target ) * outro;
 		if(dist < 1.5) {
 			col.xyz += (2.5 - dist * dist ) /2.5 * 0.01;
 		}
@@ -72,8 +76,8 @@ vec4 AnimationFrag(in vec4 col) {
 		}
 	}
 
-	col.xyz += (sin(time * 0.00001 + v_pos * 0.05))  * 0.1 + 
-	(sin(time * 0.00001 + v_pos * 0.01))  * 0.1;
+	col.xyz += (sin(time * 0.00001 + a_pos * 0.05))  * 0.1 + 
+	(sin(time * 0.00001 + a_pos * 0.01))  * 0.1;
 
 	// col.xyz = max(min(col.xyz, 1.0), 0.);
 	return col;
