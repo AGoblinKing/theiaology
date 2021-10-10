@@ -41,6 +41,7 @@ import { MIDI } from 'src/controller/audio';
   export let style = ''
   export let click = () => {}
   export let over = () => {}
+  export let mute = false
 
   let tags = []
   if (nav.tag) {
@@ -83,14 +84,14 @@ import { MIDI } from 'src/controller/audio';
 
   function doClick() {
     if (nav.tag !== '') cursor.set(nav)
-    MIDI(80, 40 + ((nav.i % 40) || 50), 0.5)
-    setTimeout(() => MIDI(80, 40 + ((nav.i % 40) || 50), 0.5), 100)
+    !mute && MIDI(80, 40 + ((nav.i % 40) || 50), 0.5)
+    !mute && setTimeout(() => MIDI(80, 40 + ((nav.i % 40) || 50), 0.5), 100)
     click()
   }
 
   function mouseOver() {
     over()
-    MIDI(80, 90 + ((nav.i % 8) || Math.round(Math.random() * 8)), 0.4)
+    !mute && MIDI(80, 90 + ((nav.i % 8) || Math.round(Math.random() * 8)), 0.4)
   }
 </script>
 

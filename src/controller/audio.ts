@@ -139,7 +139,7 @@ export const MIDI = (
   synth.$.setProgram(0, instrument)
 
   $midi[1] = note
-  $midi[2] = velocity * 100 * audio.volume
+  $midi[2] = Math.round(velocity * 100 * audio.volume)
 
   synth.$.send($midi)
 
@@ -167,4 +167,21 @@ export function Chirp(ins = 81, note = 90, volume = 0.5) {
     if (i % 3 === 0) return
     MIDI(ins, note + (i % 5), volume)
   })
+}
+
+const view = new DataView(new ArrayBuffer(4))
+
+export function Play(noise: number) {
+  view.setInt32(0, noise)
+
+  let i = 0
+  const intv = setInterval(() => {
+    if (i >= 8) {
+      return clearInterval(intv)
+    }
+    if (view.getUint8(3) & (1 << i)) {
+      MIDI(view.getUint8(0), view.getUint8(1), view.getUint8(2) / 256)
+    }
+    i++
+  }, (1 / 8) * 1000)
 }

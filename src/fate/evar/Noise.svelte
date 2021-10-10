@@ -1,4 +1,6 @@
 <script>
+import { MIDI, Play } from 'src/controller/audio';
+
 import { first } from 'src/realm';
 
 
@@ -30,7 +32,8 @@ import { onDestroy } from 'svelte';
         for(let ix = 0; ix < 4; ix++) {
             buffer.setUint8(ix, pads.$[ix])
         }
-        modal_visible.$(buffer.getInt32())
+        modal_visible.$(buffer.getInt32(0))
+        Play(buffer.getInt32(0))
         pads.poke()
     }
   }
@@ -38,13 +41,16 @@ import { onDestroy } from 'svelte';
   onDestroy(() => {
     first.$.fate.poke()
   })
+
+
+  Play(val)
 </script>
 
-<Box tilt={-159} style="padding: 0.4rem; display: grid; grid-template-rows: repeat(4, 1fr);">
+<Box mute tilt={-159} style="padding: 0.4rem; display: grid; grid-template-rows: repeat(4, 1fr);">
 {#each $pads as padder, ip}
     <pad>
     {#each pad as chance, i }
-        <Box style="margin: 0.2rem;" tilt={padder & (1 << i) ? 120 : 60} over={() => {
+        <Box mute style="margin: 0.2rem;" tilt={padder & (1 << i) ? 120 : 60} over={() => {
             if(!left) return
             Click(i, ip)()
         }} click={Click(i, ip)}>
