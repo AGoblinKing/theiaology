@@ -1,5 +1,6 @@
 import { Input } from 'src/buffer/input'
 import { Matter } from 'src/buffer/matter'
+import { Noise } from 'src/buffer/noise'
 import { Phys } from 'src/buffer/phys'
 import { Sensed, SENSES } from 'src/buffer/sensed'
 import { BBox, Size } from 'src/buffer/size'
@@ -26,6 +27,7 @@ class Senses extends System {
   phys: Phys
   velocity: Velocity
   input: Input
+  noise: Noise
 
   constructor() {
     super(200)
@@ -45,6 +47,8 @@ class Senses extends System {
     myBox.min.set(pos.x - felt, pos.y - felt, pos.z - felt)
     myBox.max.set(pos.x + felt, pos.y + felt, pos.z + felt)
 
+    const noises = new Set()
+
     for (let i = 0; i < ATOM_COUNT; i++) {
       if (this.traits.status(i) === EStatus.Unassigned) continue
       // check to see if they're close enough to "hear"
@@ -59,6 +63,7 @@ class Senses extends System {
       if (dist < hear) {
         // hear
         sensed += SENSES.HEAR
+
         //  close enough to "touch"
         const them = this.size.box(i, this.future)
         if (myBox.intersectsBox(them)) {

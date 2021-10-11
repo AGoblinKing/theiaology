@@ -1,4 +1,4 @@
-import { Chirp, MIDI, Tune } from 'src/controller/audio'
+import { Chirp, makeAudioReady, MIDI, Play, Tune } from 'src/controller/audio'
 import { steam } from 'src/steam'
 import { audio, audio_buffer, audio_name } from './controller/audio'
 import {
@@ -48,6 +48,12 @@ fantasy.on((realm: Realm) => {
       }
     }),
     realm.senses.on((e) => {
+      // its a noise
+      if (e > 0) {
+        Play(e)
+        return
+      }
+
       switch (e) {
         case EMessage.SNS_UPDATE: {
           // senses got updated
@@ -60,13 +66,16 @@ fantasy.on((realm: Realm) => {
             const id = realm.sensed.id(i)
             if (sensed[id] === undefined) {
               // new sense
+              sense_found.set(id)
             }
+
             // sensed
             sensed[id] = sense
 
             marks.delete(`${id}`)
           }
           for (const mark of marks) {
+            sense_lost.set(parseInt(mark, 10))
             // went out of senses
             delete sensed[mark]
           }
@@ -77,6 +86,7 @@ fantasy.on((realm: Realm) => {
   ]
 })
 
+// lets try naive approach and play sound when they enter our hearing range
 key_down.on((k) => {
   switch (k) {
     case 'p':
@@ -166,3 +176,11 @@ right_use.re((state) => {
   MUse(state)
   first.$.input.pinchingRight(state)
 })
+
+window.addEventListener(
+  'mousedown',
+  () => {
+    makeAudioReady()
+  },
+  { once: true }
+)

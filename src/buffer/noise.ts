@@ -48,18 +48,18 @@ export class Noise extends AtomicByte {
 
     if (value !== undefined) {
       // set a bunch of them
-      for (let x = 0; x < 4; x++) {
-        if (x + offset >= Noise.COUNT) break
+      for (let n = 0; n < 4; n++) {
+        if (n + offset >= Noise.COUNT) break
 
-        Atomics.store(this, start + x + offset, value & (x * 8))
+        Atomics.store(this, start + n + offset, value & (1 << n))
       }
       return value
     }
     let result = 0
-    for (let x = 0; x < 4; x++) {
-      if (x + offset >= Noise.COUNT) break
+    for (let n = 0; n < 4; n++) {
+      if (n + offset >= Noise.COUNT) break
 
-      result += Atomics.load(this, start + x + offset) << (x * 8)
+      result += Atomics.load(this, start + n + offset) << (1 << n)
     }
     return result
   }
