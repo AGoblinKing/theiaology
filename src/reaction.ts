@@ -15,13 +15,8 @@ import { mouse_page } from './input/mouse'
 import { Screenshot } from './input/save'
 import { fantasy, first, Realm } from './realm'
 import { timeUniform } from './shader/time'
-import { Value } from './value'
 
 let cancels
-
-export const sensed = new Value({})
-export const sense_found = new Value<number>()
-export const sense_lost = new Value<number>()
 
 fantasy.on((realm: Realm) => {
   if (!realm) return

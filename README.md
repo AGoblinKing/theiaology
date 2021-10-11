@@ -21,9 +21,25 @@ _Undock your imagination._
 - [x] Pet DogSheeps in VR
 - [x] SharedArrayBuffer Workers, like uh.. an ECS that your GPU has access to
 - [x] .fate file format for sharing the whole thing as drag n' drop or linkable
-- [?] a Timeline editor in VR with funky text
+- [x] a Timeline editor in VR with funky text
+- [x] Steam Workshop Integration (Sell your `.fate` files!)
+- [x] MIDI Programmable Noise Generator for the Bleeps and Bloops
+- [x] No culling 256x256 voxels per realm with 10 realms running smooth via OverWorlding on one midsec desktop
+- [x] Again, everything is simulated regardless of your position in the world (life goes on with you)
+- [x] Runs smooth on Oculus Quest Browser in VR
+- [?] Secrets yet untold.
 
 ![Promotional Gif](./public/image/interaction.gif)
+
+## Contributing Guidelines
+
+I won't accept any PRs directly but I will read them and try to understand the reason for the PR. This is the quickest way to get me to fix bugs or add features.
+
+Why this way?
+
+I do not want to bother with code style, guidelines or worry about breaking other coder's flows really. #solodev
+
+It also means you don't have to test your code before sending me that PR just try to get the idea across.
 
 ## Quickest Start
 
@@ -64,19 +80,3 @@ You will need these headers.
 Which are brutal but enable SharedArrayBuffers which are magic.
 
 ![Promotional VR GIF](./public/image/vr.gif)
-
-## Guide
-
-- [ ] Drag n' drop your own music
-- [ ] Make walking peace signs to walk
-- [ ] Point only your pinky to turn a direction
-- [ ] Drag n' drop your own [vox](https://ephtracy.github.io/) files
-
-## Maybe One Day
-
-- [ ] Spells like uh fireballs and lightning raining from the sky
-- [~] Physics on a worker making use of those magic buffers
-- [~] ~~WebRTC~~ Networking
-- [ ] Play Queue / Gateways / Playlists / Albums?
-- [ ] Motion: Climbing, ride the tiger, zip line, swing
-- [ ] Interaction: Buttons, triggers, branching?
