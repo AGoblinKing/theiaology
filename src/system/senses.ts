@@ -79,7 +79,7 @@ class Senses extends System {
 
     // clear out old ones
     let id = 0
-    while ((id = this.sensed.id(si++)) !== 0) {
+    while ((id = this.sensed.id(si++)) !== 0 && si < ATOM_COUNT) {
       this.sensed.sense(si, 0)
       this.sensed.id(si, 0)
     }

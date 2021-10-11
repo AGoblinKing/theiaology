@@ -1,4 +1,4 @@
-import { Chirp, makeAudioReady, MIDI, Play, Tune } from 'src/controller/audio'
+import { Chirp, makeAudioReady, MIDI, Tune } from 'src/controller/audio'
 import { steam } from 'src/steam'
 import { audio, audio_buffer, audio_name } from './controller/audio'
 import {
@@ -15,7 +15,6 @@ import { mouse_page } from './input/mouse'
 import { Screenshot } from './input/save'
 import { fantasy, first, Realm } from './realm'
 import { timeUniform } from './shader/time'
-import { EMessage } from './system/enum'
 import { Value } from './value'
 
 let cancels
@@ -26,8 +25,6 @@ export const sense_lost = new Value<number>()
 
 fantasy.on((realm: Realm) => {
   if (!realm) return
-
-  const sensed = {}
 
   if (cancels) cancels.forEach((c) => c())
 
@@ -45,42 +42,6 @@ fantasy.on((realm: Realm) => {
       if (realm.first) {
         audio_name.set(realm.musicName)
         audio_buffer.set(realm.musicBuffer)
-      }
-    }),
-    realm.senses.on((e) => {
-      // its a noise
-      if (e > 0) {
-        Play(e)
-        return
-      }
-
-      switch (e) {
-        case EMessage.SNS_UPDATE: {
-          // senses got updated
-
-          // rip through the sensed while its sleeping
-          let i = -1
-          let sense
-          const marks = new Set(Object.keys(sensed))
-          while ((sense = realm.sensed.sense(++i)) !== 0) {
-            const id = realm.sensed.id(i)
-            if (sensed[id] === undefined) {
-              // new sense
-              sense_found.set(id)
-            }
-
-            // sensed
-            sensed[id] = sense
-
-            marks.delete(`${id}`)
-          }
-          for (const mark of marks) {
-            sense_lost.set(parseInt(mark, 10))
-            // went out of senses
-            delete sensed[mark]
-          }
-          break
-        }
       }
     }),
   ]
