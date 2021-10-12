@@ -42,7 +42,6 @@
         }
 
         tcancel = setTimeout(() => {
-
             const f = first.$.fate.$
             f.fromScript(f.text(0), mirror.getValue())
             reverseClutch = true
@@ -53,6 +52,7 @@
 
 
     mirror.on("changes", update)
+    mirror.on("keydown", update)
 </script>
 
 <style>
