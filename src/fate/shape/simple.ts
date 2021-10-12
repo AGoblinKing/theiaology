@@ -1,4 +1,5 @@
 import { Vector3 } from 'three'
+import { EAxis } from '../weave'
 
 const $vec3 = new Vector3()
 export function Plane(i: number, size: number, step: number) {
@@ -44,4 +45,27 @@ export function Rectangle(
 
 Rectangle.AtomCount = (x: number, step: number, z: number) => {
   return x * 2 + z * 2
+}
+
+export function Line(i: number, count: number, margin: number, axis: EAxis) {
+  switch (axis) {
+    case EAxis.X:
+      return $vec3.set(i * margin, 0, 0)
+    case EAxis.Y:
+      return $vec3.set(0, i * margin, 0)
+    case EAxis.Z:
+      return $vec3.set(0, 0, i * margin)
+    case EAxis.XY:
+      return $vec3.set(i * margin, i * margin, 0)
+    case EAxis.XZ:
+      return $vec3.set(i * margin, 0, i * margin)
+    case EAxis.YZ:
+      return $vec3.set(0, i * margin, i * margin)
+    case EAxis.XYZ:
+      return $vec3.set(i * margin, i * margin, i * margin)
+  }
+}
+
+Line.AtomCount = (count: number, margin: number, axis: EAxis) => {
+  return count
 }

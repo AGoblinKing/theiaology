@@ -39,6 +39,7 @@ export enum EShape {
   PLANE,
   RING,
   RECT,
+  LINE,
   // Sphere,
   // Circle,
 
@@ -177,6 +178,9 @@ export enum ESpell {
   PHYS_CARRIED,
   TOME_OPTIONS,
   NOISE,
+  ___IF,
+  ___VAR,
+  FLOCK_LINE,
 }
 
 export enum EConstraint {
@@ -227,6 +231,10 @@ export const ESpellHelp = {
   [ESpell.PHYS_CARRIED]: 'Use the targets position as the base position',
   [ESpell.TOME_OPTIONS]: 'Turn on/off the ripple and live tome options',
   [ESpell.NOISE]: 'The vibe, beat, jive of the atom',
+  [ESpell.___VAR]: 'Set a variable [name] [action] [with]',
+  [ESpell.___IF]:
+    'If [blah] is [greater|less|equal| to [other blah] do these things',
+  [ESpell.FLOCK_LINE]: 'A flock of atoms set in a line',
 }
 
 export const Invocations: { [key: number]: any } = {
@@ -400,5 +408,10 @@ export const Invocations: { [key: number]: any } = {
   [ESpell.NOISE]: {
     noise: EVar.NOISE,
     //options: EVar.NOISE,
+  },
+  [ESpell.FLOCK_LINE]: {
+    count: EVar.POSITIVE,
+    spacing: EVar.FAEPOSITIVE,
+    direction: EAxis,
   },
 }

@@ -158,11 +158,6 @@ delta.on(($dt) => {
     camera.position.set(0, 0, 0)
   }
 
-  if (fly_engaged.$) {
-    // move_inputs.$.multiplyScalar(CAPS_SPEED)
-  } else {
-    move_inputs.$.y = 0
-  }
   if (move_inputs.$.length() !== 0 || mouse_right.$) {
     velocity.$.add($vec3.copy(move_inputs.$).multiplyScalar($dt * 3))
   }
