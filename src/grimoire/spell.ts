@@ -6,7 +6,7 @@ import { ALPHABET } from 'src/fate/shape/text'
 import { EImpactReaction, EShape } from 'src/fate/weave'
 import { EMessage, ICardinal } from 'src/system/enum'
 import { Box3, Color, Euler, Object3D, Vector3 } from 'three'
-
+const $hsl = { h: 0, s: 0, l: 0 }
 const $col = new Color()
 const $col2 = new Color()
 const $eule = new Euler()
@@ -150,7 +150,7 @@ export class Spell {
     }
   }
 
-  Text($hsl, t, x, y, z, sx, sy, sz, color) {
+  Text(x, y, z, sx, sy, sz, t = this.cardinal.universal.time()) {
     for (let i = 0; i < this.text.length; i++) {
       const map = ALPHABET[this.text.charAt(i).toLowerCase()]
       if (!map) continue
@@ -176,7 +176,8 @@ export class Spell {
         this.cardinal.size.x(id, sx + sx * smx)
         this.cardinal.size.y(id, sy + sy * smy)
         this.cardinal.size.z(id, sz + Math.random() * 0.5)
-        color
+
+        $col
           .setRGB(Math.random(), Math.random(), Math.random())
           .lerp(this.color, (NORMALIZER - this.col.variance) / NORMALIZER)
 
@@ -188,16 +189,25 @@ export class Spell {
         this.cardinal.velocity.y(id, this.vel.y)
         this.cardinal.velocity.z(id, this.vel.z)
 
-        this.Shared(id, color)
+        this.Shared(id, $col)
       }
 
       x += sx * 5
     }
   }
 
-  Basic($hsl, t, x, y, z, sx, sy, sz) {
-    const id = this.cardinal.reserve()
+  Basic(x, y, z, sx, sy, sz, t = this.cardinal.universal.time()) {
+    $col
+      .setRGB(Math.random(), Math.random(), Math.random())
+      .lerp(this.color, (NORMALIZER - this.col.variance) / NORMALIZER)
+
+    // tilt
+    $col.getHSL($hsl)
+
     $col.setHSL($hsl.h + this.col.tilt / NORMALIZER, $hsl.s, $hsl.l)
+
+    const id = this.cardinal.reserve()
+
     this.atoms.push(id)
 
     this.cardinal.future.time(id, t + 1000 * Math.random() + 500)
@@ -243,7 +253,15 @@ export class Spell {
     this.Shared(id, $col)
   }
 
-  Vox($hsl, t, x, y, z, sx, sy, sz) {
+  Vox(x, y, z, sx, sy, sz, t = this.cardinal.universal.time()) {
+    $col
+      .setRGB(Math.random(), Math.random(), Math.random())
+      .lerp(this.color, (NORMALIZER - this.col.variance) / NORMALIZER)
+
+    // tilt
+    $col.getHSL($hsl)
+
+    $col.setHSL($hsl.h + this.col.tilt / NORMALIZER, $hsl.s, $hsl.l)
     // vox miss, but could be because we haven't loaded $voxes yet
     const voxDef = this.cardinal.voxes.$[this.vox]
     const ts = $hsl.s

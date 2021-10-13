@@ -18,12 +18,8 @@ import { Spell } from 'src/grimoire/spell'
 import spells from 'src/grimoire/spells'
 import { MagickaVoxel } from 'src/magica'
 import { Value } from 'src/value'
-import { Color } from 'three'
 import { EMessage, ENotifyPosition, FRez, ICardinal } from './enum'
 import { System } from './system'
-
-const $hsl = { h: 0, s: 0, l: 0 }
-const $col = new Color()
 
 // Deal out entity IDs, execute timeline events
 class Cardinal extends System implements ICardinal {
@@ -241,15 +237,6 @@ class Cardinal extends System implements ICardinal {
         $shape.z +
         Math.round($spell.posvar.z * Math.random() * 2 - $spell.posvar.z)
 
-      $col
-        .setRGB(Math.random(), Math.random(), Math.random())
-        .lerp($spell.color, (NORMALIZER - $spell.col.variance) / NORMALIZER)
-
-      // tilt
-      $col.getHSL($hsl)
-
-      $col.setHSL($hsl.h + $spell.col.tilt / NORMALIZER, $hsl.s, $hsl.l)
-
       const sx = $spell.size.x + Math.round(Math.random() * $spell.sizevar.x)
       const sy = $spell.size.y + Math.round(Math.random() * $spell.sizevar.y)
       const sz = $spell.size.z + Math.round(Math.random() * $spell.sizevar.z)
@@ -279,14 +266,14 @@ class Cardinal extends System implements ICardinal {
         // is voxel rez
         case $spell.vox !== '' && this.voxes.$[$spell.vox] !== undefined:
           // Need to clean this part up
-          $spell.Vox($hsl, t, x, y, z, sx, sy, sz)
+          $spell.Vox(x, y, z, sx, sy, sz, t)
           continue
         // is text rez
         case $spell.text !== undefined:
-          $spell.Text($hsl, t, x, y, z, sx, sy, sz, $col)
+          $spell.Text(x, y, z, sx, sy, sz, t)
           continue
         default:
-          $spell.Basic($hsl, t, x, y, z, sx, sy, sz)
+          $spell.Basic(x, y, z, sx, sy, sz, t)
       }
     }
   }
