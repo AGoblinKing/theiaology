@@ -144,7 +144,7 @@ class Physics extends System {
 
           continue
         }
-        case EPhase.NORMAL:
+        case EPhase.FLOAT:
         case EPhase.LIQUID: {
           this.insert(i)
         }
@@ -291,7 +291,7 @@ class Physics extends System {
             switch (cPhase) {
               // pick up
               case EPhase.LIQUID:
-              case EPhase.NORMAL:
+              case EPhase.FLOAT:
               case EPhase.STUCK:
                 if (this.input.pinching() || this.input.pinchingRight()) {
                 }
@@ -313,7 +313,7 @@ class Physics extends System {
 
             break
           }
-          case EPhase.NORMAL: {
+          case EPhase.FLOAT: {
             // ignore liquid
             if (cPhase === EPhase.LIQUID) continue
 

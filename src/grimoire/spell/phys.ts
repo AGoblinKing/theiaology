@@ -5,7 +5,7 @@ import { ERipple, Spell } from '../spell'
 export default {
   [ESpell.PHYS_PHASE](i: number, $c: ICardinal, $spell: Spell) {
     $spell.phase = $c.fate.data0(i)
-    $spell.ripple(ERipple.PHASE, $spell.phase)
+    $spell.Ripple(ERipple.PHASE, $spell.phase)
 
     for (let atom of $spell.live()) {
       $c.phys.phase(atom, $spell.phase)
@@ -51,7 +51,7 @@ export default {
         break
     }
 
-    $spell.ripple(ERipple.CAGE, $spell.cage)
+    $spell.Ripple(ERipple.CAGE, $spell.cage)
 
     for (let atom of $spell.live()) {
       switch ($c.fate.data0(i)) {

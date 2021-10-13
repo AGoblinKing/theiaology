@@ -19,14 +19,14 @@ export default {
       $c.velocity.z(atom, $spell.vel.z)
     }
 
-    $spell.ripple(ERipple.VEL, $spell.vel)
+    $spell.Ripple(ERipple.VEL, $spell.vel)
   },
   [ESpell.THRUST_ADD](i: number, $c: ICardinal, $spell: Spell) {
     $spell.vel.add(
       $vec3.set($c.fate.data0(i), $c.fate.data1(i), $c.fate.data2(i))
     )
 
-    $spell.ripple(ERipple.VELADD, $vec3)
+    $spell.Ripple(ERipple.VELADD, $vec3)
 
     for (let atom of $spell.live()) {
       $c.thrust.addX(atom, $vec3.x)
@@ -107,7 +107,7 @@ export default {
       $c.velocity.z(atom, $c.thrust.z(atom))
     }
 
-    $spell.ripple(ERipple.VELVAR, $spell.velvar)
-    $spell.ripple(ERipple.VELVARCONSTRAINT, $spell.velvarconstraint)
+    $spell.Ripple(ERipple.VELVAR, $spell.velvar)
+    $spell.Ripple(ERipple.VELVARCONSTRAINT, $spell.velvarconstraint)
   },
 }

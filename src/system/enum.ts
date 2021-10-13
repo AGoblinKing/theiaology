@@ -14,6 +14,8 @@ import { Thrust } from 'src/buffer/thrust'
 import { Traits } from 'src/buffer/traits'
 import { Universal } from 'src/buffer/universal'
 import { Velocity } from 'src/buffer/velocity'
+import { MagickaVoxel } from 'src/magica'
+import { Value } from 'src/value'
 
 export enum EMessage {
   REZ = -1,
@@ -71,6 +73,9 @@ export interface ICardinal {
   lastTime: number
   clutchFate: boolean
 
+  voxes: Value<{ [name: string]: MagickaVoxel }>
+
   free(i: number)
   post(message: any)
+  reserve(): number
 }

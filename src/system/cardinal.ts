@@ -13,25 +13,17 @@ import { ERealmState, Universal } from 'src/buffer/universal'
 import { Velocity } from 'src/buffer/velocity'
 import { ATOM_COUNT, NORMALIZER } from 'src/config'
 import { ShapeMap } from 'src/fate/shape'
-import { ALPHABET } from 'src/fate/shape/text'
 import { EIdle } from 'src/fate/weave'
 import { Spell } from 'src/grimoire/spell'
 import spells from 'src/grimoire/spells'
 import { MagickaVoxel } from 'src/magica'
 import { Value } from 'src/value'
-import { Color, Euler, Object3D, Vector3 } from 'three'
+import { Color } from 'three'
 import { EMessage, ENotifyPosition, FRez, ICardinal } from './enum'
 import { System } from './system'
 
 const $hsl = { h: 0, s: 0, l: 0 }
 const $col = new Color()
-const $col2 = new Color()
-const $eule = new Euler()
-const $o3d = new Object3D()
-const $vec3 = new Vector3()
-const $vec3_o = new Vector3()
-
-const voxes = new Value<{ [name: string]: MagickaVoxel }>({})
 
 // Deal out entity IDs, execute timeline events
 class Cardinal extends System implements ICardinal {
@@ -61,6 +53,7 @@ class Cardinal extends System implements ICardinal {
 
   lastTime = 0
   clutchFate = false
+  voxes = new Value<{ [name: string]: MagickaVoxel }>({})
 
   constructor() {
     // Music Timing works off seconds
@@ -118,7 +111,7 @@ class Cardinal extends System implements ICardinal {
 
       case this.noise:
         this.noise = new Noise(e.data)
-        this.ready = true
+
         break
 
       // expecting IMessage but no atomics
@@ -134,7 +127,7 @@ class Cardinal extends System implements ICardinal {
               return
             }
             // this is voxes data
-            voxes.set(e.data)
+            this.voxes.set(e.data)
 
             // update the timeline
             this.fateUpdated()
@@ -284,238 +277,17 @@ class Cardinal extends System implements ICardinal {
           $spell.lands++
           continue
         // is voxel rez
-        case $spell.vox !== '' && voxes.$[$spell.vox] !== undefined:
+        case $spell.vox !== '' && this.voxes.$[$spell.vox] !== undefined:
           // Need to clean this part up
-          this.vox($spell, $hsl, t, x, y, z, sx, sy, sz)
+          $spell.Vox($hsl, t, x, y, z, sx, sy, sz)
           continue
         // is text rez
         case $spell.text !== undefined:
-          this.text($spell, $hsl, t, x, y, z, sx, sy, sz, $col)
+          $spell.Text($hsl, t, x, y, z, sx, sy, sz, $col)
           continue
         default:
-          this.basic($spell, $hsl, t, x, y, z, sx, sy, sz)
+          $spell.Basic($hsl, t, x, y, z, sx, sy, sz)
       }
-    }
-  }
-
-  text($spell: Spell, $hsl, t, x, y, z, sx, sy, sz, color) {
-    for (let i = 0; i < $spell.text.length; i++) {
-      const map = ALPHABET[$spell.text.charAt(i).toLowerCase()]
-      if (!map) continue
-
-      for (let v of map) {
-        const id = this.reserve()
-        $spell.atoms.push(id)
-
-        if (v[2] === undefined) {
-          v[2] = v[0]
-        }
-        if (v[3] === undefined) {
-          v[3] = v[1]
-        }
-        const smx = v[2] - v[0]
-        const smy = v[3] - v[1]
-
-        this.future.time(id, t + 1000 * Math.random() + 500)
-        this.future.x(id, x + v[0] * sx + (sx * smx) / 2)
-        this.future.y(id, y + v[1] * sy + (sy * smy) / 2)
-        this.future.z(id, z)
-
-        this.size.x(id, sx + sx * smx)
-        this.size.y(id, sy + sy * smy)
-        this.size.z(id, sz + Math.random() * 0.5)
-        color
-          .setRGB(Math.random(), Math.random(), Math.random())
-          .lerp($spell.color, (NORMALIZER - $spell.col.variance) / NORMALIZER)
-
-        this.thrust.x(id, $spell.vel.x)
-        this.thrust.y(id, $spell.vel.y)
-        this.thrust.z(id, $spell.vel.z)
-
-        this.velocity.x(id, $spell.vel.x)
-        this.velocity.y(id, $spell.vel.y)
-        this.velocity.z(id, $spell.vel.z)
-
-        this.shared(id, color, $spell)
-      }
-
-      x += sx * 5
-    }
-  }
-
-  basic($spell: Spell, $hsl, t, x, y, z, sx, sy, sz) {
-    const id = this.reserve()
-    $spell.atoms.push(id)
-
-    this.future.time(id, t + 1000 * Math.random() + 500)
-    this.future.x(id, x)
-    this.future.y(id, y)
-    this.future.z(id, z)
-
-    this.size.x(id, sx)
-    this.size.y(id, sy)
-    this.size.z(id, sz)
-    this.thrust.x(
-      id,
-      $spell.vel.x +
-        Math.floor(
-          Math.random() * $spell.velvar.x -
-            $spell.velvar.x / 2 +
-            ($spell.velvarconstraint.x * $spell.velvar.x) / 2
-        )
-    )
-    this.thrust.y(
-      id,
-      $spell.vel.y +
-        Math.floor(
-          Math.random() * $spell.velvar.y -
-            $spell.velvar.y / 2 +
-            ($spell.velvarconstraint.y * $spell.velvar.y) / 2
-        )
-    )
-    this.thrust.z(
-      id,
-      $spell.vel.z +
-        Math.floor(
-          Math.random() * $spell.velvar.z -
-            $spell.velvar.z / 2 +
-            ($spell.velvarconstraint.y * $spell.velvar.y) / 2
-        )
-    )
-
-    this.velocity.x(id, this.thrust.x(id))
-    this.velocity.y(id, this.thrust.y(id))
-    this.velocity.z(id, this.thrust.z(id))
-
-    this.shared(id, $col, $spell)
-  }
-
-  vox($spell: Spell, $hsl, t, x, y, z, sx, sy, sz) {
-    // vox miss, but could be because we haven't loaded $voxes yet
-    const voxDef = voxes.$[$spell.vox]
-    const ts = $hsl.s
-    const tl = $hsl.l
-
-    const variance = ($spell.col.variance / NORMALIZER) * Math.random()
-    let rx = ($spell.rotvar.x / NORMALIZER) * Math.random() * Math.PI * 2
-    let ry = ($spell.rotvar.y / NORMALIZER) * Math.random() * Math.PI * 2
-    let rz = ($spell.rotvar.z / NORMALIZER) * Math.random() * Math.PI * 2
-
-    if ($spell.doLook) {
-      $o3d.position.set(x, $spell.look.y, z)
-      $o3d.lookAt($spell.look)
-      $eule.setFromQuaternion($o3d.quaternion)
-
-      $eule.y += ($spell.rot.y / NORMALIZER) * Math.PI * 2
-      $eule.z += ($spell.rot.z / NORMALIZER) * Math.PI * 2
-      $eule.x += ($spell.rot.x / NORMALIZER) * Math.PI * 2
-    } else {
-      $eule.set(
-        rx + ($spell.rot.x / NORMALIZER) * Math.PI * 2,
-        ry + ($spell.rot.y / NORMALIZER) * Math.PI * 2,
-        rz + ($spell.rot.z / NORMALIZER) * Math.PI * 2
-      )
-    }
-    const rtx =
-      Math.random() * $spell.velvar.x -
-      $spell.velvar.x / 2 +
-      ($spell.velvarconstraint.x * $spell.velvar.x) / 2
-    const rty =
-      Math.random() * $spell.velvar.y -
-      $spell.velvar.y / 2 +
-      ($spell.velvarconstraint.y * $spell.velvar.y) / 2
-    const rtz =
-      Math.random() * $spell.velvar.z -
-      $spell.velvar.z / 2 +
-      ($spell.velvarconstraint.z * $spell.velvar.z) / 2
-
-    let core
-
-    for (let i = 0; i < voxDef.xyzi.length / 4; i++) {
-      const id = this.reserve()
-      if (core === undefined || $spell.voxbroken) {
-        core = id
-      }
-      $spell.atoms.push(id)
-      const ix = i * 4
-
-      $vec3
-        .set(
-          voxDef.xyzi[ix] * sx,
-          voxDef.xyzi[ix + 2] * sy,
-          voxDef.xyzi[ix + 1] * sz
-        )
-
-        .applyEuler($eule)
-        .add($vec3_o.set(x, y, z))
-
-      this.future.time(id, t + 1000 * Math.random() + 500)
-      this.future.x(id, $vec3.x + Math.round(Math.random() * 2 - 1))
-      this.future.y(id, $vec3.y + Math.round(Math.random() * 2 - 1))
-      this.future.z(id, $vec3.z + Math.round(Math.random() * 2 - 1))
-
-      // -1 because magica?
-      const c = (voxDef.xyzi[ix + 3] - 1) * 4
-
-      const r = voxDef.rgba[c]
-      const g = voxDef.rgba[c + 1]
-      const b = voxDef.rgba[c + 2]
-      $col2.setRGB(r / 255, g / 255, b / 255).getHSL($hsl)
-
-      let addTilt = 0
-      if ($spell.voxvar.x === r * 256 * 256 + g * 256 + b) {
-        addTilt = Math.random() * $spell.voxvar.z + $spell.voxvar.y
-      }
-
-      $col2.setHSL(
-        ($hsl.h +
-          $spell.col.tilt / NORMALIZER +
-          addTilt +
-          variance +
-          Math.random() * 0.05) %
-          1,
-        ($hsl.s + ts) / 2,
-        ($hsl.l + tl) / 2
-      )
-
-      this.size.x(id, sx)
-      this.size.y(id, sy)
-      this.size.z(id, sz)
-
-      if (id === core) {
-        this.thrust.x(id, $spell.vel.x + rtx)
-        this.thrust.y(id, $spell.vel.y + rty)
-        this.thrust.z(id, $spell.vel.z + rtz)
-        this.velocity.x(id, this.thrust.x(id))
-        this.velocity.y(id, this.thrust.y(id))
-        this.velocity.z(id, this.thrust.z(id))
-      }
-
-      // set the group so they behave the same way
-      this.phys.core(id, core)
-
-      this.shared(id, $col2, $spell)
-    }
-  }
-
-  shared(id: number, color: Color, $spell: Spell) {
-    this.matter.red(id, Math.floor(color.r * NORMALIZER))
-    this.matter.green(id, Math.floor(color.g * NORMALIZER))
-    this.matter.blue(id, Math.floor(color.b * NORMALIZER))
-
-    this.phys.phase(id, $spell.phase)
-    this.impact.reaction(id, $spell.impact)
-    this.cage.box(id, $spell.cage)
-    this.traits.role(id, $spell.role)
-
-    this.animation.animation(id, $spell.effect)
-    $spell.noise !== 0 && this.noise.noise(id, $spell.noise)
-
-    // TODO: handle voxes betterps
-    if ($spell.avatar) {
-      this.universal.avatar(id)
-      this.universal.thrustStrength($spell.avatarThrust)
-      this.post(EMessage.CARD_AVATAR)
     }
   }
 
@@ -531,13 +303,13 @@ class Cardinal extends System implements ICardinal {
       const def = this.fate.who(i)
 
       if (!this.forms[def]) {
-        this.forms[def] = new Spell(def)
+        this.forms[def] = new Spell(def, this)
         const parent = this.fate.who(def)
 
         // avoid loop 0 => 0
         if (parent !== def) {
           const p = (this.forms[parent] =
-            this.forms[parent] || new Spell(parent))
+            this.forms[parent] || new Spell(parent, this))
           p._.push(this.forms[def])
         }
       }
@@ -550,6 +322,10 @@ class Cardinal extends System implements ICardinal {
   }
 
   fateUpdated() {
+    if (!this.ready) {
+      this.ready = true
+      return
+    }
     this.freeAll()
     // clear it
     this.timing = {}

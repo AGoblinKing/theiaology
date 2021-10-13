@@ -11,7 +11,7 @@ export enum EPhase {
   LIQUID,
   // Doesn't move, but exists
   STUCK,
-  NORMAL,
+  FLOAT,
   DIVINE,
 }
 

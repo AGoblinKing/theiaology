@@ -18,14 +18,14 @@ export default {
       $c.future.time(atom, sec)
     }
 
-    $spell.ripple(ERipple.POS, $spell.pos)
+    $spell.Ripple(ERipple.POS, $spell.pos)
   },
   [ESpell.POS_ADD](i: number, $c: ICardinal, $spell: Spell, sec?: number) {
     $spell.pos.add(
       $vec3.set($c.fate.data0(i), $c.fate.data1(i), $c.fate.data2(i))
     )
 
-    $spell.ripple(ERipple.POSADD, $vec3)
+    $spell.Ripple(ERipple.POSADD, $vec3)
 
     for (let atom of $spell.live()) {
       $c.future.addX(atom, $vec3.x)
@@ -38,6 +38,6 @@ export default {
     $spell.posvar.x = $c.fate.data0(i)
     $spell.posvar.y = $c.fate.data1(i)
     $spell.posvar.z = $c.fate.data2(i)
-    $spell.ripple(ERipple.POSVAR, $spell.posvar)
+    $spell.Ripple(ERipple.POSVAR, $spell.posvar)
   },
 }
