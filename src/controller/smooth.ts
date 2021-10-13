@@ -1,12 +1,10 @@
 // move body smoothly
 
-import { fantasies, first, Realm } from 'src/realm'
+import { fantasies } from 'src/realm'
 import { body, camera, renderer } from 'src/render'
-import { delta, Timer, timing } from 'src/shader/time'
-import { EMessage } from 'src/system/enum'
+import { delta, timing } from 'src/shader/time'
 import { Value } from 'src/value'
 import { Vector3 } from 'three'
-import { MIDI } from './audio'
 
 export const MIN_VELOCITY = 0.3
 
@@ -44,37 +42,4 @@ timing.on(($t) => {
 
     angular.$ -= angleta
   }
-})
-
-// physical reaction to senses
-first.$.senses.on((e) => {
-  switch (e) {
-    case EMessage.SNS_UPDATE:
-      ReactToSenses(first.$)
-      break
-  }
-})
-
-function ReactToSenses(realm: Realm) {
-  // if we're feeling things then we need to move away from them
-  // if the fingers are collide then see if we're grabbing or pinching
-  // also limit the distance from the grab to prevent moving from it
-  // if we're grabbing then move towards the hand / do attachment if possible
-  // if we're pinching push away from the hand collision
-  let i = -1
-  while (realm.sensed.id(++i) !== 0) {}
-}
-
-// Sound stuff for movement
-Timer(200, () => {
-  if (i++ % 2 === 0) return
-
-  const l = Math.abs(velocity.$.length())
-  if (l < MIN_VELOCITY) return
-
-  // heart
-  MIDI(9, 25 + ((i % 2) + (i % 5)), 0.25 + l * 0.01)
-  setTimeout(() => {
-    MIDI(9, 25 + ((i % 2) + (i % 5)), 0.25 + l * 0.01)
-  }, 50)
 })

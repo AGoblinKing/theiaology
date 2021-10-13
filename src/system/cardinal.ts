@@ -433,7 +433,9 @@ class Cardinal extends System implements ICardinal {
 
     for (let i = 0; i < voxDef.xyzi.length / 4; i++) {
       const id = this.reserve()
-      if (core === undefined) core = id
+      if (core === undefined || $spell.voxbroken) {
+        core = id
+      }
       $spell.atoms.push(id)
       const ix = i * 4
 
@@ -556,6 +558,7 @@ class Cardinal extends System implements ICardinal {
     this.universal.gravityX(0)
     this.universal.gravityY(0)
     this.universal.gravityZ(0)
+    this.universal.avatar(0)
 
     this.post(EMessage.CLEAR_COLOR_UPDATE)
 

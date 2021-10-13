@@ -44,6 +44,7 @@ export class Spell {
   col = { tilt: 0, variance: 0 }
   vox = ''
   voxvar = new Vector3()
+  voxbroken = false
   sizevar = new Vector3()
   posvar = new Vector3()
   flock: { shape: EShape; size: number; step: number; size2: number }
@@ -118,6 +119,7 @@ export class Spell {
     this.midi.instrument = 0x90
     this.midi.volume = 1
     this.midi.pan = 0.5
+    this.voxbroken = false
 
     delete this.gate
     delete this.land

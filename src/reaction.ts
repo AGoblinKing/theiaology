@@ -8,13 +8,14 @@ import {
   right_grab,
   right_use,
 } from './controller/controls'
+import { MIN_VELOCITY, velocity } from './controller/smooth'
 import { modal_location, modal_options, modal_visible } from './fate/editor'
 import { key_down, key_map } from './input/keyboard'
 import { Load } from './input/load'
 import { mouse_page } from './input/mouse'
 import { Screenshot } from './input/save'
 import { fantasy, first, Realm } from './realm'
-import { timeUniform } from './shader/time'
+import { Timer, timeUniform } from './shader/time'
 
 let cancels
 
@@ -140,3 +141,18 @@ window.addEventListener(
   },
   { once: true }
 )
+
+let i = 0
+// Sound stuff for movement
+Timer(200, () => {
+  if (i++ % 2 === 0) return
+
+  const l = Math.abs(velocity.$.length())
+  if (l < MIN_VELOCITY) return
+
+  // heart
+  MIDI(9, 25 + ((i % 2) + (i % 5)), 0.25 + l * 0.01)
+  setTimeout(() => {
+    MIDI(9, 25 + ((i % 2) + (i % 5)), 0.25 + l * 0.01)
+  }, 50)
+})

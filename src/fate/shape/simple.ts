@@ -2,13 +2,16 @@ import { Vector3 } from 'three'
 import { EAxis } from '../weave'
 
 const $vec3 = new Vector3()
-export function Plane(i: number, size: number, step: number) {
+export function Plane(i: number, size: number, step: number, size2: number) {
+  size2 = size2 || size
+
   return $vec3
-    .set((i % size) - size / 2, 0, Math.floor(i / size) - size / 2)
+    .set((i % size2) - size2 / 2, 0, Math.floor(i / size2) - size / 2)
     .multiplyScalar(step * 10)
 }
 
-Plane.AtomCount = (size: number, step: number) => {
+Plane.AtomCount = (size: number, step: number, size2: number) => {
+  size2 = size2 || size
   return size * size
 }
 

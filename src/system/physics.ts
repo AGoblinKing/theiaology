@@ -345,9 +345,9 @@ class Physics extends System {
                 .negate()
                 .multiply(
                   $vec3r.set(
-                    4 + Math.random(),
-                    4 + Math.random(),
-                    4 + Math.random()
+                    5 + Math.random(),
+                    5 + Math.random(),
+                    5 + Math.random()
                   )
                 )
                 .multiplyScalar(dx)
@@ -355,11 +355,11 @@ class Physics extends System {
 
               $vec3v.add($vec3o)
 
-              // TODO: this could mess up phys groups
               if (this.phys.phase(collide.i) === EPhase.LIQUID) {
-                this.velocity.addX(collide.i, $vec3v.x * 0.25)
-                this.velocity.addY(collide.i, $vec3v.y * 0.25)
-                this.velocity.addZ(collide.i, $vec3v.z * 0.25)
+                const core = this.phys.core(collide.i) || collide.i
+                this.velocity.addX(core, $vec3v.x * 0.25)
+                this.velocity.addY(core, $vec3v.y * 0.25)
+                this.velocity.addZ(core, $vec3v.z * 0.25)
               }
             }
             break

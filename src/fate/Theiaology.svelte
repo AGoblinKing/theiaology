@@ -248,6 +248,9 @@
     MULTIPLAYER
   </Box> -->
 </div>
+
+
+
 <Modal />
 {#if $timeline_shown}
   <theiaology>
@@ -283,4 +286,6 @@
   label {
     cursor: url('/sprite/pointer.png') 0 0, pointer;
   }
+
+  
 </style>

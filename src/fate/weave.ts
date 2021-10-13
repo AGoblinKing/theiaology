@@ -344,6 +344,7 @@ export const Invocations: { [key: number]: any } = {
   [ESpell.FLOCK_GRID]: {
     birds_squared: EVar.POSITIVE,
     margin: EVar.FAEPOSITIVE,
+    birds_length_optional: EVar.POSITIVE,
   },
 
   [ESpell.FAE_AVATAR]: {

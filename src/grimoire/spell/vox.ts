@@ -17,6 +17,9 @@ export default {
 
   [ESpell.VOX_BREAK](i: number, $c: ICardinal, $spell: Spell) {
     const targets = $spell.live()
+
+    $spell.voxbroken = true
+
     let count = Math.floor(targets.length / $c.fate.data0(i) / NORMALIZER)
     for (let atom of targets) {
       if (count <= 0) break
