@@ -79,8 +79,8 @@ vec4 AnimationFrag(in vec4 col) {
 		}
 	}
 
-	// col.xyz += (sin(time * 0.00001 + a_pos * 0.05))  * 0.1 + 
-	// (sin(time * 0.00001 + a_pos * 0.01))  * 0.1;
+	col.xyz += (sin(time * 0.00001 + a_pos * 0.05))  * 0.05 + 
+	(sin(time * 0.00001 + a_pos * 0.01))  * 0.05;
 
 	
 	return col;
