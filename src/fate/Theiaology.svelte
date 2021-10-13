@@ -176,6 +176,7 @@
       reader.readAsArrayBuffer(event.target.files[0])
     } catch (ex) {}
   }
+  let clicked = false
 </script>
 
 <div class="commands">
@@ -264,6 +265,15 @@
 
 <Score />
 
+{#if window.location.pathname === "/" && !clicked}
+<Box style="position: absolute; font-size: 2rem; width: 100%; top: 0; left: 50%; top: 50%;padding: 5rem; transform: translate(-50%, -50%); text-align: center; display:pre;" click={() => clicked = true}>
+  Welcome to the 🆃🅷🅴🅸🅰🅾🅻🅾🅶🆈 Early Access! <br/> <br/>
+
+ <br/>
+  Explore here then Click YGGDRASIL TO BEGIN YOUR JOURNEY <br/><br/><br/>
+  Join the Steam Chat and Watch Twitter For Updates!
+</Box>
+{/if}
 <style>
   .commands {
     position: absolute;
