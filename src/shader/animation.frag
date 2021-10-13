@@ -35,7 +35,6 @@ vec4 AnimationFrag(in vec4 col) {
 	// col.xyz *= 1. + 0.01 * modu(xyz* cos(audioHigh * 0.001 + t), 5.);
 	// col.xyz *= 0.95 + 0.01 * modu(xyz * 1000. * cos(audioHigh * 0.01 + t) , 4.)* sin(audioLow * 0.01);
 
-    // col.xyz *= 1. + (sin(xz * 10.) + cos(10. * xz))* 0.01;
 
 	if(v_animation == 3.) {
 		discard;
@@ -79,7 +78,7 @@ vec4 AnimationFrag(in vec4 col) {
 		}
 	}
 
-	col.xyz += (sin(time * 0.00001 + a_pos * 0.05))  * 0.05 + 
+	col.xyz -= (sin(time * 0.00001 + a_pos * 0.05))  * 0.05 + 
 	(sin(time * 0.00001 + a_pos * 0.01))  * 0.05;
 
 	

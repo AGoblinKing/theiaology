@@ -1,7 +1,6 @@
 # `THEIAOLOGY`
 
 [Steam](https://steam.theiaology.com)
-| [Discord](https://discord.gg/bPq8U3zhvy)
 
 _Undock your imagination._
 
