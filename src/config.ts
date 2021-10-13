@@ -42,7 +42,8 @@ export const UNIVERSALS = [
   0,
   0, // gravity
   0x5522ff, // fae color
-  0.15 * NORMALIZER, // fae hue variance
+  0.15 * NORMALIZER, // fae hue variance,
+  ...new Array(10).fill(0), // fae hands id
 ]
 
 export const CACHE = 'v2'

@@ -14,7 +14,7 @@ export enum ERealmState {
 
 export class Universal extends AtomicInt {
   // 3 * 10 for the hand vectors
-  static COUNT = 29 + 3 * 10
+  static COUNT = 39
   _init = false
 
   constructor(shared = new SharedArrayBuffer(4 * Universal.COUNT)) {
@@ -195,19 +195,12 @@ export class Universal extends AtomicInt {
       : Atomics.store(this, 28, variance)
   }
 
-  faeHandVec3(hand: number, vec?: Vector3) {
-    if (vec === undefined) {
-      $vec.set(
-        Atomics.load(this, 29 + hand * 3),
-        Atomics.load(this, 30 + hand * 3),
-        Atomics.load(this, 31 + hand * 3)
-      )
-      return $vec
+  faeHand(hand: number, number?: number) {
+    if (number === undefined) {
+      return Atomics.load(this, 29 + hand)
     } else {
-      Atomics.store(this, 29 + hand * 3, Math.round(vec.x))
-      Atomics.store(this, 30 + hand * 3, Math.round(vec.y))
-      Atomics.store(this, 31 + hand * 3, Math.round(vec.z))
-      return vec
+      Atomics.store(this, 29 + hand, number)
+      return number
     }
   }
 }

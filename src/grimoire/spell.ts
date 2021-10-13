@@ -81,7 +81,7 @@ export class Spell {
 
   // subdefines
   _: Spell[] = []
-  dirty: Set<ERipple>
+  dirty: Set<ERipple> = new Set()
   id: number
   avatar = false
   avatarThrust = 1.0
@@ -94,7 +94,7 @@ export class Spell {
   constructor(id, cardinal: ICardinal) {
     this.cardinal = cardinal
     this.id = id
-    this.reset()
+    this.Reset()
   }
 
   live(): number[] {
@@ -102,7 +102,7 @@ export class Spell {
     return [...this.atoms, ...this._.reduce((a, b) => [...a, ...b.live()], [])]
   }
 
-  reset() {
+  Reset() {
     this.phase = EPhase.GHOST
     this.impact = EImpactReaction.NONE
     this.vel.set(0, 0, 0)
@@ -126,13 +126,22 @@ export class Spell {
     this.text = undefined
     this.atoms = []
     this._ = []
-    this.dirty = new Set()
+    this.dirty.clear()
     this.lands = 0
     this.velvarconstraint.set(0, 0, 0)
     this.midi.instrument = 0x90
     this.midi.volume = 1
     this.midi.pan = 0.5
     this.voxbroken = false
+    this.effect = EAnimation.NORMAL
+    this.doRipple = true
+    this.doLive = true
+    this.noise = 0
+    this.midi.instrument = 0x90
+    this.midi.volume = 1
+    this.midi.pan = 0.5
+    this.avatar = false
+    this.avatarThrust = 1
 
     delete this.gate
     delete this.land

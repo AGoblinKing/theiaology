@@ -41,7 +41,7 @@ class Cardinal extends System implements ICardinal {
   universal: Universal
   cage: Cage
 
-  forms: { [def: number]: Spell } = {}
+  spells: { [def: number]: Spell } = {}
 
   // do a command at timing
   timing: { [time: number]: number[] } = {}
@@ -164,7 +164,7 @@ class Cardinal extends System implements ICardinal {
 
     for (let i of this.timing[sec]) {
       const def = this.fate.who(i)
-      const $spell = this.forms[def]
+      const $spell = this.spells[def]
 
       if (!$spell) continue
 
@@ -187,7 +187,7 @@ class Cardinal extends System implements ICardinal {
     }
 
     // clean up from turn
-    for (let def of Object.values(this.forms)) {
+    for (let def of Object.values(this.spells)) {
       def.dirty.clear()
     }
   }
@@ -198,7 +198,7 @@ class Cardinal extends System implements ICardinal {
     // build for loops to apply
 
     const t = this.universal.time()
-    const $spell = this.forms[def]
+    const $spell = this.spells[def]
 
     // now we rez
     // determine voxel count, for loop over them
@@ -289,15 +289,15 @@ class Cardinal extends System implements ICardinal {
 
       const def = this.fate.who(i)
 
-      if (!this.forms[def]) {
-        this.forms[def] = new Spell(def, this)
+      if (!this.spells[def]) {
+        this.spells[def] = new Spell(def, this)
         const parent = this.fate.who(def)
 
         // avoid loop 0 => 0
         if (parent !== def) {
-          const p = (this.forms[parent] =
-            this.forms[parent] || new Spell(parent, this))
-          p._.push(this.forms[def])
+          const p = (this.spells[parent] =
+            this.spells[parent] || new Spell(parent, this))
+          p._.push(this.spells[def])
         }
       }
     }
@@ -316,7 +316,10 @@ class Cardinal extends System implements ICardinal {
     this.freeAll()
     // clear it
     this.timing = {}
-    this.forms = {}
+    // clean up from turn
+    for (let def of Object.values(this.spells)) {
+      def.Reset()
+    }
     this.universal.score(0)
     this.universal.gravityX(0)
     this.universal.gravityY(0)

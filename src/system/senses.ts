@@ -47,8 +47,6 @@ class Senses extends System {
     myBox.min.set(pos.x - felt, pos.y - felt, pos.z - felt)
     myBox.max.set(pos.x + felt, pos.y + felt, pos.z + felt)
 
-    const noises = new Set()
-
     for (let i = 0; i < ATOM_COUNT; i++) {
       if (this.traits.status(i) === EStatus.Unassigned) continue
       // check to see if they're close enough to "hear"

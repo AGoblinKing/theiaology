@@ -89,7 +89,7 @@ timing.on(() => {
 
       target[vr_keys[ix]].value.copy($vec)
       $vec.multiplyScalar(1000)
-      universal.faeHandVec3(tipi++, $vec)
+      universal.faeHand(tipi++, id)
     } else {
       $vec.multiplyScalar(1000)
     }
