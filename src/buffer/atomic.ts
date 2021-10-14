@@ -6,6 +6,42 @@ export interface IAtomic {
   free(index: number)
 }
 
+const strConvertBuffer = new ArrayBuffer(4) // an Int32 takes 4 bytes
+const strView = new DataView(strConvertBuffer)
+function CharCode(code: number) {
+  switch (code) {
+    case 0:
+      return ''
+    default:
+      return String.fromCharCode(code)
+  }
+}
+
+export function StringToInt(str: string) {
+  // max 4 chars
+  str = str.slice(0, 4)
+
+  for (let si = 0; si < 4; si++) {
+    if (si < str.length) {
+      strView.setUint8(si, str.charCodeAt(si))
+    } else {
+      strView.setUint8(si, 0)
+    }
+  }
+
+  return strView.getInt32(0)
+}
+
+export function IntToString(num: number) {
+  strView.setInt32(0, num, false)
+  return (
+    CharCode(strView.getUint8(0)) +
+    CharCode(strView.getUint8(1)) +
+    CharCode(strView.getUint8(2)) +
+    CharCode(strView.getUint8(3))
+  )
+}
+
 export class AtomicInt extends Int32Array implements IAtomic {
   sab: SharedArrayBuffer
   constructor(sab: SharedArrayBuffer) {

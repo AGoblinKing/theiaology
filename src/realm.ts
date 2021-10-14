@@ -22,7 +22,7 @@ import { isQuest, multiplayer, options } from 'src/input/browser'
 import { Load } from 'src/input/load'
 import { left_hand_uniforms, right_hand_uniforms } from 'src/input/xr'
 import { MagickaVoxel } from 'src/magica'
-import { body, renderer, scene } from 'src/render'
+import { body, camera, renderer, scene } from 'src/render'
 import AnimationFrag from 'src/shader/animation.frag'
 import AnimationVert from 'src/shader/animation.vert'
 import EnumVert from 'src/shader/enum.vert'
@@ -42,6 +42,7 @@ import {
   InstancedMesh,
   Material,
   Matrix4,
+  Mesh,
   MeshBasicMaterial,
   MeshToonMaterial,
   Uniform,
@@ -132,6 +133,7 @@ export class Realm {
 
   // the id of the atom that is the fae's avatar
   avatar = new Value<number>()
+  blinder: Mesh
 
   constructor() {
     if (first.$ === undefined) first.set(this)
@@ -160,6 +162,7 @@ export class Realm {
 
     this.initSystems()
     this.initAtoms()
+
     this.initListeners()
 
     fantasies.poke()
@@ -375,6 +378,8 @@ export class Realm {
         this.velocity,
         this.input
       )
+      .bind(this.cardinal)
+      .pump(this.cardinal)
   }
 
   universalCage(cage: Box3) {
@@ -494,6 +499,8 @@ export class Realm {
     scene.$.remove(this.atoms)
 
     this.atoms.dispose()
+
+    camera.remove(this.blinder)
 
     fantasies.$.slice(fantasies.$.indexOf(this), 1)
     fantasies.poke()

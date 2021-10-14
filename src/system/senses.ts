@@ -29,6 +29,8 @@ class Senses extends System {
   input: Input
   noise: Noise
 
+  blinder: number
+
   constructor() {
     super(200)
   }
@@ -46,6 +48,7 @@ class Senses extends System {
     const { felt, hear, see } = SENSE_DISTANCE
     myBox.min.set(pos.x - felt, pos.y - felt, pos.z - felt)
     myBox.max.set(pos.x + felt, pos.y + felt, pos.z + felt)
+    let blind = false
 
     for (let i = 0; i < ATOM_COUNT; i++) {
       if (this.traits.status(i) === EStatus.Unassigned) continue
@@ -67,14 +70,19 @@ class Senses extends System {
         if (myBox.intersectsBox(them)) {
           // we intersected them!
           sensed += SENSES.FELT
+
+          // set blinder
           // are any of our hands touching them
         }
       }
+
       let entry = si++
       this.sensed.id(entry, i)
       this.sensed.sense(entry, sensed)
     }
-
+    if (!blind) {
+      // make sure blinder is off
+    }
     // clear out old ones
     let id = 0
     while ((id = this.sensed.id(si++)) !== 0 && si < ATOM_COUNT) {
@@ -121,6 +129,11 @@ class Senses extends System {
         this.input = new Input(e.data)
         this.ready = true
         break
+      default:
+        switch (e.data) {
+          case EMessage.FATE_UPDATE:
+            break
+        }
     }
   }
 }

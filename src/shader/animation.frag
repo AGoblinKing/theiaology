@@ -44,6 +44,13 @@ vec4 AnimationFrag(in vec4 col) {
 	if(v_animation == 1.) {
 		return col;
 	}
+
+	// GATE
+	if(v_animation == 4.) {
+
+		col.xyz -= (sin(time * 0.01 + a_pos * 0.05))  * 0.5 + 
+	(sin(time * 0.00001 + a_pos * 0.01))  * 0.5;
+	}
    
    float outro = 1. + sin(time * 0.001) * 0.01;
 

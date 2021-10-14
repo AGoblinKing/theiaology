@@ -31,6 +31,7 @@
   import { NORMALIZER, FaeUnits } from 'src/config'
   import { hashcode } from './color'
   import { seconds } from 'src/controller/audio';
+import { IntToString, StringToInt } from 'src/buffer/atomic';
 
   $: voxes = $first.voxes
   $: fate = $first.fate
@@ -170,7 +171,16 @@
       modal_visible.set(false)
     })
   }
-
+  function inputShort(cursor: number) {
+    updateModal()
+    modal_options.set(EVar.SHORTSTRING)
+    modal_default.set(IntToString(fate.$[`data${cursor}`](i)))
+    modal_visible.set((res) => {
+      fate.$[`data${cursor}`](i, StringToInt(res))
+      fate.poke()
+      modal_visible.set(false)
+    })
+  }
   function inputNumber(cursor: number) {
     updateModal()
     modal_options.set(EVar.NUMBER)
@@ -307,6 +317,17 @@
           >
             "{$fate.text(i)}"
           </Box>
+
+        {:else if value === EVar.SHORTSTRING}
+              <Box
+              flex
+              tilt={hashcode(IntToString($fate[`data${index}`](i))) % 360}
+              hover={key}
+              click={() => inputShort(index)}
+              nav={NavData(index)}
+            >
+              "{IntToString($fate[`data${index}`](i))}"
+            </Box>
         {:else if value === EVar.NUMBER || value === EVar.POSITIVE || value == EVar.NEGATIVE}
           <Box
             flex

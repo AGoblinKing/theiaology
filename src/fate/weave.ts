@@ -2,6 +2,11 @@ import { EAnimation } from 'src/buffer/animation'
 import { EPhase } from 'src/buffer/phys'
 import { ERole } from 'src/buffer/traits'
 
+export enum EWhen {
+  NEVER,
+  IMMEDIATELY,
+  HIT,
+}
 export interface IMarkers {
   [markerID: number]: string
 }
@@ -78,6 +83,7 @@ export enum EVar {
   FIVEFINGERS,
   BOOL,
   LONGSTRING,
+  SHORTSTRING,
 }
 
 export enum ECarriers {
@@ -165,11 +171,13 @@ export enum ESpell {
   GAME_SCORE,
   MIDI,
   GAME_STATUS,
-  TRAP_IMPACT,
+  WHEN,
+  // free
   TRAP_DISTANCE,
   TRAP_FILTER,
   TRAP_TIME,
   TRAP_CLEAR,
+  // end free
   MIDI_INSTRUMENT,
   DO_SEEK,
   UNI_GRAVITY,
@@ -178,6 +186,7 @@ export enum ESpell {
   PHYS_CARRIED,
   TOME_OPTIONS,
   NOISE,
+  // soon
   ___IF,
   ___VAR,
   FLOCK_LINE,
@@ -240,7 +249,11 @@ export const ESpellHelp = {
 export const Invocations: { [key: number]: any } = {
   [ESpell.TOME]: { text: EVar.STRING },
 
-  [ESpell.PHYS_PHASE]: { phase: EPhase },
+  [ESpell.PHYS_PHASE]: {
+    phase: EPhase,
+    tag: EVar.SHORTSTRING,
+    tag2: EVar.SHORTSTRING,
+  },
   [ESpell.SHAPE_COLOR]: {
     rgb: EVar.COLOR,
     tilt: EVar.NORMAL,
@@ -367,22 +380,7 @@ export const Invocations: { [key: number]: any } = {
   [ESpell.GAME_STATUS]: {
     game_status: EGameStatus,
   },
-  [ESpell.TRAP_IMPACT]: {
-    prefix_whom: EVar.STRING,
-  },
-  [ESpell.TRAP_FILTER]: {
-    prefix: EVar.STRING,
-  },
-  [ESpell.TRAP_DISTANCE]: {
-    near: EVar.FAEPOSITIVE,
-    far: EVar.FAEPOSITIVE,
-    margin: EVar.FAEPOSITIVE,
-  },
-  [ESpell.TRAP_TIME]: {
-    timeout: EVar.FAEPOSITIVE,
-    repeat: EVar.BOOL,
-  },
-  [ESpell.TRAP_CLEAR]: {},
+
   [ESpell.VOX_BREAK]: {
     Percentage: EVar.NORMAL,
   },
@@ -414,5 +412,10 @@ export const Invocations: { [key: number]: any } = {
     count: EVar.POSITIVE,
     spacing: EVar.FAEPOSITIVE,
     direction: EAxis,
+  },
+  [ESpell.WHEN]: {
+    when: EWhen,
+    cooldown: EVar.TIME,
+    filter_by_tag: EVar.STRING,
   },
 }

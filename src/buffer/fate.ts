@@ -1,4 +1,4 @@
-import { AtomicInt } from 'src/buffer/atomic'
+import { AtomicInt, IntToString, StringToInt } from 'src/buffer/atomic'
 import { NORMALIZER, TIMELINE_MAX } from 'src/config'
 import { ESpell, EVar, IFate, INode, Invocations } from 'src/fate/weave'
 import { Color } from 'three'
@@ -184,6 +184,9 @@ export class Fate extends AtomicInt {
               case EVar.BOOL:
                 output += `${d ? 'true' : 'false'} `
                 break
+              case EVar.SHORTSTRING:
+                output += `"${IntToString(d)}" `
+                break
               case EVar.VOX:
               case EVar.STRING:
                 output += `"${this.text(parseInt(k, 10))}" `
@@ -317,6 +320,9 @@ export class Fate extends AtomicInt {
             case EVar.NUMBER:
               this[dat](i, parseInt(item, 10))
               break
+            case EVar.SHORTSTRING:
+              this[dat](i, StringToInt(text[item.slice(1)]))
+              break
             case EVar.STRING:
             case EVar.VOX:
               this.text(i, text[item.slice(1)])
@@ -429,6 +435,34 @@ export class Fate extends AtomicInt {
     Atomics.store(this, i * Fate.COUNT + 5, d3)
 
     return i
+  }
+
+  short(i: number, step: number, str?: string) {
+    if (str === undefined) {
+      const num = this[`data${step}`](i)
+
+      strView.setInt32(0, num, false)
+      return (
+        CharCode(strView.getUint8(0)) +
+        CharCode(strView.getUint8(1)) +
+        CharCode(strView.getUint8(2)) +
+        CharCode(strView.getUint8(3))
+      )
+    }
+
+    // max 4 chars
+    str = str.slice(0, 4)
+
+    for (let si = 0; si < 4; si++) {
+      if (si < str.length) {
+        strView.setUint8(si, str.charCodeAt(si))
+      } else {
+        strView.setUint8(si, 0)
+      }
+    }
+    Atomics.store(this, i * Fate.COUNT + step + 3, strView.getInt32(0, false))
+
+    return str
   }
 
   // defines are special, only strings available

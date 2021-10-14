@@ -37,6 +37,8 @@ export enum EMessage {
   CARD_SEEK = -7003,
   CARD_SEEKED = -7004,
   CARD_MIDI_CHIRP = -7005,
+  // Load the specified file
+  CARD_LOAD = -7006,
   YGG_REALM_UPDATE = -8000,
   YGG_HOST = -8001,
   YGG_JOIN = -8002,

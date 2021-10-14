@@ -8,6 +8,7 @@ export default {
     $spell.Ripple(ERipple.LAND, $spell.land)
   },
   [ESpell.THEIA_GATE](i: number, $c: ICardinal, $spell: Spell) {
+    // send the load command
     $spell.gate = $c.fate.text(i)
   },
   [ESpell.THEIA_RULER](i: number, $c: ICardinal, $spell: Spell) {

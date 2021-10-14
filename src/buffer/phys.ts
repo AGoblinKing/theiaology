@@ -1,4 +1,4 @@
-import { AtomicInt } from 'src/buffer/atomic'
+import { AtomicInt, IntToString, StringToInt } from 'src/buffer/atomic'
 import { ATOM_COUNT } from 'src/config'
 
 // how together something is
@@ -21,7 +21,7 @@ export enum ECarries {
 }
 
 export class Phys extends AtomicInt {
-  static COUNT = 5
+  static COUNT = 7
 
   constructor(shared = new SharedArrayBuffer(ATOM_COUNT * Phys.COUNT * 4)) {
     super(shared)
@@ -55,5 +55,17 @@ export class Phys extends AtomicInt {
     return d !== undefined
       ? Atomics.store(this, i * Phys.COUNT + 4, d)
       : Atomics.load(this, i * Phys.COUNT + 4)
+  }
+
+  tag(i: number, f?: string) {
+    return f !== undefined
+      ? Atomics.store(this, i * Phys.COUNT + 5, StringToInt(f))
+      : IntToString(Atomics.load(this, i * Phys.COUNT + 5))
+  }
+
+  tag2(i: number, f?: string) {
+    return f !== undefined
+      ? Atomics.store(this, i * Phys.COUNT + 6, StringToInt(f))
+      : IntToString(Atomics.load(this, i * Phys.COUNT + 6))
   }
 }

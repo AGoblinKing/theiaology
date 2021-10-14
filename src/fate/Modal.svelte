@@ -83,8 +83,8 @@ import Noise from './evar/Noise.svelte';
       <Time />
     {:else if $modal_options === EVar.NORMAL}
       <Normal />
-    {:else if $modal_options === EVar.STRING || $modal_options === EVar.LONGSTRING}
-      <String length={$modal_options === EVar.LONGSTRING ? 30 : 12} />
+    {:else if $modal_options === EVar.STRING || $modal_options === EVar.LONGSTRING || $modal_options === EVar.SHORTSTRING}
+      <String length={$modal_options === EVar.LONGSTRING ? 30 :  EVar.SHORTSTRING ? 4 : 12} />
     {:else if $modal_options === EVar.FAENUMBER}
       <Number scale={FAE_SCALE} />
     {:else if $modal_options === EVar.NUMBER}

@@ -3,7 +3,7 @@ import { EPhase } from 'src/buffer/phys'
 import { ERole } from 'src/buffer/traits'
 import { NORMALIZER } from 'src/config'
 import { ALPHABET } from 'src/fate/shape/text'
-import { EImpactReaction, EShape } from 'src/fate/weave'
+import { EImpactReaction, EShape, EWhen } from 'src/fate/weave'
 import { EMessage, ICardinal } from 'src/system/enum'
 import { Box3, Color, Euler, Object3D, Vector3 } from 'three'
 const $hsl = { h: 0, s: 0, l: 0 }
@@ -88,6 +88,10 @@ export class Spell {
   effect = EAnimation.NORMAL
   doRipple = true
   doLive = true
+  tag1 = ''
+  tag2 = ''
+
+  when = EWhen.IMMEDIATELY
 
   cardinal: ICardinal
 
@@ -142,6 +146,9 @@ export class Spell {
     this.midi.pan = 0.5
     this.avatar = false
     this.avatarThrust = 1
+    this.tag1 = ''
+    this.tag2 = ''
+    this.when = EWhen.IMMEDIATELY
 
     delete this.gate
     delete this.land
