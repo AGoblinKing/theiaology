@@ -396,7 +396,7 @@ export class Spell {
     this.cardinal.traits.role(id, this.role)
 
     this.cardinal.animation.animation(id, this.effect)
-    this.noise !== 0 && this.cardinal.noise.noise(id, this.noise)
+    this.noise !== 0 && this.cardinal.noise.passive(id, this.noise)
 
     // TODO: handle voxes betterps
     if (this.avatar) {

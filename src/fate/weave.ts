@@ -6,6 +6,7 @@ export enum EWhen {
   NEVER,
   IMMEDIATELY,
   HIT,
+  REZ,
 }
 export interface IMarkers {
   [markerID: number]: string
@@ -185,11 +186,16 @@ export enum ESpell {
   MIDI_CHIRP,
   PHYS_CARRIED,
   TOME_OPTIONS,
-  NOISE,
+  NOISE_PASSIVE,
   // soon
   ___IF,
   ___VAR,
   FLOCK_LINE,
+  NOISE_HURT,
+  NOISE_ACTIVE,
+  NOISE_LOVE,
+  NOISE_DEATH,
+  ATTACH,
 }
 
 export enum EConstraint {
@@ -239,7 +245,7 @@ export const ESpellHelp = {
   [ESpell.DO_SEEK]: 'Seek to a position in the track without causing a reset',
   [ESpell.PHYS_CARRIED]: 'Use the targets position as the base position',
   [ESpell.TOME_OPTIONS]: 'Turn on/off the ripple and live tome options',
-  [ESpell.NOISE]: 'The vibe, beat, jive of the atom',
+  [ESpell.NOISE_PASSIVE]: 'The vibe, beat, jive of the atom',
   [ESpell.___VAR]: 'Set a variable [name] [action] [with]',
   [ESpell.___IF]:
     'If [blah] is [greater|less|equal| to [other blah] do these things',
@@ -404,9 +410,8 @@ export const Invocations: { [key: number]: any } = {
     ripple: ETomeRipple,
     liveliness: ETomeLive,
   },
-  [ESpell.NOISE]: {
+  [ESpell.NOISE_PASSIVE]: {
     noise: EVar.NOISE,
-    //options: EVar.NOISE,
   },
   [ESpell.FLOCK_LINE]: {
     count: EVar.POSITIVE,
@@ -414,6 +419,11 @@ export const Invocations: { [key: number]: any } = {
     direction: EAxis,
   },
   [ESpell.WHEN]: {
+    when: EWhen,
+    cooldown: EVar.TIME,
+    filter_by_tag: EVar.STRING,
+  },
+  [ESpell.ATTACH]: {
     when: EWhen,
     cooldown: EVar.TIME,
     filter_by_tag: EVar.STRING,

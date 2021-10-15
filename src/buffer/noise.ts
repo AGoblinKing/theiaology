@@ -2,7 +2,7 @@ import { AtomicByte } from 'src/buffer/atomic'
 import { ATOM_COUNT } from 'src/config'
 
 export class Noise extends AtomicByte {
-  static COUNT = 5
+  static COUNT = 4
 
   constructor(buffer = new SharedArrayBuffer(ATOM_COUNT * Noise.COUNT)) {
     super(buffer)
@@ -32,15 +32,18 @@ export class Noise extends AtomicByte {
       : Atomics.store(this, Noise.COUNT * i + 3, pattern)
   }
 
-  interval(i: number, interval?: number): number {
-    return interval === undefined
-      ? Atomics.load(this, Noise.COUNT * i + 4)
-      : Atomics.store(this, Noise.COUNT * i + 4, interval)
-  }
-
-  noise(i: number, value?: number): number {
+  passive(i: number, value?: number): number {
     return this.int32(i, 0, value)
   }
+
+  active(i: number, value?: number): number {
+    return this.int32(i, 1, value)
+  }
+
+  hit(i: number, value?: number): number {
+    return this.int32(i, 2, value)
+  }
+
   // bitwise is generally slow on javascript
   int32(i: number, section: number, value?: number): number {
     const start = i * Noise.COUNT

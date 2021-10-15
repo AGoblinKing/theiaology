@@ -29,11 +29,11 @@ vec4 AnimationFrag(in vec4 col) {
 	float xy = modu(v_pos.x * v_pos.y, v);
 	float xyz = modu(v_pos.z * v_pos.x * v_pos.y, v);
 
-	float t= sin(time * 0.00001) * 0.;
+
 	
-	col.xyz *= 0.99 + 0.005 * modu(xy * 100.+ t, 2.);
-	col.xyz *= 0.99 + 0.005 * modu(xyz* cos(audioHigh * 0.001 + t), 5.);
-	col.xyz *= 0.99 + 0.005 * modu(xyz * 1000. * cos(audioHigh * 0.01 + t) , 4.)* sin(audioLow * 0.01);
+	col.xyz *= 0.99 + 0.005 * modu(xy * 100., 2.);
+	col.xyz *= 0.99 + 0.005 * modu(xyz* cos(audioHigh * 0.001 ), 5.);
+	col.xyz *= 0.99 + 0.005 * modu(xyz * 1000. * cos(audioHigh * 0.01 ) , 4.)* sin(audioLow * 0.01);
 
 
 	if(v_animation == 3.) {
@@ -48,8 +48,8 @@ vec4 AnimationFrag(in vec4 col) {
 	// GATE
 	if(v_animation == 4.) {
 
-		col.xyz -= (sin(time * 0.01 + a_pos * 0.05))  * 0.5 + 
-	(sin(time * 0.00001 + a_pos * 0.01))  * 0.5;
+	col.xyz *= 0.90 + 0.1 * modu(xyz* cos(audioHigh * 0.001 + time * 0.0001), 5.);
+
 	}
    
    float outro = 1. + sin(time * 0.001) * 0.01;

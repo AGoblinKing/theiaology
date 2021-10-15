@@ -26,10 +26,13 @@ vec4 Animation(in vec4 pos) {
 	if(animation == ANIM_NO_EFFECT) {
 		return pos;
 	}
+
 	float xyz = pos.x * pos.y * pos.z * 0.001;
 	// vibrate sin(xyz  + time  ) * 0.0002 +
-	float tes = (sin(xyz * time * 0.0001) + cos(xyz * 10000.)) * 0.0051;
-
+	float tes = (sin(xyz * time * 0.00001) + cos(xyz * 10000.)) * 0.0051;
+	if(animation == 4) {
+		tes *= 40.;
+	}
 	pos.x += tes;
 	pos.y += tes + 0.05 * (-audioHigh / 2000.);
 	pos.z += tes;
