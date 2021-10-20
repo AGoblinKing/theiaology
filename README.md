@@ -1,6 +1,6 @@
 # `THEIAOLOGY`
 
-[Steam](https://steam.theiaology.com)
+[Steam](https://steam.theiaology.com) | [VSCode](https://marketplace.visualstudio.com/items?itemName=CorporateEntity.vscode-theiaology)
 
 _Undock your imagination._
 
