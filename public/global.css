@@ -152,6 +152,7 @@ body::-webkit-scrollbar-track {
 }
 
 canvas {
+  pointer-events: all !important;
   cursor: url("/sprite/grab.png") 0 0, grab;
 }
 canvas:active {

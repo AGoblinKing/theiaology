@@ -27,6 +27,7 @@
   import { steam } from 'src/steam'
   import { browserOpen } from 'src/input/browser'
 
+
   function Browse() {
     modal_location.set(
       modal_location.$.set($mouse_page.x - 5, $mouse_page.y - 5)
