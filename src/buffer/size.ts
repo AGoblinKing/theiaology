@@ -91,7 +91,7 @@ export class Size extends AtomicInt {
     return vec3
   }
 
-  glyph(i: number, glyph?: number) {
+  pattern(i: number, glyph?: number) {
     return glyph === undefined
       ? Atomics.load(this, i * Size.COUNT + 3)
       : Atomics.store(this, i * Size.COUNT + 3, glyph)

@@ -33,7 +33,7 @@ vec4 AnimationFrag(in vec4 col) {
 	float xyz = modu(v_pos.z * v_pos.x * v_pos.y, v);
 	float magic = 12.;
 	float scale = 1.0 / magic;
-	float sprite = float(size.a) - 1.;
+	float sprite = float(size.a);
 
 	vec2 offsets = vec2(mod(sprite, magic), floor(sprite / magic));
 	vec4 texelColor = texture2D(texmap, vec2(vUv.x * scale + scale * offsets.x, 1. - (vUv.y * scale + scale * offsets.y)));

@@ -29,4 +29,12 @@ export default {
       $c.animation.animation(atom, $spell.effect)
     }
   },
+  [ESpell.SHAPE_PATTERN](i: number, $c: ICardinal, $spell: Spell) {
+    $spell.pattern = $c.fate.data0(i)
+    $spell.Ripple(ERipple.PATTERN, $spell.pattern)
+
+    for (const atom of $spell.live()) {
+      $c.size.pattern(atom, $spell.pattern)
+    }
+  },
 }

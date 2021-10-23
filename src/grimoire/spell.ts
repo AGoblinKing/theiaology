@@ -42,6 +42,7 @@ export enum ERipple {
   VELVARCONSTRAINT,
   AI,
   EFFECT,
+  PATTERN,
 }
 
 export class Spell {
@@ -64,6 +65,7 @@ export class Spell {
   vel = new Vector3()
   velvar = new Vector3()
   velvarconstraint = new Vector3()
+  pattern = 0
 
   text: string
   cage = new Box3()
@@ -149,6 +151,7 @@ export class Spell {
     this.tag1 = ''
     this.tag2 = ''
     this.when = EWhen.IMMEDIATELY
+    this.pattern = 0
 
     delete this.gate
     delete this.land
@@ -398,6 +401,8 @@ export class Spell {
     this.cardinal.animation.animation(id, this.effect)
     this.noise !== 0 && this.cardinal.noise.passive(id, this.noise)
 
+    this.cardinal.size.pattern(id, this.pattern)
+
     // TODO: handle voxes betterps
     if (this.avatar) {
       this.cardinal.universal.avatar(id)
@@ -416,6 +421,9 @@ export class Spell {
       c.Ripple(what, data, false)
 
       switch (what) {
+        case ERipple.PATTERN:
+          c.pattern = data
+          break
         case ERipple.PHASE:
           c.phase = data
 
