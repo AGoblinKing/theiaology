@@ -45,6 +45,9 @@ import {
   Mesh,
   MeshBasicMaterial,
   MeshToonMaterial,
+  NearestFilter,
+  RepeatWrapping,
+  TextureLoader,
   Uniform,
   Vector3,
 } from 'three'
@@ -73,6 +76,12 @@ Object.assign(window, { realms })
 export const fantasy = new Value<Realm>()
 export const first = new Value<Realm>(undefined)
 export const fantasies = new Value<Realm[]>([])
+const tex = new TextureLoader().load('/image/patterns.png')
+tex.magFilter = NearestFilter
+tex.minFilter = NearestFilter
+tex.wrapS = tex.wrapT = RepeatWrapping
+
+tex.generateMipmaps = true
 
 // @ts-ignore
 window.first = first
@@ -169,7 +178,7 @@ export class Realm {
   }
 
   initMaterial() {
-    this.material = isQuest ? new MeshBasicMaterial() : new MeshToonMaterial({})
+    this.material = isQuest ? new MeshBasicMaterial() : new MeshToonMaterial()
 
     if (!isQuest) {
       this.material.shadowSide = FrontSide
@@ -207,6 +216,7 @@ export class Realm {
       shader.uniforms.cageM = this.uniCageM
       shader.uniforms.offset = this.uniOffset
       shader.uniforms.shape = this.uniShape
+      shader.uniforms.texmap = new Uniform(tex)
 
       const addHandUniform =
         (dir) =>
@@ -467,7 +477,7 @@ export class Realm {
         )
         .setAttribute(
           'size',
-          new InstancedBufferAttribute(this.size, Thrust.COUNT)
+          new InstancedBufferAttribute(this.size, Size.COUNT)
         ),
       this.material,
       ATOM_COUNT
@@ -476,6 +486,7 @@ export class Realm {
     for (let i = 0; i < this.atoms.count; i++) {
       this.atoms.setMatrixAt(i, IDENTITY)
     }
+
     const { atoms } = this
     atoms.geometry.getAttribute('animation').needsUpdate = true
     atoms.geometry.getAttribute('matter').needsUpdate = true

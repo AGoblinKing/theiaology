@@ -347,7 +347,7 @@ class Cardinal extends System implements ICardinal {
     this.thrust.free(i, Thrust.COUNT)
     this.matter.free(i, Matter.COUNT)
     this.impact.free(i, Impact.COUNT)
-    this.size.free(i, Thrust.COUNT)
+    this.size.free(i, Size.COUNT)
     this.cage.free(i, Cage.COUNT)
     this.velocity.free(i, Velocity.COUNT)
     this.traits.free(i, Traits.COUNT)
