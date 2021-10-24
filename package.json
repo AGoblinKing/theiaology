@@ -11,7 +11,7 @@
     "dev": "run-p watch start"
   },
   "author": "king@goblin.life",
-  "license": "AGPL",
+  "license": "AGPL-3.0-or-later",
   "prettier": {
     "semi": false,
     "singleQuote": true

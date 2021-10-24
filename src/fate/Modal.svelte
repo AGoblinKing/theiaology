@@ -28,7 +28,7 @@ import Noise from './evar/Noise.svelte';
     }
   })
 
-  $: len = Array.isArray($modal_options) ? $modal_options.length : 1
+  $: len = Array.isArray($modal_options) ? Group($modal_options).length : 1
 
   function Group(enums: string[]) {
     const groups:{[key: string]:string[] } = {}

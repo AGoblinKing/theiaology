@@ -54,8 +54,8 @@ export enum EShape {
 }
 
 export enum EShapePattern {
-  NONE = 0,
-  EDGES,
+  NONE = -1,
+  EDGES = 0,
   DIAGONAL,
   DIAGONAL_TIGHT,
   DIAGONAL_SLOPPY,
@@ -100,11 +100,11 @@ export enum EShapePattern {
   TRIANGLES,
   TRIANGLES_ALT,
   TRIANGLES_TIGHT,
-  STAR,
+  STAR_LOOSE,
   PIPE_STRIPE,
   CROSS,
   MISC_LAYERED,
-  BOARDS,
+  TILE_BOARDS,
   DIAMONDS_SLOPPY,
   SQUARES_TILT,
   SQUARES_TILT_ALT,

@@ -23,6 +23,8 @@ vec4 Animation(in vec4 pos) {
 
 	v_animation = float(animation);
 	vUv = uv;
+	sprite = float(size.a);
+
 	v_matter = vec3(float(matter.x) / NORMALIZER, float(matter.y) / NORMALIZER, float(matter.z) / NORMALIZER);
 	if(animation == ANIM_NO_EFFECT) {
 		return pos;

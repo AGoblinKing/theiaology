@@ -25,4 +25,6 @@ varying vec3 a_pos;
 varying float v_animation;
 varying vec3 v_matter;
 varying vec2 vUv;
+varying float sprite;
+
 const float NORMALIZER = float(0x7fffffff);

@@ -12,12 +12,13 @@ uniform vec3 rightthumb;
 uniform vec3 rightmiddle;
 uniform vec3 rightring;
 uniform vec3 rightpinky;
-uniform ivec4 size;
+
 uniform sampler2D texmap;
 
 varying vec3 v_pos;
 varying vec3 a_pos;
 varying vec2 vUv;
+varying float sprite;
 
 varying float v_animation;
 
@@ -33,7 +34,6 @@ vec4 AnimationFrag(in vec4 col) {
 	float xyz = modu(v_pos.z * v_pos.x * v_pos.y, v);
 	float magic = 12.;
 	float scale = 1.0 / magic;
-	float sprite = float(size.a);
 
 	vec2 offsets = vec2(mod(sprite, magic), floor(sprite / magic));
 	vec4 texelColor = texture2D(texmap, vec2(vUv.x * scale + scale * offsets.x, 1. - (vUv.y * scale + scale * offsets.y)));
