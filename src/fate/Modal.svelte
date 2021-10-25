@@ -12,8 +12,9 @@
   import { EVar } from './weave'
   import Box from 'src/fate/Box.svelte'
   import { hashcode } from './color'
-  import { FAE_SCALE } from 'src/config';
-import Noise from './evar/Noise.svelte';
+  import { FAE_SCALE } from 'src/config'
+  import Noise from './evar/Noise.svelte'
+  import Patterns from './evar/Patterns.svelte'
 
   // modal is a singleton so Aok, but weird
   mouse_left.on(() => {
@@ -31,16 +32,16 @@ import Noise from './evar/Noise.svelte';
   $: len = Array.isArray($modal_options) ? Group($modal_options).length : 1
 
   function Group(enums: string[]) {
-    const groups:{[key: string]:string[] } = {}
-    for(let e of enums) {
-      if(e.indexOf('_') === -1) {
-        groups[e] = [e] 
+    const groups: { [key: string]: string[] } = {}
+    for (let e of enums) {
+      if (e.indexOf('_') === -1) {
+        groups[e] = [e]
         continue
       }
 
       const [group] = e.split('_')
 
-      if(!groups[group]) groups[group] = []
+      if (!groups[group]) groups[group] = []
       groups[group].push(e)
     }
 
@@ -62,36 +63,44 @@ import Noise from './evar/Noise.svelte';
       </Box>
     {:else if Array.isArray($modal_options)}
       {#each Group($modal_options) as contentRow}
-      <div class="contentRow"> 
+        <div class="contentRow">
           {#each contentRow as content}
-           
-            <Box tilt={hashcode(content.slice(0, 3)) * 0.05 % 360} style="flex:1;" click={() => {
-              if (typeof $modal_visible === 'function') $modal_visible(content)
-              modal_visible.set(false)
-            }}>
-                <div
-                  class="item"
-                >
-                  {content}
-                </div>
-              </Box>
-          
-            {/each}
-          </div>
+            <Box
+              tilt={(hashcode(content.slice(0, 3)) * 0.05) % 360}
+              style="flex:1;"
+              click={() => {
+                if (typeof $modal_visible === 'function')
+                  $modal_visible(content)
+                modal_visible.set(false)
+              }}
+            >
+              <div class="item">
+                {content}
+              </div>
+            </Box>
+          {/each}
+        </div>
       {/each}
     {:else if $modal_options === EVar.TIME}
       <Time />
     {:else if $modal_options === EVar.NORMAL}
       <Normal />
     {:else if $modal_options === EVar.STRING || $modal_options === EVar.LONGSTRING || $modal_options === EVar.SHORTSTRING}
-      <String length={$modal_options === EVar.LONGSTRING ? 30 :  EVar.SHORTSTRING ? 4 : 12} />
+      <String
+        length={$modal_options === EVar.LONGSTRING
+          ? 30
+          : EVar.SHORTSTRING
+          ? 4
+          : 12}
+      />
     {:else if $modal_options === EVar.FAENUMBER}
       <Number scale={FAE_SCALE} />
     {:else if $modal_options === EVar.NUMBER}
       <Number />
+    {:else if $modal_options === EVar.PATTERN}
+      <Patterns />
     {:else if $modal_options === EVar.NOISE}
       <Noise />
-    
     {/if}
   </div>
 {/if}
@@ -101,7 +110,7 @@ import Noise from './evar/Noise.svelte';
     text-align: center;
     padding: 0.4rem;
 
-    cursor: pointer;
+    cursor: url('/sprite/pointer.png') 0 0, pointer;
     text-transform: capitalize;
     font-size: 0.75rem;
   }

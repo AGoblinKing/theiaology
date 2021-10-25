@@ -1,6 +1,13 @@
 import { AtomicInt, IntToString, StringToInt } from 'src/buffer/atomic'
 import { NORMALIZER, TIMELINE_MAX } from 'src/config'
-import { ESpell, EVar, IFate, INode, Invocations } from 'src/fate/weave'
+import {
+  EShapePattern,
+  ESpell,
+  EVar,
+  IFate,
+  INode,
+  Invocations,
+} from 'src/fate/weave'
 import { Color } from 'three'
 
 const strConvertBuffer = new ArrayBuffer(4) // an Int32 takes 4 bytes
@@ -197,6 +204,9 @@ export class Fate extends AtomicInt {
               case EVar.NORMAL:
                 output += `${d / NORMALIZER} `
                 break
+              case EVar.PATTERN:
+                output += `${EShapePattern[d]} `
+                break
               case EVar.FAENUMBER:
               case EVar.FAEPOSITIVE:
                 output += `${d * 0.01} `
@@ -326,6 +336,10 @@ export class Fate extends AtomicInt {
             case EVar.STRING:
             case EVar.VOX:
               this.text(i, text[item.slice(1)])
+              break
+
+            case EVar.PATTERN:
+              this[dat](i, EShapePattern[item])
               break
 
             case EVar.BOOL:

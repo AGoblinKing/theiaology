@@ -173,6 +173,7 @@ export enum EVar {
   BOOL,
   LONGSTRING,
   SHORTSTRING,
+  PATTERN,
 }
 
 export enum ECarriers {
@@ -518,6 +519,6 @@ export const Invocations: { [key: number]: any } = {
   //   filter_by_tag: EVar.STRING,
   // },
   [ESpell.SHAPE_PATTERN]: {
-    pattern: EShapePattern,
+    pattern: EVar.PATTERN,
   },
 }
