@@ -89,7 +89,7 @@
       <String
         length={$modal_options === EVar.LONGSTRING
           ? 30
-          : EVar.SHORTSTRING
+          : $modal_options === EVar.SHORTSTRING
           ? 4
           : 12}
       />
