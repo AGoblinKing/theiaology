@@ -472,6 +472,7 @@ export class Spell {
 
         case ERipple.SIZE:
           c.size.copy(data)
+
           break
 
         case ERipple.SIZEVAR:

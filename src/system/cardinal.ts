@@ -126,6 +126,7 @@ class Cardinal extends System implements ICardinal {
             this.voxes.set(e.data)
 
             // update the timeline
+            this.ready = true
             this.fateUpdated()
             return
 
@@ -291,14 +292,14 @@ class Cardinal extends System implements ICardinal {
 
       if (!this.spells[def]) {
         this.spells[def] = new Spell(def, this)
-        const parent = this.fate.who(def)
+      }
+      const parent = this.fate.who(def)
 
-        // avoid loop 0 => 0
-        if (parent !== def) {
-          const p = (this.spells[parent] =
-            this.spells[parent] || new Spell(parent, this))
-          p._.push(this.spells[def])
-        }
+      // avoid loop 0 => 0
+      if (parent !== def) {
+        const p = (this.spells[parent] =
+          this.spells[parent] || new Spell(parent, this))
+        p._.push(this.spells[def])
       }
     }
 
@@ -310,7 +311,6 @@ class Cardinal extends System implements ICardinal {
 
   fateUpdated() {
     if (!this.ready) {
-      this.ready = true
       return
     }
     this.freeAll()
@@ -320,6 +320,7 @@ class Cardinal extends System implements ICardinal {
     for (let def of Object.values(this.spells)) {
       def.Reset()
     }
+
     this.universal.score(0)
     this.universal.gravityX(0)
     this.universal.gravityY(0)
