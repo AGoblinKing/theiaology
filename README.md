@@ -42,11 +42,11 @@ It also means you don't have to test your code before sending me that PR just tr
 
 ## Quickest Start
 
-https://theiaology.com/sandbox?dev
+https://vox.run/sandbox?dev
 
-Share your .fate files in a public GitHub repository called theiaology.com and you can load .fate files from it.
+Share your .fate files in a public GitHub repository called vox.run and you can load .fate files from it.
 
-ie: https://theiaology.com/username/a_city would resolve to github.com/username/theiaology.com/blob/main/a_city.fate
+ie: https://vox.run/username/a_city would resolve to github.com/username/vox.run/blob/main/a_city.fate
 
 ## Quick Start
 
