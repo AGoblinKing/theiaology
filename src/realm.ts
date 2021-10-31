@@ -355,14 +355,13 @@ export class Realm {
         this.input
       )
       .bind(this.cardinal)
-      .on((e) => {
-        if (!e) return
+      .on((d) => {
+        if (d === undefined) return
 
-        switch (typeof e.data) {
+        switch (typeof d) {
           case 'number':
-            if (e.data > 0) {
-              console.log(e.data, 'free')
-              this.cardinal.postMessage(e.data)
+            if (d > 0) {
+              this.cardinal.postMessage(d)
             }
         }
       })

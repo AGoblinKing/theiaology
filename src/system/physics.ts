@@ -400,7 +400,6 @@ class Physics extends System {
 
         switch (s.do) {
           case ESelectThen.FREE:
-            console.log('freeing', b.i, tags, s.is, s.not)
             this.post(b.i)
             break
         }

@@ -41,15 +41,15 @@ export class SystemWorker extends Worker {
 
   message(e: MessageEvent) {
     // >= 0 are eids while - are commands
-    if (typeof e.data === 'number' && e.data >= 0) {
+    if (typeof e.data === 'number' && e.data >= 0 && this._queue.length) {
       const i = this._queue.pop()
 
       if (i) {
         i(e.data)
       }
-    } else {
-      this.msg.set(e.data)
     }
+
+    this.msg.set(e.data)
   }
 
   // pipe received messages to other worker

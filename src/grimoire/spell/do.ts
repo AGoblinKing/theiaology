@@ -5,6 +5,7 @@ import { Spell } from '../spell'
 
 const $vec = new Vector3()
 const $vec2 = new Vector3()
+const $siz = new Vector3()
 
 export default {
   [ESpell.DO_REZ](i: number, $c: ICardinal, $spell: Spell) {
@@ -39,11 +40,12 @@ export default {
   },
 
   [ESpell.DO_SELECT](i: number, $c: ICardinal, $spell: Spell) {
+    $siz.copy($spell.size).multiplyScalar(0.5)
     // tell the phys system to remove
     $c.post({
       message: EMessage.PHYS_SELECT,
-      min: $vec.copy($spell.pos).sub($spell.size),
-      max: $vec2.copy($spell.pos).add($spell.size),
+      min: $vec.copy($spell.pos).sub($siz),
+      max: $vec2.copy($spell.pos).add($siz),
       is: $c.fate.short(i, 1),
       not: $c.fate.short(i, 2),
       do: $c.fate.data0(i),
