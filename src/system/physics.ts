@@ -13,8 +13,9 @@ import { Thrust } from 'src/buffer/thrust'
 import { ERealmState, Universal } from 'src/buffer/universal'
 import { Velocity } from 'src/buffer/velocity'
 import { ATOM_COUNT, MAX_NORMAL_FORCE } from 'src/config'
+import { ESelectThen } from 'src/fate/weave'
 import { Vector3 } from 'three'
-import { EMessage } from './enum'
+import { EMessage, IPhysSelect } from './enum'
 import { System } from './system'
 
 const DECAY = 0.9
@@ -47,6 +48,7 @@ class Physics extends System {
   count = 0
 
   insertTick = []
+  selects: IPhysSelect[] = []
 
   constructor() {
     super((1 / 6) * 1000)
@@ -91,7 +93,12 @@ class Physics extends System {
         break
 
       default:
-        switch (e.data) {
+        const msg = typeof e.data === 'object' ? e.data.message : e.data
+
+        switch (msg) {
+          case EMessage.PHYS_SELECT:
+            this.selects.push(e.data)
+            break
           case EMessage.FATE_UPDATE:
             $inserts = {}
 
@@ -375,6 +382,33 @@ class Physics extends System {
       }
     }
 
+    for (let s of this.selects) {
+      if (s.do === ESelectThen.NOTHING) continue
+
+      // @ts-ignore
+      $me.min.copy(s.min)
+      // @ts-ignore
+      $me.max.copy(s.max)
+
+      // select within the tree
+      for (let b of this.tree.search($me)) {
+        // check to see if they match the is/not
+        const tags = `${this.phys.tag(b.i)}${this.phys.tag2(b.i)}`
+
+        if (s.is && !tags.includes(s.is)) continue
+        if (s.not && tags.includes(s.not)) continue
+
+        switch (s.do) {
+          case ESelectThen.FREE:
+            console.log('freeing', b.i, tags, s.is, s.not)
+            this.post(b.i)
+            break
+        }
+        // do the action
+      }
+    }
+
+    this.selects = []
     this.tree.clear()
     this.insertTick = []
   }

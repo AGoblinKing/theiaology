@@ -14,6 +14,7 @@ import { Thrust } from 'src/buffer/thrust'
 import { Traits } from 'src/buffer/traits'
 import { Universal } from 'src/buffer/universal'
 import { Velocity } from 'src/buffer/velocity'
+import { ESelectThen } from 'src/fate/weave'
 import { MagickaVoxel } from 'src/magica'
 import { Value } from 'src/value'
 
@@ -31,6 +32,7 @@ export enum EMessage {
   LAND_ADD = -5001,
   LAND_REMOVE = -5002,
   PHYS_TICK = -6000,
+  PHYS_SELECT = -6001,
   CARD_TICK = -7000,
   CARD_AVATAR = -7001,
   CARD_MIDI = -7002,
@@ -80,4 +82,13 @@ export interface ICardinal {
   free(i: number)
   post(message: any)
   reserve(): number
+}
+
+export interface IPhysSelect {
+  min: { x: number; y: number; z: number }
+  max: { x: number; y: number; z: number }
+  message: EMessage.PHYS_SELECT
+  do: ESelectThen
+  is: string
+  not: string
 }

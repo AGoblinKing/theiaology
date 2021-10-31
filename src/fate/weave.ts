@@ -53,6 +53,13 @@ export enum EShape {
   // Box,
 }
 
+export enum ESelectThen {
+  NOTHING = 0,
+  FREE,
+  // APPLY,
+  // COPY,
+}
+
 export enum EShapePattern {
   NONE = -1,
   EDGES = 0,
@@ -235,7 +242,7 @@ export enum ESpell {
   SHAPE_EFFECTS,
   VOX,
   ROT_VAR,
-  IMPACT,
+  PHYS_IMPACT,
   VOX_VAR,
   FAE_POS,
   FAE_ROT,
@@ -261,7 +268,7 @@ export enum ESpell {
   GAME_SCORE,
   MIDI,
   GAME_STATUS,
-  WHEN,
+  DO_SELECT,
   // free
   TRAP_DISTANCE,
   TRAP_FILTER,
@@ -365,7 +372,7 @@ export const Invocations: { [key: number]: any } = {
     y: EVar.FAEPOSITIVE,
     z: EVar.FAEPOSITIVE,
   },
-  //   [ETimeline.MUSIC]: { audio: EVar.AUDIO },
+
   [ESpell.SHAPE_VAR]: {
     x: EVar.FAEPOSITIVE,
     y: EVar.FAEPOSITIVE,
@@ -406,14 +413,14 @@ export const Invocations: { [key: number]: any } = {
     y: EVar.FAENUMBER,
     z: EVar.FAENUMBER,
   },
-  // [ETimeline.POSTO]: { tag: EVar.TAGID },
-  // [ETimeline.LOOKTO]: { tag: EVar.TAGID },
-  // [ETimeline.THRUSTTO]: {
-  //     tag: EVar.TAGID,
-  // },
+
   [ESpell.SHAPE_EFFECTS]: { animation: EAnimation },
   [ESpell.VOX]: { 'Vox Model': EVar.VOX },
-  // [ETimeline.IMPACT]: { reaction: EImpactReaction },
+  [ESpell.PHYS_IMPACT]: {
+    reaction: EImpactReaction,
+    is: EVar.SHORTSTRING,
+    isNot: EVar.SHORTSTRING,
+  },
   [ESpell.PHYS_CAGE]: {
     axis: EAxis,
     min: EVar.FAENUMBER,
@@ -426,7 +433,7 @@ export const Invocations: { [key: number]: any } = {
     y: EVar.FAENUMBER,
     z: EVar.FAENUMBER,
   },
-  // [ETimeline.FAEROT]: { x: EVar.NUMBER, y: EVar.NUMBER, z: EVar.NUMBER },
+
   [ESpell.FAE_SIZE]: { size: EVar.FAEPOSITIVE },
   [ESpell.FLOCK_TEXT]: { text: EVar.STRING },
   [ESpell.UNI_CLEAR_COLOR]: { rgb: EVar.COLOR },
@@ -493,32 +500,23 @@ export const Invocations: { [key: number]: any } = {
     hueVariance: EVar.NORMAL,
   },
 
-  // [ESpell.PHYS_CARRIED]: {
-  //   whom: ECarriers,
-  // },
   [ESpell.TOME_OPTIONS]: {
     ripple: ETomeRipple,
     liveliness: ETomeLive,
   },
-  // [ESpell.NOISE_PASSIVE]: {
-  //   noise: EVar.NOISE,
-  // },
+
   [ESpell.FLOCK_LINE]: {
     count: EVar.POSITIVE,
     spacing: EVar.FAEPOSITIVE,
     direction: EAxis,
   },
-  // [ESpell.WHEN]: {
-  //   when: EWhen,
-  //   cooldown: EVar.TIME,
-  //   filter_by_tag: EVar.STRING,
-  // },
-  // [ESpell.ATTACH]: {
-  //   when: EWhen,
-  //   cooldown: EVar.TIME,
-  //   filter_by_tag: EVar.STRING,
-  // },
+
   [ESpell.SHAPE_PATTERN]: {
     pattern: EVar.PATTERN,
+  },
+  [ESpell.DO_SELECT]: {
+    then: ESelectThen,
+    is: EVar.SHORTSTRING,
+    not: EVar.SHORTSTRING,
   },
 }

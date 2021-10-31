@@ -1,6 +1,10 @@
 import { ESpell } from 'src/fate/weave'
 import { EMessage, ICardinal } from 'src/system/enum'
+import { Vector3 } from 'three'
 import { Spell } from '../spell'
+
+const $vec = new Vector3()
+const $vec2 = new Vector3()
 
 export default {
   [ESpell.DO_REZ](i: number, $c: ICardinal, $spell: Spell) {
@@ -31,6 +35,18 @@ export default {
     $c.post({
       message: EMessage.CARD_SEEK,
       time: t,
+    })
+  },
+
+  [ESpell.DO_SELECT](i: number, $c: ICardinal, $spell: Spell) {
+    // tell the phys system to remove
+    $c.post({
+      message: EMessage.PHYS_SELECT,
+      min: $vec.copy($spell.pos).sub($spell.size),
+      max: $vec2.copy($spell.pos).add($spell.size),
+      is: $c.fate.short(i, 1),
+      not: $c.fate.short(i, 2),
+      do: $c.fate.data0(i),
     })
   },
 }

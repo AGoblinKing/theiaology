@@ -166,6 +166,7 @@ canvas:active {
   font-weight: bold;
   color: rgba(255, 0, 0, 0.95);
   text-decoration: none;
+  background-color: black;
 }
 
 #gna {

@@ -56,9 +56,11 @@ export class SystemWorker extends Worker {
   pump(w: SystemWorker) {
     this.cancels.push(
       this.msg.on((data) => {
-        switch (typeof data) {
-          case 'number':
-            w.postMessage(data)
+        switch (true) {
+          case data instanceof ArrayBuffer:
+            break
+          default:
+            this.postMessage(data)
             break
         }
       })
@@ -70,8 +72,10 @@ export class SystemWorker extends Worker {
   bind(w: SystemWorker) {
     this.cancels.push(
       w.msg.on((data) => {
-        switch (typeof data) {
-          case 'number':
+        switch (true) {
+          case data instanceof ArrayBuffer:
+            break
+          default:
             this.postMessage(data)
             break
         }

@@ -149,7 +149,7 @@ export class Fate extends AtomicInt {
   toScript(): string {
     const obj = this.toObject()
 
-    let output = '# You have encountered Fate! \n# Load on thEiAoLoGy.com\n\n'
+    let output = '# You have encountered Fate! \n# Load on vox.run\n\n'
 
     const addChild = (target: INode, t = 0) => {
       const addT = () => [...new Array(t)].map(() => '\t').join('')

@@ -13,7 +13,7 @@ import { ERealmState, Universal } from 'src/buffer/universal'
 import { Velocity } from 'src/buffer/velocity'
 import { ATOM_COUNT, NORMALIZER } from 'src/config'
 import { ShapeMap } from 'src/fate/shape'
-import { EIdle } from 'src/fate/weave'
+import { EIdle, ESpell } from 'src/fate/weave'
 import { Spell } from 'src/grimoire/spell'
 import spells from 'src/grimoire/spells'
 import { MagickaVoxel } from 'src/magica'
@@ -131,6 +131,10 @@ class Cardinal extends System implements ICardinal {
             return
 
           case 'number':
+            if (e.data > 0) {
+              this.free(e.data)
+              break
+            }
             switch (e.data) {
               case EMessage.CARD_SEEKED:
                 this.clutchFate = false
@@ -173,6 +177,7 @@ class Cardinal extends System implements ICardinal {
       if (this.fate.when(i) > sec) continue
 
       const s = this.fate.spell(i)
+
       if (spells[s]) {
         const r = spells[s](i, this, $spell, sec)
         if (typeof r === 'number') {
@@ -285,6 +290,9 @@ class Cardinal extends System implements ICardinal {
     // run through timeline and execute rezes
     for (let i = 0; i < this.fate.length / Fate.COUNT; i++) {
       const t = this.fate.when(i)
+      const s = this.fate.spell(i)
+      if (s === ESpell.NONE) continue
+
       this.timing[t] = this.timing[t] || []
       this.timing[t].push(i)
 
