@@ -2,6 +2,7 @@
   // organize-imports-ignore
   import { Publish, Save } from 'src/input/save'
   import {
+landing_shown,
     mirror_shown,
     modal_location,
     modal_options,
@@ -26,6 +27,7 @@
   import { loading, looking } from 'src/controller/controls'
   import { steam } from 'src/steam'
   import { browserOpen } from 'src/input/browser'
+import Landing from './Landing.svelte'
 
 
   function Browse() {
@@ -177,7 +179,7 @@
       reader.readAsArrayBuffer(event.target.files[0])
     } catch (ex) {}
   }
-  let clicked = false
+
 </script>
 
 <div class="commands">
@@ -226,17 +228,24 @@
   <Box
     tilt={350}
     hover="Track Mouse to Look. Toggle with Middle Mouse Clicks as well!"
-    nav={{ tag: 'look', left: 'save', right: 'look', down }}
+    nav={{ tag: 'look', left: 'save', right: 'navi', down }}
     click={() => {
       looking.set(!looking.$)
     }}>LOOK</Box
   >
-
+  <Box
+    tilt={150}
+    hover="Navigate to distant realms."
+    nav={{ tag: 'navi', left: 'look', right: '.fate', down }}
+    click={() => {
+      landing_shown.set(!landing_shown.$)
+    }}>NAVI</Box
+  >
   <Box
     tilt={290}
     hover="Find FATEs to play!"
     style="border-radius: 0 0 0.5rem 0;"
-    nav={{ tag: '.fate', left: 'look', right: 'sponsor', down }}
+    nav={{ tag: '.fate', left: 'navi', right: 'sponsor', down }}
     click={Browse}>YGGDRASIL</Box
   >
 
@@ -266,22 +275,14 @@
 
 <Score />
 
-{#if window.location.pathname === "/" && !clicked}
-<Box style="display: block; position: absolute; font-size: 2rem; width: 100%; top: 0; left: 50%; top: 50%;padding: 5rem; transform: translate(-50%, -50%); " click={() => clicked = true}>
-  Welcome to the 🆃🅷🅴🅸🅰🅾🅻🅾🅶🆈 Early Access! <br/> <br/>
-  <div>
-  Explore YGGDRASIL on the top bar for demos!
-</div>
-<br/>
-  <div>
-  Follow <a href="https://twitter.com/theiaology" target="_new">Twitter</a> For Updates!</div>
-</Box>
-{/if}
+<Landing />
+
 <style>
   .commands {
     position: absolute;
     pointer-events: all;
     display: flex;
+    z-index: 1;
   }
 
   theiaology {

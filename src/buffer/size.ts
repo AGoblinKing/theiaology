@@ -53,9 +53,11 @@ export class Size extends AtomicInt {
   constructor(buffer = new SharedArrayBuffer(ATOM_COUNT * Size.COUNT * 4)) {
     super(buffer)
   }
+
   addX(i: number, x: number) {
     return Atomics.add(this, i * Size.COUNT, x)
   }
+
   addY(i: number, y: number) {
     return Atomics.add(this, i * Size.COUNT + 1, y)
   }
@@ -63,6 +65,7 @@ export class Size extends AtomicInt {
   addZ(i: number, z: number) {
     return Atomics.add(this, i * Size.COUNT + 2, z)
   }
+
   x(i: number, x?: number) {
     return x === undefined
       ? Atomics.load(this, i * Size.COUNT)

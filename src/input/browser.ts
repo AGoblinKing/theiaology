@@ -4,6 +4,9 @@ import { Value } from 'src/value'
 export const url = new Value(window.location.pathname.slice(1).split('/'))
 export const hasSharedArrayBuffer = window.SharedArrayBuffer !== undefined
 
+export const history = new Value([])
+export const favorites = new Value([])
+
 if (hasSharedArrayBuffer) {
   document.body.classList.add('sab')
 }
