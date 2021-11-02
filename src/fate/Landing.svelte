@@ -42,10 +42,10 @@ let input
 
 .title {
     font-size: 12rem;
-    color: rgb(0, 110, 255);
+    color: rgb(0, 110, 255, 0.75);
     font-weight: bold;
-    text-shadow: -1.5rem -1.5rem 0 #111, 1.5rem -1.5rem 0 #111,
-			-1.5rem 1.5rem 0 #111, 1.5rem 1.5rem 0 #111;
+    text-shadow: -1.5rem -1.5rem 0 rgb(0, 110, 255, 0.1), 1.5rem -1.5rem 0 rgb(0, 110, 255, 0.1),
+			-1.5rem 1.5rem 0 rgb(0, 110, 255, 0.1), 1.5rem 1.5rem 0 rgb(0, 110, 255, 0.1);
     filter: hue-rotate(90deg);
 
 }
