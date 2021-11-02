@@ -30,6 +30,10 @@ let input
         }} on:keydown={(e) => {
             e.key == "Enter" && submit();
         }} />
+
+        <div class="button url r" on:click={() => landing_shown.set(false)}>
+            X
+        </div>
     </div>
 </div>
 {/if}
@@ -38,11 +42,15 @@ let input
 
 .title {
     font-size: 12rem;
-    color: rgba(0, 140, 255, 0.2);
+    color: rgb(0, 110, 255);
     font-weight: bold;
     text-shadow: -1.5rem -1.5rem 0 #111, 1.5rem -1.5rem 0 #111,
 			-1.5rem 1.5rem 0 #111, 1.5rem 1.5rem 0 #111;
-    animation: fader infinite .02s ease-in-out alternate;
+    filter: hue-rotate(90deg);
+
+}
+.r {
+    filter: hue-rotate(90deg);
 }
 .button.url {
     margin-top: 10vh;
@@ -116,6 +124,7 @@ let input
 	}
 
 .button {
+    overflow: hidden;
     border: 0.5vh solid rgb(0, 106, 206);
 		border-radius: 10vh;
 		color: gold;
