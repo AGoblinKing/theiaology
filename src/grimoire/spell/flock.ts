@@ -7,6 +7,7 @@ export default {
     $spell.flock.shape = $c.fate.data0(i)
     $spell.flock.size = $c.fate.data1(i)
     $spell.flock.step = $c.fate.data2(i)
+
     $spell.Ripple(ERipple.FLOCK, $spell.flock)
   },
   [ESpell.FLOCK_LINE](i: number, $c: ICardinal, $spell: Spell) {

@@ -90,4 +90,20 @@ export class Value<T> {
 
     return this
   }
+
+  save(where: string) {
+    // or desert you?
+    try {
+      const v = JSON.parse(localStorage.getItem(where))
+
+      if (v !== undefined && v !== null) {
+        this.set(v)
+      }
+    } catch (ex) {}
+
+    this.on((v) => {
+      localStorage.setItem(where, JSON.stringify(v))
+    })
+    return this
+  }
 }

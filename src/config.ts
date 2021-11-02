@@ -50,7 +50,6 @@ export const CACHE = 'v2'
 
 export const dotTheia = [
   'aero',
-  'rpg',
   'overworld',
   'starvoyage',
   'forest',
@@ -62,8 +61,6 @@ export const dotTheia = [
 export const rootTheia = 'agoblinking/overworld'
 
 export const PAD_SPEED = 0.5
-
-export const SPONSOR = ['ETHEREUM', 'ETH-QR-CODE', 'GITHUB']
 
 export const FAE_SCALE = 100
 

@@ -1,11 +1,25 @@
+import { dotTheia } from 'src/config'
 import { steam, steam_open } from 'src/steam'
 import { Value } from 'src/value'
 
-export const url = new Value(window.location.pathname.slice(1).split('/'))
+export const url = new Value(
+  decodeURI(window.location.pathname).slice(1).split('/')
+)
+
+export const pathname = new Value('').fa(url, (v) => {
+  const val = v.join('/')
+  return val === '' ? '/' : val
+})
+
 export const hasSharedArrayBuffer = window.SharedArrayBuffer !== undefined
 
-export const history = new Value([])
-export const favorites = new Value([])
+export const history = new Value([]).save('history')
+export const favorites = new Value([]).save('favorites')
+export const isFavorite = new Value(false).fa(
+  favorites,
+  (f) => f.indexOf(pathname.$) !== -1
+)
+export const curated = dotTheia
 
 if (hasSharedArrayBuffer) {
   document.body.classList.add('sab')
@@ -40,3 +54,19 @@ export const browserOpen = new Value<string[]>().re((arr) => {
   if (steam.$) steam_open.set([url, where])
   else window.open(url, where)
 })
+
+if (history.$.indexOf(pathname.$) === -1) {
+  history.$.push(pathname.$)
+  history.poke()
+}
+
+export function Pin() {
+  const idx = favorites.$.indexOf(pathname.$)
+  if (idx === -1) {
+    favorites.$.push(pathname.$)
+  } else {
+    favorites.$.splice(idx, 1)
+  }
+
+  favorites.poke()
+}
