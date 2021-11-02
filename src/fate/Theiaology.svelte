@@ -100,7 +100,7 @@ import Landing from './Landing.svelte'
         browserOpen.set(['https://www.youtube.com/channel/UClRu-J3abd4hr68t5txyrvA', '_new'])
           break
         case 'SOC_TWITTER':
-        browserOpen.set(['https://twitter.com/thEiAoLoGy', '_new'])
+        browserOpen.set(['https://twitter.com/voxdotrun', '_new'])
           break
         case 'SHOP_VISIT':
           browserOpen.set([
