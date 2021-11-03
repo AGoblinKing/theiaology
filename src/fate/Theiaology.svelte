@@ -2,7 +2,7 @@
   // organize-imports-ignore
   import { Publish, Save } from 'src/input/save'
   import {
-landing_shown,
+    landing_shown,
     mirror_shown,
     modal_location,
     modal_options,
@@ -24,10 +24,10 @@ landing_shown,
   import { first } from 'src/realm'
 
   import Score from './Score.svelte'
-  import { loading, looking } from 'src/controller/controls'
+  import { looking } from 'src/controller/controls'
   import { steam } from 'src/steam'
   import { browserOpen } from 'src/input/browser'
-import Landing from './Landing.svelte'
+  import Landing from './Landing.svelte'
 
 
   function Browse() {
@@ -198,8 +198,8 @@ import Landing from './Landing.svelte'
     hover="Clear into a new workspace"
     click={() => {
       // @ts-ignore
-      window.location = `/workspace/for/${
-        Math.random() * Number.MAX_SAFE_INTEGER
+      window.location = `/v/r/${
+        Math.floor(Math.random() * 1000)
       }`
     }}
     nav={{ tag: 'clear', left: 'workspace|theiaology', right: 'save', down }}
