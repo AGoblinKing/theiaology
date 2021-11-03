@@ -55,10 +55,13 @@ export const browserOpen = new Value<string[]>().re((arr) => {
   else window.open(url, where)
 })
 
-if (history.$.indexOf(pathname.$) === -1) {
-  history.$.push(pathname.$)
-  history.poke()
+const hix = history.$.indexOf(pathname.$)
+if (hix !== -1) {
+  history.$.splice(hix, 1)
 }
+
+history.$.push(pathname.$)
+history.poke()
 
 export function Pin() {
   const idx = favorites.$.indexOf(pathname.$)
