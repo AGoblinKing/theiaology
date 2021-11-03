@@ -38,6 +38,7 @@ key_down.on(($k) => {
     case 'f':
       move_inputs.$.y = -SPEED
       break
+    case ' ':
     case 'r':
       move_inputs.$.y = SPEED
       break
@@ -54,6 +55,7 @@ key_up.on(($k) => {
     case 's':
       move_inputs.$.z = 0
       break
+    case ' ':
     case 'r':
     case 'f':
       move_inputs.$.y = 0
@@ -171,23 +173,25 @@ delta.on(($dt) => {
     const atom = first.$.future.vec3(avatar).multiplyScalar(0.0005)
     atom.y += first.$.size.y(avatar) * 0.0005 + 1
     // move us towards the avatar location
+    const thrust = first.$.universal.thrustStrength()
     body.$.position.lerp(
       avg
         .multiplyScalar(49)
         .add(atom)
         .multiplyScalar(1 / 50),
-      $dt * 4
+      $dt * (4 - thrust / 100)
     )
 
     atom.sub(body.$.position).length()
-    atom.multiplyScalar(first.$.universal.thrustStrength()).negate()
+
+    atom.multiplyScalar(thrust).negate()
 
     // update velocity of avatar
     const { velocity } = first.$
 
     // wait for them
     velocity.addX(avatar, atom.x)
-    // velocity.addY(avatar, atom.y)
+    thrust > 100 && velocity.addY(avatar, atom.y)
     velocity.addZ(avatar, atom.z)
   }
 })
