@@ -39,6 +39,7 @@ export enum EImpactReaction {
   DESTROY_OTHER,
   DESTROY_BOTH,
   RESPAWN,
+  GATE,
 }
 
 export enum EShape {
@@ -253,7 +254,7 @@ export enum ESpell {
   POS_ADD,
   THRUST_ADD,
   THEIA_REALM,
-  THEIA_GATE,
+  REACT_GATE,
   THEIA_RULER,
   SOUND_MIDI,
   SOUND,
@@ -451,7 +452,7 @@ export const Invocations: { [key: number]: any } = {
 
   [ESpell.THEIA_RULER]: { githubFae: EVar.STRING },
   [ESpell.THEIA_REALM]: { theia: EVar.STRING },
-  [ESpell.THEIA_GATE]: { theia: EVar.STRING },
+  [ESpell.REACT_GATE]: { theia: EVar.STRING },
 
   [ESpell.FLOCK_RING]: {
     radius: EVar.FAEPOSITIVE,

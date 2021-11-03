@@ -248,11 +248,6 @@ class Cardinal extends System implements ICardinal {
       const sz = $spell.size.z + Math.round(Math.random() * $spell.sizevar.z)
 
       switch (true) {
-        // gate
-        case $spell.gate !== undefined:
-          // swirl some voxels and add to gate list
-          // physics system will check to see if they are in the gate
-          continue
         // land
         case $spell.land !== undefined:
           this.post({

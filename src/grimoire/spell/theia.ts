@@ -7,9 +7,10 @@ export default {
     $spell.land = $c.fate.text(i)
     $spell.Ripple(ERipple.LAND, $spell.land)
   },
-  [ESpell.THEIA_GATE](i: number, $c: ICardinal, $spell: Spell) {
+  [ESpell.REACT_GATE](i: number, $c: ICardinal, $spell: Spell) {
     // send the load command
     $spell.gate = $c.fate.text(i)
+    // no ripple
   },
   [ESpell.THEIA_RULER](i: number, $c: ICardinal, $spell: Spell) {
     $spell.ruler = $c.fate.text(i)

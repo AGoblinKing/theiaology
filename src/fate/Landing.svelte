@@ -1,4 +1,6 @@
 <script lang="ts">
+import { MIDI, mute } from "src/controller/audio";
+
   import { curated, favorites, history, isFavorite, pathname, Pin} from "src/input/browser";
   import { landing_shown } from "./editor";
 
@@ -7,6 +9,11 @@
   }
   function goto(where: string) {
     return () => (window.location.pathname = where)
+  }
+
+  let i = 0
+  function over() {
+   MIDI(80, 90 + ((i++ % 8) || Math.round(Math.random() * 8)), 0.4)
   }
   let input
 </script>
@@ -21,12 +28,13 @@
       <div class="links">
         <div class="history list" >
             {#each $history as h}
-            <div class="button" on:click={goto(h)}>
+            <div class="button" on:click={goto(h)} on:mouseover={over} on:focus={over}>
               {h}
             </div>
           {/each}
         </div>
-        <div class="pins list">        <div class="button pin" on:click={Pin}>
+        <div class="pins list">       
+          <div class="button pin" on:click={Pin} on:mouseover={over} on:focus={over}>
                 
             {$isFavorite ? "U" : "P"}
 
@@ -35,7 +43,7 @@
         <div class="pins list">
     
               {#each $favorites as f}
-              <div class="button" on:click={goto(f)}>
+              <div class="button" on:click={goto(f)} on:mouseover={over} on:focus={over}>
                 {f}
               </div>
             {/each}
@@ -48,21 +56,23 @@
         placeholder="Which Realm?"
         bind:this={input}
         value={$pathname}
+        on:focus={over}
         on:blur={() => {
           input.value !== $pathname && submit()
         }}
+        on:mouseover={over}
         on:keydown={(e) => {
           e.key == 'Enter' && submit()
         }}
       />
       <div class="curated list">
         {#each curated as curate}
-          <div class="button" on:click={goto(curate)}>
+          <div class="button" on:click={goto(curate)}  on:mouseover={over} on:focus={over} >
             {curate}
           </div>
         {/each}
       </div>
-      <div class="button url r" on:click={() => landing_shown.set(false)}>
+      <div class="button url r" on:click={() => landing_shown.set(false)}  on:mouseover={over} on:focus={over}>
         X
       </div>
     </div>

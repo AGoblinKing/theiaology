@@ -21,7 +21,7 @@ export enum ECarries {
 }
 
 export class Phys extends AtomicInt {
-  static COUNT = 7
+  static COUNT = 8
 
   constructor(shared = new SharedArrayBuffer(ATOM_COUNT * Phys.COUNT * 4)) {
     super(shared)
@@ -67,5 +67,11 @@ export class Phys extends AtomicInt {
     return f !== undefined
       ? Atomics.store(this, i * Phys.COUNT + 6, StringToInt(f))
       : IntToString(Atomics.load(this, i * Phys.COUNT + 6))
+  }
+
+  spell(i: number, s?: number) {
+    return s !== undefined
+      ? Atomics.store(this, i * Phys.COUNT + 7, s)
+      : Atomics.load(this, i * Phys.COUNT + 7)
   }
 }

@@ -396,6 +396,8 @@ export class Spell {
     this.cardinal.phys.phase(id, this.phase)
     this.cardinal.phys.tag(id, this.tag1)
     this.cardinal.phys.tag2(id, this.tag2)
+    this.cardinal.phys.spell(id, this.id)
+
     this.cardinal.impact.reaction(id, this.impact)
     this.cardinal.cage.box(id, this.cage)
     this.cardinal.traits.role(id, this.role)
