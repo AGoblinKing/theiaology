@@ -1,7 +1,7 @@
 import { ESpell } from 'src/fate/weave'
 import { EMessage, ICardinal } from 'src/system/enum'
 import { Vector3 } from 'three'
-import { Spell } from '../spell'
+import { ERipple, Spell } from '../spell'
 
 const $vec = new Vector3()
 const $vec2 = new Vector3()
@@ -16,6 +16,8 @@ export default {
       $c.free(atom)
     }
     $spell.atoms = []
+
+    $spell.Ripple(ERipple.FREE)
 
     if ($spell.lands > 0) {
       $c.post({

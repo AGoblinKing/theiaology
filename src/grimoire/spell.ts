@@ -43,6 +43,7 @@ export enum ERipple {
   AI,
   EFFECT,
   PATTERN,
+  FREE,
 }
 
 export class Spell {
@@ -415,7 +416,7 @@ export class Spell {
     }
   }
 
-  Ripple(what: ERipple, data: any, mark = true) {
+  Ripple(what: ERipple, data?: any, mark = true) {
     if (!this.doRipple) return
 
     if (mark) this.dirty.add(what)
@@ -425,6 +426,12 @@ export class Spell {
       c.Ripple(what, data, false)
 
       switch (what) {
+        case ERipple.FREE:
+          for (let atom of this.atoms) {
+            this.cardinal.free(atom)
+          }
+          this.atoms = []
+          break
         case ERipple.PATTERN:
           c.pattern = data
           break
