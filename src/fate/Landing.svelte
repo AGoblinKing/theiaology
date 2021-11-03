@@ -91,7 +91,7 @@ import { MIDI, mute } from "src/controller/audio";
   .links {
     margin-top: 10vh;
     display: grid;
-    grid-template-columns: 1fr auto 1fr;
+    grid-template-columns: 50vw 1fr 50vw;
   }
 
   .curated .button {

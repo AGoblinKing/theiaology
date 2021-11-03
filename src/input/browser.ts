@@ -61,6 +61,7 @@ if (hix !== -1) {
 }
 
 history.$.push(pathname.$)
+history.$.splice(0, history.$.length - 5)
 history.poke()
 
 export function Pin() {
