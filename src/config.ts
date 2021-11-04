@@ -51,6 +51,7 @@ export const CACHE = 'v2'
 export const dotTheia = [
   'aero',
   'overworld',
+  'gate',
   'starvoyage',
   'forest',
   'flood',
