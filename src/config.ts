@@ -73,7 +73,7 @@ export const YGGDRASIL = '/bifrost'
 export const SENSE_DISTANCE = {
   see: 60000,
   hear: 30000,
-  felt: 100,
+  felt: 1000,
 }
 
 export const MAX_NORMAL_FORCE = 1000

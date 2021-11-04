@@ -27,13 +27,13 @@ timing.on(($t) => {
         renderer.xr.isPresenting ? camera.quaternion : body.$.quaternion
       )
     )
-
-    fantasies.$.forEach((f) => {
-      f.universal.faeX(body.$.position.x * 2000)
-      f.universal.faeY(body.$.position.y * 2000)
-      f.universal.faeZ(body.$.position.z * 2000)
-    })
   }
+
+  fantasies.$.forEach((f) => {
+    f.universal.faeX(body.$.position.x * 2000)
+    f.universal.faeY(body.$.position.y * 2000)
+    f.universal.faeZ(body.$.position.z * 2000)
+  })
 
   if (Math.abs(angular.$) > MIN_VELOCITY) {
     const angleta = angular.$ * delta.$ * 5

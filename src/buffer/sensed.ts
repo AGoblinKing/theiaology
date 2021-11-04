@@ -3,12 +3,12 @@ import { AtomicInt } from './atomic'
 
 export enum ESenses {
   NONE = 0,
-  SIGHT = 0xf,
-  HEAR = 0xf0,
-  FEEL_RIGHT = 0xf00,
-  FEEL_LEFT = 0xf000,
-  FELT = 0xf0000,
-  TASTE = 0xf00000,
+  SIGHT = 1,
+  HEAR = 2,
+  FEEL_RIGHT = 4,
+  FEEL_LEFT = 8,
+  FELT = 16,
+  TASTE = 32,
 }
 
 // distance is on phys since its calced for every atom anyhow

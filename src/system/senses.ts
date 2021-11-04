@@ -30,7 +30,7 @@ class Senses extends System {
   blinder: number
 
   constructor() {
-    super(200)
+    super(1000)
   }
 
   tick() {
@@ -44,18 +44,21 @@ class Senses extends System {
 
     let si = 0
     const { felt, hear, see } = SENSE_DISTANCE
-    myBox.min.set(pos.x - felt, pos.y - felt, pos.z - felt)
-    myBox.max.set(pos.x + felt, pos.y + felt, pos.z + felt)
-    let blind = false
 
     for (let i = 0; i < ATOM_COUNT; i++) {
-      if (this.traits.status(i) === EStatus.Unassigned) continue
-      // check to see if they're close enough to "hear"
-      const loc = this.future.vec3(i)
-      const dist = pos.distanceTo(loc)
+      // if unassigned or inserted outside of cardinal do not sense
+      if (
+        this.traits.status(i) === EStatus.Unassigned ||
+        this.phys.spell(i) === 0
+      )
+        continue
+
+      //  close enough to "touch"
+      const them = this.size.box(i, this.future)
+
+      const dist = them.distanceToPoint(pos)
 
       // TODO: is this used? this.phys.distance(i, dist)
-
       if (dist > see) continue
       let sensed = ESenses.SIGHT
 
@@ -63,14 +66,9 @@ class Senses extends System {
         // hear
         sensed += ESenses.HEAR
 
-        //  close enough to "touch"
-        const them = this.size.box(i, this.future)
-        if (myBox.intersectsBox(them)) {
+        if (dist < felt) {
           // we intersected them!
           sensed += ESenses.FELT
-
-          // set blinder
-          // are any of our hands touching them
         }
       }
 
@@ -78,9 +76,7 @@ class Senses extends System {
       this.sensed.id(entry, i)
       this.sensed.sense(entry, sensed)
     }
-    if (!blind) {
-      // make sure blinder is off
-    }
+
     // clear out old ones
     let id = 0
     while ((id = this.sensed.id(si++)) !== 0 && si < ATOM_COUNT) {

@@ -261,6 +261,9 @@ export class Realm {
         }
 
         switch (e) {
+          case EMessage.CARD_GATE:
+            window.location.pathname = `${data.ruler}/${data.realm}`
+            break
           case EMessage.CARD_SEEK:
             audio.currentTime = data.time
             setTimeout(

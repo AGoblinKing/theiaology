@@ -447,11 +447,19 @@ class Cardinal extends System implements ICardinal {
 
     while ((id = this.sensed.id(i)) !== 0) {
       let sense = this.sensed.sense(i)
-
-      if (sense & ESenses.FELT) {
-      }
+      let spell = this.spells[this.phys.spell(id)]
 
       i++
+
+      if (!spell) continue
+      if ((sense & ESenses.FELT) === ESenses.FELT) {
+        spell.gate &&
+          this.post({
+            message: EMessage.CARD_GATE,
+            ruler: spell.ruler,
+            realm: spell.gate,
+          })
+      }
     }
   }
 }
