@@ -43,18 +43,22 @@ vec4 AnimationFrag(in vec4 col) {
 	col.xyz *= 0.99 + 0.005 * modu(xyz * cos(audioHigh * 0.001), 5.);
 	col.xyz *= 0.99 + 0.005 * modu(xyz * 1000. * cos(audioHigh * 0.01), 4.) * sin(audioLow * 0.01);
 
+    // DISCARD
 	if(v_animation == 3.) {
 		discard;
 		return col;
 	}
 
+    // OFF
 	if(v_animation == 1.) {
 		return col;
 	}
 
 	// GATE
 	if(v_animation == 4.) {
-		col.xyz *= 0.90 + 0.1 * modu(xyz * cos(audioHigh * 0.001 + time * 0.0001), 5.);
+		float v =  time * 0.01;
+		col.xyz += sin(v_pos.x * 10. + v) * 0.1 + cos(v_pos.y * 10. + v) * 0.1;
+	
 	}
 
 	float outro = 1. + sin(time * 0.001) * 0.01;

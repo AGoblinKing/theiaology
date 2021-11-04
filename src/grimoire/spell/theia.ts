@@ -1,3 +1,4 @@
+import { EAnimation } from 'src/buffer/animation'
 import { ESpell } from 'src/fate/weave'
 import { ICardinal } from 'src/system/enum'
 import { ERipple, Spell } from '../spell'
@@ -10,6 +11,7 @@ export default {
   [ESpell.REACT_GATE](i: number, $c: ICardinal, $spell: Spell) {
     // send the load command
     $spell.gate = $c.fate.text(i)
+    $spell.effect = EAnimation.GATE
     // no ripple
   },
   [ESpell.THEIA_RULER](i: number, $c: ICardinal, $spell: Spell) {
