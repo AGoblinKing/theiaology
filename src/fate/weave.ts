@@ -343,7 +343,7 @@ export const ESpellHelp = {
   [ESpell.DO_SEEK]: 'Seek to a position in the track without causing a reset',
   [ESpell.PHYS_CARRIED]: 'Use the targets position as the base position',
   [ESpell.TOME_OPTIONS]: 'Turn on/off the ripple and live tome options',
-  [ESpell.NOISE_PASSIVE]: 'The vibe, beat, jive of the atom',
+
   [ESpell.___VAR]: 'Set a variable [name] [action] [with]',
   [ESpell.___IF]:
     'If [blah] is [greater|less|equal| to [other blah] do these things',

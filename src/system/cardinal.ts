@@ -3,8 +3,8 @@ import { Cage } from 'src/buffer/cage'
 import { Fate } from 'src/buffer/fate'
 import { Impact } from 'src/buffer/impact'
 import { Matter } from 'src/buffer/matter'
-import { Noise } from 'src/buffer/noise'
 import { Phys } from 'src/buffer/phys'
+import { ESenses, Sensed } from 'src/buffer/sensed'
 import { Size } from 'src/buffer/size'
 import { SpaceTime } from 'src/buffer/spacetime'
 import { Thrust } from 'src/buffer/thrust'
@@ -35,7 +35,7 @@ class Cardinal extends System implements ICardinal {
   traits: Traits
   velocity: Velocity
   phys: Phys
-  noise: Noise
+  sensed: Sensed
 
   fate: Fate
   universal: Universal
@@ -105,9 +105,8 @@ class Cardinal extends System implements ICardinal {
         this.phys = new Phys(e.data)
         break
 
-      case this.noise:
-        this.noise = new Noise(e.data)
-
+      case this.sensed:
+        this.sensed = new Sensed(e.data)
         break
 
       // expecting IMessage but no atomics
@@ -136,6 +135,12 @@ class Cardinal extends System implements ICardinal {
               break
             }
             switch (e.data) {
+              case EMessage.SENSE_TICK:
+                this.Senses()
+                break
+              case EMessage.PHYS_TICK:
+                this.Collisions()
+                break
               case EMessage.CARD_SEEKED:
                 this.clutchFate = false
                 break
@@ -356,7 +361,6 @@ class Cardinal extends System implements ICardinal {
     this.velocity.free(i, Velocity.COUNT)
     this.traits.free(i, Traits.COUNT)
     this.phys.free(i, Phys.COUNT)
-    this.noise.free(i, Noise.COUNT)
   }
 
   available(i: number) {
@@ -395,6 +399,7 @@ class Cardinal extends System implements ICardinal {
         this.randomize()
         break
     }
+
     this.post(EMessage.CARD_TICK)
   }
 
@@ -430,6 +435,24 @@ class Cardinal extends System implements ICardinal {
     }
 
     last += chunk
+  }
+
+  // Collisions are for any physical bodies
+  Collisions() {}
+
+  // Senses don't require avatar, better for GATE and other things
+  Senses() {
+    let i = 0
+    let id = 0
+
+    while ((id = this.sensed.id(i)) !== 0) {
+      let sense = this.sensed.sense(i)
+
+      if (sense & ESenses.FELT) {
+      }
+
+      i++
+    }
   }
 }
 

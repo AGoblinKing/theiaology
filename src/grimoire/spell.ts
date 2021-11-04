@@ -80,7 +80,6 @@ export class Spell {
   lands: number = 0
 
   midi = { instrument: 0x90, volume: 1, pan: 0.5 }
-  noise = 0
 
   // subdefines
   _: Spell[] = []
@@ -143,7 +142,7 @@ export class Spell {
     this.effect = EAnimation.NORMAL
     this.doRipple = true
     this.doLive = true
-    this.noise = 0
+
     this.midi.instrument = 0x90
     this.midi.volume = 1
     this.midi.pan = 0.5
@@ -404,7 +403,6 @@ export class Spell {
     this.cardinal.traits.role(id, this.role)
 
     this.cardinal.animation.animation(id, this.effect)
-    this.noise !== 0 && this.cardinal.noise.passive(id, this.noise)
 
     this.cardinal.size.pattern(id, this.pattern)
 

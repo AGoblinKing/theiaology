@@ -1,8 +1,7 @@
 import { Input } from 'src/buffer/input'
 import { Matter } from 'src/buffer/matter'
-import { Noise } from 'src/buffer/noise'
 import { Phys } from 'src/buffer/phys'
-import { Sensed, SENSES } from 'src/buffer/sensed'
+import { ESenses, Sensed } from 'src/buffer/sensed'
 import { BBox, Size } from 'src/buffer/size'
 import { SpaceTime } from 'src/buffer/spacetime'
 import { EStatus, Traits } from 'src/buffer/traits'
@@ -27,7 +26,6 @@ class Senses extends System {
   phys: Phys
   velocity: Velocity
   input: Input
-  noise: Noise
 
   blinder: number
 
@@ -59,17 +57,17 @@ class Senses extends System {
       // TODO: is this used? this.phys.distance(i, dist)
 
       if (dist > see) continue
-      let sensed = SENSES.SIGHT
+      let sensed = ESenses.SIGHT
 
       if (dist < hear) {
         // hear
-        sensed += SENSES.HEAR
+        sensed += ESenses.HEAR
 
         //  close enough to "touch"
         const them = this.size.box(i, this.future)
         if (myBox.intersectsBox(them)) {
           // we intersected them!
-          sensed += SENSES.FELT
+          sensed += ESenses.FELT
 
           // set blinder
           // are any of our hands touching them
@@ -90,7 +88,7 @@ class Senses extends System {
       this.sensed.id(si, 0)
     }
 
-    this.post(EMessage.SNS_UPDATE)
+    this.post(EMessage.SENSE_TICK)
   }
 
   onmessage(e: MessageEvent) {

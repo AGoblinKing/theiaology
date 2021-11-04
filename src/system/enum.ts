@@ -6,7 +6,6 @@ import { Cage } from 'src/buffer/cage'
 import { Fate } from 'src/buffer/fate'
 import { Impact } from 'src/buffer/impact'
 import { Matter } from 'src/buffer/matter'
-import { Noise } from 'src/buffer/noise'
 import { Phys } from 'src/buffer/phys'
 import { Size } from 'src/buffer/size'
 import { SpaceTime } from 'src/buffer/spacetime'
@@ -28,7 +27,7 @@ export enum EMessage {
   FAE_ROT_UPDATE = -2004,
   FAE_NOTIFY = -2005,
   PHYS_COLLIDE = -3000,
-  SNS_UPDATE = -4000,
+  SENSE_TICK = -4000,
   LAND_ADD = -5001,
   LAND_REMOVE = -5002,
   PHYS_TICK = -6000,
@@ -66,7 +65,6 @@ export interface ICardinal {
   traits: Traits
   velocity: Velocity
   phys: Phys
-  noise: Noise
 
   fate: Fate
   universal: Universal

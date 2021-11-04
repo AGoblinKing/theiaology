@@ -60,7 +60,7 @@ export class SystemWorker extends Worker {
           case data instanceof ArrayBuffer:
             break
           default:
-            this.postMessage(data)
+            w.postMessage(data)
             break
         }
       })
